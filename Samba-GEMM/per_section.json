@@ -1,0 +1,135 @@
+{
+    "perf_data_version": 4,
+    "duration_us": 0,
+    "description": "CH: test gemm on RDU",
+    "stage": "PER_SECTION",
+    "date_time_utc": "2022-06-24T20:41:21+00:00",
+    "commit": "fece065d0d70757d87590b323d19ac8304b1dc36",
+    "host": "sc2-s25",
+    "os": "redhat 8.5",
+    "type": "snprof",
+    "data": {
+        "snprof": {
+            "PER_SECTION": {
+                "threads": [
+                    {
+                        "thread_id": 4058704,
+                        "is_main_thread": true,
+                        "data": [
+                            {
+                                "section_id": "000",
+                                "total": 79821,
+                                "avg": 39910.5,
+                                "count": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            "process_id": 4058704
+        }
+    },
+    "data_list": [],
+    "test": {
+        "description": "CH: test gemm on RDU",
+        "owner": "qiz",
+        "pef": {
+            "project": "prism",
+            "test folder": "templates/test/templates",
+            "cmd": "test_gemm_prism",
+            "args": "BF16 32x64  64x6 0"
+        },
+        "runners": {
+            "DETAILED": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "DETAILED"
+                    },
+                    "stage name": "DETAILED"
+                }
+            },
+            "SESSION": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "SESSION"
+                    },
+                    "stage name": "SESSION"
+                }
+            },
+            "SHAZAM": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "SHAZAM"
+                    },
+                    "stage name": "SHAZAM"
+                }
+            },
+            "PER_SECTION": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "PER_SECTION"
+                    },
+                    "stage name": "PER_SECTION"
+                }
+            },
+            "PER_TENSOR": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "PER_TENSOR"
+                    },
+                    "stage name": "PER_TENSOR"
+                }
+            },
+            "TIMELINE": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "TIMELINE"
+                    },
+                    "stage name": "TIMELINE"
+                }
+            },
+            "SVP": {
+                "samba": {
+                    "test folder": "runtime/test/apps",
+                    "cmd": "gemm_rm.py",
+                    "args": "--batch-size 6 --in-features 64 --out-features 32 --backend samba --num-iterations 1 --compare-only",
+                    "perf_mode": "snprof",
+                    "env": {
+                        "ENABLE_RUNTIME_PERF": "SVP"
+                    },
+                    "stage name": "SVP"
+                }
+            }
+        },
+        "test list": "infra/regression_tests/frontend/jit/snprof_samba_perf.list",
+        "ancestors": [
+            "infra/regression_tests/frontend/jit/snprof_samba_perf.list"
+        ],
+        "tags": [],
+        "arch": "ch"
+    }
+}
