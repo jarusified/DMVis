@@ -28,26 +28,26 @@ _______________________________ test_unary[abs] ________________________________
 ----------------------------- Captured stdout call -----------------------------
 [compiler:info] [torch_rdu] empty_strided ...
 [compiler:info] [torch_rdu] empty for size: {10, 15} ...
-[compiler:info] [torch_rdu] Copy from: 0x55878ee93d00 to: 0x55878ee9edf0
+[compiler:info] [torch_rdu] Copy from: 0x559b01c9f7b0 to: 0x559b01caaa60
 [compiler:info]   Source: 600 bytes with name  0x0
 [compiler:info]   Dest: 600 bytes with name  0x0
 [compiler:info] [torch_rdu] abs ...
 [compiler:info] platform name...
 [compiler:info] DataScale SN10-8
-Log ID initialized to: [surajk][python3.7][1032281] at /var/log/sambaflow/runtime/sn.log
-[JITPerf] JIT constructed in 45069864 ns
-[JITPerf] JIT& constructed in 45089534 ns
-[JITPerf] get_empty() 720 ns
+Log ID initialized to: [surajk][python3.7][281919] at /var/log/sambaflow/runtime/sn.log
+[JITPerf] JIT::construct 40858179 ns
+[JITPerf] &JIT::construct 40873170 ns
+[JITPerf] get_empty() 600 ns
 [compiler:info] [torch_rdu] empty for size: {} ...
-[JITPerf] get_rdu_tensor_impl() 130 ns
+[JITPerf] get_rdu_tensor_impl() 70 ns
 [compiler:info] Creating new IR...
 [compiler:info] [torch_rdu] alias ...
-[compiler:info] RDU shallow_copy_and_detach &&1 0x55878ee9edf0 1 has_backanno: 0
-[JITPerf] extract_inputs_helper() 1733939 ns
-[JITPerf] JIT& constructed in 80 ns
-[JITPerf] get_rdu_tensor_impl() 150 ns
-[JITPerf] update_ir() 4680 ns
-[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38261840", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559b01caaa60 1 has_backanno: 0
+[JITPerf] extract_inputs_helper() 1258173 ns
+[JITPerf] &JIT::construct 70 ns
+[JITPerf] get_rdu_tensor_impl() 270 ns
+[JITPerf] update_ir() 3490 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38356614", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
   module @templates  {
   }
   module @sections  {
@@ -59,16 +59,16 @@ Log ID initialized to: [surajk][python3.7][1032281] at /var/log/sambaflow/runtim
   module @rnn_function  {
   }
 }
-[JITPerf] unary() 2048004 ns
-[JITPerf] unary_out() 2082904 ns
-CPU Elapsed time  0.0000 seconds
-RDU Elapsed time  0.0472 seconds
-[JITPerf] JIT& constructed in 70 ns
-[JITPerf] force_evaluate::RDUTensorImpl in 390 ns
+[JITPerf] apply_unary() 1573767 ns
+[JITPerf] apply_unary_out() 1591137 ns
+CPU Elapsed time  0.0003 seconds
+RDU Elapsed time  0.0425 seconds
+[JITPerf] &JIT::construct 70 ns
+[JITPerf] force_evaluate::RDUTensorImpl 580 ns
 [compiler:info] Forcing evaluation...
 [compiler:info] owning_ir_storage count: 1
-[JITPerf] force_evaluate::PrepareIR in 46980 ns
-[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38261840", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+[JITPerf] force_evaluate::PrepareIR 42321 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38356614", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
   module @templates  {
   }
   module @sections  {
@@ -81,9 +81,9 @@ RDU Elapsed time  0.0472 seconds
   module @rnn_function  {
   }
 }
-[JITPerf] force_evaluate::PopulateMeta in 82471 ns
-[compiler:info] ====== HASH INFO: 29a2f506aa7ae1a10350a88008e53bcbb9937f45a131477ae28dcc537596d1bd
-[info    ] [PLASMA] Launching plasma compilation! See log file: /scratch/jobs/38261840/jit_out/jit_out.plasma_compile.log
+[JITPerf] force_evaluate::PopulateMeta 77250 ns
+[compiler:info] ====== HASH INFO: b780d13b0dde1e618d6013e0ada42f93fdbc3a95aaccd9df3aff768eccd2dc0b
+[info    ] [PLASMA] Launching plasma compilation! See log file: /scratch/jobs/38356614/jit_out/jit_out.plasma_compile.log
 [info    ] Total per-section passes: 77
 [info    ] Compiling graph for section 0
 [mac:info] Building nameddims for graph jit_out
@@ -93,15 +93,15 @@ RDU Elapsed time  0.0472 seconds
 [mac:info] MAC decided on the following section cuts for graph jit_out
 [mac:info] Amortized resources overall: 1.000000e+00 PCUs, 7.000000e+00 PMUs, projected latency: 3.500659e-05 s, FLOPS: 4.284908e-06 T/s, DDR_BW: 1.596253e-02 GB/s
 [mac:info] Lowering to TLIR succeeded.
-[rail:info] Logs are generated in /scratch/jobs/38261840/jit_out//rail_gen//rail_compile_logs for partition_0_0_.
+[rail:info] Logs are generated in /scratch/jobs/38356614/jit_out//rail_gen//rail_compile_logs for partition_0_0_.
 [rail:info] Compilation succeeded for partition_0_0_. Elapsed time:  1ms
 [info    ] [PASS] Running PRISM000_PreProcessPass0_0
-[info    ] Generated utilization report file: /scratch/jobs/38261840/jit_out/jit_out.s0.utilization_report.txt
+[info    ] Generated utilization report file: /scratch/jobs/38356614/jit_out/jit_out.s0.utilization_report.txt
 [info    ] [PASS] Running PRISM001_FeedbackGenPass0_0
 [info    ] [PASS] Running PRISM002_PlasmaIRPass0_0
-[compiler:info] Starting Plasma compile at /scratch/jobs/38261840/jit_out/plasma_ir_modules/sections_0_0
+[compiler:info] Starting Plasma compile at /scratch/jobs/38356614/jit_out/plasma_ir_modules/sections_0_0
 [compiler:info] Plasma compile succeeded.
-[compiler:info] Starting Plasma compile at /scratch/jobs/38261840/jit_out/plasma_ir_modules/schedule_0_0
+[compiler:info] Starting Plasma compile at /scratch/jobs/38356614/jit_out/plasma_ir_modules/schedule_0_0
 [compiler:info] Plasma compile succeeded.
 [info    ] [PASS] Running PRISM003_PlasmaIRSymbolAllocExportPass0_0
 [info    ] [PASS] Running PRISM004_LegalizeUtilizationPass0_0
@@ -112,7 +112,7 @@ RDU Elapsed time  0.0472 seconds
 [info    ] [PASS] Running PRISM009_CollectConnectionPass0_0
 [info    ] [PASS] Running PRISM010_NetworkValidationPass0_0
 [info    ] [PASS] Running PRISM011_DramAnalyticalReportPass0_0
-[info    ] Logging dram analysis report to /scratch/jobs/38261840/jit_out/prism_gen/reports/dram_analysis.json
+[info    ] Logging dram analysis report to /scratch/jobs/38356614/jit_out/prism_gen/reports/dram_analysis.json
 [info    ] [PASS] Running PRISM012_AsmIRGenPNRConnectPass0_0
 [info    ] [PASS] Running PRISM013_PrintLoweringPass0_0
 [info    ] [PASS] Running PRISM014_AsmIRResourceAllocationPass0_0
@@ -126,11 +126,11 @@ RDU Elapsed time  0.0472 seconds
 [info    ] [PASS] Running PRISM022_AnalyticalModelFileGenPass0_0
 [info    ] [PASS] Running PRISM023_PlasmaIRProgramStatePass0_0
 [info    ] [PASS] Running PRISM024_MetapipeStageLatencyPass0_0
-[info    ] Generated metapipe stage graph dot file: /scratch/jobs/38261840/jit_out/stage_buffers/partition_latency_0_0.dot
+[info    ] Generated metapipe stage graph dot file: /scratch/jobs/38356614/jit_out/stage_buffers/partition_latency_0_0.dot
 [info    ] [PASS] Running PRISM025_MetapipeStageGraphPass0_0
 [info    ] [PASS] Running PRISM026_BandwidthAnnotationPass0_0
-[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
-[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
+[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
+[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
 [info    ] 
 
 ============ Bandwidth QA Report ============
@@ -143,15 +143,15 @@ Missing sink bandwidth after pass: 0 (0%)
 
 [info    ] [PASS] Running PRISM027_FilePlacementPass_GenEdgeId0_0
 [info    ] [PASS] Running PRISM028_FloorplanPass0_0
-[info    ] Floorplanning log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM028_FloorplanPass0_0.FP.0.0.log
+[info    ] Floorplanning log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM028_FloorplanPass0_0.FP.0.0.log
 [info    ] [PASS] Running PRISM029_VagAllocPass0_0
 [info    ] [PASS] Running PRISM030_AsmIRPrePortAllocAsmTransformPass0_0
 [info    ] [PASS MANAGER] Start PnR
 [info    ] [PASS] Running PRISM031_PlacerPass0_0
-[info    ] Prism config stored in: /scratch/jobs/38261840/jit_out/jit_out.configs
+[info    ] Prism config stored in: /scratch/jobs/38356614/jit_out/jit_out.configs
 [info    ] Launching placement flow with (set) 1 threads
-[info    ] BoxPlanner log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.BP.0.0.log
-[info    ] SAPlacer log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.SA.0.0.log
+[info    ] BoxPlanner log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.BP.0.0.log
+[info    ] SAPlacer log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.SA.0.0.log
 [info    ] Placement runtime:	partition{0, 0}: 0s	
 [info    ] [PASS] Running PRISM032_PmuTwinPass0_0
 [info    ] [PASS] Running PRISM033_TemplateTileDoneLoweringPass0_0
@@ -171,8 +171,8 @@ Missing sink bandwidth after pass: 0 (0%)
 [info    ] [PASS] Running PRISM047_DataConnectorPass0_0
 [info    ] [PASS MANAGER] Done with PnR
 [info    ] [PASS] Running PRISM048_BandwidthReportPass0_0
-[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.VECTOR.0.0.log
-[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38261840/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.SCALAR.0.0.log
+[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.VECTOR.0.0.log
+[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38356614/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.SCALAR.0.0.log
 [info    ] [PASS] Running PRISM049_FeedbackGenPass0_0
 [info    ] [PASS] Running PRISM050_ControlConnectionCodegenPass0_0
 [info    ] [PASS] Running PRISM051_DataConnectionCodegenPass0_0
@@ -194,17 +194,17 @@ Missing sink bandwidth after pass: 0 (0%)
 [info    ] [PASS] Running PRISM066_ConnectionPatchPass0_0
 [info    ] [PASS] Running PRISM067_PrintAsmPass_post_codegen0_0
 [info    ] [PASS] Running PRISM068_PrintAsmPass_asm_ir_report0_0
-[warning ] [../prism/src/plasma/lib/Core/Traversal/Analysis/RouteReportPass.cpp:34] Old report is not removed: /scratch/jobs/38261840/jit_out/jit_out_0_0.routes_report.txt
+[warning ] [../prism/src/plasma/lib/Core/Traversal/Analysis/RouteReportPass.cpp:34] Old report is not removed: /scratch/jobs/38356614/jit_out/jit_out_0_0.routes_report.txt
 [info    ] [PASS] Running PRISM069_RouteReportPass0_0
 [info    ] [PASS] Running PRISM070_AgcuFileGenPass0_0
 [info    ] [PASS] Running PRISM071_CheckerPass0_0
 [info    ] [PASS] Running PRISM072_ArgInsPass0_0
 [info    ] [PASS] Running PRISM073_BitfileGenPass0_0
-[info    ] bitfile /scratch/jobs/38261840/jit_out/jit_out.bin created
+[info    ] bitfile /scratch/jobs/38356614/jit_out/jit_out.bin created
 [info    ] [PASS] Running PRISM074_UtilizationFileGenPass0_0
 [info    ] [PASS] Running PRISM075_PmuStatsPass0_0
-[info    ] PMUStats: Writing /scratch/jobs/38261840/jit_out/jit_out_0_0.pmu_stat_info.csv
-[info    ] PMUStats: Writing /scratch/jobs/38261840/jit_out/jit_out_0_0.pmu_stat_ctx_info.csv
+[info    ] PMUStats: Writing /scratch/jobs/38356614/jit_out/jit_out_0_0.pmu_stat_info.csv
+[info    ] PMUStats: Writing /scratch/jobs/38356614/jit_out/jit_out_0_0.pmu_stat_ctx_info.csv
 [info    ] [PASS] Running PRISM076_PostProcessSectionsPass0_0
 [info    ] Freeing memory for compilation phase 0__0
 [info    ] Incremental Passes for Section(s) 0__0 Completed.
@@ -215,30 +215,29 @@ Missing sink bandwidth after pass: 0 (0%)
 [info    ] [PASS] Running PRISM080_HostFunctionPass
 [info    ] [PASS] Running PRISM081_DebugFileGenPass
 [info    ] [PASS] Running PRISM082_PefGenPass
-[info    ] symbol log file /scratch/jobs/38261840/jit_out/jit_out.symbol.log created
-[info    ] PEF file /scratch/jobs/38261840/jit_out/jit_out.pef created
-[info    ] PEF log file /scratch/jobs/38261840/jit_out/jit_out.pef.log created
-[info    ] bitfile /scratch/jobs/38261840/jit_out/jit_out.bin loaded
-[info    ] bitfile /scratch/jobs/38261840/jit_out/jit_out.bin.slam created
+[info    ] symbol log file /scratch/jobs/38356614/jit_out/jit_out.symbol.log created
+[info    ] PEF file /scratch/jobs/38356614/jit_out/jit_out.pef created
+[info    ] PEF log file /scratch/jobs/38356614/jit_out/jit_out.pef.log created
+[info    ] bitfile /scratch/jobs/38356614/jit_out/jit_out.bin loaded
+[info    ] bitfile /scratch/jobs/38356614/jit_out/jit_out.bin.slam created
 [info    ] [PASS] Running PRISM083_DatafileGenPass
-[info    ] datafile /scratch/jobs/38261840/jit_out/jit_out.data created
-[info    ] Data log file /scratch/jobs/38261840/jit_out/jit_out.data.log created
-[info    ] PnR node feedback file created /scratch/jobs/38261840/jit_out/jit_out.node_feedback.json
-[info    ] PnR partition feedback file created /scratch/jobs/38261840/jit_out/jit_out.partition_feedback.json
+[info    ] datafile /scratch/jobs/38356614/jit_out/jit_out.data created
+[info    ] Data log file /scratch/jobs/38356614/jit_out/jit_out.data.log created
+[info    ] PnR node feedback file created /scratch/jobs/38356614/jit_out/jit_out.node_feedback.json
+[info    ] PnR partition feedback file created /scratch/jobs/38356614/jit_out/jit_out.partition_feedback.json
 [info    ] Global Passes Completed.
-[arc:info] Generated debug_cpp files placed in: /scratch/jobs/38261840/jit_out/imcg_cpp/arc_gen/
-[arc:info] Generated files placed in: /scratch/jobs/38261840/jit_out/arc_gen/
+[arc:info] Generated debug_cpp files placed in: /scratch/jobs/38356614/jit_out/imcg_cpp/arc_gen/
+[arc:info] Generated files placed in: /scratch/jobs/38356614/jit_out/arc_gen/
 [arc:info] Compilation succeeded.
 [mac:info] Mac Compilation succeeded.
-[compiler:info] copy pef /scratch/jobs/38261840/jit_out/jit_out.pef to /scratch/jobs/38261840/jit_out/jit_out.0.pef
-[compiler:info] Successfully compiled pef at /scratch/jobs/38261840/jit_out/jit_out.pef
-[JITPerf] force_evaluate::CompilePEF in 583663482 ns
-[JITPerf] force_evaluate::FilterInputs in 20670 ns
-Log ID initialized to: [surajk][python3.7][1032281] at /var/log/sambaflow/runtime/sn.log
-[JITPerf] force_evaluate::Runtime in 395880242 ns
+[compiler:info] copy pef /scratch/jobs/38356614/jit_out/jit_out.pef to /scratch/jobs/38356614/jit_out/jit_out.0.pef
+[compiler:info] Successfully compiled pef at /scratch/jobs/38356614/jit_out/jit_out.pef
+[JITPerf] force_evaluate::CompilePEF 495262584 ns
+[JITPerf] force_evaluate::FilterInputs 19740 ns
+Log ID initialized to: [surajk][python3.7][281919] at /var/log/sambaflow/runtime/sn.log
+[JITPerf] force_evaluate::Runtime 375829500 ns
 [compiler:info] ============ PEF run finished and get tensors ========
-[JITPerf] force_evaluate() 979737806 ns
-[compiler:info] [torch_rdu] Copy from: 0x55878efa3820 to: 0x55878efec880
+[compiler:info] [torch_rdu] Copy from: 0x559b01daf5e0 to: 0x559b01df91b0
 [compiler:info]   Source: 600 bytes with name  0x0
 [compiler:info]   Dest: 600 bytes with name  0x0
 Tensor_0: 
@@ -316,14 +315,14 @@ Updated RegionView start borders for 0 slice groups.
 Updated RegionView start borders for 0 slice groups.
 Updated RegionView start borders for 0 slice groups.
 Updated RegionView start borders for 0 slice groups.
-======================= 1 passed, 36 deselected in 5.14s =======================
-++ cat /proc/1032268/cgroup
+======================= 1 passed, 36 deselected in 4.49s =======================
+++ cat /proc/281917/cgroup
 ++ grep -oP '^.*:memory:\K.*$'
-+ cat /sys/fs/cgroup/memory//slurm/uid_1447851142/job_38261840/step_batch/task_0/memory.max_usage_in_bytes
-+ grep --text -oP 'slurmJobId=38261840.*Physical RDU ID: \K\d+' /var/log/sambaflow/runtime/sn.log
++ cat /sys/fs/cgroup/memory//slurm/uid_1447851142/job_38356614/step_batch/task_0/memory.max_usage_in_bytes
++ grep --text -oP 'slurmJobId=38356614.*Physical RDU ID: \K\d+' /var/log/sambaflow/runtime/sn.log
 + true
-<181>2022-07-08T17:00:17.825128-07:00 sc-s144 [surajk][python3.7][1032281]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=1032281 slurmJobId=38261840] Resource Status: Allocation Success
-<181>2022-07-08T17:00:17.930808-07:00 sc-s144 [surajk][python3.7][1032281]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=1032281 slurmJobId=38261840] grdu_mask: 0
-<181>2022-07-08T17:00:17.930898-07:00 sc-s144 [surajk][python3.7][1032281]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=1032281 slurmJobId=38261840] Physical RDU 1
+<181>2022-07-08T18:53:41.126571-07:00 sc-s144 [surajk][python3.7][281919]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=281919 slurmJobId=38356614] Resource Status: Allocation Success
+<181>2022-07-08T18:53:41.208491-07:00 sc-s144 [surajk][python3.7][281919]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=281919 slurmJobId=38356614] grdu_mask: 0
+<181>2022-07-08T18:53:41.208595-07:00 sc-s144 [surajk][python3.7][281919]: [NOTICE][RSC][meta hostname=sc-s144.sambanovasystems.com tid=281919 slurmJobId=38356614] Physical RDU 0
 
-SlurmJobInfo(state='COMPLETED', elapsed_string='00:00:09', elapsed_seconds=9, start_time='2022-07-09T00:00:11', exit_code=0, exit_signal=0, host='sc-s144', os='ubuntu 20.04')
+SlurmJobInfo(state='COMPLETED', elapsed_string='00:00:07', elapsed_seconds=7, start_time='2022-07-09T01:53:36', exit_code=0, exit_signal=0, host='sc-s144', os='ubuntu 20.04')
