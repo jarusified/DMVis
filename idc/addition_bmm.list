@@ -1,0 +1,14 @@
+[
+  {
+     "description": "JIT addition bmm simple annotation test",
+     "owner": "weiweic",
+     "timeout": 300,
+     "jit" :  {
+         "test folder" : "frontend/jit/torch_rdu/test/python/",
+         "cmd" : "python experiments/add_bmm_directives.py",
+         "num rdus": 1,
+         "os ready": [ "ubuntu" ]
+     }
+  }
+]
+

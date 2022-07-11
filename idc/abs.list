@@ -1,0 +1,20 @@
+[
+    {
+     "parameters": [
+        {
+          "name": "FN",
+          "values": [
+            "abs"
+          ]
+        }
+     ],
+     "description": "JIT UnaryOps @FN@ Test",
+     "owner": "surajk",
+     "jit" :  {
+                 "test folder" : "frontend/jit/torch_rdu/test/python/",
+                 "cmd" : "pytest -rP operations/test_unary_ops.py -k 'test_unary[@FN@]'",
+                 "num rdus": 1,
+                 "os ready": [ "ubuntu" ]
+      }
+   }
+]g
