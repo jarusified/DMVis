@@ -1,0 +1,609 @@
++ trap 'cat /sys/fs/cgroup/memory/$(cat /proc/$$/cgroup | grep -oP '\''^.*:memory:\K.*$'\'')/memory.max_usage_in_bytes > /import/ch-sc-swdump2/surajk/artifact_root/apps/ch__jit_addition_bmm_simple_annotation_test/run/max_used_host_memory.0 && grep --text -oP "slurmJobId=$SLURM_JOB_ID.*Physical RDU ID: \K\d+" /var/log/sambaflow/runtime/sn.log > /import/ch-sc-swdump2/surajk/artifact_root/apps/ch__jit_addition_bmm_simple_annotation_test/run/physical_chip_ids.0 || true' EXIT
++ cd /import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/frontend/jit/torch_rdu/test/python/
++ ulimit -l unlimited
++ mkdir -p /scratch/surajk/.cache/huggingface
++ export PATH=/usr/local/bin:/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
++ PATH=/usr/local/bin:/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
++ export PYTHONPATH=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/venv/lib/python3.7/site-packages:/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/sambaflow:/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/frontend/jit/torch_rdu/test/python/
++ PYTHONPATH=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/venv/lib/python3.7/site-packages:/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/sambaflow:/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/frontend/jit/torch_rdu/test/python/
++ export LD_LIBRARY_PATH=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/lib:/opt/llvm12/lib:
++ LD_LIBRARY_PATH=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p/lib:/opt/llvm12/lib:
++ export SOFTWARE_HOME=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p
++ SOFTWARE_HOME=/import/ch-sc-swdump2/surajk/sambaflow_PIaWV9hw0p
++ export ARTIFACT_ROOT=/import/ch-sc-swdump2/surajk/artifact_root
++ ARTIFACT_ROOT=/import/ch-sc-swdump2/surajk/artifact_root
++ true
++ OMP_NUM_THREADS=8
++ python experiments/add_bmm_directives.py
+[compiler:info] [torch_rdu] empty_strided ...
+[compiler:info] [torch_rdu] empty for size: {2, 128, 64} ...
+[compiler:info] [torch_rdu] Copy from: 0x559f88b85ea0 to: 0x559f8781eb80
+[compiler:info]   Source: 65536 bytes with name  0x0
+[compiler:info]   Dest: 65536 bytes with name  0x0
+[compiler:info] [torch_rdu] empty_strided ...
+[compiler:info] [torch_rdu] empty for size: {2, 128, 64} ...
+[compiler:info] [torch_rdu] Copy from: 0x559f88bef7c0 to: 0x559f88c40dc0
+[compiler:info]   Source: 65536 bytes with name  0x0
+[compiler:info]   Dest: 65536 bytes with name  0x0
+[compiler:info] [torch_rdu] empty_strided ...
+[compiler:info] [torch_rdu] empty for size: {2, 128, 64} ...
+[compiler:info] [torch_rdu] Copy from: 0x559f88bff9a0 to: 0x559f88c40f90
+[compiler:info]   Source: 65536 bytes with name  0x0
+[compiler:info]   Dest: 65536 bytes with name  0x0
+[compiler:info] [torch_rdu] empty_strided ...
+[compiler:info] [torch_rdu] empty for size: {2, 64, 256} ...
+[compiler:info] [torch_rdu] Copy from: 0x559f88c1fbe0 to: 0x559f88bef8e0
+[compiler:info]   Source: 131072 bytes with name  0x0
+[compiler:info]   Dest: 131072 bytes with name  0x0
+[compiler:info] platform name...
+[compiler:info] DataScale SN10-8
+Log ID initialized to: [surajk][python][615643] at /var/log/sambaflow/runtime/sn.log
+[JITPerf] JIT::construct 19045836 ns
+[JITPerf] &JIT::construct 19057257 ns
+[JITPerf] &JIT::construct 60 ns
+[JITPerf] &JIT::construct 49 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 140 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 200 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 31 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 30 ns
+[compiler:info] [torch_rdu] add ...
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] get_empty() 100 ns
+[compiler:info] [torch_rdu] empty for size: {} ...
+[JITPerf] get_rdu_tensor_impl() 140 ns
+[compiler:info] Creating new IR...
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f8781eb80 1 has_backanno: 0
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f88c40dc0 1 has_backanno: 0
+[JITPerf] extract_inputs_helper() 538493 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 60 ns
+[JITPerf] &JIT::construct 31 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] &JIT::construct 50 ns
+[JITPerf] get_rdu_tensor_impl() 130 ns
+[JITPerf] update_ir() 2100 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] apply_binary_() 1079026 ns
+[JITPerf] apply_binary() 1093345 ns
+[compiler:info] [torch_rdu] add ...
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] get_empty() 90 ns
+[compiler:info] [torch_rdu] empty for size: {} ...
+[JITPerf] get_rdu_tensor_impl() 40 ns
+[compiler:info] Creating new IR...
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f88c40dc0 1 has_backanno: 0
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f88c40f90 1 has_backanno: 0
+[JITPerf] extract_inputs_helper() 317411 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 31 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] get_rdu_tensor_impl() 160 ns
+[JITPerf] update_ir() 1070 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] apply_binary_() 679223 ns
+[JITPerf] apply_binary() 683983 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 30 ns
+[compiler:info] [torch_rdu] bmm ...
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] get_empty() 120 ns
+[compiler:info] [torch_rdu] empty for size: {} ...
+[JITPerf] get_rdu_tensor_impl() 40 ns
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f88bef8e0 1 has_backanno: 0
+[JITPerf] extract_inputs_helper() 22950 ns
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] get_rdu_tensor_impl() 69 ns
+[JITPerf] update_ir() 620 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %3 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %4 = "air.Matmul"(%2, %3) {kConfigured = true, kNodeCategory = 1 : i64} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] apply_binary_() 127051 ns
+[JITPerf] apply_binary() 131641 ns
+[compiler:info] [torch_rdu] bmm ...
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] get_empty() 90 ns
+[compiler:info] [torch_rdu] empty for size: {} ...
+[JITPerf] get_rdu_tensor_impl() 30 ns
+[compiler:info] [torch_rdu] alias ...
+[compiler:info] RDU shallow_copy_and_detach &&1 0x559f88bef8e0 1 has_backanno: 0
+[JITPerf] extract_inputs_helper() 15410 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] get_rdu_tensor_impl() 50 ns
+[JITPerf] update_ir() 580 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %3 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %4 = "air.Matmul"(%2, %3) {kConfigured = true, kNodeCategory = 1 : i64} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] apply_binary_() 109481 ns
+[JITPerf] apply_binary() 113411 ns
+[compiler:info] ++ BACKWARD ANNOTATION SIZE 0
+[compiler:info] ++ BACKWARD ANNOTATION SIZE 0
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] &JIT::construct 31 ns
+[compiler:info] [torch_rdu] add ...
+[JITPerf] &JIT::construct 31 ns
+[JITPerf] get_empty() 71 ns
+[compiler:info] [torch_rdu] empty for size: {} ...
+[JITPerf] get_rdu_tensor_impl() 29 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 30 ns
+[compiler:info] Number of owners (pre): 3
+[compiler:info] Number of other owners (pre): 2
+[compiler:info] Number of owners (post): 5
+[JITPerf] extract_inputs_helper() 171981 ns
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 30 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 29 ns
+[JITPerf] get_rdu_tensor_impl() 180 ns
+[JITPerf] update_ir() 1040 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x256xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x256xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<1xbf16>) -> tensor<2x128x256xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<2x128x256xbf16>) -> tensor<2x128x256xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda3", type = () -> ()} : () -> ()
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false, false, false], kSplitDegree = [2, 128, 2, 128], kSplitDim = [0, 1, 0, 1], kSplitDpChips = [[], [], [], []], kSplitIsMetapiped = [true, true, true, true], kSplitIsSqueezed = [true, true, true, true], kSplitMetapipeId = [0, 1, 0, 1], kSplitOperandIdx = [-1, -1, -1, -1], kSplitSlices = [[], [], [], []], kSplitStageId = [0, 0, 0, 0], sym_name = "add_lambda1_1", type = () -> ()} : () -> ()
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %3 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %4 = "air.Matmul"(%2, %3) {air.kRowParFactor = 2 : i64, kConfigured = true, kNodeCategory = 1 : i64} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+    %5 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %6 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %7 = "air.Collect"(%5, %6) {kConfigured = true, kLambda = @add_lambda1_1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false, false, false], kSplitDegree = [2, 128, 2, 128], kSplitDim = [0, 1, 0, 1], kSplitDpChips = [[], [], [], []], kSplitIsMetapiped = [true, true, true, true], kSplitIsSqueezed = [true, true, true, true], kSplitMetapipeId = [0, 1, 0, 1], kSplitOperandIdx = [-1, -1, -1, -1], kSplitSlices = [[], [], [], []], kSplitStageId = [0, 0, 0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %8 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %9 = "air.Matmul"(%7, %8) {air.kRowParFactor = 2 : i64, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+    %10 = "air.Collect"(%4, %9) {kConfigured = true, kLambda = @add_lambda3, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<2x128x256xbf16>) -> tensor<2x128x256xbf16>
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] apply_binary_() 632854 ns
+[JITPerf] apply_binary() 636984 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] &JIT::construct 20 ns
+[JITPerf] &JIT::construct 40 ns
+[JITPerf] force_evaluate::RDUTensorImpl 200 ns
+[compiler:info] Forcing evaluation...
+[compiler:info] owning_ir_storage count: 1
+[JITPerf] force_evaluate::PrepareIR 21960 ns
+[compiler:info] module @program attributes {arc.AIRMappingDecisionIsSpatial = false, arc.kAIRAddnOpt = true, arc.kAIRBufferBeforeConcatAddn = false, arc.kAIRBufferNonRedundancy = "", arc.kAIRDPTilingOptimization = false, arc.kAIRDisableConcatStoreOpt = false, arc.kAIRDisableLoadTilerOptWithDimOrdering = false, arc.kAIRDisableOptimizeRereadBuffer = false, arc.kAIREnableSkipBufferExtensionOpt = false, arc.kAIREnableStoreTilerOptWithDimOrdering = false, arc.kAIRForceDRAMFirstThenP2P = false, arc.kAIRMappingDecisionGlobalNumBatches = 1 : i64, arc.kAIRMetaPipeWithOneIterationRemoval = false, arc.kAIRTransposeMatMulTransformation = false, arc.kAppName = "jit_out", arc.kArchMajor = 1 : i64, arc.kArchMinor = 0 : i64, arc.kBoxLayoutSize = 2 : i64, arc.kBoxLayoutType = 0 : i64, arc.kConcisePrinting = false, arc.kDataParallelBf16StochasticRounding = false, arc.kDataParallelBf16StochasticRoundingHighStaticBatchSize = false, arc.kDataParallelBf16StochasticRoundingSeedName = "", arc.kEliminateBufferTimeout = 100 : i64, arc.kExperimentalOptimization = true, arc.kExperimentalRAILCrossEntropy = false, arc.kExperimentalRAILCrossEntropyGrad = false, arc.kGenerateReference = true, arc.kGenerateTensorboard = false, arc.kHeuristicSliceLayouts = false, arc.kHeuristicTilerLayouts = true, arc.kLayoutTimeout = 1000 : i64, arc.kLegalizeDataflow = true, arc.kLegalizeSamples = false, arc.kMaximumGroupLatencyFactor = 5.000000e-02 : f32, arc.kMoveViews = false, arc.kOptimizeDramTransfers = false, arc.kOutputFolder = "/scratch/jobs/38941836", arc.kOverrideMaxFanout = 0 : i64, arc.kPefName = "jit_out", arc.kPlasmaIncludeReadStallCycles = false, arc.kPlasmaSkipInstrumentationOnRead0 = false, arc.kPlasmaSkipInstrumentationOnRead1 = false, arc.kPlasmaStageInstrumentation = "none", arc.kPrintSrcs = [], arc.kResourceAwareBuffers = false, arc.kSambaTuneGraph = false, arc.kSkipBufferBandwidthWeight = 1 : i64, arc.kSkipBufferMaxDepth = 4096 : i64, arc.kSkipBufferMaxFanin = 8 : i64, arc.kSkipBufferPmuWeight = 1 : i64, arc.kSplitSkipBuffer = true, arc.kStrictNodeNameOrdering = true, arc.kUseTBufferEverywhere = false, arc.kVerbose = true, mac.kDisableMacTiling = false, mac.kMacDisableMappingSort = false, mac.kMacDisableRetryLowerScalingFactor = false, mac.kMacEnableBufferTrialCompile = false, mac.kMacEnableHDRetryLowerVisibleResources = false, mac.kMacEnableNodeTrialCompile = false, mac.kMacEnableNodeTrialCompileLogging = false, mac.kMacIsUnrollingFirst = false, mac.kMacMaxTilingDepth = 0 : i64, mac.kMacOnlyCompileMac = false, mac.kMacPlot = false, mac.kMacPrintMappingIR = false, mac.kMacSectionCutBeamSearch = [2, 2], mac.kMacSplitCatAsStageBuffer = false, mac.kMacTemplateDBDir = "", mac.kMacTensorParallel = "none", mac.kMacUseHostFIFO = false}  {
+  module @templates  {
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x256xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x256xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<1xbf16>) -> tensor<2x128x256xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<2x128x256xbf16>) -> tensor<2x128x256xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda3", type = () -> ()} : () -> ()
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false, false, false], kSplitDegree = [2, 128, 2, 128], kSplitDim = [0, 1, 0, 1], kSplitDpChips = [[], [], [], []], kSplitIsMetapiped = [true, true, true, true], kSplitIsSqueezed = [true, true, true, true], kSplitMetapipeId = [0, 1, 0, 1], kSplitOperandIdx = [-1, -1, -1, -1], kSplitSlices = [[], [], [], []], kSplitStageId = [0, 0, 0, 0], sym_name = "add_lambda1_1", type = () -> ()} : () -> ()
+    "air.Lambda"() ( {
+      %0 = "air.lambda.input"() {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %1 = "air.lambda.input"() {kConfigured = true, kId = 1 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : () -> tensor<2x128x64xbf16>
+      %2 = "air.Imm"() {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], kValue = "1.000000"} : () -> tensor<1xbf16>
+      %3 = "air.Mul"(%1, %2) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<1xbf16>) -> tensor<2x128x64xbf16>
+      %4 = "air.Add"(%0, %3) {kBinaryOp = true, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+      "air.lambda.output"(%4) {kConfigured = true, kId = 0 : i64, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>) -> ()
+      "tlir.terminator"() {kConfigured = true, kUniqueId = 7 : i64} : () -> ()
+    }) {kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0], sym_name = "add_lambda1", type = () -> ()} : () -> ()
+  }
+  module @sections  {
+    %0 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %1 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %2 = "air.Collect"(%0, %1) {kConfigured = true, kLambda = @add_lambda1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %3 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %4 = "air.Matmul"(%2, %3) {air.kRowParFactor = 2 : i64, kConfigured = true, kNodeCategory = 1 : i64} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+    %5 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %6 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x128x64xbf16>
+    %7 = "air.Collect"(%5, %6) {kConfigured = true, kLambda = @add_lambda1_1, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false, false, false], kSplitDegree = [2, 128, 2, 128], kSplitDim = [0, 1, 0, 1], kSplitDpChips = [[], [], [], []], kSplitIsMetapiped = [true, true, true, true], kSplitIsSqueezed = [true, true, true, true], kSplitMetapipeId = [0, 1, 0, 1], kSplitOperandIdx = [-1, -1, -1, -1], kSplitSlices = [[], [], [], []], kSplitStageId = [0, 0, 0, 0]} : (tensor<2x128x64xbf16>, tensor<2x128x64xbf16>) -> tensor<2x128x64xbf16>
+    %8 = "air.Tensor"() {kConfigured = true, kIsWeight = false, kNodeCategory = 5 : i64} : () -> tensor<2x64x256xbf16>
+    %9 = "air.Matmul"(%7, %8) {air.kRowParFactor = 2 : i64, kConfigured = true, kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x64xbf16>, tensor<2x64x256xbf16>) -> tensor<2x128x256xbf16>
+    %10 = "air.Collect"(%4, %9) {kConfigured = true, kLambda = @add_lambda3, kMacInfoName = "collect_default", kNodeCategory = 1 : i64, kSplitCanBroadcast = [false, false], kSplitDegree = [2, 128], kSplitDim = [0, 1], kSplitDpChips = [[], []], kSplitIsMetapiped = [true, true], kSplitIsSqueezed = [true, true], kSplitMetapipeId = [0, 1], kSplitOperandIdx = [-1, -1], kSplitSlices = [[], []], kSplitStageId = [0, 0]} : (tensor<2x128x256xbf16>, tensor<2x128x256xbf16>) -> tensor<2x128x256xbf16>
+    "air.Output"(%10) {kConfigured = true, kNodeCategory = 5 : i64} : (tensor<2x128x256xbf16>) -> ()
+  }
+  module @schedule  {
+  }
+  module @rnn_function  {
+  }
+}
+[JITPerf] force_evaluate::PopulateMeta 189471 ns
+[compiler:info] ====== HASH INFO: ea07d58c987b51db6aa91fe625965d3fceb9a02bfb0db757decbaa14bff5fdae
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+MAC050_AIRResourceAwarePeepholeOptIter converged after 1 iteration(s)
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+MAC055_AIRToTLIRLoweringNestedLoopsIter converged after 2 iteration(s)
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+Updated RegionView start borders for 0 slice groups.
+[info    ] [PLASMA] Launching plasma compilation! See log file: /scratch/jobs/38941836/jit_out/jit_out.plasma_compile.log
+[info    ] Total per-section passes: 77
+[info    ] Compiling graph for section 0
+[mac:info] Building nameddims for graph jit_out
+[mac:info] Analyze tiling for graph: jit_out
+[mac:info] Mapping for graph jit_out
+[mac:info] Set up stage ID and metapipe ID for section 0
+[mac:info] MAC decided on the following section cuts for graph jit_out
+[mac:info] Amortized resources overall: 3.500000e+01 PCUs, 3.700000e+01 PMUs, projected latency: 3.866311e-05 s, FLOPS: 4.364760e-01 T/s, DDR_BW: 9.471844e+00 GB/s
+[mac:info] Lowering to TLIR succeeded.
+[rail:info] Logs are generated in /scratch/jobs/38941836/jit_out//rail_gen//rail_compile_logs for partition_0_0_.
+[rail:info] Compilation succeeded for partition_0_0_. Elapsed time:  775ms
+[info    ] [PASS] Running PRISM000_PreProcessPass0_0
+[info    ] Generated utilization report file: /scratch/jobs/38941836/jit_out/jit_out.s0.utilization_report.txt
+[info    ] [PASS] Running PRISM001_FeedbackGenPass0_0
+[info    ] [PASS] Running PRISM002_PlasmaIRPass0_0
+[compiler:info] Starting Plasma compile at /scratch/jobs/38941836/jit_out/plasma_ir_modules/sections_0_0
+[compiler:info] Plasma compile succeeded.
+[compiler:info] Starting Plasma compile at /scratch/jobs/38941836/jit_out/plasma_ir_modules/schedule_0_0
+[compiler:info] Plasma compile succeeded.
+[info    ] [PASS] Running PRISM003_PlasmaIRSymbolAllocExportPass0_0
+[info    ] [PASS] Running PRISM004_LegalizeUtilizationPass0_0
+[info    ] [PASS] Running PRISM005_LegalizeSocketConnectionsPass0_0
+[info    ] [PASS] Running PRISM006_LayoutConsolidationPass0_0
+[info    ] [PASS] Running PRISM007_PmuLoadStoreSetupPass0_0
+[info    ] [PASS] Running PRISM008_FinalizeIoPass0_0
+[info    ] [PASS] Running PRISM009_CollectConnectionPass0_0
+[info    ] [PASS] Running PRISM010_NetworkValidationPass0_0
+[info    ] [PASS] Running PRISM011_DramAnalyticalReportPass0_0
+[info    ] Logging dram analysis report to /scratch/jobs/38941836/jit_out/prism_gen/reports/dram_analysis.json
+[info    ] [PASS] Running PRISM012_AsmIRGenPNRConnectPass0_0
+[info    ] [PASS] Running PRISM013_PrintLoweringPass0_0
+[info    ] [PASS] Running PRISM014_AsmIRResourceAllocationPass0_0
+[info    ] [PASS] Running PRISM015_PmuExprCompilePass0_0
+[info    ] [PASS] Running PRISM016_GroupAnnotationPass0_0
+[info    ] [PASS] Running PRISM017_TemplateDataflowGraphPass0_0
+[info    ] [PASS] Running PRISM018_BoxUtilizationLegalizerPass0_0
+[info    ] [PASS] Running PRISM019_LegalizePartitionAssignmentPass0_0
+[info    ] [PASS] Running PRISM020_ConditionValidationPass0_0
+[info    ] [PASS] Running PRISM021_AssignMetapipeStagePass0_0
+[info    ] [PASS] Running PRISM022_AnalyticalModelFileGenPass0_0
+[info    ] [PASS] Running PRISM023_PlasmaIRProgramStatePass0_0
+[info    ] [PASS] Running PRISM024_MetapipeStageLatencyPass0_0
+[info    ] Generated metapipe stage graph dot file: /scratch/jobs/38941836/jit_out/stage_buffers/partition_latency_0_0.dot
+[info    ] [PASS] Running PRISM025_MetapipeStageGraphPass0_0
+[info    ] [PASS] Running PRISM026_BandwidthAnnotationPass0_0
+[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
+[info    ] BandwidthAnnotationPropagation log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM026_BandwidthAnnotationPass0_0.BWP.0.0.log
+[info    ] 
+
+============ Bandwidth QA Report ============
+
+Total edges: 145
+Bandwidth starving edges before pass (src/sink < 0.8): 45 (31.0345%)
+Bandwidth back pressure edges before pass (src/sink > 1.2): 64 (44.1379%)
+Missing source bandwidth after pass: 0 (0%)
+Missing sink bandwidth after pass: 0 (0%)
+
+[info    ] [PASS] Running PRISM027_FilePlacementPass_GenEdgeId0_0
+[info    ] [PASS] Running PRISM028_FloorplanPass0_0
+[info    ] Floorplanning log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM028_FloorplanPass0_0.FP.0.0.log
+[info    ] [PASS] Running PRISM029_VagAllocPass0_0
+[info    ] [PASS] Running PRISM030_AsmIRPrePortAllocAsmTransformPass0_0
+[info    ] [PASS MANAGER] Start PnR
+[info    ] [PASS] Running PRISM031_PlacerPass0_0
+[info    ] Prism config stored in: /scratch/jobs/38941836/jit_out/jit_out.configs
+[info    ] Launching placement flow with (set) 1 threads
+[info    ] BoxPlanner log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.BP.0.0.log
+[info    ] WavefrontPlacer log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.DFG.0.0.log
+[info    ] SAPlacer log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM031_PlacerPass0_0.SA.0.0.log
+[info    ] Placement runtime:	partition{0, 0}: 3s	
+[info    ] [PASS] Running PRISM032_PmuTwinPass0_0
+[info    ] [PASS] Running PRISM033_TemplateTileDoneLoweringPass0_0
+[info    ] [PASS] Running PRISM034_VagConfigurePass0_0
+[info    ] [PASS] Running PRISM035_VagAllocReportPass0_0
+[info    ] [PASS] Running PRISM036_DataPortAllocatorPass0_0
+[info    ] [PASS] Running PRISM037_AgcuOrchestrationPass0_0
+[info    ] [PASS] Running PRISM038_RampControlPass0_0
+[info    ] [PASS] Running PRISM039_E2EInjectionPass0_0
+[info    ] [PASS] Running PRISM040_InstrumentationPreprocessPass0_0
+[info    ] [PASS] Running PRISM041_BarrierLoweringPass0_0
+[info    ] [PASS] Running PRISM042_ControlPortAllocatorPass0_0
+[info    ] [PASS] Running PRISM043_ControlBandwidthAnnotationPass0_0
+[info    ] [PASS] Running PRISM044_InstrumentationCounterPass0_0
+[info    ] [PASS] Running PRISM045_ControlPortAllocatorPass0_0
+[info    ] [PASS] Running PRISM046_ControlConnectorPass0_0
+[info    ] [PASS] Running PRISM047_DataConnectorPass0_0
+[info    ] [PASS MANAGER] Done with PnR
+[info    ] [PASS] Running PRISM048_BandwidthReportPass0_0
+[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.VECTOR.0.0.log
+[info    ] BandwidthReport log for Partition{0, 0}: /scratch/jobs/38941836/jit_out/prism_gen/plasma_compile_logs/PRISM048_BandwidthReportPass0_0.SCALAR.0.0.log
+[info    ] [PASS] Running PRISM049_FeedbackGenPass0_0
+[info    ] [PASS] Running PRISM050_ControlConnectionCodegenPass0_0
+[info    ] [PASS] Running PRISM051_DataConnectionCodegenPass0_0
+[info    ] [PASS] Running PRISM052_FinalizePass0_0
+[info    ] [PASS] Running PRISM053_FinalizeSnapshotPass0_0
+[info    ] [PASS] Running PRISM054_VagExprCompilePass0_0
+[info    ] [PASS] Running PRISM055_WatermarkPass0_0
+[info    ] [PASS] Running PRISM056_OrphanUnitPass0_0
+[info    ] [PASS] Running PRISM057_BoxFileGenPass0_0
+[info    ] [PASS] Running PRISM058_P2pPass0_0
+[info    ] [PASS] Running PRISM059_AsmIRPostPortAllocAsmTransformPass0_0
+[info    ] [PASS] Running PRISM060_DataSocketAnnotationPass0_0
+[info    ] [PASS] Running PRISM061_AuroraFileGenPass0_0
+[info    ] [PASS] Running PRISM062_AsmLegalizerPass0_0
+[info    ] [PASS] Running PRISM063_ExpectedPacketCountAnnotationPass0_0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_0_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_0_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_0_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_0_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_1_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_1_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_1_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_1_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_2_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_2_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_2_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_2_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_3_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_3_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_3_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_59_gemm_3_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_0_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_0_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_0_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_0_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_1_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_1_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_1_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_1_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_2_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_2_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_2_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_2_0_3_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_3_0_0_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_3_0_1_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_3_0_2_PCU ctx0
+[error   ] [../prism/src/plasma/lib/Core/Traversal/Analysis/ExpectedPacketCountAnnotationPass.cpp:284] [Assembler] multiple counter chains found in streaming context, unable to determine expected_packet_count in biggemm_0_0_61_gemm_3_0_3_PCU ctx0
+[info    ] [PASS] Running PRISM064_ConnectionPatchPass0_0
+[info    ] [PASS] Running PRISM065_AsmPlasticineCodegen0_0
+[info    ] [PASS] Running PRISM066_ConnectionPatchPass0_0
+[info    ] [PASS] Running PRISM067_PrintAsmPass_post_codegen0_0
+[info    ] [PASS] Running PRISM068_PrintAsmPass_asm_ir_report0_0
+[warning ] [../prism/src/plasma/lib/Core/Traversal/Analysis/RouteReportPass.cpp:34] Old report is not removed: /scratch/jobs/38941836/jit_out/jit_out_0_0.routes_report.txt
+[info    ] [PASS] Running PRISM069_RouteReportPass0_0
+[info    ] [PASS] Running PRISM070_AgcuFileGenPass0_0
+[info    ] [PASS] Running PRISM071_CheckerPass0_0
+[info    ] [PASS] Running PRISM072_ArgInsPass0_0
+[info    ] [PASS] Running PRISM073_BitfileGenPass0_0
+[info    ] bitfile /scratch/jobs/38941836/jit_out/jit_out.bin created
+[info    ] [PASS] Running PRISM074_UtilizationFileGenPass0_0
+[info    ] [PASS] Running PRISM075_PmuStatsPass0_0
+[info    ] PMUStats: Writing /scratch/jobs/38941836/jit_out/jit_out_0_0.pmu_stat_info.csv
+[info    ] PMUStats: Writing /scratch/jobs/38941836/jit_out/jit_out_0_0.pmu_stat_ctx_info.csv
+[info    ] [PASS] Running PRISM076_PostProcessSectionsPass0_0
+[info    ] Freeing memory for compilation phase 0__0
+[info    ] Incremental Passes for Section(s) 0__0 Completed.
+[info    ] Incremental Passes Completed.
+[info    ] [PASS] Running PRISM077_SymInitFunctionsPass
+[info    ] [PASS] Running PRISM078_DataAllocPass
+[info    ] [PASS] Running PRISM079_HostFifoPass
+[info    ] [PASS] Running PRISM080_HostFunctionPass
+[info    ] [PASS] Running PRISM081_DebugFileGenPass
+[info    ] [PASS] Running PRISM082_PefGenPass
+[info    ] symbol log file /scratch/jobs/38941836/jit_out/jit_out.symbol.log created
+[info    ] PEF file /scratch/jobs/38941836/jit_out/jit_out.pef created
+[info    ] PEF log file /scratch/jobs/38941836/jit_out/jit_out.pef.log created
+[info    ] bitfile /scratch/jobs/38941836/jit_out/jit_out.bin loaded
+[info    ] bitfile /scratch/jobs/38941836/jit_out/jit_out.bin.slam created
+[info    ] [PASS] Running PRISM083_DatafileGenPass
+[info    ] datafile /scratch/jobs/38941836/jit_out/jit_out.data created
+[info    ] Data log file /scratch/jobs/38941836/jit_out/jit_out.data.log created
+[info    ] PnR node feedback file created /scratch/jobs/38941836/jit_out/jit_out.node_feedback.json
+[info    ] PnR partition feedback file created /scratch/jobs/38941836/jit_out/jit_out.partition_feedback.json
+[info    ] Global Passes Completed.
+[arc:info] Generated debug_cpp files placed in: /scratch/jobs/38941836/jit_out/imcg_cpp/arc_gen/
+[arc:info] Generated files placed in: /scratch/jobs/38941836/jit_out/arc_gen/
+[arc:info] Compilation succeeded.
+[mac:info] Mac Compilation succeeded.
+[compiler:info] copy pef /scratch/jobs/38941836/jit_out/jit_out.pef to /scratch/jobs/38941836/jit_out/jit_out.0.pef
+[compiler:info] Successfully compiled pef at /scratch/jobs/38941836/jit_out/jit_out.pef
+[JITPerf] force_evaluate::CompilePEF 5274372952 ns
+[JITPerf] force_evaluate::FilterInputs 32980 ns
+Log ID initialized to: [surajk][python][615643] at /var/log/sambaflow/runtime/sn.log
+[JITPerf] force_evaluate::Runtime 393873151 ns
+[compiler:info] ============ PEF run finished and get tensors ========
+[compiler:info] [torch_rdu] Copy from: 0x559f88e40790 to: 0x559f88e49560
+[compiler:info]   Source: 262144 bytes with name  0x0
+[compiler:info]   Dest: 262144 bytes with name  0x0
+CPU Elapsed time  0.0343 seconds
+RDU Elapsed time  0.0027 seconds
+Tensor_0: 
+
+CPU:
+tensor([[[71.9728, 65.4415, 66.6684,  ..., 59.0640, 66.2568, 67.9431],
+         [72.9091, 70.0227, 74.4201,  ..., 62.1433, 71.2583, 72.9966],
+         [72.3160, 63.2273, 70.4243,  ..., 60.4580, 70.5384, 69.1947],
+         ...,
+         [75.1907, 64.6562, 66.3927,  ..., 57.3891, 69.7200, 72.6497],
+         [74.4069, 66.8408, 69.7277,  ..., 62.4784, 71.0826, 71.8290],
+         [65.5000, 62.9789, 65.2756,  ..., 56.7484, 68.1436, 65.8292]],
+
+        [[67.7994, 57.0374, 67.8396,  ..., 68.7957, 68.1063, 66.1519],
+         [66.4835, 55.5872, 64.4496,  ..., 63.8804, 64.4867, 62.3524],
+         [58.9617, 53.6055, 63.0727,  ..., 62.0499, 61.7902, 62.4454],
+         ...,
+         [70.6955, 59.5887, 66.3085,  ..., 64.1266, 64.4757, 65.1717],
+         [74.0441, 63.4829, 73.7599,  ..., 77.0289, 75.7001, 75.7802],
+         [64.8673, 55.4295, 65.4792,  ..., 63.4287, 63.4181, 63.0591]]])
+
+RDU:
+tensor([[[72.0000, 65.0000, 66.5000,  ..., 58.7500, 66.0000, 68.0000],
+         [72.5000, 70.0000, 74.0000,  ..., 61.7500, 71.0000, 73.0000],
+         [72.0000, 63.0000, 70.0000,  ..., 60.0000, 70.0000, 69.0000],
+         ...,
+         [75.0000, 64.0000, 66.0000,  ..., 57.0000, 69.0000, 72.0000],
+         [74.0000, 66.5000, 69.0000,  ..., 62.0000, 70.5000, 71.0000],
+         [65.0000, 62.5000, 65.0000,  ..., 56.5000, 68.0000, 65.5000]],
+
+        [[67.5000, 56.7500, 67.5000,  ..., 68.5000, 68.0000, 66.0000],
+         [66.0000, 55.2500, 64.0000,  ..., 63.5000, 64.0000, 62.0000],
+         [58.7500, 53.5000, 62.5000,  ..., 61.7500, 61.5000, 62.0000],
+         ...,
+         [70.5000, 59.2500, 66.0000,  ..., 64.0000, 64.0000, 65.0000],
+         [74.0000, 63.0000, 73.5000,  ..., 77.0000, 75.0000, 75.5000],
+         [64.5000, 55.0000, 65.0000,  ..., 63.0000, 63.0000, 62.7500]]])
+++ cat /proc/615641/cgroup
+++ grep -oP '^.*:memory:\K.*$'
++ cat /sys/fs/cgroup/memory//slurm/uid_1447851142/job_38941836/step_batch/task_0/memory.max_usage_in_bytes
++ grep --text -oP 'slurmJobId=38941836.*Physical RDU ID: \K\d+' /var/log/sambaflow/runtime/sn.log
++ true
+<181>2022-07-11T00:53:10.647781-07:00 sc-s145 [surajk][python][615643]: [NOTICE][RSC][meta hostname=sc-s145.sambanovasystems.com tid=615643 slurmJobId=38941836] Resource Status: Allocation Success
+<181>2022-07-11T00:53:10.726048-07:00 sc-s145 [surajk][python][615643]: [NOTICE][RSC][meta hostname=sc-s145.sambanovasystems.com tid=615643 slurmJobId=38941836] grdu_mask: 0
+<181>2022-07-11T00:53:10.726149-07:00 sc-s145 [surajk][python][615643]: [NOTICE][RSC][meta hostname=sc-s145.sambanovasystems.com tid=615643 slurmJobId=38941836] Physical RDU 0
+
+SlurmJobInfo(state='COMPLETED', elapsed_string='00:00:14', elapsed_seconds=14, start_time='2022-07-11T07:52:59', exit_code=0, exit_signal=0, host='sc-s145', os='ubuntu 20.04')
