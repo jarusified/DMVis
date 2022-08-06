@@ -1,0 +1,1210 @@
+{
+    "perf_data_version": 4,
+    "duration_us": 0,
+    "description": "CH: JIT logreg multi-epoch training test",
+    "description_orig": "JIT logreg multi-epoch training test",
+    "stage": "run",
+    "date_time_utc": "2022-08-06T19:34:17+00:00",
+    "commit": "24ab11f9d91025bc13c8686150e56e14dcd533f8",
+    "host": "sc-s144",
+    "os": "ubuntu 20.04",
+    "type": "jit",
+    "data": {
+        "displayTimeUnit": "ms",
+        "startTimestamp": 1659814453697385,
+        "traceEvents": [
+            {
+                "id": 0,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814441958368
+            },
+            {
+                "id": 1,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814441958369
+            },
+            {
+                "id": 2,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814441958521
+            },
+            {
+                "id": 3,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444058232
+            },
+            {
+                "id": 4,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444058260
+            },
+            {
+                "id": 5,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444372879
+            },
+            {
+                "id": 6,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442015
+            },
+            {
+                "id": 7,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442046
+            },
+            {
+                "id": 8,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442048
+            },
+            {
+                "id": 9,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442135
+            },
+            {
+                "id": 10,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442135
+            },
+            {
+                "id": 11,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442600
+            },
+            {
+                "id": 12,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442838
+            },
+            {
+                "id": 13,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442841
+            },
+            {
+                "id": 14,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442842
+            },
+            {
+                "id": 15,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442842
+            },
+            {
+                "id": 16,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442843
+            },
+            {
+                "id": 17,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444442848
+            },
+            {
+                "id": 18,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444452518
+            },
+            {
+                "id": 19,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814444452690
+            },
+            {
+                "id": 20,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814445672110
+            },
+            {
+                "id": 21,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814445672133
+            },
+            {
+                "id": 22,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814445963821
+            },
+            {
+                "id": 23,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814446038263
+            },
+            {
+                "id": 24,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814446046269
+            },
+            {
+                "id": 25,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814446046462
+            },
+            {
+                "id": 26,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814446046697
+            },
+            {
+                "id": 27,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447321388
+            },
+            {
+                "id": 28,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447321407
+            },
+            {
+                "id": 29,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447643557
+            },
+            {
+                "id": 30,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447719156
+            },
+            {
+                "id": 31,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447724997
+            },
+            {
+                "id": 32,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447725083
+            },
+            {
+                "id": 33,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447725191
+            },
+            {
+                "id": 34,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814447725225
+            },
+            {
+                "id": 35,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448017971
+            },
+            {
+                "id": 36,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448092876
+            },
+            {
+                "id": 37,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448093761
+            },
+            {
+                "id": 38,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448093763
+            },
+            {
+                "id": 39,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448093765
+            },
+            {
+                "id": 40,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448093766
+            },
+            {
+                "id": 41,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094008
+            },
+            {
+                "id": 42,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094186
+            },
+            {
+                "id": 43,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094188
+            },
+            {
+                "id": 44,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094188
+            },
+            {
+                "id": 45,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094189
+            },
+            {
+                "id": 46,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094190
+            },
+            {
+                "id": 47,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448094191
+            },
+            {
+                "id": 48,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448095560
+            },
+            {
+                "id": 49,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448095710
+            },
+            {
+                "id": 50,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448095930
+            },
+            {
+                "id": 51,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448095980
+            },
+            {
+                "id": 52,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448394586
+            },
+            {
+                "id": 53,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448467122
+            },
+            {
+                "id": 54,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448471996
+            },
+            {
+                "id": 55,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448472125
+            },
+            {
+                "id": 56,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814448472427
+            },
+            {
+                "id": 57,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450156264
+            },
+            {
+                "id": 58,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450156286
+            },
+            {
+                "id": 59,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450464408
+            },
+            {
+                "id": 60,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450536850
+            },
+            {
+                "id": 61,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450543095
+            },
+            {
+                "id": 62,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450543181
+            },
+            {
+                "id": 63,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450543290
+            },
+            {
+                "id": 64,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450543320
+            },
+            {
+                "id": 65,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450825892
+            },
+            {
+                "id": 66,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450901706
+            },
+            {
+                "id": 67,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902445
+            },
+            {
+                "id": 68,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902447
+            },
+            {
+                "id": 69,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902450
+            },
+            {
+                "id": 70,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902451
+            },
+            {
+                "id": 71,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902649
+            },
+            {
+                "id": 72,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902827
+            },
+            {
+                "id": 73,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902828
+            },
+            {
+                "id": 74,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902829
+            },
+            {
+                "id": 75,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902829
+            },
+            {
+                "id": 76,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902831
+            },
+            {
+                "id": 77,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450902831
+            },
+            {
+                "id": 78,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450904266
+            },
+            {
+                "id": 79,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450904415
+            },
+            {
+                "id": 80,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450904633
+            },
+            {
+                "id": 81,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814450904681
+            },
+            {
+                "id": 82,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451235880
+            },
+            {
+                "id": 83,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451307738
+            },
+            {
+                "id": 84,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451312544
+            },
+            {
+                "id": 85,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451312668
+            },
+            {
+                "id": 86,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451312978
+            },
+            {
+                "id": 87,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451313379
+            },
+            {
+                "id": 88,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451313435
+            },
+            {
+                "id": 89,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451617425
+            },
+            {
+                "id": 90,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451688976
+            },
+            {
+                "id": 91,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451691080
+            },
+            {
+                "id": 92,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451691165
+            },
+            {
+                "id": 93,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451691271
+            },
+            {
+                "id": 94,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451691304
+            },
+            {
+                "id": 95,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814451974049
+            },
+            {
+                "id": 96,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452044899
+            },
+            {
+                "id": 97,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045467
+            },
+            {
+                "id": 98,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045469
+            },
+            {
+                "id": 99,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045471
+            },
+            {
+                "id": 100,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045472
+            },
+            {
+                "id": 101,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045631
+            },
+            {
+                "id": 102,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045787
+            },
+            {
+                "id": 103,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045788
+            },
+            {
+                "id": 104,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045789
+            },
+            {
+                "id": 105,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045789
+            },
+            {
+                "id": 106,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045790
+            },
+            {
+                "id": 107,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452045791
+            },
+            {
+                "id": 108,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452047192
+            },
+            {
+                "id": 109,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452047337
+            },
+            {
+                "id": 110,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452047554
+            },
+            {
+                "id": 111,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452047597
+            },
+            {
+                "id": 112,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452359408
+            },
+            {
+                "id": 113,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452432359
+            },
+            {
+                "id": 114,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452436000
+            },
+            {
+                "id": 115,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452436121
+            },
+            {
+                "id": 116,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452436426
+            },
+            {
+                "id": 117,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452436827
+            },
+            {
+                "id": 118,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452436875
+            },
+            {
+                "id": 119,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452748459
+            },
+            {
+                "id": 120,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452818094
+            },
+            {
+                "id": 121,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452819899
+            },
+            {
+                "id": 122,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452819983
+            },
+            {
+                "id": 123,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452820089
+            },
+            {
+                "id": 124,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814452820120
+            },
+            {
+                "id": 125,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453101480
+            },
+            {
+                "id": 126,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453174209
+            },
+            {
+                "id": 127,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453174240
+            },
+            {
+                "id": 128,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453174242
+            },
+            {
+                "id": 129,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175002
+            },
+            {
+                "id": 130,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175002
+            },
+            {
+                "id": 131,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175155
+            },
+            {
+                "id": 132,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175316
+            },
+            {
+                "id": 133,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175317
+            },
+            {
+                "id": 134,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175317
+            },
+            {
+                "id": 135,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175318
+            },
+            {
+                "id": 136,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175319
+            },
+            {
+                "id": 137,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453175319
+            },
+            {
+                "id": 138,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453176454
+            },
+            {
+                "id": 139,
+                "name": "compile",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453176596
+            },
+            {
+                "id": 140,
+                "name": "compile",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453176818
+            },
+            {
+                "id": 141,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453176860
+            },
+            {
+                "id": 142,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453476386
+            },
+            {
+                "id": 143,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453551703
+            },
+            {
+                "id": 144,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453556880
+            },
+            {
+                "id": 145,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 383655,
+                "tid": 0,
+                "ts": 1659814453695280
+            }
+        ]
+    },
+    "data_list": [],
+    "test": {
+        "description": "CH: JIT logreg multi-epoch training test",
+        "owner": "weiweic",
+        "timeout": 300,
+        "perf_mode": [
+            "jit"
+        ],
+        "jit": {
+            "test folder": "frontend/jit/torch_rdu/test/python/",
+            "cmd": "python experiments/logreg.py",
+            "num rdus": 1,
+            "os ready": [
+                "ubuntu"
+            ]
+        },
+        "test list": "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list",
+        "ancestors": [
+            "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list"
+        ],
+        "tags": [],
+        "description_orig": "JIT logreg multi-epoch training test",
+        "arch": "ch"
+    }
+}

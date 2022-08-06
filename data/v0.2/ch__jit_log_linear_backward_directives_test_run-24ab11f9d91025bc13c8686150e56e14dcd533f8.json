@@ -1,0 +1,282 @@
+{
+    "perf_data_version": 4,
+    "duration_us": 0,
+    "description": "CH: JIT log linear backward directives test",
+    "description_orig": "JIT log linear backward directives test",
+    "stage": "run",
+    "date_time_utc": "2022-08-06T19:34:07+00:00",
+    "commit": "24ab11f9d91025bc13c8686150e56e14dcd533f8",
+    "host": "sc2-s5",
+    "os": "ubuntu 20.04",
+    "type": "jit",
+    "data": {
+        "displayTimeUnit": "ms",
+        "startTimestamp": 1659814443547398,
+        "traceEvents": [
+            {
+                "id": 0,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439120361
+            },
+            {
+                "id": 1,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439120362
+            },
+            {
+                "id": 2,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439121937
+            },
+            {
+                "id": 3,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439122079
+            },
+            {
+                "id": 4,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439572437
+            },
+            {
+                "id": 5,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439572454
+            },
+            {
+                "id": 6,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439893883
+            },
+            {
+                "id": 7,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439958021
+            },
+            {
+                "id": 8,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439963969
+            },
+            {
+                "id": 9,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814439964045
+            },
+            {
+                "id": 10,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814440756776
+            },
+            {
+                "id": 11,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814440756799
+            },
+            {
+                "id": 12,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441086951
+            },
+            {
+                "id": 13,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441151509
+            },
+            {
+                "id": 14,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441186120
+            },
+            {
+                "id": 15,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441186268
+            },
+            {
+                "id": 16,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441866529
+            },
+            {
+                "id": 17,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814441866553
+            },
+            {
+                "id": 18,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442191325
+            },
+            {
+                "id": 19,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442258043
+            },
+            {
+                "id": 20,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442265390
+            },
+            {
+                "id": 21,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442265516
+            },
+            {
+                "id": 22,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442988760
+            },
+            {
+                "id": 23,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814442988777
+            },
+            {
+                "id": 24,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443345909
+            },
+            {
+                "id": 25,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443413148
+            },
+            {
+                "id": 26,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443413469
+            },
+            {
+                "id": 27,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443427926
+            },
+            {
+                "id": 28,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443428876
+            },
+            {
+                "id": 29,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2916409,
+                "tid": 0,
+                "ts": 1659814443545301
+            }
+        ]
+    },
+    "data_list": [],
+    "test": {
+        "description": "CH: JIT log linear backward directives test",
+        "owner": "weiweic",
+        "timeout": 300,
+        "perf_mode": [
+            "jit"
+        ],
+        "jit": {
+            "test folder": "frontend/jit/torch_rdu/test/python/",
+            "cmd": "python experiments/log_linear_backward_directives.py",
+            "num rdus": 1,
+            "os ready": [
+                "ubuntu"
+            ]
+        },
+        "test list": "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list",
+        "ancestors": [
+            "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list"
+        ],
+        "tags": [],
+        "description_orig": "JIT log linear backward directives test",
+        "arch": "ch"
+    }
+}

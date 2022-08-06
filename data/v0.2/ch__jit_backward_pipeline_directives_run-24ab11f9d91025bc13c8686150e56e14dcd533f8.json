@@ -1,0 +1,314 @@
+{
+    "perf_data_version": 4,
+    "duration_us": 0,
+    "description": "CH: JIT backward pipeline directives",
+    "description_orig": "JIT backward pipeline directives",
+    "stage": "run",
+    "date_time_utc": "2022-08-06T19:34:07+00:00",
+    "commit": "24ab11f9d91025bc13c8686150e56e14dcd533f8",
+    "host": "sc-s145",
+    "os": "ubuntu 20.04",
+    "type": "jit",
+    "data": {
+        "displayTimeUnit": "ms",
+        "startTimestamp": 1659814443959645,
+        "traceEvents": [
+            {
+                "id": 0,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814438297965
+            },
+            {
+                "id": 1,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814438297966
+            },
+            {
+                "id": 2,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814438298053
+            },
+            {
+                "id": 3,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439206623
+            },
+            {
+                "id": 4,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439206645
+            },
+            {
+                "id": 5,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439533750
+            },
+            {
+                "id": 6,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439600546
+            },
+            {
+                "id": 7,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439607854
+            },
+            {
+                "id": 8,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814439607926
+            },
+            {
+                "id": 9,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440090059
+            },
+            {
+                "id": 10,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440090089
+            },
+            {
+                "id": 11,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440486142
+            },
+            {
+                "id": 12,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440557451
+            },
+            {
+                "id": 13,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440559768
+            },
+            {
+                "id": 14,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440564515
+            },
+            {
+                "id": 15,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814440564602
+            },
+            {
+                "id": 16,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814441308001
+            },
+            {
+                "id": 17,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814441308029
+            },
+            {
+                "id": 18,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814441733844
+            },
+            {
+                "id": 19,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814441987065
+            },
+            {
+                "id": 20,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814441996002
+            },
+            {
+                "id": 21,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814442000292
+            },
+            {
+                "id": 22,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814442000556
+            },
+            {
+                "id": 23,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814442751104
+            },
+            {
+                "id": 24,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814442751122
+            },
+            {
+                "id": 25,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443217234
+            },
+            {
+                "id": 26,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443278614
+            },
+            {
+                "id": 27,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443281345
+            },
+            {
+                "id": 28,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443281593
+            },
+            {
+                "id": 29,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443281776
+            },
+            {
+                "id": 30,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443281826
+            },
+            {
+                "id": 31,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443676651
+            },
+            {
+                "id": 32,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443733341
+            },
+            {
+                "id": 33,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2720455,
+                "tid": 0,
+                "ts": 1659814443957988
+            }
+        ]
+    },
+    "data_list": [],
+    "test": {
+        "description": "CH: JIT backward pipeline directives",
+        "owner": "joshuab",
+        "timeout": 300,
+        "perf_mode": [
+            "jit"
+        ],
+        "jit": {
+            "test folder": "frontend/jit/torch_rdu/test/python/",
+            "cmd": "python experiments/backward_pipeline_directives.py",
+            "num rdus": 1,
+            "os ready": [
+                "ubuntu"
+            ]
+        },
+        "test list": "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list",
+        "ancestors": [
+            "/scratch/surajk/software/infra/regression_tests/frontend/jit/gate_experiments.list"
+        ],
+        "tags": [],
+        "description_orig": "JIT backward pipeline directives",
+        "arch": "ch"
+    }
+}
