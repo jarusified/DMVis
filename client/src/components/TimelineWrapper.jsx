@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import { Grid, Paper, Typography } from "@material-ui/core";
 import Button from '@mui/material/Button';
+import ToggleButton from '@mui/material/ToggleButton';
 import { makeStyles } from "@material-ui/core/styles";
 import { Timeline } from "vis-timeline";
 import { DataSet } from "vis-data";
@@ -21,13 +22,14 @@ const useStyles = makeStyles((theme) => ({
 
 function TimelineWrapper() {
 	const classes = useStyles();
-
 	const dispatch = useDispatch();
-	const selectedExperiment = useSelector((store) => store.selected_experiment);
 
-	const timeline = useSelector((store) => store.timeline);
-	const startTimestamp = useSelector((store) => store.startTimestamp);
+	const [isStacked, setIsStacked] = useState(false);
+
 	const endTimestamp = useSelector((store) => store.endTimestamp);
+	const selectedExperiment = useSelector((store) => store.selected_experiment);
+	const startTimestamp = useSelector((store) => store.startTimestamp);
+	const timeline = useSelector((store) => store.timeline);
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
@@ -44,13 +46,7 @@ function TimelineWrapper() {
 		// Configuration for the Timeline
 		const options = {
 			autoResize: false,
-			height: '350px',
-			min: startTimestamp,
-			max: endTimestamp,
-			orientation: 'top',
-			moment: function(date) {
-				return moment(date);
-			},
+			
 			format: {
 				minorLabels: function (date, scale, step) {
 					const duration = moment.duration(date.diff(startTimestamp));
@@ -63,6 +59,17 @@ function TimelineWrapper() {
 							return duration.asMinutes() + "min";
 					}
 				}
+			},
+			height: '350px',
+			max: endTimestamp,
+			min: startTimestamp,
+			moment: function (date) {
+				return moment(date);
+			},
+			orientation: 'top',
+			stack: isStacked,
+			style: {
+				backgroundColor: "#f00"
 			}
 		};
 
@@ -72,7 +79,7 @@ function TimelineWrapper() {
 			tx.fit();
 		};
 
-	}, [timeline]);
+	}, [timeline, isStacked]);
 	return (
 		<Paper>
 			<Typography variant="overline" style={{ fontWeight: "bold" }}>
@@ -80,6 +87,9 @@ function TimelineWrapper() {
 			</Typography>
 			<Grid container>
 				<Button id="fit-button" variant="outlined">Fit</Button>
+				<ToggleButton value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
+					Stack
+				</ToggleButton>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>

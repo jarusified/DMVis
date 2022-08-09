@@ -47,6 +47,11 @@ class Timeline():
 
     def post_process(self, events):
         controlled_events = ["already evaluated", "empty tensor"]
+        class_names = {
+            "tracing": "magenta",
+            "runtime": "orange",
+            "compile": "red"
+        }
         indices = [idx for idx, event in enumerate(events) if event["name"] not in controlled_events]
         non_indices =  [idx for idx, event in enumerate(events) if event["name"] in controlled_events]
         
@@ -59,29 +64,31 @@ class Timeline():
             # assert(s["name"] == e["name"])
             _event = {
                 # "args": s["args"],
+                "className": class_names[s["name"]],
                 "content": s["name"],
-                "start": s["ts"]/1000,
                 "end": e["ts"]/1000,
+                "id": event_idx,
+                "start": s["ts"]/1000,
                 "pid": s["pid"],
-                "tid": s["tid"],
-                "id": event_idx
+                "tid": s["tid"]
             }
             event_idx += 1
             
             ret.append(_event)
             
-        # for _idx in non_indices:
-        #     _e = events[_idx]
-        #     _event = {
-        #         "args": _e["args"],
-        #         "content": _e["name"],
-        #         "start": _e["ts"]/1000,
-        #         "end": _e["ts"]/1000,
-        #         "pid": _e["pid"],
-        #         "tid": _e["tid"],
-        #         "id": event_idx
-        #     }
-        #     event_idx += 1
-        #     ret.append(_event)
+        for _idx in non_indices:
+            _e = events[_idx]
+            _event = {
+                "args": _e["args"],
+                "className": class_names[_e["name"]],
+                "content": _e["name"],
+                "end": _e["ts"]/1000,
+                "id": event_idx,
+                "pid": _e["pid"],
+                "start": _e["ts"]/1000,
+                "tid": _e["tid"]
+            }
+            event_idx += 1
+            ret.append(_event)
             
         return ret

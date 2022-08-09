@@ -73,8 +73,8 @@
 }
 
 a {
-  margin: 10%;
-  text-decoration: none;
+	margin: 10%;
+	text-decoration: none;
 }
 
 path {
@@ -82,3 +82,65 @@ path {
 	stroke: gray;
 	stroke-width: 0.5px;
 }
+
+/* alternating column backgrounds */
+.vis-time-axis .vis-grid.vis-odd {
+	background: #f5f5f5;
+}
+
+/* gray background in weekends, white text color */
+.vis-time-axis .vis-grid.vis-saturday,
+.vis-time-axis .vis-grid.vis-sunday {
+	background: gray;
+}
+
+.vis-time-axis .vis-text.vis-saturday,
+.vis-time-axis .vis-text.vis-sunday {
+	color: white;
+}
+
+.vis-item.red {
+	background-color: #8dd3c7;
+	border-color: #25470b;
+	color: white;
+	font-family: monospace;
+	box-shadow: 0 0 10px gray;
+  }
+  .vis-item.vis-dot.red {
+	border-radius: 10px;
+	border-width: 10px;
+  }
+  .vis-item.vis-line.red {
+	border-width: 5px;
+  }
+  .vis-item.vis-box.red {
+	border-radius: 0;
+	border-width: 2px;
+	font-size: 24pt;
+	font-weight: bold;
+  }
+
+  .vis-item.orange {
+	background-color: #ffffb3;
+	border-color: #3d280c;
+  }
+  .vis-item.vis-selected.orange {
+	/* custom colors for selected orange items */
+	background-color: #f1a340;
+	border-color: orangered;
+  }
+
+  .vis-item.magenta {
+	background-color: #bebada;
+	border-color: purple;
+	color: white;
+  }
+
+  /* our custom classes overrule the styles for selected events,
+	 so lets define a new style for the selected events */
+  .vis-item.vis-selected {
+	background-color: white;
+	border-color: black;
+	color: black;
+	box-shadow: 0 0 10px gray;
+  }
