@@ -29,6 +29,7 @@ export default function Reducer(state=initialState, action){
                 ...state,
                 timeline: action.payload.traceEvents,
                 startTimestamp: moment(action.payload.startTimestamp),
+                endTimestamp: moment(action.payload.endTimestamp)
             }
         default:
             return state;

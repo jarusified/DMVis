@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import { Grid, Paper, Typography } from "@material-ui/core";
+import Button from '@mui/material/Button';
 import { makeStyles } from "@material-ui/core/styles";
 import { Timeline } from "vis-timeline";
 import { DataSet } from "vis-data";
@@ -14,7 +15,7 @@ import { fetchTimeline } from "../actions";
 const useStyles = makeStyles((theme) => ({
 	timeline: {
 		width: window.innerWidth - 20,
-		height: 250,
+		height: 350,
 	},
 }));
 
@@ -26,6 +27,8 @@ function TimelineWrapper() {
 
 	const timeline = useSelector((store) => store.timeline);
 	const startTimestamp = useSelector((store) => store.startTimestamp);
+	const endTimestamp = useSelector((store) => store.endTimestamp);
+
 	useEffect(() => {
 		if (selectedExperiment !== "") {
 			dispatch(fetchTimeline(selectedExperiment));
@@ -40,6 +43,11 @@ function TimelineWrapper() {
 
 		// Configuration for the Timeline
 		const options = {
+			autoResize: false,
+			height: '350px',
+			min: startTimestamp,
+			max: endTimestamp,
+			orientation: 'top',
 			moment: function(date) {
 				return moment(date);
 			},
@@ -50,7 +58,7 @@ function TimelineWrapper() {
 						case 'millisecond':
 							return duration.asMilliseconds() + "ms";
 						case 'second':
-							return Math.ceil(duration.asSeconds()) + "s";
+							return Math.floor(duration.asSeconds()) + "s";
 						case 'minute':
 							return duration.asMinutes() + "min";
 					}
@@ -60,6 +68,10 @@ function TimelineWrapper() {
 
 		// Create a Timeline
 		let tx = new Timeline(container, items, options);
+		document.getElementById("fit-button").onclick = function () {
+			tx.fit();
+		};
+
 	}, [timeline]);
 	return (
 		<Paper>
@@ -67,6 +79,7 @@ function TimelineWrapper() {
 				JIT Perf Timeline
 			</Typography>
 			<Grid container>
+				<Button id="fit-button" variant="outlined">Fit</Button>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>

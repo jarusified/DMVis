@@ -29,7 +29,11 @@ class Timeline():
             d = json.load(f)            
             traceEvents = self.post_process(d["data"]["traceEvents"])
             
-        return { "traceEvents": traceEvents, "startTimestamp": d["data"]["traceEvents"][0]["ts"]/1000 }
+        return { 
+            "traceEvents": traceEvents, 
+            "startTimestamp": d["data"]["traceEvents"][0]["ts"]/1000,
+            "endTimestamp": d["data"]["traceEvents"][-1]["ts"]/1000
+        }
 
     def sort_by_event_count(self):
         event_counts_dict = { exp: len(self.timelines[exp]) for exp in self.experiments }
@@ -66,18 +70,18 @@ class Timeline():
             
             ret.append(_event)
             
-        for _idx in non_indices:
-            _e = events[_idx]
-            _event = {
-                "args": _e["args"],
-                "content": _e["name"],
-                "start": _e["ts"]/1000,
-                "end": _e["ts"]/1000,
-                "pid": _e["pid"],
-                "tid": _e["tid"],
-                "id": event_idx
-            }
-            event_idx += 1
-            ret.append(_event)
+        # for _idx in non_indices:
+        #     _e = events[_idx]
+        #     _event = {
+        #         "args": _e["args"],
+        #         "content": _e["name"],
+        #         "start": _e["ts"]/1000,
+        #         "end": _e["ts"]/1000,
+        #         "pid": _e["pid"],
+        #         "tid": _e["tid"],
+        #         "id": event_idx
+        #     }
+        #     event_idx += 1
+        #     ret.append(_event)
             
         return ret
