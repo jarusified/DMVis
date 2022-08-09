@@ -29,8 +29,7 @@ class Timeline():
             d = json.load(f)            
             traceEvents = self.post_process(d["data"]["traceEvents"])
             
-
-        return traceEvents  
+        return { "traceEvents": traceEvents, "startTimestamp": d["data"]["traceEvents"][0]["ts"]/1000 }
 
     def sort_by_event_count(self):
         event_counts_dict = { exp: len(self.timelines[exp]) for exp in self.experiments }
@@ -57,8 +56,8 @@ class Timeline():
             _event = {
                 # "args": s["args"],
                 "content": s["name"],
-                "start": s["ts"],
-                "end": e["ts"],
+                "start": s["ts"]/1000,
+                "end": e["ts"]/1000,
                 "pid": s["pid"],
                 "tid": s["tid"],
                 "id": event_idx
@@ -72,8 +71,8 @@ class Timeline():
             _event = {
                 "args": _e["args"],
                 "content": _e["name"],
-                "start": _e["ts"],
-                "end": _e["ts"],
+                "start": _e["ts"]/1000,
+                "end": _e["ts"]/1000,
                 "pid": _e["pid"],
                 "tid": _e["tid"],
                 "id": event_idx

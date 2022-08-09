@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { 
     FETCH_EXPERIMENTS, 
     FETCH_TIMELINE, 
@@ -26,7 +27,8 @@ export default function Reducer(state=initialState, action){
         case FETCH_TIMELINE:
             return {
                 ...state,
-                timeline: action.payload,
+                timeline: action.payload.traceEvents,
+                startTimestamp: moment(action.payload.startTimestamp),
             }
         default:
             return state;

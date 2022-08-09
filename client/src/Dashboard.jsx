@@ -34,7 +34,7 @@ export default function Dashboard() {
 				<Grid>
 					<Grid container spacing={1} m={1}>
 						<Grid item xs={12}>
-							<JITTimelineWrapper />
+							<TimelineWrapper />
 						</Grid>
 					</Grid>
 				</Grid>

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: "space-between",
 	},
     formControl: {
-		padding: 20,
+		margin: 20,
 		justifyContent: "flex-end",
 		textColor: "white",
 	},
@@ -144,8 +144,7 @@ export default function ToolBar() {
                         Total: {experiments.length} runs
                     </Typography>
                     {experiments.length > 0 ? (
-                        <FormControl className={classes.formControl} size="small">
-                            <InputLabel id="dataset-label">Experiments</InputLabel>
+                        <FormControl className={classes.formControl} size="small" margin="dense">
                             <Select
                                 labelId="dataset-label"
                                 id="dataset-select"
