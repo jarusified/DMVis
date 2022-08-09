@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CssBaseline } from "@mui/material";
 
 import ToolBar from "./components/ToolBar";
-import JITTimelineWrapper from "./components/JITTimelineWrapper"
+import TimelineWrapper from "./components/TimelineWrapper"
 
 const useStyles = makeStyles((theme) => ({
 	root: {
