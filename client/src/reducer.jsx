@@ -8,7 +8,9 @@ import {
 const initialState = {
     experiments: [],
     selected_experiment: '',
-    timeline: {}
+    timeline: {},
+    startTimestamp: 0,
+    endTimestamp: 0
 };
 
 export default function Reducer(state=initialState, action){

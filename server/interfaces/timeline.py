@@ -31,13 +31,13 @@ class Timeline():
             
         return { 
             "traceEvents": traceEvents, 
-            "startTimestamp": d["data"]["traceEvents"][0]["ts"]/1000,
-            "endTimestamp": d["data"]["traceEvents"][-1]["ts"]/1000
+            "startTimestamp": d["data"]["startTimestamp"]/1000,
+            "endTimestamp": d["data"]["endTimestamp"]/1000
         }
 
     def sort_by_event_count(self):
         event_counts_dict = { exp: len(self.timelines[exp]) for exp in self.experiments }
-        return list(dict(sorted(event_counts_dict.items(), key=lambda item: item[1], reverse=False)).keys())
+        return list(dict(sorted(event_counts_dict.items(), key=lambda item: item[1], reverse=True)).keys())
 
     def get_timeline(self, exp):
         """
@@ -48,9 +48,11 @@ class Timeline():
     def post_process(self, events):
         controlled_events = ["already evaluated", "empty tensor"]
         class_names = {
+            "tracing-start": "magenta",
             "tracing": "magenta",
             "runtime": "orange",
-            "compile": "red"
+            "compile": "red",
+            "tracing-end": "magenta"
         }
         indices = [idx for idx, event in enumerate(events) if event["name"] not in controlled_events]
         non_indices =  [idx for idx, event in enumerate(events) if event["name"] in controlled_events]
@@ -80,7 +82,7 @@ class Timeline():
             _e = events[_idx]
             _event = {
                 "args": _e["args"],
-                "className": class_names[_e["name"]],
+                # "className": class_names[_e["name"]],
                 "content": _e["name"],
                 "end": _e["ts"]/1000,
                 "id": event_idx,

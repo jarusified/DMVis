@@ -56,7 +56,7 @@ function TimelineWrapper() {
 						case 'second':
 							return Math.floor(duration.asSeconds()) + "s";
 						case 'minute':
-							return duration.asMinutes() + "min";
+							return Math.floor(duration.asMinutes()) + "min";
 					}
 				}
 			},
@@ -67,10 +67,7 @@ function TimelineWrapper() {
 				return moment(date);
 			},
 			orientation: 'top',
-			stack: isStacked,
-			style: {
-				backgroundColor: "#f00"
-			}
+			stack: isStacked
 		};
 
 		// Create a Timeline

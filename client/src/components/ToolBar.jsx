@@ -150,7 +150,6 @@ export default function ToolBar() {
                                 id="dataset-select"
                                 value={selectedExperiment}
                                 onChange={(e) => {
-									console.log("dispatched");
                                     dispatch(updateSelectedExperiment(e.target.value));
                                 }}
                             >
