@@ -139,8 +139,8 @@ path {
   /* our custom classes overrule the styles for selected events,
 	 so lets define a new style for the selected events */
   .vis-item.vis-selected {
-	background-color: white;
-	border-color: black;
-	color: black;
-	box-shadow: 0 0 10px gray;
+	background-color: #f1a340 !important;
+	border-color: orangered;
+	color: white;
+	box-shadow: 0 0 20xpx gray;
   }

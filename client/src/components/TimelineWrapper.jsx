@@ -46,7 +46,6 @@ function TimelineWrapper() {
 		// Configuration for the Timeline
 		const options = {
 			autoResize: false,
-			
 			format: {
 				minorLabels: function (date, scale, step) {
 					const duration = moment.duration(date.diff(startTimestamp));
@@ -67,11 +66,34 @@ function TimelineWrapper() {
 				return moment(date);
 			},
 			orientation: 'top',
-			stack: isStacked
+			stack: isStacked,
+			tooltip: {
+				followMouse: true,
+				template: function (item, element, data) {
+					return item.content;
+				}
+			}
 		};
 
 		// Create a Timeline
 		let tx = new Timeline(container, items, options);
+
+		document.getElementById('timeline-view').onclick = function (event) {
+			const props = tx.getEventProperties(event)
+
+			switch(props.what) {
+				case 'axis':
+					break
+				case 'background':
+					break
+				case 'current-time':
+					break
+				case 'item':
+					break
+			}
+		}
+
+		// Interactions: Fit the timeline to the screenWidth.
 		document.getElementById("fit-button").onclick = function () {
 			tx.fit();
 		};

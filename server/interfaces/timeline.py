@@ -66,6 +66,7 @@ class Timeline():
             # assert(s["name"] == e["name"])
             _event = {
                 # "args": s["args"],
+                "name": s["name"],
                 "className": class_names[s["name"]],
                 "content": s["name"],
                 "end": e["ts"]/1000,
@@ -82,6 +83,7 @@ class Timeline():
             _e = events[_idx]
             _event = {
                 "args": _e["args"],
+                "name": _e["name"],
                 # "className": class_names[_e["name"]],
                 "content": _e["name"],
                 "end": _e["ts"]/1000,
