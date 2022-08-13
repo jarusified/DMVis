@@ -1,5 +1,6 @@
 import os
 import json
+from utils.time import format_timestamp
 from logger import get_logger
 from datetime import datetime
 
@@ -31,8 +32,8 @@ class Timeline():
             
         return { 
             "traceEvents": traceEvents, 
-            "startTimestamp": d["data"]["startTimestamp"]/1000,
-            "endTimestamp": d["data"]["endTimestamp"]/1000
+            "startTimestamp": format_timestamp(d["data"]["startTimestamp"]),
+            "endTimestamp": format_timestamp(d["data"]["endTimestamp"])
         }
 
     def sort_by_event_count(self):
@@ -69,9 +70,9 @@ class Timeline():
                 "name": s["name"],
                 "className": class_names[s["name"]],
                 "content": s["name"],
-                "end": e["ts"]/1000,
+                "end": format_timestamp(e["ts"]),
                 "id": event_idx,
-                "start": s["ts"]/1000,
+                "start": format_timestamp(s["ts"]),
                 "pid": s["pid"],
                 "tid": s["tid"]
             }
@@ -84,12 +85,12 @@ class Timeline():
             _event = {
                 "args": _e["args"],
                 "name": _e["name"],
+                "type": "point",
                 # "className": class_names[_e["name"]],
-                "content": _e["name"],
-                "end": _e["ts"]/1000,
+                # "content": _e["name"],
                 "id": event_idx,
                 "pid": _e["pid"],
-                "start": _e["ts"]/1000,
+                "start": format_timestamp(_e["ts"]),
                 "tid": _e["tid"]
             }
             event_idx += 1
