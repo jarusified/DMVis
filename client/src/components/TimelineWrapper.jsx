@@ -27,9 +27,10 @@ function TimelineWrapper() {
 	const [isStacked, setIsStacked] = useState(false);
 
 	const endTimestamp = useSelector((store) => store.endTimestamp);
-	const selectedExperiment = useSelector((store) => store.selected_experiment);
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const startTimestamp = useSelector((store) => store.startTimestamp);
-	const timeline = useSelector((store) => store.timeline);
+	const events = useSelector((store) => store.events);
+	const groups = useSelector((store) => store.groups);
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
@@ -41,10 +42,12 @@ function TimelineWrapper() {
 	useEffect(() => {
 		d3.select("#timeline-view").selectAll("*").remove();
 		let container = document.getElementById("timeline-view");
-		let items = new DataSet(timeline);
+
+		let _groups = new DataSet(groups);
+		let _events = new DataSet(events);
 
 		// Configuration for the Timeline
-		const options = {
+		const _options = {
 			autoResize: false,
 			format: {
 				minorLabels: function (date, scale, step) {
@@ -59,7 +62,7 @@ function TimelineWrapper() {
 					}
 				}
 			},
-			height: '350px',
+			height: '300px',
 			max: endTimestamp,
 			min: startTimestamp,
 			moment: function (date) {
@@ -76,7 +79,10 @@ function TimelineWrapper() {
 		};
 
 		// Create a Timeline
-		let tx = new Timeline(container, items, options);
+		let tx = new Timeline(container);
+		tx.setOptions(_options);
+		tx.setItems(_events);
+		tx.setGroups(_groups);
 
 		document.getElementById('timeline-view').onclick = function (event) {
 			const props = tx.getEventProperties(event)
@@ -98,7 +104,7 @@ function TimelineWrapper() {
 			tx.fit();
 		};
 
-	}, [timeline, isStacked]);
+	}, [events, groups, isStacked]);
 	return (
 		<Paper>
 			<Typography variant="overline" style={{ fontWeight: "bold" }}>

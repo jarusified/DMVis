@@ -45,12 +45,13 @@ class Timeline():
         """
         with open(file_path, 'r') as f:
             d = json.load(f)            
-            traceEvents = self.post_process(d["data"]["traceEvents"])
             
         return { 
-            "traceEvents": traceEvents, 
+            "endTimestamp": format_timestamp(d["data"]["endTimestamp"]),
+            "groups": self.get_groups(),
             "startTimestamp": format_timestamp(d["data"]["startTimestamp"]),
-            "endTimestamp": format_timestamp(d["data"]["endTimestamp"])
+            "events": self.get_events(d["data"]["traceEvents"])
+
         }
 
     def sort_by_event_count(self):
@@ -100,9 +101,15 @@ class Timeline():
             "group": self.group_to_event[event["name"]]
         }
 
-    def post_process(self, events):
+    def get_groups(self):
         """
-        
+        Get groups formmated according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
+        """
+        return [ {"id": idx, "content": grp }for idx, grp in enumerate(self.event_to_groups)]
+
+    def get_events(self, events):
+        """
+        Get events formatted according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         """
         indices = [idx for idx, event in enumerate(events) if event["name"] not in self.point_events]
         non_indices = [idx for idx, event in enumerate(events) if event["name"] in self.point_events]
