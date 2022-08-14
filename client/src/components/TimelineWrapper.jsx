@@ -16,7 +16,6 @@ import { fetchTimeline } from "../actions";
 const useStyles = makeStyles((theme) => ({
 	timeline: {
 		width: window.innerWidth - 20,
-		height: 350,
 	},
 }));
 
@@ -62,7 +61,6 @@ function TimelineWrapper() {
 					}
 				}
 			},
-			height: '300px',
 			max: endTimestamp,
 			min: startTimestamp,
 			moment: function (date) {

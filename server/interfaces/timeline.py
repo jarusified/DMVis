@@ -64,6 +64,13 @@ class Timeline():
         """
         return self.timelines[exp] if exp in self.experiments else None
 
+    @staticmethod
+    def _format_event_args(event):
+        if event["name"] == "compile":
+            return str(event["args"]["is cached"])
+        elif event["name"] == "runtime":
+            return "Tensor" + event["args"]["tensor size"]
+
     def _add_range_events(self, start, end, idx):
         """
         Utility to format the range-based events (i.e., with a start and end timestamp). 
@@ -74,7 +81,7 @@ class Timeline():
             "args": start["args"],
             "name": start["name"],
             "className": self.class_names[start["name"]],
-            "content": start["name"],
+            "content": Timeline._format_event_args(start) if start["args"] is not None else "",
             "group": start["name"],
             "end": format_timestamp(end["ts"]),
             "id": idx,
@@ -93,7 +100,7 @@ class Timeline():
             "name": event["name"],
             "type": "point",
             # "className": class_names[_e["name"]],
-            "content": event["name"],
+            # "content": event["name"],
             "id": idx,
             "pid": event["pid"],
             "start": format_timestamp(event["ts"]),
