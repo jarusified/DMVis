@@ -6,11 +6,12 @@ import {
 } from './helpers/types';
 
 const initialState = {
+    endTimestamp: 0,
     experiments: [],
-    selected_experiment: '',
-    timeline: {},
-    startTimestamp: 0,
-    endTimestamp: 0
+    events: [],
+    groups: [],
+    selectedExperiment: '',
+    startTimestamp: 0
 };
 
 export default function Reducer(state=initialState, action){
@@ -19,17 +20,18 @@ export default function Reducer(state=initialState, action){
             return {
                 ...state,
                 experiments: action.payload.experiments,
-                selected_experiment: action.payload.experiments[0],
+                selectedExperiment: action.payload.experiments[0],
             }
         case UPDATE_EXPERIMENT:
             return {
                 ...state,
-                selected_experiment: action.payload,
+                selectedExperiment: action.payload,
             }
         case FETCH_TIMELINE:
             return {
                 ...state,
-                timeline: action.payload.traceEvents,
+                events: action.payload.events,
+                groups: action.payload.groups,
                 startTimestamp: moment(action.payload.startTimestamp),
                 endTimestamp: moment(action.payload.endTimestamp)
             }
