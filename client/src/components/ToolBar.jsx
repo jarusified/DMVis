@@ -107,7 +107,7 @@ export default function ToolBar() {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 	const experiments = useSelector((store) => store.experiments);
-	const selectedExperiment = useSelector((store) => store.selected_experiment);
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const [open, setOpen] = useState(false);
 
 	const handleDrawerOpen = () => {

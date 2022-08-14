@@ -81,7 +81,7 @@ class Timeline():
             "start": format_timestamp(start["ts"]),
             "pid": start["pid"],
             "tid": start["tid"],
-            "group": self.group_to_event[start["name"]]
+            "group": self.group_index[self.group_to_event[start["name"]]]
         }
 
     def _add_point_events(self, event, idx):
@@ -98,14 +98,15 @@ class Timeline():
             "pid": event["pid"],
             "start": format_timestamp(event["ts"]),
             "tid": event["tid"],
-            "group": self.group_to_event[event["name"]]
+            "group": self.group_index[self.group_to_event[event["name"]]]
         }
 
     def get_groups(self):
         """
         Get groups formmated according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         """
-        return [ {"id": idx, "content": grp }for idx, grp in enumerate(self.event_to_groups)]
+        self.group_index = {grp: idx for idx, grp in enumerate(self.event_to_groups)}
+        return [{"id": self.group_index[grp], "content": grp }for idx, grp in enumerate(self.event_to_groups)]
 
     def get_events(self, events):
         """
