@@ -29,6 +29,8 @@ class Timeline():
             "runtime": "orange",
             "compile": "red",
             "tracing-end": "magenta"
+            # "already evaluated": "red",
+            # "empty tensor": "orange"
         }
 
         self.timelines = {exp: self.load_timeline(self.file_paths[exp]) for exp in self.experiments}
@@ -99,7 +101,7 @@ class Timeline():
             "args": event["args"],
             "name": event["name"],
             "type": "point",
-            # "className": class_names[_e["name"]],
+            # "className": self.class_names[event["name"]],
             # "content": event["name"],
             "id": idx,
             "pid": event["pid"],
