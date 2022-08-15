@@ -1,5 +1,6 @@
 import os
 import json
+import numpy as np
 from utils.time import format_timestamp
 from utils.general import remap_dict_of_list
 from logger import get_logger
@@ -10,6 +11,7 @@ class Timeline():
     def __init__(self, data_dir):
         """
         Initializes a Timeline object.
+        # TODO (surajk): Create event_to_idx, group_to_idx. 
         """
         LOGGER.info(f"{type(self).__name__} interface triggered.")
         self.experiments = os.listdir(data_dir)
@@ -23,51 +25,67 @@ class Timeline():
         }
         self.group_to_event = remap_dict_of_list(self.event_to_groups)
         self.point_events = ["already evaluated", "empty tensor"]
-        self.class_names = {
-            "tracing-start": "magenta",
-            "tracing": "magenta",
-            "runtime": "orange",
-            "compile": "red",
-            "tracing-end": "magenta"
-            # "already evaluated": "red",
-            # "empty tensor": "orange"
-        }
 
-        self.timelines = {exp: self.load_timeline(self.file_paths[exp]) for exp in self.experiments}
+        self.timelines = {exp: Timeline.load_timeline(self.file_paths[exp]) for exp in self.experiments}
 
         LOGGER.info(f"Loaded {len(self.timelines)} timelines.")
 
     @staticmethod
-    def clean_address(d):
-        return {k: v for k, v in d.items() if k != 'alloc.address'}
-
-    def load_timeline(self, file_path):
+    def load_timeline(file_path):
         """
         Loads a timeline from a JSON file.
+        TODO (surajk): Add validation for the chrome trace format. 
+        2. Move this to utils
+        3. Don't waste space for invalid files.
         """
         with open(file_path, 'r') as f:
-            d = json.load(f)            
-            
-        return { 
-            "endTimestamp": format_timestamp(d["data"]["endTimestamp"]),
-            "groups": self.get_groups(),
-            "startTimestamp": format_timestamp(d["data"]["startTimestamp"]),
-            "events": self.get_events(d["data"]["traceEvents"])
+            try:
+                d = json.load(f)    
+            except ValueError as e:
+                return None
 
-        }
+        return d
 
+    ################### Exposed APIs ###################
     def sort_by_event_count(self):
         event_counts_dict = { exp: len(self.timelines[exp]) for exp in self.experiments }
         return list(dict(sorted(event_counts_dict.items(), key=lambda item: item[1], reverse=True)).keys())
+
+    def get_summary(self, exp):
+        """
+        Returns the summart for a given experiment.
+        """
+        if exp not in self.experiments:
+            return {}
+
+        d = self.timelines[exp]
+
+        return {
+            "bars": self.get_duration_plot(d["data"]["traceEvents"])
+        }
 
     def get_timeline(self, exp):
         """
         Returns a timeline for a given experiment.
         """
-        return self.timelines[exp] if exp in self.experiments else None
+        if exp not in self.experiments:
+            return {}
 
+        d = self.timelines[exp]
+
+        return { 
+            "endTimestamp": format_timestamp(d["data"]["endTimestamp"]),
+            "groups": self.get_groups(),
+            "startTimestamp": format_timestamp(d["data"]["startTimestamp"]),
+            "events": self.get_events(d["data"]["traceEvents"])
+        }
+
+    ################### Timeline-vis functions ###################
     @staticmethod
     def _format_event_args(event):
+        """
+        Format the args within event which will be produced as HTML content in the frontend.
+        """
         if event["name"] == "compile":
             return str(event["args"]["is cached"])
         elif event["name"] == "runtime":
@@ -76,13 +94,16 @@ class Timeline():
     def _add_range_events(self, start, end, idx):
         """
         Utility to format the range-based events (i.e., with a start and end timestamp). 
+        TODO (surajk): 
+        1. Convert to staticmethod.
+        2. Add documentation for the data.
 
         Format details: 
         """
         return {
             "args": start["args"],
             "name": start["name"],
-            "className": self.class_names[start["name"]],
+            "className": self.group_to_event[start["name"]],
             "content": Timeline._format_event_args(start) if start["args"] is not None else "",
             "group": start["name"],
             "end": format_timestamp(end["ts"]),
@@ -96,12 +117,15 @@ class Timeline():
     def _add_point_events(self, event, idx):
         """
         Utility to format the point-based events (i.e., with a start timestamp).
+        TODO (surajk): 
+        1. Convert to staticmethod.
+        2. Add documentation for the data.
         """
         return {
             "args": event["args"],
             "name": event["name"],
             "type": "point",
-            # "className": self.class_names[event["name"]],
+            # "className": self.group_to_event[event["name"]],
             # "content": event["name"],
             "id": idx,
             "pid": event["pid"],
@@ -113,6 +137,8 @@ class Timeline():
     def get_groups(self):
         """
         Get groups formmated according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
+        TODO (surajk): 
+        1. Convert to staticmethod.
         """
         self.group_index = {grp: idx for idx, grp in enumerate(self.event_to_groups)}
         return [{"id": self.group_index[grp], "content": grp }for idx, grp in enumerate(self.event_to_groups)]
@@ -120,6 +146,8 @@ class Timeline():
     def get_events(self, events):
         """
         Get events formatted according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
+        TODO (surajk): 
+        1. Convert to staticmethod.
         """
         indices = [idx for idx, event in enumerate(events) if event["name"] not in self.point_events]
         non_indices = [idx for idx, event in enumerate(events) if event["name"] in self.point_events]
@@ -140,3 +168,24 @@ class Timeline():
             event_idx += 1
             
         return ret
+
+    ################### Summary-vis functions ###################
+    def get_duration_plot(self, events):
+        """
+        Get the runtimes for the range-based events. 
+        TODO (surajk): Generalize the point- and range-events indexing. 
+        """
+        indices = [idx for idx, event in enumerate(events) if event["name"] not in self.point_events]
+        non_indices = [idx for idx, event in enumerate(events) if event["name"] in self.point_events]
+        
+        bars = []
+        for _idx in range(0, len(indices) - 1, 2):
+            s = events[indices[_idx]]
+            e = events[indices[_idx + 1]]
+            bars.append({"duration": e["ts"] - s["ts"], "name": s["name"]})
+
+        return {
+            "data": bars, 
+            "min": np.min([_b["duration"] for _b in bars]).item(), 
+            "max": np.max([_b["duration"] for _b in bars]).item()
+        }

@@ -106,6 +106,14 @@ class HTTPServer:
             timeline = self.timeline_interface.get_timeline(experiment)
             return jsonify(timeline)
 
+        @app.route("/fetch_summary", methods=["POST"]) 
+        @cross_origin()
+        def fetch_summary():
+            request_context = request.json
+            experiment = request_context["experiment"]
+            summary = self.timeline_interface.get_summary(experiment)
+            return jsonify(summary)
+
         @app.route('/static/<filename>', methods=['GET'])
         def get_json(filename):
             return send_from_directory(STATIC_FOLDER_PATH, filename)

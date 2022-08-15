@@ -99,48 +99,49 @@ path {
 	color: white;
 }
 
-.vis-item.red {
+.vis-item.compile {
 	background-color: #8dd3c7;
-	border-color: #25470b;
+	border-color: #549523;
 	color: white;
-	font-family: monospace;
-	box-shadow: 0 0 10px gray;
-  }
-  .vis-item.vis-dot.red {
+	box-shadow: 0 0 1px #8dd3c7;
+}
+
+.vis-item.vis-dot.compile.runtime.tracing {
 	border-radius: 10px;
 	border-width: 10px;
-  }
-  .vis-item.vis-line.red {
+}
+
+.vis-item.vis-line.compile.runtime.tracing {
 	border-width: 5px;
-  }
-  .vis-item.vis-box.red {
+}
+
+.vis-item.vis-box.compile.runtime.tracing {
 	border-radius: 0;
 	border-width: 2px;
 	font-size: 24pt;
 	font-weight: bold;
-  }
+} 
 
-  .vis-item.orange {
+.vis-item.tracing {
 	background-color: #ffffb3;
-	border-color: #3d280c;
-  }
-  .vis-item.vis-selected.orange {
-	/* custom colors for selected orange items */
-	background-color: #f1a340;
-	border-color: orangered;
-  }
+	border-color: #f1a340;
+}
 
-  .vis-item.magenta {
+.vis-item.runtime {
 	background-color: #bebada;
 	border-color: purple;
 	color: white;
-  }
+}
 
-  /* our custom classes overrule the styles for selected events,
-	 so lets define a new style for the selected events */
-  .vis-item.vis-selected {
+
+.vis-item.vis-selected {
+	background-color: #f1a340;
+	border-color: orangered;
+}
+
+.vis-item.vis-selected {
 	background-color: #f1a340 !important;
 	border-color: orangered;
 	color: white;
 	box-shadow: 0 0 20xpx gray;
-  }
+}

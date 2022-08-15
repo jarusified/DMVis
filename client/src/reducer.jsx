@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { 
     FETCH_EXPERIMENTS, 
+    FETCH_SUMMARY, 
     FETCH_TIMELINE, 
     UPDATE_EXPERIMENT
 } from './helpers/types';
@@ -11,7 +12,12 @@ const initialState = {
     events: [],
     groups: [],
     selectedExperiment: '',
-    startTimestamp: 0
+    startTimestamp: 0,
+    summary: {
+        data: [],
+        min: 0,
+        max: 0
+    }
 };
 
 export default function Reducer(state=initialState, action){
@@ -34,6 +40,11 @@ export default function Reducer(state=initialState, action){
                 groups: action.payload.groups,
                 startTimestamp: moment(action.payload.startTimestamp),
                 endTimestamp: moment(action.payload.endTimestamp)
+            }
+        case FETCH_SUMMARY:
+            return {
+                ...state,
+                summary: action.payload.bars
             }
         default:
             return state;
