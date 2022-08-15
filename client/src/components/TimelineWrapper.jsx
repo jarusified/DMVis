@@ -63,6 +63,8 @@ function TimelineWrapper() {
 			},
 			max: endTimestamp,
 			min: startTimestamp,
+			zoomMin: 1000,
+			zoomMax: 100000,
 			moment: function (date) {
 				return moment(date);
 			},
@@ -106,7 +108,7 @@ function TimelineWrapper() {
 	return (
 		<Paper>
 			<Typography variant="overline" style={{ fontWeight: "bold" }}>
-				JIT Perf Timeline
+				Timeline
 			</Typography>
 			<Grid container>
 				<Button id="fit-button" variant="outlined">Fit</Button>
