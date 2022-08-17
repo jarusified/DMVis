@@ -21,10 +21,10 @@ class Timeline():
         self.event_to_groups = {
             "runtime": ["runtime"],
             "compile": ["compile"],
-            "tracing": ["tracing", "tracing-start", "tracing-end", "already evaluated", "empty tensor"]
+            "tracing": ["tracing", "tracing-start", "tracing-end", "already evaluated", "empty tensor", "Epoch"]
         }
         self.group_to_event = remap_dict_of_list(self.event_to_groups)
-        self.point_events = ["already evaluated", "empty tensor"]
+        self.point_events = ["already evaluated", "empty tensor", "Epoch"]
 
         self.timelines = {exp: Timeline.load_timeline(self.file_paths[exp]) for exp in self.experiments}
 
@@ -86,10 +86,18 @@ class Timeline():
         """
         Format the args within event which will be produced as HTML content in the frontend.
         """
-        if event["name"] == "compile":
-            return str(event["args"]["is cached"])
-        elif event["name"] == "runtime":
-            return "Tensor" + event["args"]["tensor size"]
+        mapper = {
+            'compile': lambda e: str(e["args"]["is cached"]),
+            'runtime':  lambda e: "Tensor" + e["args"]["tensor size"],
+            'Epoch':  lambda e: "Epoch" + str(e["args"]["epoch_id"])
+        }
+
+        print(event["name"])
+
+        if event["args"] is None or event["name"] not in mapper: 
+            return " "
+        
+        return mapper[event["name"]](event)
 
     def _add_range_events(self, start, end, idx):
         """
@@ -104,7 +112,7 @@ class Timeline():
             "args": start["args"],
             "name": start["name"],
             "className": self.group_to_event[start["name"]],
-            "content": Timeline._format_event_args(start) if start["args"] is not None else "",
+            "content": Timeline._format_event_args(start),
             "group": start["name"],
             "end": format_timestamp(end["ts"]),
             "id": idx,
@@ -126,7 +134,7 @@ class Timeline():
             "name": event["name"],
             "type": "point",
             # "className": self.group_to_event[event["name"]],
-            # "content": event["name"],
+            "content": Timeline._format_event_args(event),
             "id": idx,
             "pid": event["pid"],
             "start": format_timestamp(event["ts"]),
