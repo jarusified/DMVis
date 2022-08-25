@@ -95,7 +95,7 @@ class HTTPServer:
         @app.route("/fetch_experiments", methods=["GET"])
         @cross_origin()
         def fetch_experiments():
-            sorted_experiments = self.timeline_interface.sort_by_event_count()
+            sorted_experiments = self.timeline_interface.sort_by_date()
             return jsonify(experiments=sorted_experiments)
 
         @app.route("/fetch_timeline", methods=["POST"])

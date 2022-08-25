@@ -104,6 +104,10 @@ function TimelineWrapper() {
 			tx.fit();
 		};
 
+		tx.on('click', function (props) {
+			console.log(props);
+		});
+
 	}, [events, groups, isStacked]);
 	return (
 		<Paper>

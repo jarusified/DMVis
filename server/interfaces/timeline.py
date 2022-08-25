@@ -18,15 +18,32 @@ class Timeline():
 
         self.file_paths = {exp: os.path.join(os.path.abspath(data_dir), exp) for exp in self.experiments}
 
+        self.event_to_types = {
+            "point": [],
+            "range": ["runtime", "compile", "tracing"],
+            "background": ["Epoch"]
+        }
+        self.type_to_event = remap_dict_of_list(self.event_to_types)
+
         self.event_to_groups = {
             "runtime": ["runtime"],
             "compile": ["compile"],
-            "tracing": ["tracing", "tracing-start", "tracing-end", "already evaluated", "empty tensor", "Epoch"]
+            "tracing": ["tracing"],
+            "Epoch": ["Epoch"]
         }
         self.group_to_event = remap_dict_of_list(self.event_to_groups)
-        self.point_events = ["already evaluated", "empty tensor", "Epoch"]
 
-        self.timelines = {exp: Timeline.load_timeline(self.file_paths[exp]) for exp in self.experiments}
+        self.event_to_classes = {
+            "runtime": "runtime",
+            "compile": "compile",
+            "tracing": "tracing",
+            "Epoch": ["positive", "negative"]
+        }
+        self.range_events = ["runtime", "compile", "tracing"]
+        self.point_events = []
+        self.background_events = ["Epoch"]
+
+        self.timelines = {exp: Timeline.load_timeline(self.file_paths[exp]) for exp in self.experiments}       
 
         LOGGER.info(f"Loaded {len(self.timelines)} timelines.")
 
@@ -49,6 +66,10 @@ class Timeline():
     ################### Exposed APIs ###################
     def sort_by_event_count(self):
         event_counts_dict = { exp: len(self.timelines[exp]) for exp in self.experiments }
+        return list(dict(sorted(event_counts_dict.items(), key=lambda item: item[1], reverse=True)).keys())
+
+    def sort_by_date(self):
+        event_counts_dict = { exp: self.timelines[exp]["data"]["startTimestamp"] for exp in self.experiments }
         return list(dict(sorted(event_counts_dict.items(), key=lambda item: item[1], reverse=True)).keys())
 
     def get_summary(self, exp):
@@ -88,11 +109,9 @@ class Timeline():
         """
         mapper = {
             'compile': lambda e: str(e["args"]["is cached"]),
-            'runtime':  lambda e: "Tensor" + e["args"]["tensor size"],
-            'Epoch':  lambda e: "Epoch" + str(e["args"]["epoch_id"])
+            'runtime':  lambda e: "Tensor " + e["args"]["tensor size"],
+            'Epoch':  lambda e: "epoch "  + str(e["args"]["epoch_id"])
         }
-
-        print(event["name"])
 
         if event["args"] is None or event["name"] not in mapper: 
             return " "
@@ -101,45 +120,64 @@ class Timeline():
 
     def _add_range_events(self, start, end, idx):
         """
-        Utility to format the range-based events (i.e., with a start and end timestamp). 
+        Utility to format the range events (i.e., with a start and end timestamp). 
         TODO (surajk): 
         1. Convert to staticmethod.
         2. Add documentation for the data.
+        3. Combine the logic for the events - range, point and background.
 
         Format details: 
         """
         return {
             "args": start["args"],
-            "name": start["name"],
-            "className": self.group_to_event[start["name"]],
+            "className": self.event_to_classes[start["name"]],
             "content": Timeline._format_event_args(start),
-            "group": start["name"],
             "end": format_timestamp(end["ts"]),
+            "group": self.group_index[self.group_to_event[start["name"]]],
             "id": idx,
+            "name": start["name"],
             "start": format_timestamp(start["ts"]),
             "pid": start["pid"],
             "tid": start["tid"],
-            "group": self.group_index[self.group_to_event[start["name"]]]
+            "type": self.type_to_event[start["name"]]
         }
 
     def _add_point_events(self, event, idx):
         """
-        Utility to format the point-based events (i.e., with a start timestamp).
+        Utility to format the point events (i.e., with a start timestamp).
         TODO (surajk): 
         1. Convert to staticmethod.
         2. Add documentation for the data.
         """
         return {
             "args": event["args"],
-            "name": event["name"],
-            "type": "point",
             # "className": self.group_to_event[event["name"]],
             "content": Timeline._format_event_args(event),
+            "group": self.group_index[self.group_to_event[event["name"]]],
             "id": idx,
+            "name": event["name"],
             "pid": event["pid"],
             "start": format_timestamp(event["ts"]),
             "tid": event["tid"],
-            "group": self.group_index[self.group_to_event[event["name"]]]
+            "type": self.type_to_event[event["name"]]
+        }
+
+    def _add_background_events(self, start, end, idx):
+        """
+        Utility to format the background events (i.e., with a start timestamp).
+        """
+        return {
+            "args": start["args"],
+            "className": self.event_to_classes[start["name"]][start["args"]["epoch_id"] % 2],
+            "content": Timeline._format_event_args(start),
+            "end": format_timestamp(end["ts"]),
+            "group": self.group_index[self.group_to_event[start["name"]]],
+            "id": idx,
+            "name": start["name"],
+            "pid": start["pid"],
+            "start": format_timestamp(start["ts"]),
+            "tid": start["tid"],
+            "type": self.type_to_event[start["name"]]
         }
 
     def get_groups(self):
@@ -157,24 +195,35 @@ class Timeline():
         TODO (surajk): 
         1. Convert to staticmethod.
         """
-        indices = [idx for idx, event in enumerate(events) if event["name"] not in self.point_events]
-        non_indices = [idx for idx, event in enumerate(events) if event["name"] in self.point_events]
-        
         ret = []
         event_idx = 0
-        for _idx in range(0, len(indices) - 1, 2):
-            s = events[indices[_idx]]
-            e = events[indices[_idx + 1]]
+
+        # Add range-based events.
+        range_event_indices = [idx for idx, event in enumerate(events) if event["name"] in self.event_to_types["range"]]
+        for _idx in range(0, len(range_event_indices) - 1, 2):
+            s = events[range_event_indices[_idx]]
+            e = events[range_event_indices[_idx + 1]]
             _event = self._add_range_events(s, e, event_idx)
             ret.append(_event)
             event_idx += 1
 
-        for _idx in non_indices:
-            _e = events[_idx]
+        # Add point-based events.
+        point_event_indices = [idx for idx, event in enumerate(events) if event["name"] in self.event_to_types["point"]]
+        for _idx in point_event_indices:
+            _e = events[point_event_indices[_idx]]
             _event = self._add_point_events(_e, event_idx)
             ret.append(_event)
             event_idx += 1
-            
+        
+        # Add background events
+        background_event_indices = [idx for idx, event in enumerate(events) if event["name"] in self.event_to_types["background"]]
+        for _idx in range(0, len(background_event_indices) - 1, 2):
+            _s = events[background_event_indices[_idx]]
+            _e = events[background_event_indices[_idx + 1]]
+            _event = self._add_background_events(_s, _e, event_idx)
+            ret.append(_event)
+            event_idx += 1
+        
         return ret
 
     ################### Summary-vis functions ###################
@@ -183,13 +232,13 @@ class Timeline():
         Get the runtimes for the range-based events. 
         TODO (surajk): Generalize the point- and range-events indexing. 
         """
-        indices = [idx for idx, event in enumerate(events) if event["name"] not in self.point_events]
-        non_indices = [idx for idx, event in enumerate(events) if event["name"] in self.point_events]
+        range_event_indices = [idx for idx, event in enumerate(events) if event["name"] in self.event_to_types["range"]]
+        # point_event_indices = [idx for idx, event in enumerate(events) if event["name"] in self.event_to_types["point"]]
         
         bars = []
-        for _idx in range(0, len(indices) - 1, 2):
-            s = events[indices[_idx]]
-            e = events[indices[_idx + 1]]
+        for _idx in range(0, len(range_event_indices) - 1, 2):
+            s = events[range_event_indices[_idx]]
+            e = events[range_event_indices[_idx + 1]]
             bars.append({"duration": e["ts"] - s["ts"], "name": s["name"]})
 
         return {

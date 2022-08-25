@@ -88,15 +88,14 @@ path {
 	background: #f5f5f5;
 }
 
-/* gray background in weekends, white text color */
-.vis-time-axis .vis-grid.vis-saturday,
-.vis-time-axis .vis-grid.vis-sunday {
-	background: gray;
+.vis-item.vis-background.negative {
+	background-color: #deebf7;
 }
-
-.vis-time-axis .vis-text.vis-saturday,
-.vis-time-axis .vis-text.vis-sunday {
-	color: white;
+.vis-item.vis-background.positive {
+	background-color: #9ecae1;
+}
+.vis-item.vis-background.marker {
+	border-left: 2px solid green;
 }
 
 .vis-item.compile {
@@ -107,8 +106,8 @@ path {
 }
 
 .vis-item.vis-dot.compile.runtime.tracing {
-	border-radius: 10px;
-	border-width: 10px;
+	border-radius: 5px;
+	border-width: 5px;
 }
 
 .vis-item.vis-line.compile.runtime.tracing {
