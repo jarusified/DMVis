@@ -36,8 +36,15 @@ class ArgParser:
         Parse the input arguments.
         """
         parser = argparse.ArgumentParser(prefix_chars="--")
-        parser.add_argument('--http', help="Server mode -- Spawns a http server on specified port", type=int, required=False)
-        parser.add_argument('--data_dir', help='Data directory path', type=str, required=True)
+        parser.add_argument(
+            "--http",
+            help="Server mode -- Spawns a http server on specified port",
+            type=int,
+            required=False,
+        )
+        parser.add_argument(
+            "--data_dir", help="Data directory path", type=str, required=True
+        )
         return parser
 
     def _verify_parser(self):
@@ -57,8 +64,8 @@ class ArgParser:
         _has_data_dir = self.args["data_dir"] is not None
 
         if not _has_data_dir:
-            LOGGER.error(f'Option --data_dir not provided.')
+            LOGGER.error(f"Option --data_dir not provided.")
             self.parser.print_help()
             exit(1)
-        
-        return 
+
+        return

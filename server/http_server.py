@@ -14,11 +14,12 @@ LOGGER = get_logger(__name__)
 
 
 # Create a Flask server.
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_url_path="/static")
 
 # Enable CORS
 cors = CORS(app, automatic_options=True)
 app.config["CORS_HEADERS"] = "Content-Type"
+
 
 class HTTPServer:
     """
@@ -27,9 +28,9 @@ class HTTPServer:
 
     def __init__(self, args):
         LOGGER.info(f"{type(self).__name__} mode enabled.")
-        self.data_dir = os.path.abspath(args.args['data_dir'])
-        
-        # Check if the directory exists. 
+        self.data_dir = os.path.abspath(args.args["data_dir"])
+
+        # Check if the directory exists.
         HTTPServer._check_data_dir_exists(self.data_dir)
 
         self.experiments = os.listdir(self.data_dir)
@@ -40,16 +41,15 @@ class HTTPServer:
     def _check_data_dir_exists(data_dir):
         """
         Internal method to check if the data_dir exists. If not, raise an
-        exception and exit the program. 
+        exception and exit the program.
         """
         _is_dir = os.path.exists(data_dir)
 
-        if(not _is_dir):
-            message = f'It looks like {data_dir} has not been created. Please run `python main.py` with --cmd option'
+        if not _is_dir:
+            message = f"It looks like {data_dir} has not been created. Please run `python main.py` with --cmd option"
             LOGGER.error(message)
-            exit(1) 
+            exit(1)
 
-    
     def load(self) -> None:
         self.timeline_interface = Timeline(data_dir=self.data_dir)
 
@@ -106,7 +106,7 @@ class HTTPServer:
             timeline = self.timeline_interface.get_timeline(experiment)
             return jsonify(timeline)
 
-        @app.route("/fetch_summary", methods=["POST"]) 
+        @app.route("/fetch_summary", methods=["POST"])
         @cross_origin()
         def fetch_summary():
             request_context = request.json
@@ -114,6 +114,6 @@ class HTTPServer:
             summary = self.timeline_interface.get_summary(experiment)
             return jsonify(summary)
 
-        @app.route('/static/<filename>', methods=['GET'])
+        @app.route("/static/<filename>", methods=["GET"])
         def get_json(filename):
             return send_from_directory(STATIC_FOLDER_PATH, filename)

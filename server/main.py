@@ -13,6 +13,7 @@ APP_VERSION = "0.0.1.beta"
 
 LOGGER = get_logger(__name__)
 
+
 def main():
     """
     Entry point.
@@ -32,6 +33,7 @@ def main():
     wip = HTTPServer(args)
     wip.load()
     wip.start(host=APP_HOST, port=APP_PORT)
+
 
 if __name__ == "__main__":
     main()
