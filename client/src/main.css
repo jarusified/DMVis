@@ -91,7 +91,7 @@ path {
 .vis-item.vis-background.negative {
 	background-color: #deebf7;
 }
-.vis-item.vis-background.positive {
+.vis-item.vis-background.epoch {
 	background-color: #9ecae1;
 }
 .vis-item.vis-background.marker {
