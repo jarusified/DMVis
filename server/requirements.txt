@@ -1,7 +1,4 @@
-jsonschema
-networkx
 numpy
-pandas
 Flask-Cors
 psutil
 colorlog
