@@ -1,14 +1,13 @@
 import { FETCH_EXPERIMENTS, FETCH_SUMMARY, FETCH_TIMELINE, UPDATE_EXPERIMENT } from "./helpers/types";
-import { SERVER_URL } from "./helpers/utils";
-
+const SERVER_URL = "http://localhost:5000";
 async function POSTWrapper(url_path, json_data) {
-	const request_context = {
-		// credentials: 'include',
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(json_data),
+  const request_context = {
+    // credentials: 'include',
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(json_data),
     mode: 'cors'
-	};
+  };
 
   const response = await fetch(`${SERVER_URL}/${url_path}`, request_context);
   const data = await response.json();
@@ -16,12 +15,12 @@ async function POSTWrapper(url_path, json_data) {
 }
 
 async function GETWrapper(url_path) {
-	const request_context = {
-		// credentials: 'include',
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
+  const request_context = {
+    // credentials: 'include',
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
     mode: 'cors'
-	};
+  };
 
   const response = await fetch(`${SERVER_URL}/${url_path}`, request_context);
   const data = await response.json();
@@ -37,7 +36,7 @@ export const fetchExperiments = () => async (dispatch) => {
 };
 
 export const fetchSummary = (experiment_tag) => async (dispatch) => {
-  const data = await POSTWrapper("fetch_summary", {experiment: experiment_tag});
+  const data = await POSTWrapper("fetch_summary", { experiment: experiment_tag });
   dispatch({
     type: FETCH_SUMMARY,
     payload: data,
@@ -45,7 +44,7 @@ export const fetchSummary = (experiment_tag) => async (dispatch) => {
 };
 
 export const fetchTimeline = (experiment_tag) => async (dispatch) => {
-  const data = await POSTWrapper("fetch_timeline", {experiment: experiment_tag});
+  const data = await POSTWrapper("fetch_timeline", { experiment: experiment_tag });
   dispatch({
     type: FETCH_TIMELINE,
     payload: data,
@@ -53,9 +52,9 @@ export const fetchTimeline = (experiment_tag) => async (dispatch) => {
 };
 
 export const updateSelectedExperiment = (exp) => (dispatch) => {
-	return dispatch({
-		type: UPDATE_EXPERIMENT,
-		payload: exp,
-	});
+  return dispatch({
+    type: UPDATE_EXPERIMENT,
+    payload: exp,
+  });
 };
 
