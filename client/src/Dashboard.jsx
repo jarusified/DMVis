@@ -35,10 +35,10 @@ export default function Dashboard() {
 				<Grid>
 					<Grid container spacing={1} m={1}>
 						<Grid item xs={12}>
-							<SummaryTimelineWrapper />
+							<TimelineWrapper />
 						</Grid>
 						<Grid item xs={12}>
-							<TimelineWrapper />
+							<SummaryTimelineWrapper />
 						</Grid>
 					</Grid>
 				</Grid>

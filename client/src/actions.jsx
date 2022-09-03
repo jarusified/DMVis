@@ -1,5 +1,6 @@
-import { FETCH_EXPERIMENTS, FETCH_SUMMARY, FETCH_TIMELINE, UPDATE_EXPERIMENT } from "./helpers/types";
-const SERVER_URL = "http://localhost:5000";
+import { FETCH_EXPERIMENTS, FETCH_SUMMARY, FETCH_TIMELINE, FETCH_METADATA } from "./helpers/types";
+import { SERVER_URL } from "./helpers/utils";
+
 async function POSTWrapper(url_path, json_data) {
   const request_context = {
     // credentials: 'include',
@@ -43,18 +44,19 @@ export const fetchSummary = (experiment_tag) => async (dispatch) => {
   });
 };
 
-export const fetchTimeline = (experiment_tag) => async (dispatch) => {
-  const data = await POSTWrapper("fetch_timeline", { experiment: experiment_tag });
+export const fetchTimeline = (window_start, window_end) => async (dispatch) => {
+  const data = await POSTWrapper("fetch_timeline", { window_start: window_start, window_end: window_end });
   dispatch({
     type: FETCH_TIMELINE,
     payload: data,
   });
 };
 
-export const updateSelectedExperiment = (exp) => (dispatch) => {
-  return dispatch({
-    type: UPDATE_EXPERIMENT,
-    payload: exp,
+export const fetchMetadata = (exp) => async (dispatch) => {
+  const metadata = await POSTWrapper("set_experiment", { experiment: exp });
+  dispatch({
+    type: FETCH_METADATA,
+    payload: metadata,
   });
 };
 

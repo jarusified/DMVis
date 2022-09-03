@@ -1,5 +1,5 @@
 import argparse
-from logger import get_logger
+from utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 

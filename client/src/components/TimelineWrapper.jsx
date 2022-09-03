@@ -25,23 +25,23 @@ function TimelineWrapper() {
 
 	const [isStacked, setIsStacked] = useState(false);
 
-	const endTimestamp = useSelector((store) => store.endTimestamp);
+	const currentTimeline = useSelector((store) => store.currentTimeline);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-	const startTimestamp = useSelector((store) => store.startTimestamp);
-	const events = useSelector((store) => store.events);
-	const groups = useSelector((store) => store.groups);
+	const timelineEnd = useSelector((store) => store.timelineEnd);
+	const timelineStart = useSelector((store) => store.timelineStart);
 
 	useEffect(() => {
-		if (selectedExperiment !== "") {
-			dispatch(fetchTimeline(selectedExperiment));
+		if (selectedExperiment !== "" && timelineStart != 0 && timelineEnd != 0) {
+			dispatch(fetchTimeline(timelineStart, timelineStart));
 		}
-	}, [selectedExperiment]);
+	}, [selectedExperiment, timelineStart, timelineEnd]);
 
 
 	useEffect(() => {
 		d3.select("#timeline-view").selectAll("*").remove();
 		let container = document.getElementById("timeline-view");
 
+		const { end_ts, events, groups, start_ts } = currentTimeline
 		let _groups = new DataSet(groups);
 		let _events = new DataSet(events);
 
@@ -50,7 +50,7 @@ function TimelineWrapper() {
 			autoResize: false,
 			format: {
 				minorLabels: function (date, scale, step) {
-					const duration = moment.duration(date.diff(startTimestamp));
+					const duration = moment.duration(date.diff(timelineStart));
 					switch (scale) {
 						case 'millisecond':
 							return duration.asMilliseconds() + "ms";
@@ -61,8 +61,8 @@ function TimelineWrapper() {
 					}
 				}
 			},
-			max: endTimestamp,
-			min: startTimestamp,
+			max: timelineEnd,
+			min: timelineStart,
 			zoomMin: 1000,
 			zoomMax: 100000,
 			moment: function (date) {
@@ -87,7 +87,7 @@ function TimelineWrapper() {
 		document.getElementById('timeline-view').onclick = function (event) {
 			const props = tx.getEventProperties(event)
 
-			switch(props.what) {
+			switch (props.what) {
 				case 'axis':
 					break
 				case 'background':
@@ -108,7 +108,7 @@ function TimelineWrapper() {
 			console.log(props);
 		});
 
-	}, [events, groups, isStacked]);
+	}, [currentTimeline, isStacked]);
 	return (
 		<Paper>
 			<Typography variant="overline" style={{ fontWeight: "bold" }}>

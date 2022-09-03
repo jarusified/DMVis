@@ -38,7 +38,7 @@ const theme = createTheme({
 
 function App() {
 	useEffect(() => {
-		document.title = "JIT Performance Visualization";
+		document.title = "JIT Profiler Visualization";
 	}, []);
 	return (
 		<Provider store={store}>

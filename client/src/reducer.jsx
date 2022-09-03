@@ -1,26 +1,34 @@
 import moment from 'moment';
-import { 
-    FETCH_EXPERIMENTS, 
-    FETCH_SUMMARY, 
-    FETCH_TIMELINE, 
-    UPDATE_EXPERIMENT
+import {
+    FETCH_EXPERIMENTS,
+    FETCH_METADATA,
+    FETCH_SUMMARY,
+    FETCH_TIMELINE
 } from './helpers/types';
 
 const initialState = {
-    endTimestamp: 0,
+    currentTimeline: {
+        end_ts: 0,
+        events: [],
+        groups: [],
+        start_ts: 0
+    },
     experiments: [],
     events: [],
     groups: [],
     selectedExperiment: '',
-    startTimestamp: 0,
     summary: {
         data: [],
-        min: 0,
-        max: 0
-    }
+        groups: 0,
+        samples: 0,
+        ts_width: 0,
+        window: 0
+    },
+    timelineEnd: 0,
+    timelineStart: 0
 };
 
-export default function Reducer(state=initialState, action){
+export default function Reducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_EXPERIMENTS:
             return {
@@ -28,23 +36,22 @@ export default function Reducer(state=initialState, action){
                 experiments: action.payload.experiments,
                 selectedExperiment: action.payload.experiments[0],
             }
-        case UPDATE_EXPERIMENT:
+        case FETCH_METADATA:
             return {
                 ...state,
-                selectedExperiment: action.payload,
+                selectedExperiment: action.payload.selectedExperiment,
+                timelineStart: action.payload.timelineStart,
+                timelineEnd: action.payload.timelineEnd
             }
         case FETCH_TIMELINE:
             return {
                 ...state,
-                events: action.payload.events,
-                groups: action.payload.groups,
-                startTimestamp: moment(action.payload.startTimestamp),
-                endTimestamp: moment(action.payload.endTimestamp)
+                currentTimeline: action.payload,
             }
         case FETCH_SUMMARY:
             return {
                 ...state,
-                summary: action.payload.bars
+                summary: action.payload
             }
         default:
             return state;

@@ -4,8 +4,8 @@ import warnings
 from flask import Flask, json, jsonify, request, send_from_directory
 from flask_cors import CORS, cross_origin
 
-from logger import get_logger
-from interfaces import Timeline
+from utils.logger import get_logger
+from interfaces import Datasets
 
 # Globals
 FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -52,7 +52,8 @@ class HTTPServer:
             exit(1)
 
     def load(self) -> None:
-        self.timeline_interface = Timeline(data_dir=self.data_dir)
+        self.profiles = Datasets(data_dir=self.data_dir)
+        self.timeline = None
 
     def start(self, host: str, port: int) -> None:
         """
@@ -96,24 +97,38 @@ class HTTPServer:
         @app.route("/fetch_experiments", methods=["GET"])
         @cross_origin()
         def fetch_experiments():
-            sorted_experiments = self.timeline_interface.sort_by_date()
+            sorted_experiments = self.profiles.sort_by_date()
             return jsonify(experiments=sorted_experiments)
+
+        @app.route("/set_experiment", methods=["POST"])
+        @cross_origin()
+        def set_experiment():
+            request_context = request.json
+            experiment = request_context["experiment"]
+            self.timeline = self.profiles.get_profile(experiment)
+            metadata = self.timeline.get_metadata(experiment)
+            return jsonify(metadata)
 
         @app.route("/fetch_timeline", methods=["POST"])
         @cross_origin()
         def fetch_timeline():
-            request_context = request.json
-            experiment = request_context["experiment"]
-            timeline = self.timeline_interface.get_timeline(experiment)
-            return jsonify(timeline)
+            if self.timeline is not None:
+                request_context = request.json
+                window_start = request_context["window_start"]
+                window_end = request_context["window_end"]
+                timeline = self.timeline.get_timeline(window_start, window_end)
+                return jsonify(timeline)
+            else:
+                return jsonify({})
 
         @app.route("/fetch_summary", methods=["POST"])
         @cross_origin()
         def fetch_summary():
-            request_context = request.json
-            experiment = request_context["experiment"]
-            summary = self.timeline_interface.get_summary(experiment)
-            return jsonify(summary)
+            if self.timeline is not None:
+                summary = self.timeline.get_summary()
+                return jsonify(summary)
+            else:
+                return jsonify({})
 
         @app.route("/static/<filename>", methods=["GET"])
         def get_json(filename):

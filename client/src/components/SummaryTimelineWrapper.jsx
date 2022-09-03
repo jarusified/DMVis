@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { fetchSummary } from "../actions";
+import { fetchSummary, fetchTimeline } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
     summary: {
@@ -18,6 +18,8 @@ function SummaryTimelineWrapper() {
     const dispatch = useDispatch();
 
     const selectedExperiment = useSelector((store) => store.selectedExperiment);
+    const timelineEnd = useSelector((store) => store.timelineEnd);
+    const timelineStart = useSelector((store) => store.timelineStart);
     const summary = useSelector((store) => store.summary);
 
     useEffect(() => {
@@ -26,91 +28,137 @@ function SummaryTimelineWrapper() {
         }
     }, [selectedExperiment]);
 
-    const margin = { top: 0, right: 0, bottom: 10, left: 40 };
+    const margin = { top: 30, right: 10, bottom: 10, left: 40 };
     const width = window.innerWidth - margin.left - margin.right;
-    const height = 150 - margin.top - margin.bottom;
+    const height = 150 - margin.bottom - margin.top;
     // TODO: Move this to a common .css
     const colors = {
         "compile": "#8dd3c7",
         "runtime": "#bebada",
-        "tracing": "#ffffb3"
+        "tracing": "#f1a340"
     }
 
     useEffect(() => {
         d3.select("#summary-view").selectAll("*").remove();
 
         const bars = summary.data;
-        const min = summary.min;
-        const max = summary.max;
-        if (bars.length > 0) {
-            let x = d3.scaleLinear().domain([0, bars.length]).range([0, width]);
-            let y = d3.scaleLinear().domain([0, max]).range([height, 0]);
+        const groups = summary.groups;
+        const samples = summary.samples;
+        const ts_width = summary.ts_width;
+        const start_ts = summary.start_ts;
+        const end_ts = summary.end_ts;
+        const window = summary.window;
+
+        if (Object.keys(bars).length > 0) {
+            let x = d3.scaleBand().domain(samples).range([0, width - margin.right]).padding(0.05);
+            let y = d3.scaleLinear().domain([0, 100]).range([height - margin.bottom, 0]);
+
+            function millisToMinutesAndSeconds(millis) {
+                const seconds = ((millis - start_ts) / 1000).toFixed(0);
+                return seconds + 's';
+            }
 
             let xAxis = d3.axisBottom()
                 .scale(x)
                 .ticks(10)
-                .tickFormat((d) => {
-                    if (d == 0) { return ""};
-                    if (bars.length < 1000) {
-                        return d;
-                    }
-                    else {
-                        return d/1000.0 + "k";
-                    }
-                })
+                .tickFormat((d) => millisToMinutesAndSeconds(d));
 
             let yAxis = d3.axisLeft()
                 .scale(y)
-                .ticks(10)
-                .tickFormat((d) => {
-                    if(d == 0) { return ""; }
-                    return d/1000000.0 + "s";
-                })
+                .ticks(3)
+                .tickFormat((d) => d);
+
+            // Brush interaction
+            let brushExtent;
+            let brush = d3.brushX()
+                .on('start brush', handleBrush);
+
+            function handleBrush(e) {
+                brushExtent = e.selection;
+                update();
+            }
+
+            function _extent_to_timestamp(brushExtent) {
+                /*
+                Convert brush extent to timestamp.
+                */
+                const factor = (end_ts - start_ts) / width;
+                return [factor * brushExtent[0], factor * brushExtent[1]]
+            }
+
+            function update() {
+                let _ts = _extent_to_timestamp(brushExtent);
+                dispatch(fetchTimeline(start_ts + _ts[0], start_ts + _ts[1]));
+
+                d3.selectAll("rect")
+                    .style('fill', function (d) {
+                        let inBrushExtent = brushExtent &&
+                            d.ts >= _ts[0] &&
+                            d.ts <= _ts[1];
+
+                        return inBrushExtent ? 'red' : colors[d["name"]];
+                    });
+            }
 
             let svg = d3.select("#summary-view").append("svg")
-                .attr("width", width)
-                .attr("height", height)
+                .attr("width", width + margin.left)
+                .attr("height", height + margin.top)
                 .append("g")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
             svg.append("g")
                 .attr("class", "x axis")
-                .attr("transform", "translate(0," + 0 + ")")
+                .attr("transform", "translate(0," + -30 + ")")
                 .call(xAxis)
                 .selectAll("text")
                 .style("text-anchor", "end")
-                .attr("dx", "-.8em")
-                .attr("dy", "-0.5em")
-                .attr("transform", "rotate(-90)");
+                .attr("dx", ".8em");
 
             svg.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
                 .append("text")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 6)
+                .attr("y", 0)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Value ($)");
 
-            let barWidth = 5;
+            // Stacked bar chart
+            const color = d3.scaleOrdinal().domain(groups).range(['#bebada', '#8dd3c7', '#ffffb3', '#deebf7'])
+            const stackedData = d3.stack().keys(groups)(bars)
 
-            svg.selectAll("bar")
-                .data(bars)
+            function to_perc(val, width) {
+                return (val / width) * 100
+            }
+
+            const stacked = svg.append("g")
+                .attr("class", "stacked_bar_chart")
+                .selectAll("g")
+
+            stacked
+                .data(stackedData)
+                .enter().append("g")
+                .attr("fill", function (d) { return color(d.key); })
+                .selectAll("rect")
+                .data(function (d) { return d; })
                 .enter().append("rect")
-                .style("fill", (d) => colors[d["name"]])
-                .attr("x", function (d, i) { return x(i); })
-                .attr("width", barWidth)
-                .attr("y", function (d) {return y(d["duration"]); })
-                .attr("height", function (d) { return height - y(d["duration"]); });
+                .attr("x", function (d) { return x(d.data.ts); })
+                .attr("y", function (d) { return y(to_perc(d[1], ts_width)); })
+                .attr("height", function (d) { return y(to_perc(d[0], ts_width)) - y(to_perc(d[1], ts_width)) })
+                .attr("width", x.bandwidth())
+
+            var closest = samples.reduce(function (prev, curr) {
+                return (Math.abs(curr - (start_ts + window)) < Math.abs(prev - (start_ts + window)) ? curr : prev);
+            });
+
+            svg
+                .call(brush)
+                .call(brush.move, [0, x(closest)])
         }
     }, [summary]);
     return (
         <Paper>
-            <Typography variant="overline" style={{ fontWeight: "bold" }}>
-                Summary
-            </Typography>
             <Grid container>
                 <Grid item>
                     <div id="summary-view"></div>

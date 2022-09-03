@@ -1,14 +1,14 @@
 import os
 import sys
 
-from logger import init_logger, get_logger
+from utils.logger import init_logger, get_logger
 from argparser import ArgParser
 from http_server import HTTPServer
 
 
 APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
 APP_PORT = int(os.getenv("APP_PORT", 5000))
-APP_NAME = "JIT Performance Visualization"
+APP_NAME = "JIT Profiler Visualization"
 APP_VERSION = "0.0.1.beta"
 
 LOGGER = get_logger(__name__)
