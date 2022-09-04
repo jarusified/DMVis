@@ -3,7 +3,13 @@
 ## Installation
 
 ```
-TBD
+pip install .
+```
+
+## Usage
+
+```
+nova_vis --data_dir={PATH/TO/DATA/DIR}
 ```
 
 ## For developement

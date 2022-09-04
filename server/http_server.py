@@ -4,8 +4,8 @@ import warnings
 from flask import Flask, json, jsonify, request, send_from_directory
 from flask_cors import CORS, cross_origin
 
-from utils.logger import get_logger
-from interfaces import Datasets
+from server.logger import get_logger
+from server.datasets import Datasets
 
 # Globals
 FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -47,7 +47,7 @@ class HTTPServer:
         _is_dir = os.path.exists(data_dir)
 
         if not _is_dir:
-            message = f"It looks like {data_dir} has not been created. Please run `python main.py` with --cmd option"
+            message = f"It looks like {data_dir} is an invalid directory."
             LOGGER.error(message)
             exit(1)
 

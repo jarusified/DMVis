@@ -2,11 +2,12 @@ import logging
 import colorlog
 from logging import getLogger as get_logger  # noqa
 
+from server.utils import get_memory_usage
+
 LOG_PROFILE = logging.CRITICAL + 1
 
 
 def _log_profile(self, message, *args, **kws):
-    from utils.general import get_memory_usage
 
     if self.isEnabledFor(LOG_PROFILE):
         message = f"[{get_memory_usage()}]: {message}"

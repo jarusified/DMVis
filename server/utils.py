@@ -1,5 +1,7 @@
 import os
+import json
 import psutil
+import functools
 
 
 def get_memory_usage(process=None):
@@ -68,6 +70,36 @@ def remap_dict_of_list(mapper: dict):
 
 
 def construct_mapper(obj: dict):
+    """
+    Construct mappers for key: val and val: key.
+    """
     return {grp: idx for idx, grp in enumerate(obj)}, {
         idx: grp for idx, grp in enumerate(obj)
     }
+
+
+def load_profile(file_path) -> json:
+    """
+    Loads a timeline from a JSON file.
+    TODO (surajk): Add validation for the chrome trace format.
+    """
+    with open(file_path, "r") as f:
+        try:
+            d = json.load(f)
+        except ValueError as e:
+            return None
+
+    return d
+
+
+def is_list_identical(list1, list2) -> bool:
+    """
+    Check if two list elements are identical.
+    """
+    return functools.reduce(
+        lambda i, j: i and j, map(lambda m, k: m == k, list1, list2), True
+    )
+
+
+def format_timestamp(timestamp):
+    return timestamp / 1000

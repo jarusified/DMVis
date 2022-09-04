@@ -1,14 +1,14 @@
 import copy
 import itertools
-import json
 import math
 import numpy as np
 import pandas as pd
 import re
 
-import utils
+from server.logger import get_logger
+from server.utils import construct_mapper, load_profile
 
-LOGGER = utils.get_logger(__name__)
+LOGGER = get_logger(__name__)
 
 TIMELINE_TYPES = ["background", "point", "range"]
 SLIDING_WINDOW = 1e7
@@ -18,14 +18,14 @@ class Timeline:
     def __init__(self, file_path):
         """
         Initializes a Timeline object.
-        """
 
-        """
         Encoding : {
             "event_group": {
                 "event_names": List, // Required
                 "event_type": Str, // Optional: "point" | "range" | "background" - By default, if an event has `start` and `end` timestamp, we will
             }, ... }
+
+        TODO (surajk): Add validation for the chrome trace format.
         """
         self.rules = {
             "runtime": {
@@ -65,7 +65,7 @@ class Timeline:
         }
 
         # loads the profile
-        self.profile = self.load_profile(file_path=file_path)
+        self.profile = load_profile(file_path=file_path)
 
         self.timeline = self.profile["data"]["traceEvents"]
 
@@ -79,7 +79,7 @@ class Timeline:
         self.add_vis_fields()
 
         # TODO: (surajk) evaluate if we need a vis_prop, we can just calculate
-        self.grp_to_index, self.index_to_grp = utils.construct_mapper(self.rules)
+        self.grp_to_index, self.index_to_grp = construct_mapper(self.rules)
 
         # Process the dataframe according to their respective types.
         self.grp_timeline_df = self.construct_timeline_df_dict()
@@ -123,7 +123,7 @@ class Timeline:
         return group, type
 
     @staticmethod
-    def combine_events(df_dict: dict[str, pd.DataFrame]) -> list(dict):
+    def combine_events(df_dict: dict[str, pd.DataFrame]) -> list[dict]:
         """
         Combines all the events across the different event type dataframes.
         """
@@ -137,20 +137,6 @@ class Timeline:
         return timestamp / 1000
 
     ################### Pre-processing functions ###################
-    def load_profile(self, file_path) -> json:
-        """
-        Loads a timeline from a JSON file.
-        TODO (surajk): Add validation for the chrome trace format.
-        2. Move this to utils
-        """
-        with open(file_path, "r") as f:
-            try:
-                d = json.load(f)
-            except ValueError as e:
-                return None
-
-        return d
-
     def timeline_to_df(self, skip_keys=[]) -> pd.DataFrame:
         keys = self.timeline[0].keys()
         f_keys = [i for i in keys if i not in skip_keys]

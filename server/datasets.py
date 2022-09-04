@@ -1,7 +1,7 @@
 import os
-from utils import get_logger
 
-from .timeline import Timeline
+from server.logger import get_logger
+from server.timeline import Timeline
 
 LOGGER = get_logger(__name__)
 
@@ -28,7 +28,7 @@ class Datasets:
             LOGGER.info(f"{name} ({profile.get_event_count()} events) - ")
         LOGGER.info(f"=====================================")
 
-    def get_profile(self, experiment):
+    def get_profile(self, experiment) -> Timeline:
         if experiment in self.profiles:
             return self.profiles[experiment]
 
