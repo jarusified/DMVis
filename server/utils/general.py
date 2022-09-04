@@ -65,3 +65,9 @@ def remap_dict_of_list(mapper: dict):
         elif type(val) in [str, int, bool]:
             ret[val] = key
     return ret
+
+
+def construct_mapper(obj: dict):
+    return {grp: idx for idx, grp in enumerate(obj)}, {
+        idx: grp for idx, grp in enumerate(obj)
+    }

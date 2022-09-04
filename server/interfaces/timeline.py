@@ -1,11 +1,14 @@
-import re
+import copy
+import itertools
 import json
 import math
-from tracemalloc import start
 import numpy as np
-from utils import get_logger
+import pandas as pd
+import re
 
-LOGGER = get_logger(__name__)
+import utils
+
+LOGGER = utils.get_logger(__name__)
 
 TIMELINE_TYPES = ["background", "point", "range"]
 SLIDING_WINDOW = 1e7
@@ -36,7 +39,7 @@ class Timeline:
                 ],
                 "event_type": "range",
                 "sub_group": "traceEvents",
-                "content": lambda e: "Tensor ", # + e["args"]["tensor size"],
+                "content": lambda e: "Tensor ",  # + e["args"]["tensor size"],
                 "class_name": "runtime",
             },
             "compile": {
@@ -54,26 +57,41 @@ class Timeline:
             "Epoch": {
                 "regex": ["Epoch"],
                 "event_type": "background",
-                "content": lambda e: "epoch-" + str(e["args"]["epoch_id"]),
+                "content": lambda e: "epoch-" + str(e["args"]["epoch_id"])
+                if e["args"] is not None and "epoch_id" in e["args"]
+                else "",
                 "class_name": "compile",
             },
         }
 
+        # loads the profile
         self.profile = self.load_profile(file_path=file_path)
+
         self.timeline = self.profile["data"]["traceEvents"]
-        self.vis_prop = self.profile["_vis"]
+
+        # TODO: (surajk) Need to jsonize the args and create hierarchies inside the timeline_df for runtime.
+        # Convert the timeline to a pandas.DataFrame
+        self.timeline_df = self.timeline_to_df(skip_keys=["args"])
+
+        # Add vis-related fields as columns in the dataframe.
+        #   "group": determined by the self.rules
+        #   "type": determined by the event type: 'point', 'range', and 'background'.
+        self.add_vis_fields()
+
+        # TODO: (surajk) evaluate if we need a vis_prop, we can just calculate
+        self.grp_to_index, self.index_to_grp = utils.construct_mapper(self.rules)
+
+        # Process the dataframe according to their respective types.
+        self.grp_timeline_df = self.construct_timeline_df_dict()
+
         self.start_ts = Timeline.format_timestamp(
             self.profile["data"]["startTimestamp"]
         )
         self.end_ts = Timeline.format_timestamp(self.profile["data"]["endTimestamp"])
 
-    ################### Pre-processing functions ###################
+    ################### Supporting functions (i.e., staticmethod) ###################
     @staticmethod
-    def _map_group_to_idx(rules):
-        return {grp: idx for idx, grp in enumerate(rules)}
-
-    @staticmethod
-    def _process_event(event, rules):
+    def _match_event_group_and_type(event, rules):
         group = None
         type = None
 
@@ -102,30 +120,28 @@ class Timeline:
         if "event_type" in rules[group]:
             type = rules[group]["event_type"]
 
-        return {"group": group, "type": type}
+        return group, type
 
-    def add_vis_fields(self, timeline):
-        """ """
-        events = timeline["data"]["traceEvents"]
+    @staticmethod
+    def combine_events(df_dict: dict[str, pd.DataFrame]) -> list(dict):
+        """
+        Combines all the events across the different event type dataframes.
+        """
+        combined_events_list = [
+            df_dict[type].to_dict("records") for type in df_dict.keys()
+        ]
+        return list(itertools.chain.from_iterable(combined_events_list))
 
-        for event in events:
-            # Check if there is a "traceEvents" field in the args.
-            if event["args"] is not None and "traceEvents" in event["args"]:
-                for sub_event in event["args"]["traceEvents"]:
-                    sub_event["vis"] = Timeline._process_event(sub_event, self.rules)
+    @staticmethod
+    def format_timestamp(timestamp):
+        return timestamp / 1000
 
-            event["_vis"] = Timeline._process_event(event, self.rules)
-
-        timeline["_vis"] = {"group_to_idx": Timeline._map_group_to_idx(self.rules)}
-
-        return timeline
-
-    def load_profile(self, file_path):
+    ################### Pre-processing functions ###################
+    def load_profile(self, file_path) -> json:
         """
         Loads a timeline from a JSON file.
         TODO (surajk): Add validation for the chrome trace format.
         2. Move this to utils
-        3. Don't waste space for invalid files.
         """
         with open(file_path, "r") as f:
             try:
@@ -133,7 +149,100 @@ class Timeline:
             except ValueError as e:
                 return None
 
-        return self.add_vis_fields(d)
+        return d
+
+    def timeline_to_df(self, skip_keys=[]) -> pd.DataFrame:
+        keys = self.timeline[0].keys()
+        f_keys = [i for i in keys if i not in skip_keys]
+        _df = pd.DataFrame({key: [e[key] for e in self.timeline] for key in f_keys})
+        return _df
+
+    def add_vis_fields(self) -> None:
+        """
+        Add the vis fields based on the type of event.
+        # TODO: (surajk) Create vis_fields for the "traceEvents" fields inside the args.
+        """
+        for idx, event in self.timeline_df.iterrows():
+            # Check if there is a "traceEvents" field in the args.
+            # if event["args"] is not None and "traceEvents" in event["args"]:
+            #     for sub_event in event["args"]["traceEvents"]:
+            #         sub_event["vis"] = Timeline._match_event_group_and_type(sub_event, self.rules)
+
+            # Add "group", "type" fields.
+            _group, _type = Timeline._match_event_group_and_type(event, self.rules)
+            self.timeline_df.at[idx, "group"] = _group
+            self.timeline_df.at[idx, "type"] = _type
+
+            # Add "content" field.
+            if "content" in self.rules[event["name"]].keys():
+                _event = self.get_event_by_id(event["id"])
+                _content = self.rules[event["name"]]["content"](_event)
+            else:
+                _content = ""
+            self.timeline_df.at[idx, "content"] = _content
+
+    def construct_point_df(self, df: pd.DataFrame, column: str = "ph") -> pd.DataFrame:
+        """
+        Construct the dataframe containing the point-based events.
+        """
+        assert column in df.columns
+
+        ret = []
+        for idx in range(0, df.shape[0]):
+            _e = df.iloc[idx].to_dict()
+            _e["className"] = self.rules[_e["group"]]["class_name"]
+            _e["dur"] = 0  # Duration for a point event is 0
+            _e["group"] = self.grp_to_index[_e["group"]]
+            _e["start"] = _e["ts"]
+
+            del _e["ts"]
+            ret.append(_e)
+
+        return pd.DataFrame(ret)
+
+    def construct_range_df(self, df: pd.DataFrame, column: str = "ph") -> pd.DataFrame:
+        """
+        Construct the dataframe containing the range-based events.
+        """
+        assert column in df.columns
+
+        ret = []
+        for idx in range(0, df.shape[0] - 1, 2):
+            _range_event = {}
+            _s = df.iloc[idx].to_dict()
+            _e = df.iloc[idx + 1].to_dict()
+
+            assert _s["name"] == _e["name"]
+            assert _s[column] == "B" and _e[column] == "E"
+
+            _range_event = copy.deepcopy(_s)
+            _range_event["className"] = self.rules[_s["group"]]["class_name"]
+            _range_event["dur"] = Timeline.format_timestamp(_e["ts"] - _s["ts"])
+            _range_event["end"] = Timeline.format_timestamp(_e["ts"])
+            _range_event["group"] = self.grp_to_index[_s["group"]]
+            _range_event["start"] = Timeline.format_timestamp(_s["ts"])
+
+            del _range_event["ts"]
+
+            ret.append(_range_event)
+
+        return pd.DataFrame(ret)
+
+    def construct_timeline_df_dict(self) -> dict[str, pd.DataFrame]:
+        """
+        Process the timeline dataframe by grouping the events based on the allowed event types.
+        """
+        df_dict = {}
+        assert "type" in self.timeline_df.columns
+        _grp_df = self.timeline_df.groupby("type")
+
+        for type, grp in _grp_df:
+            if type in ["range", "background"]:
+                df_dict[type] = self.construct_range_df(grp)
+            else:
+                df_dict[type] = self.construct_point_df(grp)
+
+        return df_dict
 
     @staticmethod
     def combine_runtime_events(timelines):
@@ -165,17 +274,19 @@ class Timeline:
 
     ################### Post-processing functions ###################
     @staticmethod
-    def type_to_indices_mapping(timeline, start_ts, end_ts):
+    def sliding_window(timeline, start_ts, end_ts):
         """
         Return the type: [0, 1, .... x] where x is the index in which the event of type (from TIMELINE_TYPES )
         """
         ret = {"point": [], "range": [], "background": []}
         for type in TIMELINE_TYPES:
             for idx, event in enumerate(timeline):
-                event_ts = Timeline.format_timestamp(event['ts'])
+                event_ts = Timeline.format_timestamp(event["ts"])
                 if event["_vis"]["type"] == type:
                     # if start_ts <= event_ts and event_ts <= end_ts:
-                    ret[type].append({"idx": idx, "ph": event["ph"], "name": event["name"]})
+                    ret[type].append(
+                        {"idx": idx, "ph": event["ph"], "name": event["name"]}
+                    )
 
             # # NOTE: The timeline will behave weirdly if the `B` and `E` phases are included even if the phase is outside the sliding window, so we will make sure the begin and end events are tracked even if they are outside the window.
             # if (type == 'range' or type == 'background') and len(ret[type]) > 0:
@@ -184,7 +295,7 @@ class Timeline:
             #         this_idx = ret[type][-1]["idx"]
             #         next_end_event = timeline[this_idx + 1]
             #         ret[type].append({"idx": this_idx, "ph": next_end_event["ph"],  "name": next_end_event["name"]})
-                
+
             #     if ret[type][0]["ph"] == "E":
             #         print("Adding to start", ret[type][0])
             #         this_idx = ret[type][0]["idx"]
@@ -193,33 +304,33 @@ class Timeline:
 
         return ret
 
-    @staticmethod
-    def format_timestamp(timestamp):
-        return timestamp / 1000
+    ################### Unexposed APIs ###################
+    def get_event_by_id(self, id: int):
+        return self.timeline[id]
 
     ################### Exposed APIs ###################
-    def get_event_count(self):
+    def get_event_count(self) -> int:
         return len(self.timeline)
 
-    def get_start_timestamp(self):
+    def get_start_timestamp(self) -> float:
         return self.start_ts
 
-    def get_end_timestamp(self):
+    def get_end_timestamp(self) -> float:
         return self.end_ts
 
-    def get_metadata(self, exp):
+    def get_metadata(self, exp) -> dict:
         return {
             "timelineStart": self.start_ts,
             "timelineEnd": self.end_ts,
             "selectedExperiment": exp,
         }
 
-    def get_summary(self, sample_count=50):
+    def get_summary(self, sample_count=50) -> dict:
         """
-        returns the summary timeline based on timestamp sampling.
+        Returns the summary timeline based on uniform-sampling.
         """
-        self.indices = Timeline.type_to_indices_mapping(self.timeline, self.start_ts, self.end_ts)
-        range_event_indices = [ind['idx'] for ind in self.indices["range"]]
+
+        events = Timeline.combine_events(self.grp_timeline_df)
 
         ts_width = math.ceil((self.end_ts - self.start_ts) / sample_count)
         ts_samples = [
@@ -228,27 +339,25 @@ class Timeline:
         ]
         events_in_sample = {_s: {grp: 0 for grp in self.rules} for _s in ts_samples}
 
-        for _idx in range(0, len(range_event_indices) - 1, 2):
-            s = self.timeline[range_event_indices[_idx]]
-            e = self.timeline[range_event_indices[_idx + 1]]
+        for event in events:
+            group = self.index_to_grp[event["group"]]
 
-            s_ts = Timeline.format_timestamp(s["ts"])
-            e_ts = Timeline.format_timestamp(e["ts"])
-            group = s["_vis"]["group"]
-
-            ts = np.array([s_ts, e_ts])
+            ts = np.array([event["start"], event["end"]])
             dig = np.digitize(ts, ts_samples)
 
             if dig[0] == dig[1]:
-                events_in_sample[ts_samples[dig[0] - 1]][group] += e_ts - s_ts
+                events_in_sample[ts_samples[dig[0] - 1]][group] += (
+                    event["end"] - event["start"]
+                )
             else:
-                _l = Timeline.format_timestamp(s["ts"])
+                _l = event["start"]
+                _h = event["end"]
                 for i in range(dig[0], dig[1]):
                     events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
                     _l = ts_samples[i]
 
                 if i <= len(ts_samples) - 1:
-                    events_in_sample[ts_samples[i]][group] += e_ts - ts_samples[i]
+                    events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
 
         for [sample, val] in events_in_sample.items():
             val["ts"] = sample
@@ -263,9 +372,9 @@ class Timeline:
             "window": Timeline.format_timestamp(SLIDING_WINDOW),
         }
 
-    def get_timeline(self, window_start=None, window_end=None):
+    def get_timeline(self, window_start=None, window_end=None) -> dict:
         """
-        returns all the events in a given window. If a window is not provided, it will default to the start and end of a given timeline.
+        Returns the events in a given window. If a window is not provided, it will default to the start and end timestamp of the profile.
         """
         if not window_start:
             window_start = self.start_ts
@@ -273,104 +382,16 @@ class Timeline:
         if not window_end:
             window_end = self.end_ts
 
+        # TODO: (surajk) Index the dataframe based on timestamp and allow selection based on window_start, and window_end.
+        # For this task, we will have to construct a `df_dict`, where each entry comprises of events in the window.
+        events = Timeline.combine_events(self.grp_timeline_df)
+
         return {
             "end_ts": window_start,
-            "events": self.get_events(window_start, window_end),
+            "events": events,
             # Get groups formmated according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
             "groups": [
                 {"id": idx, "content": grp} for idx, grp in enumerate(self.rules)
             ],
             "start_ts": window_end,
         }
-
-    ################### Timeline-vis functions ###################
-    @staticmethod
-    def _add_range_events(start, end, idx, vis_prop, rules):
-        """
-        Utility to format the range events (i.e., with a start and end timestamp).
-        TODO (surajk):
-        1. Add documentation for the data.
-        2. Combine the logic for the events - range and point.
-
-        Format details:
-        """
-        group = start["_vis"]["group"]
-        return {
-            "args": start["args"],
-            "className": rules[group]["class_name"],
-            "content": rules[group]["content"](start),
-            "end": Timeline.format_timestamp(end["ts"]),
-            "group": vis_prop["group_to_idx"][start["_vis"]["group"]],
-            "id": idx,
-            "name": start["name"],
-            "start": Timeline.format_timestamp(start["ts"]),
-            "pid": start["pid"],
-            "tid": start["tid"],
-            "type": start["_vis"]["type"],
-        }
-
-    @staticmethod
-    def _add_point_events(event, idx, vis_prop, rules):
-        """
-        Utility to format the point events (i.e., with a start timestamp).
-        TODO (surajk):
-        1. Add documentation for the data.
-        """
-        group = event["_vis"]["group"]
-        return {
-            "args": event["args"],
-            # "className": rules[event["_vis"]["group"]]["class_name"],
-            "content": rules[group]["content"](event),
-            "group": vis_prop["group_to_idx"][event["_vis"]["group"]],
-            "id": idx,
-            "name": event["name"],
-            "pid": event["pid"],
-            "start": Timeline.format_timestamp(event["ts"]),
-            "tid": event["tid"],
-            "type": event["_vis"]["type"],
-        }
-
-    def get_events(self, window_start, window_end):
-        """
-        Get events formatted according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
-        TODO (surajk):
-        1. Convert to staticmethod.
-        """
-        ret = []
-        event_idx = 0
-
-        self.indices = Timeline.type_to_indices_mapping(self.timeline, window_start, window_end)
-
-        # Add range-based events.
-        range_event_indices = [ind['idx'] for ind in self.indices["range"]]
-        for _idx in range(0, len(range_event_indices) - 1, 2):
-            s = self.timeline[range_event_indices[_idx]]
-            e = self.timeline[range_event_indices[_idx + 1]]
-            _event = Timeline._add_range_events(
-                s, e, event_idx, self.vis_prop, self.rules
-            )
-            ret.append(_event)
-            event_idx += 1
-
-        # Add point-based events.
-        point_event_indices = [ind['idx'] for ind in self.indices["point"]]
-        for _idx in point_event_indices:
-            _e = self.timeline[point_event_indices[_idx]]
-            _event = Timeline._add_point_events(
-                _e, event_idx, self.vis_prop, self.rules
-            )
-            ret.append(_event)
-            event_idx += 1
-
-        # Add background events
-        background_event_indices = [ind['idx'] for ind in self.indices["background"]]
-        for _idx in range(0, len(background_event_indices) - 1, 2):
-            _s = self.timeline[background_event_indices[_idx]]
-            _e = self.timeline[background_event_indices[_idx + 1]]
-            _event = Timeline._add_range_events(
-                _s, _e, event_idx, self.vis_prop, self.rules
-            )
-            ret.append(_event)
-            event_idx += 1
-
-        return ret
