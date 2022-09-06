@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: 20,
 		justifyContent: "flex-end",
 		textColor: "white",
-	},
+	}
 }));
 
 const openedMixin = (theme) => ({
@@ -145,11 +145,11 @@ export default function ToolBar() {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
-						JIT Performance Visualization
+					<Typography variant="h6" noWrap component="div" className={classes.bold}>
+						NOVA - Performance Visualization
 					</Typography>
 					<Typography variant="text" noWrap component="div">
-						Total: {experiments.length} runs
+						Num. of profiles: {experiments.length} runs
 					</Typography>
 					{experiments.length > 0 ? (
 						<FormControl className={classes.formControl} size="small" margin="dense">
@@ -167,7 +167,7 @@ export default function ToolBar() {
 									</MenuItem>
 								))}
 							</Select>
-							<FormHelperText>Select the run</FormHelperText>
+							<FormHelperText>Select the profile</FormHelperText>
 						</FormControl>
 					) : (
 						<></>

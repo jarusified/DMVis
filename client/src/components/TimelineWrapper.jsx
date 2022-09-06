@@ -4,8 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 import { Grid, Paper, Typography } from "@material-ui/core";
-import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import ToggleButton from '@mui/material/ToggleButton';
+import ReorderIcon from '@mui/icons-material/Reorder';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { makeStyles } from "@material-ui/core/styles";
 import { Timeline } from "vis-timeline";
 import { DataSet } from "vis-data";
@@ -115,10 +119,36 @@ function TimelineWrapper() {
 				Timeline
 			</Typography>
 			<Grid container>
-				<Button id="fit-button" variant="outlined">Fit</Button>
-				<ToggleButton value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
-					Stack
-				</ToggleButton>
+				<Grid item id="left-button">
+					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
+						<Tooltip title="Previous" arrow>
+							<ChevronLeftIcon />
+						</Tooltip>
+					</ToggleButton>
+				</Grid>
+				<Grid item id="right-button">
+					<ToggleButton size="small" value="check" className={classes.button}>
+						<Tooltip title="Next" arrow>
+							<ChevronRightIcon />
+						</Tooltip>
+					</ToggleButton>
+				</Grid>
+				<Grid item id="fit-button">
+					<ToggleButton size="small" value="check" className={classes.button}>
+						<Tooltip title="Fit" arrow>
+							<FullscreenIcon />
+						</Tooltip>
+					</ToggleButton>
+				</Grid>
+				<Grid item>
+					<ToggleButton size="small" value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
+						<Tooltip title="Stack" arrow>
+							<ReorderIcon />
+						</Tooltip>
+					</ToggleButton>
+				</Grid>
+			</Grid >
+			<Grid container>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>

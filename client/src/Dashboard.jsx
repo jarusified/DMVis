@@ -33,11 +33,11 @@ export default function Dashboard() {
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
 				<Grid>
-					<Grid container spacing={1} m={1}>
-						<Grid item xs={12}>
+					<Grid container m={1}>
+						<Grid item>
 							<TimelineWrapper />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item>
 							<SummaryTimelineWrapper />
 						</Grid>
 					</Grid>
