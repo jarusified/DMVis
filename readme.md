@@ -1,4 +1,4 @@
-# JIT Performance Analytics
+# NOVA Performance Visualization
 
 ## Installation
 
@@ -9,7 +9,7 @@ pip install .
 ## Usage
 
 ```
-nova_vis --data_dir={PATH/TO/DATA/DIR}
+nova_vis --data_dir={RAW_PERF_DATA_PATH}
 ```
 
 ## For developement
@@ -24,20 +24,19 @@ cd client
 npm install
 ```
 
-For running the react client
+For running the react client. This loads the interface on the localhost.
 ```
-vite
+npm run dev
+```
+
+For updating the build 
+```
+npm run build
 ```
 
 ### Server
-For installation,
+To make sure the recent changes are reflected by the installed package, we need to install using the editable mode as below
 ```
 cd server
-pip install -r requirements.txt
-```
-
-For running the flask server
-
-```
-python3 main.py 
+pip install -e .
 ```
