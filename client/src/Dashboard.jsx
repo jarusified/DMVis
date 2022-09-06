@@ -6,6 +6,7 @@ import ToolBar from "./components/ToolBar";
 import MetadataWrapper from "./components/MetadataWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
+import DetailedTabWrapper from "./components/DetailedTabWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,19 +35,18 @@ export default function Dashboard() {
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
 				<Grid>
-					<Grid container m={1} spacing={1}>
-						<Grid item>
+					<Grid container m={1} rowSpacing={1}>
+						<Grid item xs={12}>
 							<TimelineWrapper />
 						</Grid>
-						<Grid item>
+						<Grid item xs={12}>
 							<SummaryTimelineWrapper />
 						</Grid>
-						<Grid item>
-							<Grid item xs={6}>
-							</Grid>
-							<Grid item>
-								<MetadataWrapper />
-							</Grid>
+						<Grid item xs={6}>
+							<DetailedTabWrapper />
+						</Grid>
+						<Grid item xs={6}>
+							<MetadataWrapper />
 						</Grid>
 					</Grid>
 				</Grid>
