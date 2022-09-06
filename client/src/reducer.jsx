@@ -25,7 +25,8 @@ const initialState = {
         window: 0
     },
     timelineEnd: 0,
-    timelineStart: 0
+    timelineStart: 0,
+    profileMetadata: []
 };
 
 export default function Reducer(state = initialState, action) {
@@ -39,9 +40,10 @@ export default function Reducer(state = initialState, action) {
         case FETCH_METADATA:
             return {
                 ...state,
-                selectedExperiment: action.payload.selectedExperiment,
-                timelineStart: action.payload.timelineStart,
-                timelineEnd: action.payload.timelineEnd
+                selectedExperiment: action.payload.general.selectedExperiment,
+                timelineStart: action.payload.general.timelineStart,
+                timelineEnd: action.payload.general.timelineEnd,
+                profileMetadata: action.payload.profile
             }
         case FETCH_TIMELINE:
             return {

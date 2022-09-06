@@ -305,10 +305,29 @@ class Timeline:
         return self.end_ts
 
     def get_metadata(self, exp) -> dict:
-        return {
+        profile_metadata = {
+            k: v
+            for k, v in self.profile.items()
+            if k not in ["data", "test", "data_list", "description_orig"]
+        }
+        test_metadata = {
+            k: v
+            for k, v in self.profile["test"].items()
+            if k in ["owner", "test list", "arch", "timeout"]
+        }
+
+        derived_metadata = {
             "timelineStart": self.start_ts,
             "timelineEnd": self.end_ts,
             "selectedExperiment": exp,
+        }
+
+        _all_metadata = list(test_metadata.items()) + list(profile_metadata.items())
+        _all_metadata_sorted = sorted(_all_metadata, key=lambda x: x[0].lower())
+
+        return {
+            "general": derived_metadata,
+            "profile": [{"name": _m[0], "key": _m[1]} for _m in _all_metadata_sorted],
         }
 
     def get_summary(self, sample_count=50) -> dict:

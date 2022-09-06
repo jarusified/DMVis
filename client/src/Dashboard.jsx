@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CssBaseline } from "@mui/material";
 
 import ToolBar from "./components/ToolBar";
+import MetadataWrapper from "./components/MetadataWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 
@@ -33,12 +34,19 @@ export default function Dashboard() {
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
 				<Grid>
-					<Grid container m={1}>
+					<Grid container m={1} spacing={1}>
 						<Grid item>
 							<TimelineWrapper />
 						</Grid>
 						<Grid item>
 							<SummaryTimelineWrapper />
+						</Grid>
+						<Grid item>
+							<Grid item xs={6}>
+							</Grid>
+							<Grid item>
+								<MetadataWrapper />
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>

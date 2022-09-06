@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
