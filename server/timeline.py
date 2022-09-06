@@ -60,7 +60,7 @@ class Timeline:
                 "content": lambda e: "epoch-" + str(e["args"]["epoch_id"])
                 if e["args"] is not None and "epoch_id" in e["args"]
                 else "",
-                "class_name": "compile",
+                "class_name": "epoch",
             },
         }
 

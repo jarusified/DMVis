@@ -89,10 +89,6 @@ path {
 }
 
 .vis-item.vis-background.epoch {
-	background-color: #deebf7;
-}
-
-.vis-item.vis-background.negative {
 	background-color: #9ecae1;
 }
 
@@ -136,6 +132,11 @@ path {
 	box-shadow: 0 0 1px #bebada;
 }
 
+.vis-item.epoch {
+	background-color: #bebada;
+	color: white;
+	box-shadow: 0 0 1px #bebada;
+}
 
 .vis-item.vis-selected {
 	background-color: #f1a340;
