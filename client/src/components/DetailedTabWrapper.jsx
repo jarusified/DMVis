@@ -7,7 +7,17 @@ import { Paper, Typography } from "@material-ui/core";
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
+import { makeStyles } from "@material-ui/core/styles";
+
+import EventSummaryWrapper from "./EventSummaryWrapper";
+
+const useStyles = makeStyles((theme) => ({
+    tab: {
+        color: '#000',
+        background: '#fff'
+    },
+}));
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -22,7 +32,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    {children}
                 </Box>
             )}
         </div>
@@ -43,6 +53,7 @@ function a11yProps(index) {
 }
 
 export default function DetailedTabWrapper() {
+    const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
 
@@ -63,9 +74,9 @@ export default function DetailedTabWrapper() {
                 <AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
                     <Tabs
                         value={value}
-                        textColor="#000"
+                        className={classes.tab}
                         onChange={handleChange}
-                        indicatorColor="#f00"
+                        indicatorColor="#000"
                         variant="fullWidth"
                         aria-label="Aggregated detailed statistics"
                     >
@@ -80,7 +91,7 @@ export default function DetailedTabWrapper() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        Item One
+                        <EventSummaryWrapper />
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
                         Item Two

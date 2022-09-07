@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as d3 from "d3";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { fetchSummary, fetchTimeline } from "../actions";
+import { msTimestampToSec, COLORS } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
     summary: {
@@ -28,15 +29,9 @@ function SummaryTimelineWrapper() {
         }
     }, [selectedExperiment]);
 
-    const margin = { top: 30, right: 10, bottom: 10, left: 40 };
+    const margin = { top: 30, right: 20, bottom: 10, left: 40 };
     const width = window.innerWidth - margin.left - margin.right;
     const height = 150 - margin.bottom - margin.top;
-    // TODO: Move this to a common .css
-    const colors = {
-        "compile": "#8dd3c7",
-        "runtime": "#bebada",
-        "tracing": "#f1a340"
-    }
 
     useEffect(() => {
         d3.select("#summary-view").selectAll("*").remove();
@@ -50,18 +45,13 @@ function SummaryTimelineWrapper() {
         const window = summary.window;
 
         if (Object.keys(bars).length > 0) {
-            let x = d3.scaleBand().domain(samples).range([0, width - margin.right]).padding(0.05);
+            let x = d3.scaleBand().domain(samples).range([0, width]).padding(0.05);
             let y = d3.scaleLinear().domain([0, 100]).range([height - margin.bottom, 0]);
-
-            function millisToMinutesAndSeconds(millis) {
-                const seconds = ((millis - start_ts) / 1000).toFixed(0);
-                return seconds + 's';
-            }
 
             let xAxis = d3.axisBottom()
                 .scale(x)
                 .ticks(10)
-                .tickFormat((d) => millisToMinutesAndSeconds(d));
+                .tickFormat((d) => msTimestampToSec(d, start_ts) + 's');
 
             let yAxis = d3.axisLeft()
                 .scale(y)
@@ -96,7 +86,7 @@ function SummaryTimelineWrapper() {
                             d.ts >= _ts[0] &&
                             d.ts <= _ts[1];
 
-                        return inBrushExtent ? 'red' : colors[d["name"]];
+                        return inBrushExtent ? 'red' : COLORS[d["name"]];
                     });
             }
 
@@ -122,7 +112,7 @@ function SummaryTimelineWrapper() {
                 .attr("y", 0)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
-                .text("Value ($)");
+                .text("%");
 
             // Stacked bar chart
             const color = d3.scaleOrdinal().domain(groups).range(['#bebada', '#8dd3c7', '#ffffb3', '#deebf7'])
@@ -149,7 +139,7 @@ function SummaryTimelineWrapper() {
                 .attr("width", x.bandwidth())
 
             var closest = samples.reduce(function (prev, curr) {
-                return (Math.abs(curr - (start_ts + window)) < Math.abs(prev - (start_ts + window)) ? curr : prev);
+                return Math.abs(curr - (start_ts + window)) < Math.abs(prev - (start_ts + window)) ? curr : prev;
             });
 
             svg

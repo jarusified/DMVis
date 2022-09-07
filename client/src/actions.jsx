@@ -1,5 +1,5 @@
-import { FETCH_EXPERIMENTS, FETCH_SUMMARY, FETCH_TIMELINE, FETCH_METADATA } from "./helpers/types";
-import { SERVER_URL } from "./helpers/utils";
+import { FETCH_EXPERIMENTS, FETCH_SUMMARY, FETCH_TIMELINE, FETCH_METADATA, FETCH_EVENT_SUMMARY } from "./helpers/types";
+const SERVER_URL = "http://localhost:5000";
 
 async function POSTWrapper(url_path, json_data) {
   const request_context = {
@@ -60,3 +60,10 @@ export const fetchMetadata = (exp) => async (dispatch) => {
   });
 };
 
+export const fetchEventSummary = () => async (dispatch) => {
+  const eventSummary = await GETWrapper("fetch_event_summary")
+  dispatch({
+    type: FETCH_EVENT_SUMMARY,
+    payload: eventSummary
+  })
+}

@@ -130,6 +130,15 @@ class HTTPServer:
             else:
                 return jsonify({})
 
+        @app.route("/fetch_event_summary", methods=["GET"])
+        @cross_origin()
+        def fetch_event_summary():
+            if self.timeline is not None:
+                event_summary = self.timeline.get_event_summary()
+                return jsonify(event_summary)
+            else:
+                return jsonify({})
+
         @app.route("/static/<filename>", methods=["GET"])
         def get_json(filename):
             return send_from_directory(STATIC_FOLDER_PATH, filename)

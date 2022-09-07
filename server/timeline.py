@@ -1,17 +1,26 @@
 import copy
 import itertools
 import math
+import json
 import numpy as np
 import pandas as pd
 import re
 
 from server.logger import get_logger
-from server.utils import construct_mapper, load_profile
+from server.utils import (
+    construct_mapper,
+    load_json,
+    group_by_and_apply_sum,
+    combine_dicts_and_sum_values,
+)
 
 LOGGER = get_logger(__name__)
 
 TIMELINE_TYPES = ["background", "point", "range"]
 SLIDING_WINDOW = 1e7
+
+# Pandas automatically converts to scientific notation when creating new dataframes. To avoid this, we set the pandas options to format to float gloablly.
+pd.options.display.float_format = "{:.3f}".format
 
 
 class Timeline:
@@ -31,11 +40,11 @@ class Timeline:
             "runtime": {
                 "regex": [
                     "runtime",
-                    "FE_(\w+)",
-                    "RT_(\w+)",
-                    "SN_(\w+)",
-                    "SAL_(\w+)",
-                    "BUF_(\w+)",
+                    "FE_(\\w+)",
+                    "RT_(\\w+)",
+                    "SN_(\\w+)",
+                    "SAL_(\\w+)",
+                    "BUF_(\\w+)",
                 ],
                 "event_type": "range",
                 "sub_group": "traceEvents",
@@ -65,31 +74,30 @@ class Timeline:
         }
 
         # loads the profile
-        self.profile = load_profile(file_path=file_path)
+        self.profile = load_json(file_path=file_path)
 
         self.timeline = self.profile["data"]["traceEvents"]
+        self.start_ts = self.profile["data"]["startTimestamp"]
+        self.end_ts = self.profile["data"]["endTimestamp"]
 
         # TODO: (surajk) Need to jsonize the args and create hierarchies inside the timeline_df for runtime.
         # Convert the timeline to a pandas.DataFrame
-        self.timeline_df = self.timeline_to_df(skip_keys=["args"])
+        self.timeline_df = Timeline.to_df(self.timeline, skip_keys=["args"])
 
         # Add vis-related fields as columns in the dataframe.
         #   "group": determined by the self.rules
         #   "type": determined by the event type: 'point', 'range', and 'background'.
         self.add_vis_fields()
 
-        # TODO: (surajk) evaluate if we need a vis_prop, we can just calculate
         self.grp_to_index, self.index_to_grp = construct_mapper(self.rules)
 
         # Process the dataframe according to their respective types.
-        self.grp_timeline_df = self.construct_timeline_df_dict()
+        self.grp_df_dict = self.construct_timeline_df_dict()
 
-        self.start_ts = Timeline.format_timestamp(
-            self.profile["data"]["startTimestamp"]
-        )
-        self.end_ts = Timeline.format_timestamp(self.profile["data"]["endTimestamp"])
+        # Process the sub_group timelines in the events. If a sub_group is not present, we have an empty dataframe.
+        self.sub_grp_df_dict = self.construct_subgroup_timeline_df_dict()
 
-    ################### Supporting functions (i.e., staticmethod) ###################
+    ################### Supporting functions ###################
     @staticmethod
     def _match_event_group_and_type(event, rules):
         group = None
@@ -132,21 +140,37 @@ class Timeline:
         ]
         return list(itertools.chain.from_iterable(combined_events_list))
 
-    @staticmethod
-    def format_timestamp(timestamp):
-        return timestamp / 1000
+    def get_event_by_id(self, id: int):
+        return self.timeline[id]
+
+    def get_event_args(self, idx):
+        if "args" not in self.timeline[idx]:
+            return json({})
+
+        return self.timeline[idx]["args"]
+
+    def get_all_events(self):
+        ret = self.timeline_df["name"].unique().tolist()
+
+        for grp in self.sub_grp_df_dict:
+            for grp_id in self.sub_grp_df_dict[grp]:
+                ret += self.sub_grp_df_dict[grp][grp_id]["name"].unique().tolist()
+
+        return list(set(ret))
 
     ################### Pre-processing functions ###################
-    def timeline_to_df(self, skip_keys=[]) -> pd.DataFrame:
-        keys = self.timeline[0].keys()
+    @staticmethod
+    def to_df(timeline, skip_keys=[]) -> pd.DataFrame:
+        keys = timeline[0].keys()
         f_keys = [i for i in keys if i not in skip_keys]
-        _df = pd.DataFrame({key: [e[key] for e in self.timeline] for key in f_keys})
+        _df = pd.DataFrame({key: [e[key] for e in timeline] for key in f_keys})
         return _df
 
     def add_vis_fields(self) -> None:
         """
         Add the vis fields based on the type of event.
         # TODO: (surajk) Create vis_fields for the "traceEvents" fields inside the args.
+        # NOTE: (surajk) Think hard. We maybe can use a builder pattern here.
         """
         for idx, event in self.timeline_df.iterrows():
             # Check if there is a "traceEvents" field in the args.
@@ -167,7 +191,9 @@ class Timeline:
                 _content = ""
             self.timeline_df.at[idx, "content"] = _content
 
-    def construct_point_df(self, df: pd.DataFrame, column: str = "ph") -> pd.DataFrame:
+    def construct_point_df(
+        self, df: pd.DataFrame, column: str = "ph", override: dict = {}
+    ) -> pd.DataFrame:
         """
         Construct the dataframe containing the point-based events.
         """
@@ -176,9 +202,17 @@ class Timeline:
         ret = []
         for idx in range(0, df.shape[0]):
             _e = df.iloc[idx].to_dict()
-            _e["className"] = self.rules[_e["group"]]["class_name"]
+            _e["className"] = (
+                self.rules[_e["group"]]["class_name"]
+                if "className" not in override
+                else override["className"]
+            )
             _e["dur"] = 0  # Duration for a point event is 0
-            _e["group"] = self.grp_to_index[_e["group"]]
+            _e["group"] = (
+                self.grp_to_index[_e["group"]]
+                if "group" not in override
+                else override["group"]
+            )
             _e["start"] = _e["ts"]
 
             del _e["ts"]
@@ -186,7 +220,9 @@ class Timeline:
 
         return pd.DataFrame(ret)
 
-    def construct_range_df(self, df: pd.DataFrame, column: str = "ph") -> pd.DataFrame:
+    def construct_range_df(
+        self, df: pd.DataFrame, column: str = "ph", override: dict = {}
+    ) -> pd.DataFrame:
         """
         Construct the dataframe containing the range-based events.
         """
@@ -202,11 +238,19 @@ class Timeline:
             assert _s[column] == "B" and _e[column] == "E"
 
             _range_event = copy.deepcopy(_s)
-            _range_event["className"] = self.rules[_s["group"]]["class_name"]
-            _range_event["dur"] = Timeline.format_timestamp(_e["ts"] - _s["ts"])
-            _range_event["end"] = Timeline.format_timestamp(_e["ts"])
-            _range_event["group"] = self.grp_to_index[_s["group"]]
-            _range_event["start"] = Timeline.format_timestamp(_s["ts"])
+            _range_event["className"] = (
+                self.rules[_s["group"]]["class_name"]
+                if "className" not in override
+                else override["className"]
+            )
+            _range_event["dur"] = _e["ts"] - _s["ts"]
+            _range_event["end"] = _e["ts"]
+            _range_event["group"] = (
+                self.grp_to_index[_s["group"]]
+                if "group" not in override
+                else override["group"]
+            )
+            _range_event["start"] = _s["ts"]
 
             del _range_event["ts"]
 
@@ -230,33 +274,32 @@ class Timeline:
 
         return df_dict
 
-    @staticmethod
-    def combine_runtime_events(timelines):
+    def construct_subgroup_timeline_df_dict(self) -> dict[str, dict[pd.DataFrame]]:
         """
-        Utility to combine the runtime performance timeline with JIT timeline.
-        TODO (surajk): Evaluate how we will do this sub-group revealing.
+        Construct a timeline df for the sub_group's present inside the events.
         """
-        RUNTIME_KEY = "runtime"
-        JIT_KEY = "jit"
+        sub_group_df_dict = {}
+        for grp in self.rules:
+            if "sub_group" in self.rules[grp]:
+                sub_group_df_dict[grp] = {}
 
-        ret = {}
-        for exp in timelines:
-            runtime_events = timelines[exp]["data"][RUNTIME_KEY]
-            jit_events = timelines[exp]["data"][JIT_KEY]
+                _sub_df = self.timeline_df.loc[
+                    (self.timeline_df["name"] == grp) & (self.timeline_df["ph"] == "E")
+                ]
+                for idx, row in _sub_df.iterrows():
+                    args = self.get_event_args(row["id"])
 
-            proc_runtime_events = []
-            for ts, context in runtime_events.items():
-                events = context["traceEvents"]
+                    # TODO: (surajk) Hack here. we need to be able to filter out 'M' events before this stage, grouping the events per timeline would help.
+                    _df = Timeline.to_df(args["traceEvents"][:-1])
 
-                for event in events:
-                    if event["ph"] in ["B", "E"]:
-                        event["ts"] = int(event["ts"])
+                    # NOTE: We lose a bit of precision here because we round to the nearest integer.
+                    _df["ts"] = _df["ts"].apply(lambda d: int(d))
 
-                        proc_runtime_events.append(event)
-            event_names = list(set(event["name"] for event in proc_runtime_events))
-            ret[exp] = proc_runtime_events + jit_events
-            ret[exp] = ret[exp].sort(key=lambda x: x["ts"])
-        return ret, event_names
+                    # NOTE: We assume the sub_group events are only going to be range-based events.
+                    sub_group_df_dict[grp][row["id"]] = self.construct_range_df(
+                        _df, override={"group": grp, "className": grp}
+                    )
+        return sub_group_df_dict
 
     ################### Post-processing functions ###################
     @staticmethod
@@ -267,7 +310,7 @@ class Timeline:
         ret = {"point": [], "range": [], "background": []}
         for type in TIMELINE_TYPES:
             for idx, event in enumerate(timeline):
-                event_ts = Timeline.format_timestamp(event["ts"])
+                event_ts = event["ts"]
                 if event["_vis"]["type"] == type:
                     # if start_ts <= event_ts and event_ts <= end_ts:
                     ret[type].append(
@@ -290,9 +333,19 @@ class Timeline:
 
         return ret
 
-    ################### Unexposed APIs ###################
-    def get_event_by_id(self, id: int):
-        return self.timeline[id]
+    def add_rt_setup_and_teardown_event(self):
+        """
+        """
+        if "runtime" in self.sub_grp_df_dict:
+            rt_events_df = self.sub_grp_df_dict["runtime"]
+
+            for _rt_id, _rt_df in rt_events_df.items():
+                rt_event = self.get_event_by_id(_rt_id)
+                rt_total_time = rt_event["ts"]
+
+                print(rt_event, rt_total_time)
+
+            setup_teardown_dict = {}
 
     ################### Exposed APIs ###################
     def get_event_count(self) -> int:
@@ -335,7 +388,7 @@ class Timeline:
         Returns the summary timeline based on uniform-sampling.
         """
 
-        events = Timeline.combine_events(self.grp_timeline_df)
+        events = Timeline.combine_events(self.grp_df_dict)
 
         ts_width = math.ceil((self.end_ts - self.start_ts) / sample_count)
         ts_samples = [
@@ -346,17 +399,17 @@ class Timeline:
 
         for event in events:
             group = self.index_to_grp[event["group"]]
-
-            ts = np.array([event["start"], event["end"]])
+            
+            ts = np.array([event['start'], event['end']])
             dig = np.digitize(ts, ts_samples)
 
             if dig[0] == dig[1]:
                 events_in_sample[ts_samples[dig[0] - 1]][group] += (
-                    event["end"] - event["start"]
+                    event['end'] - event['start']
                 )
             else:
-                _l = event["start"]
-                _h = event["end"]
+                _l = event['start']
+                _h = event['end']
                 for i in range(dig[0], dig[1]):
                     events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
                     _l = ts_samples[i]
@@ -374,7 +427,7 @@ class Timeline:
             "samples": list(ts_samples),
             "start_ts": self.start_ts,
             "ts_width": ts_width,
-            "window": Timeline.format_timestamp(SLIDING_WINDOW),
+            "window": SLIDING_WINDOW,
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> dict:
@@ -389,7 +442,7 @@ class Timeline:
 
         # TODO: (surajk) Index the dataframe based on timestamp and allow selection based on window_start, and window_end.
         # For this task, we will have to construct a `df_dict`, where each entry comprises of events in the window.
-        events = Timeline.combine_events(self.grp_timeline_df)
+        events = Timeline.combine_events(self.grp_df_dict)
 
         return {
             "end_ts": window_start,
@@ -400,3 +453,36 @@ class Timeline:
             ],
             "start_ts": window_end,
         }
+
+    def get_event_summary(self, exclude_events: list = ["Epoch"]):
+        """
+        Returns the event-duration summary. 
+        """
+        events = self.get_all_events()
+        events = [e for e in events if e not in exclude_events]
+        ret = {e: 0 for e in events}
+        grps = {e: '' for e in events}
+
+        grp_to_index = self.timeline_df.set_index('name').to_dict()['group']
+
+        # Collect event durations from the group events.
+        for _type in self.grp_df_dict:
+            _df = self.grp_df_dict[_type]
+            # dict(zip(_df.name, self.index_to_grp[_df.group]))
+            agg = group_by_and_apply_sum(_df, "dur")
+            ret = combine_dicts_and_sum_values(ret, agg["dur"])
+
+        subgrp_to_index = {}
+        # Collect event durations from the sub-group events.
+        for grp in self.sub_grp_df_dict:
+            for _idx, grp_id in enumerate(self.sub_grp_df_dict[grp]):
+                _df = self.sub_grp_df_dict["runtime"][grp_id]
+                subgrp_to_index = { **_df.set_index('name').to_dict()['group'], **subgrp_to_index}
+
+                agg = group_by_and_apply_sum(_df, "dur")
+                ret = combine_dicts_and_sum_values(ret, agg["dur"])
+
+        grps = {**grp_to_index, **subgrp_to_index}
+
+        result = [ {'event': k.upper(), 'dur': v, 'group': grps[k]}  for k, v in ret.items() ]
+        return sorted(result, key=lambda x: x['dur'], reverse=True)

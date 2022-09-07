@@ -2,6 +2,7 @@ import os
 import json
 import psutil
 import functools
+import pandas as pd
 
 
 def get_memory_usage(process=None):
@@ -73,12 +74,12 @@ def construct_mapper(obj: dict):
     """
     Construct mappers for key: val and val: key.
     """
-    return {grp: idx for idx, grp in enumerate(obj)}, {
-        idx: grp for idx, grp in enumerate(obj)
-    }
+    k2v = { idx: grp for idx, grp in enumerate(obj) }
+    v2k = {grp: idx for idx, grp in enumerate(obj)}
+    return v2k, k2v
 
 
-def load_profile(file_path) -> json:
+def load_json(file_path) -> json:
     """
     Loads a timeline from a JSON file.
     TODO (surajk): Add validation for the chrome trace format.
@@ -103,3 +104,15 @@ def is_list_identical(list1, list2) -> bool:
 
 def format_timestamp(timestamp):
     return timestamp / 1000
+
+
+def group_by_and_apply_sum(df, col):
+    f = {col: "sum"}
+    return df.groupby("name").agg(f).to_dict()
+
+
+def combine_dicts_and_sum_values(dict_1, dict_2):
+    return {
+        key: dict_1.get(key, 0) + dict_2.get(key, 0)
+        for key in set(dict_1) | set(dict_2)
+    }

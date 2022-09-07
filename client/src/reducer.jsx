@@ -1,9 +1,9 @@
-import moment from 'moment';
 import {
     FETCH_EXPERIMENTS,
     FETCH_METADATA,
     FETCH_SUMMARY,
-    FETCH_TIMELINE
+    FETCH_TIMELINE,
+    FETCH_EVENT_SUMMARY
 } from './helpers/types';
 
 const initialState = {
@@ -20,10 +20,11 @@ const initialState = {
     summary: {
         data: [],
         groups: 0,
-        samples: 0,
+        samples: [],
         ts_width: 0,
         window: 0
     },
+    eventSummary: [],
     timelineEnd: 0,
     timelineStart: 0,
     profileMetadata: []
@@ -54,6 +55,11 @@ export default function Reducer(state = initialState, action) {
             return {
                 ...state,
                 summary: action.payload
+            }
+        case FETCH_EVENT_SUMMARY:
+            return {
+                ...state,
+                eventSummary: action.payload
             }
         default:
             return state;

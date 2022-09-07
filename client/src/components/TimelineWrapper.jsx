@@ -16,6 +16,7 @@ import { DataSet } from "vis-data";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
 import { fetchTimeline } from "../actions";
+import { micro_to_milli, msTimestampToSec } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
@@ -45,34 +46,42 @@ function TimelineWrapper() {
 		d3.select("#timeline-view").selectAll("*").remove();
 		let container = document.getElementById("timeline-view");
 
-		const { end_ts, events, groups, start_ts } = currentTimeline
+		let { end_ts, events, groups, start_ts } = currentTimeline
+
+		events = events.map(e => {
+			e['start'] = micro_to_milli(e['start']);
+			e['end'] = micro_to_milli(e['end'])
+
+			return e;
+		});
+
 		let _groups = new DataSet(groups);
 		let _events = new DataSet(events);
 
 		// Configuration for the Timeline
 		const _options = {
-			autoResize: false,
+			autoResize: true,
 			format: {
 				minorLabels: function (date, scale, step) {
-					const duration = moment.duration(date.diff(timelineStart));
+					const duration = moment.duration(date.diff(micro_to_milli(timelineStart)));
 					switch (scale) {
 						case 'millisecond':
-							return duration.asMilliseconds() + "ms";
+							return Math.ceil(duration.asMilliseconds()) + "ms";
 						case 'second':
-							return Math.floor(duration.asSeconds()) + "s";
+							return Math.ceil(duration.asSeconds()) + "s";
 						case 'minute':
-							return Math.floor(duration.asMinutes()) + "min";
+							return Math.ceil(duration.asMinutes()) + "min";
 					}
 				}
 			},
-			max: timelineEnd,
-			min: timelineStart,
-			zoomMin: 1000,
-			zoomMax: 100000,
+			max: Math.ceil(micro_to_milli(timelineEnd)),
+			min: Math.ceil(micro_to_milli(timelineStart)),
+			// zoomMin: 10,
+			// zoomMax: 100000,
 			moment: function (date) {
 				return moment(date);
 			},
-			orientation: 'top',
+			orientation: 'bottom',
 			stack: isStacked,
 			tooltip: {
 				followMouse: true,
