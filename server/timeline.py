@@ -49,7 +49,7 @@ class Timeline:
                 ],
                 "event_type": "range",
                 "sub_group": "traceEvents",
-                "content": lambda e: "Tensor ",  # + e["args"]["tensor size"],
+                "content": lambda e: "",  # "Tensor ",  # + e["args"]["tensor size"],
                 "class_name": "runtime",
             },
             "compile": {
@@ -132,30 +132,32 @@ class Timeline:
         return group, type
 
     @staticmethod
-    def combine_events(df_dict: dict[str, pd.DataFrame], exclude_background: bool = False) -> list[dict]:
+    def combine_events(
+        df_dict: dict[str, pd.DataFrame], exclude_background: bool = False
+    ) -> list[dict]:
         """
         Combines all the events across the different event type dataframes.
         """
         types = list(df_dict.keys())
 
-        if 'background' in df_dict and exclude_background:
+        if "background" in df_dict and exclude_background:
             types.remove("background")
 
-        combined_events_list = [
-            df_dict[type].to_dict("records") for type in types
-        ]
+        combined_events_list = [df_dict[type].to_dict("records") for type in types]
 
         return list(itertools.chain.from_iterable(combined_events_list))
 
     @staticmethod
-    def groups_for_vis_timeline(events: list[dict], index_to_grp: dict, grp_to_index: dict) -> dict:
+    def groups_for_vis_timeline(
+        events: list[dict], index_to_grp: dict, grp_to_index: dict
+    ) -> dict:
         """
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         """
         groups = defaultdict(lambda: 0)
         for event in events:
-            groups[index_to_grp[event['group']]] += 1
+            groups[index_to_grp[event["group"]]] += 1
 
         return [
             {"id": grp_to_index[grp], "content": grp} for idx, grp in enumerate(groups)
@@ -170,17 +172,20 @@ class Timeline:
 
         return self.timeline[idx]["args"]
 
-    def get_all_events(self, exclude_background: bool=False) -> list:
-        if exclude_background:
-            _df = self.timeline_df.loc[self.timeline_df['type'] != 'background']
+    def get_all_events(self, event_types: list) -> list:
+        if len(event_types) > 0:
+            _df = self.timeline_df[self.timeline_df["type"].isin(event_types)]
         else:
             _df = self.timeline_df
-        
+
         ret = _df["name"].unique().tolist()
 
-        for grp in self.sub_grp_df_dict:
-            for grp_id in self.sub_grp_df_dict[grp]:
-                ret += self.sub_grp_df_dict[grp][grp_id]["name"].unique().tolist()
+        # Only include "range" events for the sub_group_df_dict.
+        if "range" in event_types:
+            for grp in self.sub_grp_df_dict:
+                for grp_id in self.sub_grp_df_dict[grp]:
+                    _df = self.sub_grp_df_dict[grp][grp_id]
+                    ret += _df["name"].unique().tolist()
 
         return list(set(ret))
 
@@ -210,9 +215,9 @@ class Timeline:
             self.timeline_df.at[idx, "type"] = _type
 
             # Add "content" field.
-            if "content" in self.rules[event["name"]].keys():
+            if "content" in self.rules[_group].keys():
                 _event = self.get_event_by_id(event["id"])
-                _content = self.rules[event["name"]]["content"](_event)
+                _content = self.rules[_group]["content"](_event)
             else:
                 _content = ""
             self.timeline_df.at[idx, "content"] = _content
@@ -468,7 +473,9 @@ class Timeline:
         # TODO: (surajk) Index the dataframe based on timestamp and allow selection based on window_start, and window_end.
         # For this task, we will have to construct a `df_dict`, where each entry comprises of events in the window.
         events = Timeline.combine_events(self.grp_df_dict)
-        groups = Timeline.groups_for_vis_timeline(events, self.index_to_grp, self.grp_to_index)
+        groups = Timeline.groups_for_vis_timeline(
+            events, self.index_to_grp, self.grp_to_index
+        )
 
         return {
             "end_ts": window_start,
@@ -477,39 +484,43 @@ class Timeline:
             "start_ts": window_end,
         }
 
-    def get_event_summary(self):
+    def get_event_summary(self, event_types=["point", "range", "background"]):
         """
         Returns the event-duration summary.
         """
-        events = self.get_all_events(exclude_background=True)
+        events = self.get_all_events(event_types)
         durations = {e: 0 for e in events}
-        grps = {e: "" for e in events}
 
         grp_to_index = self.timeline_df.set_index("name").to_dict()["group"]
 
         # Collect event durations from the group events.
-        for _type in self.grp_df_dict:
-
+        for _type in event_types:
             _df = self.grp_df_dict[_type]
             agg = group_by_and_apply_sum(_df, "dur")
             durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
-        subgrp_to_index = {}
-        # Collect event durations from the sub-group events.
-        for grp in self.sub_grp_df_dict:
-            for _idx, grp_id in enumerate(self.sub_grp_df_dict[grp]):
-                _df = self.sub_grp_df_dict["runtime"][grp_id]
-                subgrp_to_index = {
-                    **_df.set_index("name").to_dict()["group"],
-                    **subgrp_to_index,
-                }
+        if "range" in event_types:
+            subgrp_to_index = {}
+            # Collect event durations from the sub-group events.
+            for grp in self.sub_grp_df_dict:
+                for _idx, grp_id in enumerate(self.sub_grp_df_dict[grp]):
+                    _df = self.sub_grp_df_dict["runtime"][grp_id]
+                    subgrp_to_index = {
+                        **_df.set_index("name").to_dict()["group"],
+                        **subgrp_to_index,
+                    }
 
-                agg = group_by_and_apply_sum(_df, "dur")
-                durations = combine_dicts_and_sum_values(durations, agg["dur"])
+                    agg = group_by_and_apply_sum(_df, "dur")
+                    durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
-        grps = {**grp_to_index, **subgrp_to_index}
+            grp_to_index = {**grp_to_index, **subgrp_to_index}
 
         result = [
-            {"event": event.upper(), "dur": durations[event], "group": grps[event]} for event in events
+            {
+                "event": event.upper(),
+                "dur": durations[event],
+                "group": grp_to_index[event],
+            }
+            for event in events
         ]
         return sorted(result, key=lambda x: x["dur"], reverse=True)

@@ -134,8 +134,17 @@ class HTTPServer:
         @cross_origin()
         def fetch_event_summary():
             if self.timeline is not None:
-                event_summary = self.timeline.get_event_summary()
+                event_summary = self.timeline.get_event_summary(["range"])
                 return jsonify(event_summary)
+            else:
+                return jsonify({})
+
+        @app.route("/fetch_background_summary", methods=["GET"])
+        @cross_origin()
+        def fetch_background_summary():
+            if self.timeline is not None:
+                bkg_summary = self.timeline.get_event_summary(["background"])
+                return jsonify(bkg_summary)
             else:
                 return jsonify({})
 

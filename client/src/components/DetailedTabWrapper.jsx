@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import { makeStyles } from "@material-ui/core/styles";
 
 import EventSummaryWrapper from "./EventSummaryWrapper";
+import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
     tab: {
@@ -97,7 +98,7 @@ export default function DetailedTabWrapper() {
                         Item Two
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        Item Three
+                        <BackgroundSummaryWrapper />
                     </TabPanel>
                 </SwipeableViews>
             </Box>

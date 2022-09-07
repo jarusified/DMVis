@@ -9,7 +9,8 @@ export const PMEM_COLOR = "#d8b365";
 export const COLORS = {
 	"compile": "#8dd3c7",
 	"runtime": "#bebada",
-	"tracing": "#f1a340"
+	"tracing": "#f1a340",
+	"Epoch": "#69ff6233"
 }
 
 export const CONFIG_LEGEND = {

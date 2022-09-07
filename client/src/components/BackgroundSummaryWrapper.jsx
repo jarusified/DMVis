@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import * as d3 from "d3";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchEventSummary } from "../actions";
+import { fetchBackgroundSummary } from "../actions";
 import { durToSec, COLORS } from "../helpers/utils";
 
 
-function EventSummaryWrapper() {
+export default function BackgroundSummaryWrapper() {
     const dispatch = useDispatch();
 
-    const eventSummary = useSelector((store) => store.eventSummary);
+    const backgroundSummary = useSelector((store) => store.backgroundSummary);
     const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
     const margin = { top: 10, right: 20, bottom: 10, left: 20 };
@@ -17,20 +17,20 @@ function EventSummaryWrapper() {
     const containerHeight = window.innerHeight / 5;
     const width = containerWidth - margin.left - margin.right;
     const height = containerHeight - margin.bottom - margin.top;
-    const containerID = "#event-summary-view";
+    const containerID = "#background-summary-view"
 
     useEffect(() => {
         if (selectedExperiment !== "") {
-            dispatch(fetchEventSummary());
+            dispatch(fetchBackgroundSummary());
         }
     }, [selectedExperiment]);
 
 
     useEffect(() => {
         d3.select(containerID).selectAll("*").remove();
-        if (eventSummary != undefined && eventSummary.length > 0) {
-            const events = eventSummary.map((bar) => bar.event);
-            const durations = eventSummary.map((bar) => bar.dur)
+        if (backgroundSummary != undefined && backgroundSummary.length > 0) {
+            const events = backgroundSummary.map((bar) => bar.event);
+            const durations = backgroundSummary.map((bar) => bar.dur);
 
             let x = d3.scaleBand().domain(events).range([0, width]).padding(0.2);
             let y = d3.scaleLinear().domain([0, d3.max(durations)]).range([height, 0]);
@@ -44,7 +44,7 @@ function EventSummaryWrapper() {
 
             let yAxis = d3.axisLeft()
                 .scale(y)
-                .ticks(3)
+                .ticks(5)
                 .tickFormat((d) => durToSec(d) + 's');
 
             let svg = d3.select(containerID).append("svg")
@@ -54,7 +54,7 @@ function EventSummaryWrapper() {
                 .attr("transform", "translate(" + margin.left + "," + -margin.bottom + ")")
 
             svg.selectAll("bars")
-                .data(eventSummary)
+                .data(backgroundSummary)
                 .enter()
                 .append("rect")
                 .attr("x", (d) => { return x(d.event); })
@@ -71,22 +71,19 @@ function EventSummaryWrapper() {
                 .attr("dy", x.bandwidth() / 2)
                 .attr("dx", -3)
                 .style("text-anchor", "end")
-                .attr("transform", "rotate(90)");
+                .attr("transform", "rotate(90)")
 
             svg.append("g")
                 .attr("class", "y axis")
                 .call(yAxis)
                 .append("text")
+                .attr("dx", "3em")
                 .attr("transform", "rotate(-90)")
-                .attr("y", 0)
-                .attr("dy", "1em")
+                .attr("y", 10)
                 .style("text-anchor", "end")
-                .text("time (s))");
         }
-    }, [eventSummary]);
+    }, [backgroundSummary]);
     return (
-        <div id="event-summary-view"></div>
+        <div id="background-summary-view"></div>
     );
 }
-
-export default EventSummaryWrapper;

@@ -1,12 +1,14 @@
 import {
+    FETCH_BACKGROUND_SUMMARY,
+    FETCH_EVENT_SUMMARY,
     FETCH_EXPERIMENTS,
     FETCH_METADATA,
     FETCH_SUMMARY,
     FETCH_TIMELINE,
-    FETCH_EVENT_SUMMARY
 } from './helpers/types';
 
 const initialState = {
+    backgroundSummary: [],
     currentTimeline: {
         end_ts: 0,
         events: [],
@@ -15,7 +17,9 @@ const initialState = {
     },
     experiments: [],
     events: [],
+    eventSummary: [],
     groups: [],
+    profileMetadata: [],
     selectedExperiment: '',
     summary: {
         data: [],
@@ -24,10 +28,8 @@ const initialState = {
         ts_width: 0,
         window: 0
     },
-    eventSummary: [],
     timelineEnd: 0,
-    timelineStart: 0,
-    profileMetadata: []
+    timelineStart: 0
 };
 
 export default function Reducer(state = initialState, action) {
@@ -60,6 +62,11 @@ export default function Reducer(state = initialState, action) {
             return {
                 ...state,
                 eventSummary: action.payload
+            }
+        case FETCH_BACKGROUND_SUMMARY:
+            return {
+                ...state,
+                backgroundSummary: action.payload
             }
         default:
             return state;
