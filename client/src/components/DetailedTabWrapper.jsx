@@ -7,7 +7,7 @@ import { Paper, Typography } from "@material-ui/core";
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import { makeStyles } from "@material-ui/core/styles";
 
 import EventSummaryWrapper from "./EventSummaryWrapper";

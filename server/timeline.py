@@ -5,6 +5,7 @@ import json
 import numpy as np
 import pandas as pd
 import re
+from collections import defaultdict
 
 from server.logger import get_logger
 from server.utils import (
@@ -131,14 +132,34 @@ class Timeline:
         return group, type
 
     @staticmethod
-    def combine_events(df_dict: dict[str, pd.DataFrame]) -> list[dict]:
+    def combine_events(df_dict: dict[str, pd.DataFrame], exclude_background: bool = False) -> list[dict]:
         """
         Combines all the events across the different event type dataframes.
         """
+        types = list(df_dict.keys())
+
+        if 'background' in df_dict and exclude_background:
+            types.remove("background")
+
         combined_events_list = [
-            df_dict[type].to_dict("records") for type in df_dict.keys()
+            df_dict[type].to_dict("records") for type in types
         ]
+
         return list(itertools.chain.from_iterable(combined_events_list))
+
+    @staticmethod
+    def groups_for_vis_timeline(events: list[dict], index_to_grp: dict, grp_to_index: dict) -> dict:
+        """
+        Constructs the groups for the vis-timeline interface.
+        Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
+        """
+        groups = defaultdict(lambda: 0)
+        for event in events:
+            groups[index_to_grp[event['group']]] += 1
+
+        return [
+            {"id": grp_to_index[grp], "content": grp} for idx, grp in enumerate(groups)
+        ]
 
     def get_event_by_id(self, id: int):
         return self.timeline[id]
@@ -149,8 +170,13 @@ class Timeline:
 
         return self.timeline[idx]["args"]
 
-    def get_all_events(self):
-        ret = self.timeline_df["name"].unique().tolist()
+    def get_all_events(self, exclude_background: bool=False) -> list:
+        if exclude_background:
+            _df = self.timeline_df.loc[self.timeline_df['type'] != 'background']
+        else:
+            _df = self.timeline_df
+        
+        ret = _df["name"].unique().tolist()
 
         for grp in self.sub_grp_df_dict:
             for grp_id in self.sub_grp_df_dict[grp]:
@@ -387,7 +413,7 @@ class Timeline:
         Returns the summary timeline based on uniform-sampling.
         """
 
-        events = Timeline.combine_events(self.grp_df_dict)
+        events = Timeline.combine_events(self.grp_df_dict, exclude_background=True)
 
         ts_width = math.ceil((self.end_ts - self.start_ts) / sample_count)
         ts_samples = [
@@ -442,34 +468,31 @@ class Timeline:
         # TODO: (surajk) Index the dataframe based on timestamp and allow selection based on window_start, and window_end.
         # For this task, we will have to construct a `df_dict`, where each entry comprises of events in the window.
         events = Timeline.combine_events(self.grp_df_dict)
+        groups = Timeline.groups_for_vis_timeline(events, self.index_to_grp, self.grp_to_index)
 
         return {
             "end_ts": window_start,
             "events": events,
-            # Get groups formmated according to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
-            "groups": [
-                {"id": idx, "content": grp} for idx, grp in enumerate(self.rules)
-            ],
+            "groups": groups,
             "start_ts": window_end,
         }
 
-    def get_event_summary(self, exclude_events: list = ["Epoch"]):
+    def get_event_summary(self):
         """
         Returns the event-duration summary.
         """
-        events = self.get_all_events()
-        events = [e for e in events if e not in exclude_events]
-        ret = {e: 0 for e in events}
+        events = self.get_all_events(exclude_background=True)
+        durations = {e: 0 for e in events}
         grps = {e: "" for e in events}
 
         grp_to_index = self.timeline_df.set_index("name").to_dict()["group"]
 
         # Collect event durations from the group events.
         for _type in self.grp_df_dict:
+
             _df = self.grp_df_dict[_type]
-            # dict(zip(_df.name, self.index_to_grp[_df.group]))
             agg = group_by_and_apply_sum(_df, "dur")
-            ret = combine_dicts_and_sum_values(ret, agg["dur"])
+            durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
         subgrp_to_index = {}
         # Collect event durations from the sub-group events.
@@ -482,11 +505,11 @@ class Timeline:
                 }
 
                 agg = group_by_and_apply_sum(_df, "dur")
-                ret = combine_dicts_and_sum_values(ret, agg["dur"])
+                durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
         grps = {**grp_to_index, **subgrp_to_index}
 
         result = [
-            {"event": k.upper(), "dur": v, "group": grps[k]} for k, v in ret.items()
+            {"event": event.upper(), "dur": durations[event], "group": grps[event]} for event in events
         ]
         return sorted(result, key=lambda x: x["dur"], reverse=True)

@@ -78,7 +78,7 @@ function SummaryTimelineWrapper() {
 
             function update() {
                 let _ts = _extent_to_timestamp(brushExtent);
-                dispatch(fetchTimeline(start_ts + _ts[0], start_ts + _ts[1]));
+                // dispatch(fetchTimeline(start_ts + _ts[0], start_ts + _ts[1]));
 
                 d3.selectAll("rect")
                     .style('fill', function (d) {

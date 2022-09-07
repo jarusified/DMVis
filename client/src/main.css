@@ -128,12 +128,13 @@ path {
 .vis-item.runtime {
 	background-color: #bebada;
 	border-color: purple;
-	color: white;
+	color: black;
 	box-shadow: 0 0 1px #bebada;
 }
 
 .vis-item.epoch {
-	background-color: #bebada;
+	background-color: #9288d3;
+	border-color: #260bd5;
 	color: white;
 	box-shadow: 0 0 1px #bebada;
 }
