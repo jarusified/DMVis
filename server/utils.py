@@ -74,7 +74,7 @@ def construct_mapper(obj: dict):
     """
     Construct mappers for key: val and val: key.
     """
-    k2v = { idx: grp for idx, grp in enumerate(obj) }
+    k2v = {idx: grp for idx, grp in enumerate(obj)}
     v2k = {grp: idx for idx, grp in enumerate(obj)}
     return v2k, k2v
 

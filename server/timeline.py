@@ -334,8 +334,7 @@ class Timeline:
         return ret
 
     def add_rt_setup_and_teardown_event(self):
-        """
-        """
+        """ """
         if "runtime" in self.sub_grp_df_dict:
             rt_events_df = self.sub_grp_df_dict["runtime"]
 
@@ -399,17 +398,17 @@ class Timeline:
 
         for event in events:
             group = self.index_to_grp[event["group"]]
-            
-            ts = np.array([event['start'], event['end']])
+
+            ts = np.array([event["start"], event["end"]])
             dig = np.digitize(ts, ts_samples)
 
             if dig[0] == dig[1]:
                 events_in_sample[ts_samples[dig[0] - 1]][group] += (
-                    event['end'] - event['start']
+                    event["end"] - event["start"]
                 )
             else:
-                _l = event['start']
-                _h = event['end']
+                _l = event["start"]
+                _h = event["end"]
                 for i in range(dig[0], dig[1]):
                     events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
                     _l = ts_samples[i]
@@ -456,14 +455,14 @@ class Timeline:
 
     def get_event_summary(self, exclude_events: list = ["Epoch"]):
         """
-        Returns the event-duration summary. 
+        Returns the event-duration summary.
         """
         events = self.get_all_events()
         events = [e for e in events if e not in exclude_events]
         ret = {e: 0 for e in events}
-        grps = {e: '' for e in events}
+        grps = {e: "" for e in events}
 
-        grp_to_index = self.timeline_df.set_index('name').to_dict()['group']
+        grp_to_index = self.timeline_df.set_index("name").to_dict()["group"]
 
         # Collect event durations from the group events.
         for _type in self.grp_df_dict:
@@ -477,12 +476,17 @@ class Timeline:
         for grp in self.sub_grp_df_dict:
             for _idx, grp_id in enumerate(self.sub_grp_df_dict[grp]):
                 _df = self.sub_grp_df_dict["runtime"][grp_id]
-                subgrp_to_index = { **_df.set_index('name').to_dict()['group'], **subgrp_to_index}
+                subgrp_to_index = {
+                    **_df.set_index("name").to_dict()["group"],
+                    **subgrp_to_index,
+                }
 
                 agg = group_by_and_apply_sum(_df, "dur")
                 ret = combine_dicts_and_sum_values(ret, agg["dur"])
 
         grps = {**grp_to_index, **subgrp_to_index}
 
-        result = [ {'event': k.upper(), 'dur': v, 'group': grps[k]}  for k, v in ret.items() ]
-        return sorted(result, key=lambda x: x['dur'], reverse=True)
+        result = [
+            {"event": k.upper(), "dur": v, "group": grps[k]} for k, v in ret.items()
+        ]
+        return sorted(result, key=lambda x: x["dur"], reverse=True)

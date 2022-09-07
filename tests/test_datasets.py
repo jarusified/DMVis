@@ -2,7 +2,7 @@ from json import load
 import os
 from server.datasets import Datasets
 from server.timeline import Timeline
-from server.utils import load_profile, is_list_identical
+from server.utils import load_json, is_list_identical
 
 TEST_FOLDER = "example_data/gm"
 
@@ -33,7 +33,7 @@ def test_sort_by_event_count():
     json = {}
     for filename in os.listdir(TEST_FOLDER):
         path = os.path.join(os.path.abspath(TEST_FOLDER), filename)
-        events = load_profile(path)
+        events = load_json(path)
 
         json[filename] = len(events["data"]["traceEvents"])
 
@@ -51,7 +51,7 @@ def test_sort_by_timestamp():
     json = {}
     for filename in os.listdir(TEST_FOLDER):
         path = os.path.join(os.path.abspath(TEST_FOLDER), filename)
-        events = load_profile(path)
+        events = load_json(path)
 
         json[filename] = events["data"]["startTimestamp"]
 
