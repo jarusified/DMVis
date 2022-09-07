@@ -128,7 +128,7 @@ function TimelineWrapper() {
 				Timeline
 			</Typography>
 			<Grid container>
-				<Grid item id="left-button">
+				{/*<Grid item id="left-button">
 					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
 						<Tooltip title="Previous" arrow>
 							<ChevronLeftIcon className="icon" />
@@ -141,7 +141,7 @@ function TimelineWrapper() {
 							<ChevronRightIcon className="icon" />
 						</Tooltip>
 					</ToggleButton>
-				</Grid>
+				</Grid>*/}
 				<Grid item id="fit-button">
 					<Tooltip title="Fit" arrow>
 						<ToggleButton size="small" value="check" className={classes.button}>

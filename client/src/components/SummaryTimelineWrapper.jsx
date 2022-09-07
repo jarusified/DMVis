@@ -144,7 +144,7 @@ function SummaryTimelineWrapper() {
 
             svg
                 .call(brush)
-                .call(brush.move, [0, x(closest)])
+            // .call(brush.move, [0, x(closest)])
         }
     }, [summary]);
     return (
