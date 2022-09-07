@@ -45,12 +45,12 @@ function SummaryTimelineWrapper() {
         const window = summary.window;
 
         if (Object.keys(bars).length > 0) {
-            let x = d3.scaleBand().domain(samples).range([0, width]).padding(0.05);
+            let x = d3.scaleBand().domain(samples).range([0, width]).padding(0.1);
             let y = d3.scaleLinear().domain([0, 100]).range([height - margin.bottom, 0]);
 
             let xAxis = d3.axisBottom()
                 .scale(x)
-                .ticks(10)
+                .ticks(5)
                 .tickFormat((d) => msTimestampToSec(d, start_ts) + 's');
 
             let yAxis = d3.axisLeft()

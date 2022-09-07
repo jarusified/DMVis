@@ -39,7 +39,7 @@ export function micro_to_milli(x) {
 }
 
 export function msTimestampToSec(millis, start_ts) {
-	return ((millis - start_ts) / 1e6).toFixed(0);
+	return ((millis - start_ts) / 1e6).toFixed(1);
 }
 
 export function durToSec(millis) {

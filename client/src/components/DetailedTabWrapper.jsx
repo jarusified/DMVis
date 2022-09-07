@@ -68,7 +68,7 @@ export default function DetailedTabWrapper() {
     return (
         <Paper>
             <Typography variant="overline" style={{ fontWeight: "bold" }}>
-                Detailed
+                Summary
             </Typography>
             <Box sx={{ bgcolor: 'background.paper' }}>
                 <AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
