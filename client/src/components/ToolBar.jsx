@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	Toolbar,
@@ -7,7 +7,6 @@ import {
 	Typography,
 	Divider,
 	FormControl,
-	InputLabel,
 	Select,
 	MenuItem,
 } from "@mui/material";
@@ -133,7 +132,7 @@ export default function ToolBar() {
 		<>
 			<AppBar open={open} elevation={1} position="absolute">
 				<Toolbar className={classes.toolbar}>
-					<IconButton
+					{/* <IconButton
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleDrawerOpen}
@@ -144,8 +143,8 @@ export default function ToolBar() {
 						}}
 					>
 						<MenuIcon />
-					</IconButton>
-					<Typography variant="h6" noWrap component="div" className={classes.bold}>
+					</IconButton> */}
+					<Typography variant="h6" noWrap component="div">
 						NOVA - Performance Visualization
 					</Typography>
 					<Typography variant="text" noWrap component="div">

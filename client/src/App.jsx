@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+import "fontsource-roboto";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
@@ -28,15 +29,15 @@ const theme = createTheme({
 		background: {
 			paper: "#FFFFFF",
 		},
-		text: {
-			primary: {
-				main: '#fff',
-			},
-			secondary: {
-				main: '#000',
-			}
-		}
 	},
+	text: {
+		primary: {
+			main: '#fff',
+		},
+		secondary: {
+			main: '#000',
+		}
+	}
 });
 
 function App() {

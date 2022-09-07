@@ -88,10 +88,6 @@ path {
 	background: #f5f5f5;
 }
 
-.vis-item.vis-background.epoch {
-	background-color: #9ecae1;
-}
-
 .vis-item.vis-background.marker {
 	border-left: 2px solid green;
 }
@@ -128,15 +124,19 @@ path {
 .vis-item.runtime {
 	background-color: #bebada;
 	border-color: purple;
-	color: black;
+	color: white;
 	box-shadow: 0 0 1px #bebada;
 }
 
-.vis-item.epoch {
-	background-color: #9288d3;
-	border-color: #260bd5;
-	color: white;
-	box-shadow: 0 0 1px #bebada;
+.vis-item.vis-background.epoch {
+	background-color: rgba(105, 255, 98, 0.2);
+	border-color: #3a3654;
+	color: black;
+	box-shadow: 0 0 2px rgba(105, 255, 98, 0.2);
+}
+
+.vis-item.vis-background.marker {
+	border-left: 2px solid green;
 }
 
 .vis-item.vis-selected {
@@ -149,4 +149,9 @@ path {
 	border-color: orangered;
 	color: white;
 	box-shadow: 0 0 20xpx gray;
+}
+
+.icon>path {
+	fill: #abcdec;
+	stroke: none;
 }

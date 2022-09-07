@@ -131,31 +131,32 @@ function TimelineWrapper() {
 				<Grid item id="left-button">
 					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
 						<Tooltip title="Previous" arrow>
-							<ChevronLeftIcon />
+							<ChevronLeftIcon className="icon" />
 						</Tooltip>
 					</ToggleButton>
 				</Grid>
 				<Grid item id="right-button">
 					<ToggleButton size="small" value="check" className={classes.button}>
 						<Tooltip title="Next" arrow>
-							<ChevronRightIcon />
+							<ChevronRightIcon className="icon" />
 						</Tooltip>
 					</ToggleButton>
 				</Grid>
 				<Grid item id="fit-button">
-					<ToggleButton size="small" value="check" className={classes.button}>
-						<Tooltip title="Fit" arrow>
-							<FullscreenIcon />
-						</Tooltip>
-					</ToggleButton>
+					<Tooltip title="Fit" arrow>
+						<ToggleButton size="small" value="check" className={classes.button}>
+							<FullscreenIcon className="icon" />
+						</ToggleButton>
+					</Tooltip>
+
 				</Grid>
-				<Grid item>
+				{/* <Grid item>
 					<ToggleButton size="small" value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
 						<Tooltip title="Stack" arrow>
-							<ReorderIcon />
+							<ReorderIcon className="icon" />
 						</Tooltip>
 					</ToggleButton>
-				</Grid>
+				</Grid> */}
 			</Grid >
 			<Grid container>
 				<Grid item>
