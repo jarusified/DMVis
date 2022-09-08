@@ -38,7 +38,7 @@ export default function FilterEventsDropDown(props) {
     const [events, setEvents] = useState(selectedValue.map((s) => { return s.event }));
 
     function sort_events_by_dur(selectedValue) {
-        let sorted = selectedValue.sort((a, b) => a.dur > b.dur);
+        let sorted = selectedValue.sort((a, b) => b.dur - a.dur);
         return sorted.map((e) => e.event);
     }
 
