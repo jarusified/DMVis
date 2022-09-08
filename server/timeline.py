@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import re
 from collections import defaultdict
+from typing import List, Dict
 
 from server.logger import get_logger
 from server.utils import (
@@ -133,8 +134,8 @@ class Timeline:
 
     @staticmethod
     def combine_events(
-        df_dict: dict[str, pd.DataFrame], exclude_background: bool = False
-    ) -> list[dict]:
+        df_dict: Dict[str, pd.DataFrame], exclude_background: bool = False
+    ) -> List[Dict]:
         """
         Combines all the events across the different event type dataframes.
         """
@@ -149,8 +150,8 @@ class Timeline:
 
     @staticmethod
     def groups_for_vis_timeline(
-        events: list[dict], index_to_grp: dict, grp_to_index: dict
-    ) -> dict:
+        events: List[Dict], index_to_grp: Dict, grp_to_index: Dict
+    ) -> Dict:
         """
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
@@ -172,7 +173,7 @@ class Timeline:
 
         return self.timeline[idx]["args"]
 
-    def get_all_events(self, event_types: list) -> list:
+    def get_all_events(self, event_types: List) -> List:
         if len(event_types) > 0:
             _df = self.timeline_df[self.timeline_df["type"].isin(event_types)]
         else:
@@ -252,7 +253,7 @@ class Timeline:
         return pd.DataFrame(ret)
 
     def construct_range_df(
-        self, df: pd.DataFrame, column: str = "ph", override: dict = {}
+        self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
     ) -> pd.DataFrame:
         """
         Construct the dataframe containing the range-based events.
@@ -289,7 +290,7 @@ class Timeline:
 
         return pd.DataFrame(ret)
 
-    def construct_timeline_df_dict(self) -> dict[str, pd.DataFrame]:
+    def construct_timeline_df_dict(self) -> Dict[str, pd.DataFrame]:
         """
         Process the timeline dataframe by grouping the events based on the allowed event types.
         """
@@ -305,7 +306,7 @@ class Timeline:
 
         return df_dict
 
-    def construct_subgroup_timeline_df_dict(self) -> dict[str, dict[pd.DataFrame]]:
+    def construct_subgroup_timeline_df_dict(self) -> Dict[str, Dict[str, pd.DataFrame]]:
         """
         Construct a timeline df for the sub_group's present inside the events.
         """
@@ -387,7 +388,7 @@ class Timeline:
     def get_end_timestamp(self) -> float:
         return self.end_ts
 
-    def get_metadata(self, exp) -> dict:
+    def get_metadata(self, exp) -> Dict:
         profile_metadata = {
             k: v
             for k, v in self.profile.items()
@@ -413,7 +414,7 @@ class Timeline:
             "profile": [{"name": _m[0], "key": _m[1]} for _m in _all_metadata_sorted],
         }
 
-    def get_summary(self, sample_count=50) -> dict:
+    def get_summary(self, sample_count=50) -> Dict:
         """
         Returns the summary timeline based on uniform-sampling.
         """
@@ -460,7 +461,7 @@ class Timeline:
             "window": SLIDING_WINDOW,
         }
 
-    def get_timeline(self, window_start=None, window_end=None) -> dict:
+    def get_timeline(self, window_start=None, window_end=None) -> Dict:
         """
         Returns the events in a given window. If a window is not provided, it will default to the start and end timestamp of the profile.
         """

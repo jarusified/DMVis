@@ -43,7 +43,7 @@ def list_files_update(directory, whitelist_files=[], whitelist_folders=[]):
 
     return paths
 
-data_files = list_files_update("data", whitelist_folders=DATA_FOLDERS)
+data_files = list_files_update("example_data", whitelist_folders=DATA_FOLDERS)
 
 
 setup(
