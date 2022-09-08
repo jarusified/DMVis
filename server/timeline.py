@@ -19,7 +19,9 @@ LOGGER = get_logger(__name__)
 
 TIMELINE_TYPES = ["background", "point", "range"]
 SLIDING_WINDOW = 1e7
-SNPROF_GROUP_INDEX = 5 # TODO: (surajk) This is a hack. Need to make it more generalizable.
+SNPROF_GROUP_INDEX = (
+    5  # TODO: (surajk) This is a hack. Need to make it more generalizable.
+)
 
 # Pandas automatically converts to scientific notation when creating new dataframes. To avoid this, we set the pandas options to format to float gloablly.
 pd.options.display.float_format = "{:.3f}".format
@@ -359,10 +361,12 @@ class Timeline:
                         _df, override={"group": SNPROF_GROUP_INDEX, "className": grp}
                     )
                     _range_df = _range_df.drop(columns=["ph", "args"])
+                    _range_df["content"] = _range_df["name"]
 
                     new_rt_events_df = Timeline.add_rt_setup_and_teardown_events(
                         _range_df, rt_start_time, rt_end_time
                     )
+                    new_rt_events_df["content"] = new_rt_events_df["name"]
 
                     _range_df = pd.concat([_range_df, new_rt_events_df])
 
