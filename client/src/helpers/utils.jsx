@@ -43,8 +43,8 @@ export function msTimestampToSec(millis, start_ts) {
 	return ((millis - start_ts) / 1e6).toFixed(1);
 }
 
-export function durToSec(millis) {
-	return ((millis) / 1e6).toFixed(0);
+export function durToSec(millis, precision = 0) {
+	return ((millis) / 1e6).toFixed(precision);
 }
 
 export const barBisect = (scale, pos) => {

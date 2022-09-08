@@ -5,6 +5,7 @@ import {
     FETCH_METADATA,
     FETCH_SUMMARY,
     FETCH_TIMELINE,
+    UPDATE_EVENT_SUMMARY
 } from './helpers/types';
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
     experiments: [],
     events: [],
     eventSummary: [],
+    currentEventSummary: [],
     groups: [],
     profileMetadata: [],
     selectedExperiment: '',
@@ -61,12 +63,18 @@ export default function Reducer(state = initialState, action) {
         case FETCH_EVENT_SUMMARY:
             return {
                 ...state,
-                eventSummary: action.payload
+                eventSummary: action.payload,
+                currentEventSummary: action.payload
             }
         case FETCH_BACKGROUND_SUMMARY:
             return {
                 ...state,
                 backgroundSummary: action.payload
+            }
+        case UPDATE_EVENT_SUMMARY:
+            return {
+                ...state,
+                currentEventSummary: action.payload
             }
         default:
             return state;

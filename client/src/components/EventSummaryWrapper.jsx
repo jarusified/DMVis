@@ -9,7 +9,7 @@ import { durToSec, COLORS } from "../helpers/utils";
 function EventSummaryWrapper() {
     const dispatch = useDispatch();
 
-    const eventSummary = useSelector((store) => store.eventSummary);
+    const currentEventSummary = useSelector((store) => store.currentEventSummary);
     const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
     const margin = { top: 10, right: 20, bottom: 10, left: 20 };
@@ -28,9 +28,9 @@ function EventSummaryWrapper() {
 
     useEffect(() => {
         d3.select(containerID).selectAll("*").remove();
-        if (eventSummary != undefined && eventSummary.length > 0) {
-            const events = eventSummary.map((bar) => bar.event);
-            const durations = eventSummary.map((bar) => bar.dur)
+        if (currentEventSummary != undefined && currentEventSummary.length > 0) {
+            const events = currentEventSummary.map((bar) => bar.event);
+            const durations = currentEventSummary.map((bar) => bar.dur)
 
             let x = d3.scaleBand().domain(events).range([0, width]).padding(0.2);
             let y = d3.scaleLinear().domain([0, d3.max(durations)]).range([height, 0]);
@@ -45,16 +45,16 @@ function EventSummaryWrapper() {
             let yAxis = d3.axisLeft()
                 .scale(y)
                 .ticks(3)
-                .tickFormat((d) => durToSec(d) + 's');
+                .tickFormat((d) => { console.log(d, durToSec(d)); return durToSec(d) + 's'; });
 
             let svg = d3.select(containerID).append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .append("g")
-                .attr("transform", "translate(" + margin.left + "," + -margin.bottom + ")")
+                .attr("transform", "translate(" + 2 * margin.left + "," + -margin.bottom + ")")
 
             svg.selectAll("bars")
-                .data(eventSummary)
+                .data(currentEventSummary)
                 .enter()
                 .append("rect")
                 .attr("x", (d) => { return x(d.event); })
@@ -83,7 +83,7 @@ function EventSummaryWrapper() {
                 .style("text-anchor", "end")
                 .text("time (s))");
         }
-    }, [eventSummary]);
+    }, [currentEventSummary]);
     return (
         <div id="event-summary-view"></div>
     );
