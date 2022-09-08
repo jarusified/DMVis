@@ -19,6 +19,7 @@ LOGGER = get_logger(__name__)
 
 TIMELINE_TYPES = ["background", "point", "range"]
 SLIDING_WINDOW = 1e7
+SNPROF_GROUP_INDEX = 5 # TODO: (surajk) This is a hack. Need to make it more generalizable.
 
 # Pandas automatically converts to scientific notation when creating new dataframes. To avoid this, we set the pandas options to format to float gloablly.
 pd.options.display.float_format = "{:.3f}".format
@@ -171,12 +172,12 @@ class Timeline:
             if event not in nested_events:
                 _obj = {"id": grp_to_index[event], "content": event}
                 if event == "runtime":
-                    _obj["nestedGroups"] = [4]
+                    _obj["nestedGroups"] = [SNPROF_GROUP_INDEX]
                     _obj["showNested"] = False
 
                 all_groups.append(_obj)
 
-        all_groups.append({"id": 4, "content": "snprof"})
+        all_groups.append({"id": SNPROF_GROUP_INDEX, "content": "snprof"})
 
         return all_groups
 
@@ -195,7 +196,7 @@ class Timeline:
         else:
             _df = self.timeline_df
 
-        ret = _df["name"].unique().tolist()
+        ret = _df["group"].unique().tolist()
 
         if "range" in event_types:
             for grp in self.sub_grp_df_dict:
@@ -355,7 +356,7 @@ class Timeline:
 
                     # NOTE: We assume the sub_group events are only going to be range-based events.
                     _range_df = self.construct_range_df(
-                        _df, override={"group": 4, "className": grp}
+                        _df, override={"group": SNPROF_GROUP_INDEX, "className": grp}
                     )
                     _range_df = _range_df.drop(columns=["ph", "args"])
 
