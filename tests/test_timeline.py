@@ -43,7 +43,7 @@ def test_addbmm(addbmmT):
     assert set(list(addbmmT.sub_grp_df_dict.keys())) == set(sub_groups)
 
     # Check the number of rt contexts in `sub_grp_timeline_df`
-    assert len(list(addbmmT.sub_grp_df_dict['runtime'].keys())) == 1
+    assert len(list(addbmmT.sub_grp_df_dict['runtime']['rt_id'].unique().tolist())) == 1
 
 def test_logreg(logregT):
      # TODO: (surajk) Need to evaluate in a better fashion.
@@ -66,7 +66,7 @@ def test_logreg(logregT):
     assert set(list(logregT.sub_grp_df_dict.keys())) == set(sub_groups)
 
     # Check the number of rt contexts in `sub_grp_timeline_df`
-    assert len(list(logregT.sub_grp_df_dict['runtime'].keys())) == 199
+    assert len(list(logregT.sub_grp_df_dict['runtime']['rt_id'].unique().tolist())) == 199
 
 # def test_get_summary(summaryT):
 #     payload = summaryT.get_summary(sample_count=10)

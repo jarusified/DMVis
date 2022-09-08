@@ -5,7 +5,6 @@ import json
 import numpy as np
 import pandas as pd
 import re
-from collections import defaultdict
 from typing import List, Dict
 
 from server.logger import get_logger
@@ -134,35 +133,52 @@ class Timeline:
 
     @staticmethod
     def combine_events(
-        df_dict: Dict[str, pd.DataFrame], exclude_background: bool = False
+        grp_df_dict: Dict[str, pd.DataFrame],
+        sub_grp_df_dict: Dict[str, pd.DataFrame] = None,
+        exclude_background: bool = False,
     ) -> List[Dict]:
         """
         Combines all the events across the different event type dataframes.
         """
-        types = list(df_dict.keys())
+        types = list(grp_df_dict.keys())
 
-        if "background" in df_dict and exclude_background:
+        if "background" in grp_df_dict and exclude_background:
             types.remove("background")
 
-        combined_events_list = [df_dict[type].to_dict("records") for type in types]
+        combined_events_list = [grp_df_dict[type].to_dict("records") for type in types]
+
+        if sub_grp_df_dict is not None:
+            groups = list(sub_grp_df_dict.keys())
+            for grp in groups:
+                combined_events_list.append(sub_grp_df_dict[grp].to_dict("records"))
 
         return list(itertools.chain.from_iterable(combined_events_list))
 
     @staticmethod
-    def groups_for_vis_timeline(
-        events: List[Dict], index_to_grp: Dict, grp_to_index: Dict
-    ) -> Dict:
+    def groups_for_vis_timeline(grp_to_index: Dict, all_events: List = []) -> Dict:
         """
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         """
-        groups = defaultdict(lambda: 0)
-        for event in events:
-            groups[index_to_grp[event["group"]]] += 1
+        nested_events = []
+        for event in all_events:
+            if event not in grp_to_index:
+                if event not in nested_events:
+                    nested_events.append(event)
 
-        return [
-            {"id": grp_to_index[grp], "content": grp} for idx, grp in enumerate(groups)
-        ]
+        all_groups = []
+        for event in all_events:
+            if event not in nested_events:
+                _obj = {"id": grp_to_index[event], "content": event}
+                if event == "runtime":
+                    _obj["nestedGroups"] = [4]
+                    _obj["showNested"] = False
+
+                all_groups.append(_obj)
+
+        all_groups.append({"id": 4, "content": "snprof"})
+
+        return all_groups
 
     def get_event_by_id(self, id: int):
         return self.timeline[id]
@@ -181,12 +197,9 @@ class Timeline:
 
         ret = _df["name"].unique().tolist()
 
-        # Only include "range" events for the sub_group_df_dict.
         if "range" in event_types:
             for grp in self.sub_grp_df_dict:
-                for grp_id in self.sub_grp_df_dict[grp]:
-                    _df = self.sub_grp_df_dict[grp][grp_id]
-                    ret += _df["name"].unique().tolist()
+                ret += self.sub_grp_df_dict[grp]["name"].unique().tolist()
 
         return list(set(ret))
 
@@ -224,7 +237,7 @@ class Timeline:
             self.timeline_df.at[idx, "content"] = _content
 
     def construct_point_df(
-        self, df: pd.DataFrame, column: str = "ph", override: dict = {}
+        self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
     ) -> pd.DataFrame:
         """
         Construct the dataframe containing the point-based events.
@@ -306,19 +319,30 @@ class Timeline:
 
         return df_dict
 
-    def construct_subgroup_timeline_df_dict(self) -> Dict[str, Dict[str, pd.DataFrame]]:
+    def construct_subgroup_timeline_df_dict(self) -> Dict[str, pd.DataFrame]:
         """
         Construct a timeline df for the sub_group's present inside the events.
         """
         sub_group_df_dict = {}
         for grp in self.rules:
             if "sub_group" in self.rules[grp]:
-                sub_group_df_dict[grp] = {}
+                sub_group_df_dict[grp] = pd.DataFrame({})
 
-                _sub_df = self.timeline_df.loc[
+                _start_df = self.timeline_df.loc[
+                    (self.timeline_df["name"] == grp) & (self.timeline_df["ph"] == "B")
+                ]
+                _end_df = self.timeline_df.loc[
                     (self.timeline_df["name"] == grp) & (self.timeline_df["ph"] == "E")
                 ]
-                for idx, row in _sub_df.iterrows():
+
+                assert _start_df.shape == _end_df.shape
+
+                for idx in range(_start_df.shape[0]):
+                    rt_start_time = _start_df["ts"].tolist()[idx]
+                    rt_end_time = _end_df["ts"].tolist()[idx]
+
+                    row = _end_df.iloc[idx]
+
                     args = self.get_event_args(row["id"])
 
                     # TODO: (surajk) Hack here. we need to be able to filter out 'M' events before this stage, grouping the events per timeline would help.
@@ -327,10 +351,24 @@ class Timeline:
                     # NOTE: We lose a bit of precision here because we round to the nearest integer.
                     _df["ts"] = _df["ts"].apply(lambda d: int(d))
 
+                    _df["rt_id"] = row["id"]
+
                     # NOTE: We assume the sub_group events are only going to be range-based events.
-                    sub_group_df_dict[grp][row["id"]] = self.construct_range_df(
-                        _df, override={"group": grp, "className": grp}
+                    _range_df = self.construct_range_df(
+                        _df, override={"group": 4, "className": grp}
                     )
+                    _range_df = _range_df.drop(columns=["ph", "args"])
+
+                    new_rt_events_df = Timeline.add_rt_setup_and_teardown_events(
+                        _range_df, rt_start_time, rt_end_time
+                    )
+
+                    _range_df = pd.concat([_range_df, new_rt_events_df])
+
+                    sub_group_df_dict[grp] = pd.concat(
+                        [sub_group_df_dict[grp], _range_df]
+                    )
+
         return sub_group_df_dict
 
     ################### Post-processing functions ###################
@@ -365,18 +403,44 @@ class Timeline:
 
         return ret
 
-    def add_rt_setup_and_teardown_event(self):
-        """ """
-        if "runtime" in self.sub_grp_df_dict:
-            rt_events_df = self.sub_grp_df_dict["runtime"]
+    @staticmethod
+    def add_rt_setup_and_teardown_events(rt_df, rt_start_time, rt_end_time):
+        """
+        Adds runtime setup and teardown events to the runtime dataframe.
+        """
+        pid = rt_df["pid"].unique().tolist()[0]
+        tid = rt_df["tid"].unique().tolist()[0]
+        rt_id = rt_df["rt_id"].unique().tolist()[0]
+        className = rt_df["className"].unique().tolist()[0]
+        group = rt_df["group"].unique().tolist()[0]
 
-            for _rt_id, _rt_df in rt_events_df.items():
-                rt_event = self.get_event_by_id(_rt_id)
-                rt_total_time = rt_event["ts"]
+        rt_setup_dict = {
+            "name": "RT_SETUP",
+            "pid": pid,
+            "tid": tid,
+            "start": rt_start_time,
+            "end": rt_df["start"].min(),
+            "rt_id": rt_id,
+            "group": group,
+            "className": className,
+            "dur": rt_df["start"].min() - rt_start_time,
+        }
 
-                print(rt_event, rt_total_time)
+        rt_teardown_dict = {
+            "name": "RT_TEARDOWN",
+            "pid": pid,
+            "tid": tid,
+            "start": rt_df["end"].max(),
+            "end": rt_end_time,
+            "rt_id": rt_id,
+            "group": group,
+            "className": className,
+            "dur": rt_end_time - rt_df["end"].max(),
+        }
 
-            setup_teardown_dict = {}
+        rt_setup_df = pd.DataFrame(data=rt_setup_dict, index=[rt_df.shape[0] + 1])
+        rt_teardown_df = pd.DataFrame(data=rt_teardown_dict, index=[rt_df.shape[0] + 1])
+        return pd.concat([rt_setup_df, rt_teardown_df])
 
     ################### Exposed APIs ###################
     def get_event_count(self) -> int:
@@ -473,10 +537,9 @@ class Timeline:
 
         # TODO: (surajk) Index the dataframe based on timestamp and allow selection based on window_start, and window_end.
         # For this task, we will have to construct a `df_dict`, where each entry comprises of events in the window.
-        events = Timeline.combine_events(self.grp_df_dict)
-        groups = Timeline.groups_for_vis_timeline(
-            events, self.index_to_grp, self.grp_to_index
-        )
+        all_events = self.get_all_events(["point", "range", "background"])
+        events = Timeline.combine_events(self.grp_df_dict, self.sub_grp_df_dict)
+        groups = Timeline.groups_for_vis_timeline(self.grp_to_index, all_events)
 
         return {
             "end_ts": window_start,
@@ -500,19 +563,19 @@ class Timeline:
             agg = group_by_and_apply_sum(_df, "dur")
             durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
-        if "range" in event_types:
-            subgrp_to_index = {}
-            # Collect event durations from the sub-group events.
-            for grp in self.sub_grp_df_dict:
-                for _idx, grp_id in enumerate(self.sub_grp_df_dict[grp]):
-                    _df = self.sub_grp_df_dict["runtime"][grp_id]
-                    subgrp_to_index = {
-                        **_df.set_index("name").to_dict()["group"],
-                        **subgrp_to_index,
-                    }
+        subgrp_to_index = {}
+        # Collect event durations from the sub-group events.
+        for grp in self.sub_grp_df_dict:
+            _df = self.sub_grp_df_dict["runtime"]
 
-                    agg = group_by_and_apply_sum(_df, "dur")
-                    durations = combine_dicts_and_sum_values(durations, agg["dur"])
+            # NOTE: (surajk) This is incorrect, `df.set_index("name").to_dict()["className"]`, we use className as a hack becasue `group` is an index, and we dont have a good way to handle the addition of runtime events.
+            subgrp_to_index = {
+                **_df.set_index("name").to_dict()["className"],
+                **subgrp_to_index,
+            }
+
+            agg = group_by_and_apply_sum(_df, "dur")
+            durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
             grp_to_index = {**grp_to_index, **subgrp_to_index}
 

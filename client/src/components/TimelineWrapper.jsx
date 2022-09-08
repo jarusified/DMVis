@@ -81,7 +81,7 @@ function TimelineWrapper() {
 			moment: function (date) {
 				return moment(date);
 			},
-			orientation: 'bottom',
+			orientation: 'top',
 			stack: isStacked,
 			tooltip: {
 				followMouse: true,
