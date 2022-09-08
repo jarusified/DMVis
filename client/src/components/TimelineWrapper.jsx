@@ -124,10 +124,10 @@ function TimelineWrapper() {
 	}, [currentTimeline, isStacked]);
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold" }}>
+			<Typography variant="overline" style={{ fontWeight: "bold", marginRight: 1 }} >
 				Timeline
 			</Typography>
-			<Grid container>
+			<Grid container m={1}>
 				{/*<Grid item id="left-button">
 					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
 						<Tooltip title="Previous" arrow>
@@ -142,21 +142,25 @@ function TimelineWrapper() {
 						</Tooltip>
 					</ToggleButton>
 				</Grid>*/}
-				<Grid item id="fit-button">
+				<Grid item id="fit-button" xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton size="small" value="check" className={classes.button}>
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
-
 				</Grid>
 				{/* <Grid item>
 					<ToggleButton size="small" value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
-						<Tooltip title="Stack" arrow>
+					<Tooltip title="Stack" arrow>
 							<ReorderIcon className="icon" />
 						</Tooltip>
 					</ToggleButton>
 				</Grid> */}
+				<Grid xs={6} container justifyContent="flex-end">
+					<Typography variant="string">
+						Total time: {msTimestampToSec(timelineEnd, timelineStart)}s; Total events: {currentTimeline.events.length}
+					</Typography>
+				</Grid>
 			</Grid >
 			<Grid container>
 				<Grid item>

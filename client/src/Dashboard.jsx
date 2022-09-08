@@ -10,7 +10,7 @@ import DetailedTabWrapper from "./components/DetailedTabWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		display: "flex",
+		flexGrow: 1
 	},
 	paper: {
 		textAlign: "center",
@@ -28,29 +28,29 @@ export default function Dashboard() {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.root}>
+		<Grid className={classes.root}>
 			<CssBaseline />
 			<ToolBar />
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Grid>
-					<Grid container m={1} rowSpacing={1}>
-						<Grid item xs={12}>
+				<Grid mt={1} mb={1}>
+					<Grid container>
+						<Grid item xs={12} p={1}>
 							<TimelineWrapper />
 						</Grid>
-						<Grid item xs={12}>
+						<Grid item xs={12} p={1}>
 							<SummaryTimelineWrapper />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={6} p={1}>
 							<DetailedTabWrapper />
 						</Grid>
-						<Grid item xs={6}>
+						<Grid item xs={6} p={1}>
 							<MetadataWrapper />
 						</Grid>
 					</Grid>
 				</Grid>
 			</main>
-		</div>
+		</Grid>
 	);
 }
