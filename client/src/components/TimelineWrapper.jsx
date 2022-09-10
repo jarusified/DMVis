@@ -156,8 +156,8 @@ function TimelineWrapper() {
 						</Tooltip>
 					</ToggleButton>
 				</Grid> */}
-				<Grid xs={6} container justifyContent="flex-end">
-					<Typography variant="string">
+				<Grid item xs={6} container justifyContent="flex-end">
+					<Typography variant="caption">
 						Total time: {msTimestampToSec(timelineEnd, timelineStart)}s; Total events: {currentTimeline.events.length}
 					</Typography>
 				</Grid>
