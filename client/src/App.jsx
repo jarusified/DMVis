@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import "fontsource-roboto";
-
+import "@fontsource/roboto";
+import React, { useEffect } from "react";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { applyMiddleware, createStore } from "redux";
 import thunkMiddleware from "redux-thunk";
 
-import Reducer from "./reducer";
-import "./main.css";
 import Dashboard from "./Dashboard";
+import "./main.css";
+import Reducer from "./reducer";
 
 const store = createStore(Reducer, applyMiddleware(thunkMiddleware));
 
@@ -17,25 +16,25 @@ const store = createStore(Reducer, applyMiddleware(thunkMiddleware));
 const theme = createTheme({
 	palette: {
 		primary: {
-			light: '#0066ff',
-			main: '#0044ff',
-			contrastText: '#ffcc00',
+			light: "#0066ff",
+			main: "#0044ff",
+			contrastText: "#ffcc00"
 		},
 		secondary: {
-			light: '#0066ff',
-			main: '#0044ff',
-			contrastText: '#ffcc00',
+			light: "#0066ff",
+			main: "#0044ff",
+			contrastText: "#ffcc00"
 		},
 		background: {
-			paper: "#FFFFFF",
-		},
+			paper: "#FFFFFF"
+		}
 	},
 	text: {
 		primary: {
-			main: '#fff',
+			main: "#fff"
 		},
 		secondary: {
-			main: '#000',
+			main: "#000"
 		}
 	}
 });

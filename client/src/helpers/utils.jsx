@@ -7,18 +7,18 @@ export const DRAM_COLOR = "#5ab4ac";
 export const PMEM_COLOR = "#d8b365";
 
 export const COLORS = {
-	"compile": "#8dd3c7",
-	"runtime": "#bebada",
-	"tracing": "#f1a340",
-	"Epoch": "#69ff6233"
-}
+	compile: "#8dd3c7",
+	runtime: "#bebada",
+	tracing: "#ffffb3",
+	Epoch: "#69ff6233"
+};
 
 export const CONFIG_LEGEND = {
 	title: "Configs",
 	padding: 50,
 	offset: 5,
 	domain: ["base", "target"],
-	range: [DEFAULT_COLOR, HIGHLIGHT_COLOR],
+	range: [DEFAULT_COLOR, HIGHLIGHT_COLOR]
 };
 
 export const LOC_LEGEND = {
@@ -26,7 +26,7 @@ export const LOC_LEGEND = {
 	padding: 50,
 	offset: 5,
 	domain: ["DRAM", "PMEM"],
-	range: [DRAM_COLOR, PMEM_COLOR],
+	range: [DRAM_COLOR, PMEM_COLOR]
 };
 
 export function formatPower(x) {
@@ -36,7 +36,7 @@ export function formatPower(x) {
 }
 
 export function micro_to_milli(x) {
-	return (x / 1000);
+	return x / 1000;
 }
 
 export function msTimestampToSec(millis, start_ts) {
@@ -44,7 +44,7 @@ export function msTimestampToSec(millis, start_ts) {
 }
 
 export function durToSec(millis, precision = 0) {
-	return ((millis) / 1e6).toFixed(precision);
+	return (millis / 1e6).toFixed(precision);
 }
 
 export const barBisect = (scale, pos) => {
@@ -101,7 +101,7 @@ export const CATEGORICAL_COLORS = {
 	16: [0.69, 0.48, 0.63],
 	17: [0.99, 0.62, 0.66],
 	18: [0.61, 0.46, 0.38],
-	19: [0.73, 0.69, 0.67],
+	19: [0.73, 0.69, 0.67]
 };
 
 export const rgbArrayToHex = (CMYK) => {

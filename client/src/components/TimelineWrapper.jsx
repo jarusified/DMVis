@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import * as d3 from "d3";
-import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-
 import { Grid, Paper, Typography } from "@material-ui/core";
-import Tooltip from '@mui/material/Tooltip';
-import ToggleButton from '@mui/material/ToggleButton';
-import ReorderIcon from '@mui/icons-material/Reorder';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { makeStyles } from "@material-ui/core/styles";
-import { Timeline } from "vis-timeline";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import ReorderIcon from "@mui/icons-material/Reorder";
+import ToggleButton from "@mui/material/ToggleButton";
+import Tooltip from "@mui/material/Tooltip";
+import * as d3 from "d3";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { DataSet } from "vis-data";
+import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
 import { fetchTimeline } from "../actions";
@@ -20,8 +19,8 @@ import { micro_to_milli, msTimestampToSec } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
-		width: window.innerWidth - 20,
-	},
+		width: window.innerWidth - 20
+	}
 }));
 
 function TimelineWrapper() {
@@ -36,21 +35,24 @@ function TimelineWrapper() {
 	const timelineStart = useSelector((store) => store.timelineStart);
 
 	useEffect(() => {
-		if (selectedExperiment !== "" && timelineStart != 0 && timelineEnd != 0) {
+		if (
+			selectedExperiment !== "" &&
+			timelineStart != 0 &&
+			timelineEnd != 0
+		) {
 			dispatch(fetchTimeline(timelineStart, timelineStart));
 		}
 	}, [selectedExperiment, timelineStart, timelineEnd]);
-
 
 	useEffect(() => {
 		d3.select("#timeline-view").selectAll("*").remove();
 		let container = document.getElementById("timeline-view");
 
-		let { end_ts, events, groups, start_ts } = currentTimeline
+		let { end_ts, events, groups, start_ts } = currentTimeline;
 
-		events = events.map(e => {
-			e['start'] = micro_to_milli(e['start']);
-			e['end'] = micro_to_milli(e['end'])
+		events = events.map((e) => {
+			e["start"] = micro_to_milli(e["start"]);
+			e["end"] = micro_to_milli(e["end"]);
 
 			return e;
 		});
@@ -63,16 +65,22 @@ function TimelineWrapper() {
 			autoResize: true,
 			format: {
 				minorLabels: function (date, scale, step) {
-					const duration = moment.duration(date.diff(micro_to_milli(timelineStart)));
+					const duration = moment.duration(
+						date.diff(micro_to_milli(timelineStart))
+					);
 					switch (scale) {
-						case 'millisecond':
+						case "millisecond":
 							return Math.ceil(duration.asMilliseconds()) + "ms";
-						case 'second':
+						case "second":
 							return Math.ceil(duration.asSeconds()) + "s";
-						case 'minute':
+						case "minute":
 							return Math.ceil(duration.asMinutes()) + "min";
 					}
 				}
+			},
+			margin: {
+				item: 5,
+				axis: 10,
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
@@ -81,7 +89,7 @@ function TimelineWrapper() {
 			moment: function (date) {
 				return moment(date);
 			},
-			orientation: 'top',
+			orientation: "top",
 			stack: isStacked,
 			tooltip: {
 				followMouse: true,
@@ -97,34 +105,36 @@ function TimelineWrapper() {
 		tx.setItems(_events);
 		tx.setGroups(_groups);
 
-		document.getElementById('timeline-view').onclick = function (event) {
-			const props = tx.getEventProperties(event)
+		document.getElementById("timeline-view").onclick = function (event) {
+			const props = tx.getEventProperties(event);
 
 			switch (props.what) {
-				case 'axis':
-					break
-				case 'background':
-					break
-				case 'current-time':
-					break
-				case 'item':
-					break
+				case "axis":
+					break;
+				case "background":
+					break;
+				case "current-time":
+					break;
+				case "item":
+					break;
 			}
-		}
+		};
 
 		// Interactions: Fit the timeline to the screenWidth.
 		document.getElementById("fit-button").onclick = function () {
 			tx.fit();
 		};
 
-		tx.on('click', function (props) {
+		tx.on("click", function (props) {
 			console.log(props);
 		});
-
 	}, [currentTimeline, isStacked]);
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold", marginRight: 1 }} >
+			<Typography
+				variant="overline"
+				style={{ fontWeight: "bold", marginRight: 1 }}
+			>
 				Timeline
 			</Typography>
 			<Grid container m={1}>
@@ -144,7 +154,11 @@ function TimelineWrapper() {
 				</Grid>*/}
 				<Grid item id="fit-button" xs={6}>
 					<Tooltip title="Fit" arrow>
-						<ToggleButton size="small" value="check" className={classes.button}>
+						<ToggleButton
+							size="small"
+							value="check"
+							className={classes.button}
+						>
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
@@ -158,10 +172,12 @@ function TimelineWrapper() {
 				</Grid> */}
 				<Grid item xs={6} container justifyContent="flex-end">
 					<Typography variant="caption">
-						Total time: {msTimestampToSec(timelineEnd, timelineStart)}s; Total events: {currentTimeline.events.length}
+						Total time:{" "}
+						{msTimestampToSec(timelineEnd, timelineStart)}s; Total
+						events: {currentTimeline.events.length}
 					</Typography>
 				</Grid>
-			</Grid >
+			</Grid>
 			<Grid container>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>

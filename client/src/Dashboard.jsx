@@ -1,12 +1,12 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CssBaseline } from "@mui/material";
+import { CssBaseline, Grid } from "@mui/material";
+import React from "react";
 
-import ToolBar from "./components/ToolBar";
-import MetadataWrapper from "./components/MetadataWrapper";
-import TimelineWrapper from "./components/TimelineWrapper";
-import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import DetailedTabWrapper from "./components/DetailedTabWrapper";
+import MetadataWrapper from "./components/MetadataWrapper";
+import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
+import TimelineWrapper from "./components/TimelineWrapper";
+import ToolBar from "./components/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	paper: {
 		textAlign: "center",
-		color: theme.palette.text.secondary,
+		color: theme.palette.text.secondary
 	},
 	content: {
 		flexGrow: 1,
 		height: "100vh",
-		overflow: "auto",
+		overflow: "auto"
 	},
-	appBarSpacer: theme.mixins.toolbar,
+	appBarSpacer: theme.mixins.toolbar
 }));
 
 export default function Dashboard() {
