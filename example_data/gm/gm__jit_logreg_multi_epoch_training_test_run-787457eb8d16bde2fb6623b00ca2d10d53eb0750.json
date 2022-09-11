@@ -1,0 +1,3822 @@
+{
+    "perf_data_version": 4,
+    "duration_us": 0,
+    "description": "GM: JIT logreg multi-epoch training test",
+    "description_orig": "JIT logreg multi-epoch training test",
+    "stage": "run",
+    "date_time_utc": "2022-09-10T07:02:18+00:00",
+    "commit": "787457eb8d16bde2fb6623b00ca2d10d53eb0750",
+    "host": "sc-s196",
+    "os": "ubuntu 20.04",
+    "type": "jit",
+    "data": {
+        "displayTimeUnit": "ms",
+        "endTimestamp": 1662793325896548,
+        "startTimestamp": 1662793316614546,
+        "traceEvents": [
+            {
+                "args": null,
+                "id": 0,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793316614552
+            },
+            {
+                "args": null,
+                "id": 1,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793316635785
+            },
+            {
+                "args": {
+                    "is cached": false
+                },
+                "id": 2,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793316639709
+            },
+            {
+                "args": null,
+                "id": 3,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318361746
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{1, 2}"
+                },
+                "id": 4,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318361839
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318778995.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779001.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779017.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779043.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779049.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779066.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779069.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779070.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779072.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779074.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779104.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779108.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779108.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779126.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779159.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779178.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779190.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779191.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779193.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779193.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779195.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779196.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779197.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779200.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779202.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779208.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779210.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779211.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779212.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793318779212.2
+                        }
+                    ]
+                },
+                "id": 5,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318779214
+            },
+            {
+                "args": null,
+                "id": 6,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318779249
+            },
+            {
+                "args": null,
+                "id": 7,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318791465
+            },
+            {
+                "args": {
+                    "is cached": false
+                },
+                "id": 8,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793318797258
+            },
+            {
+                "args": null,
+                "id": 9,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321328297
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{2, 16}"
+                },
+                "id": 10,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321328410
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751692.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751700.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751711.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751714.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751719.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751719.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751721.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751725.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751728.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751728.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751731.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751732.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751734.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751737.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751744.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751747.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 1,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751748.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751768.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751800.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751821.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751832.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 1,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751832.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751834.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751835.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751837.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751838.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751838.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751841.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751843.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751844.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751847.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751847.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751848.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321751848.5
+                        }
+                    ]
+                },
+                "id": 11,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321751850
+            },
+            {
+                "args": null,
+                "id": 12,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321751885
+            },
+            {
+                "args": null,
+                "id": 13,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321757310
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 14,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321758399
+            },
+            {
+                "args": null,
+                "id": 15,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321758402
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{1, 2}"
+                },
+                "id": 16,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321758449
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758453.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758454.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758458.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758461.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758463.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758464.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758465.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758465.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758466.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758466.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758470.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758472.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758472.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758479.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758517.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758528.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758540.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758540.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758541.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758541.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758542.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758542.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758543.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758544.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758547.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758549.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758552.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758553.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758553.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793321758553.8
+                        }
+                    ]
+                },
+                "id": 17,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321758554
+            },
+            {
+                "args": null,
+                "id": 18,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321758559
+            },
+            {
+                "args": null,
+                "id": 19,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321763100
+            },
+            {
+                "args": {
+                    "is cached": false
+                },
+                "id": 20,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793321766684
+            },
+            {
+                "args": null,
+                "id": 21,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325260877
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{2, 16}"
+                },
+                "id": 22,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325261026
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663637.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663645.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663657.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663660.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663667.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663668.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663671.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663676.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663678.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663678.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663681.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663681.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663686.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663686.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663688.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663691.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663699.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663703.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663703.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663724.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663765.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663786.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663797.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663798.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663800.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663801.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663803.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663803.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663804.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663807.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663810.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663811.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663814.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663814.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663814.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325663815.2
+                        }
+                    ]
+                },
+                "id": 23,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325663818
+            },
+            {
+                "args": null,
+                "id": 24,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325663864
+            },
+            {
+                "args": null,
+                "id": 25,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325669833
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 26,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325671606
+            },
+            {
+                "args": null,
+                "id": 27,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325671609
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{1, 2}"
+                },
+                "id": 28,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325671670
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671673.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671675.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671679.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671682.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671685.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671686.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671688.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671688.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671688.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671689.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671693.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671694.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671694.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671702.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671734.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671746.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671753.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671754.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671754.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671754.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671755.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671755.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671756.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671756.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671759.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671762.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671765.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325671765.8
+                        }
+                    ]
+                },
+                "id": 29,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325671766
+            },
+            {
+                "args": null,
+                "id": 30,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325671772
+            },
+            {
+                "args": null,
+                "id": 31,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325676166
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 32,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325677924
+            },
+            {
+                "args": null,
+                "id": 33,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325677927
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{2, 16}"
+                },
+                "id": 34,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325677971
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677973.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677975.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677979.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677979.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677982.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677982.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677984.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677985.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677987.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677987.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677989.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677989.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677990.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677991.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677991.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677991.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677995.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677996.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325677996.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678003.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678057.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678078.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678142.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678143.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678143.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678144.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678144.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678145.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678145.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678146.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678148.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678149.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678151.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678151.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325678152.0
+                        }
+                    ]
+                },
+                "id": 35,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325678152
+            },
+            {
+                "args": null,
+                "id": 36,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325678163
+            },
+            {
+                "args": null,
+                "id": 37,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325678870
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 38,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325681614
+            },
+            {
+                "args": null,
+                "id": 39,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325681617
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{1, 2}"
+                },
+                "id": 40,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325681678
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681682.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681684.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681689.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681691.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681695.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681696.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681699.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681699.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681700.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681700.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681705.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681707.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681707.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681718.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681752.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681768.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681785.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681785.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681786.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681787.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681788.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681789.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681789.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681790.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681794.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681795.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681799.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681799.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681800.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325681800.8
+                        }
+                    ]
+                },
+                "id": 41,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325681801
+            },
+            {
+                "args": null,
+                "id": 42,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325681810
+            },
+            {
+                "args": null,
+                "id": 43,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325686863
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 44,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325689866
+            },
+            {
+                "args": null,
+                "id": 45,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325689869
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{2, 16}"
+                },
+                "id": 46,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325689935
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689939.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689943.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689948.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689949.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689954.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689954.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689958.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689959.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689962.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689962.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689965.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689965.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689968.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689968.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689969.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689970.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689975.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689977.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689977.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325689988.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690021.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690038.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690055.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 2,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690055.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690056.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690057.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690058.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690059.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690059.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690060.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690064.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690065.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690069.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690069.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690070.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325690070.5
+                        }
+                    ]
+                },
+                "id": 47,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325690071
+            },
+            {
+                "args": null,
+                "id": 48,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325690089
+            },
+            {
+                "args": null,
+                "id": 49,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325690929
+            },
+            {
+                "args": {
+                    "is cached": true
+                },
+                "id": 50,
+                "name": "compile",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325693662
+            },
+            {
+                "args": null,
+                "id": 51,
+                "name": "compile",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325693665
+            },
+            {
+                "args": {
+                    "tensor names": "[None, None]",
+                    "tensor size": "{1, 2}"
+                },
+                "id": 52,
+                "name": "runtime",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325693727
+            },
+            {
+                "args": {
+                    "displayTimeUnit": "ns",
+                    "traceEvents": [
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693731.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693733.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693739.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693740.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693744.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693745.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693748.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_SET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693748.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693748.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693749.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693754.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SETUP",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693756.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693756.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693766.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_PROG_LOAD_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693801.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693816.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SAL_RUN_PROG_HW",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693831.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "section": 0,
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_SECTION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693831.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693832.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_FSM_TEARDOWN",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693832.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_SESS_LAUNCH",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693834.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_LAUNCH_SESSION",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693834.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693835.0
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693836.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693840.8
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693841.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "B",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693845.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "SN_CONV_FUNC_CB",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693845.5
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "RT_GET_TENSORS",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693846.2
+                        },
+                        {
+                            "args": {
+                                "queue id": "-1",
+                                "thread id": "2911096"
+                            },
+                            "name": "FE_GET_TENSOR",
+                            "ph": "E",
+                            "pid": "2911096",
+                            "tid": "2911096",
+                            "ts": 1662793325693847.0
+                        }
+                    ]
+                },
+                "id": 53,
+                "name": "runtime",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325693847
+            },
+            {
+                "args": null,
+                "id": 54,
+                "name": "tracing",
+                "ph": "B",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325693856
+            },
+            {
+                "args": null,
+                "id": 55,
+                "name": "tracing",
+                "ph": "E",
+                "pid": 2911096,
+                "tid": 0,
+                "ts": 1662793325896547
+            }
+        ]
+    },
+    "data_list": [],
+    "test": {
+        "description": "GM: JIT logreg multi-epoch training test",
+        "owner": "weiweic",
+        "timeout": 300,
+        "perf_mode": [
+            "jit"
+        ],
+        "jit": {
+            "test folder": "frontend/jit/torch_rdu/test/python/",
+            "cmd": "python experiments/logreg.py",
+            "num rdus": 1
+        },
+        "test list": "/scratch/surajk/software/infra/regression_tests/frontend/jit/NOVA-172.list",
+        "ancestors": [
+            "/scratch/surajk/software/infra/regression_tests/frontend/jit/NOVA-172.list"
+        ],
+        "tags": [],
+        "description_orig": "JIT logreg multi-epoch training test",
+        "arch": "gm"
+    }
+}
