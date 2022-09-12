@@ -1,4 +1,5 @@
 import os
+from random import sample
 import warnings
 
 from flask import Flask, json, jsonify, request, send_from_directory
@@ -125,7 +126,9 @@ class HTTPServer:
         @cross_origin()
         def fetch_summary():
             if self.timeline is not None:
-                summary = self.timeline.get_summary()
+                request_context = request.json
+                sample_count = request_context["sample_count"]
+                summary = self.timeline.get_summary(sample_count=sample_count)
                 return jsonify(summary)
             else:
                 return jsonify({})

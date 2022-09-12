@@ -39,6 +39,10 @@ export function micro_to_milli(x) {
 	return x / 1000;
 }
 
+export function milli_to_micro(x) {
+	return x * 1000;
+}
+
 export function msTimestampToSec(millis, start_ts) {
 	return ((millis - start_ts) / 1e6).toFixed(1);
 }

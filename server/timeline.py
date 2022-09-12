@@ -301,7 +301,11 @@ class Timeline:
         ret_df = ret_df.drop(columns=["ph"])
 
         # NOTE: Move this to the rules.
-        ret_df["content"] = ret_df["name"]
+        ret_df["content"] = (
+            ret_df["name"]
+            if ret_df["group"].unique().tolist()[0] == SNPROF_GROUP_INDEX
+            else ""
+        )
 
         return ret_df
 
@@ -434,6 +438,7 @@ class Timeline:
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         """
+        group_vertical_ordering = ["tracing", "compile", "runtime", "Epoch"]
         nested_events = []
         for event in all_events:
             if event not in grp_to_index:
@@ -443,14 +448,20 @@ class Timeline:
         all_groups = []
         for event in all_events:
             if event not in nested_events:
-                _obj = {"id": grp_to_index[event], "content": event}
+                _obj = {
+                    "id": grp_to_index[event],
+                    "content": event,
+                    "value": group_vertical_ordering.index(event),
+                }
                 if event == "runtime":
                     _obj["nestedGroups"] = [SNPROF_GROUP_INDEX]
+                    _obj["treeLevel"] = 1
                     _obj["showNested"] = False
-
                 all_groups.append(_obj)
 
-        all_groups.append({"id": SNPROF_GROUP_INDEX, "content": "snprof"})
+        all_groups.append(
+            {"id": SNPROF_GROUP_INDEX, "content": "snprof", "treeLevel": 2}
+        )
 
         return all_groups
 
@@ -522,7 +533,7 @@ class Timeline:
             group = self.index_to_grp[event["group"]]
 
             ts = np.array([event["start"], event["end"]])
-            dig = np.digitize(ts, ts_samples)
+            dig = np.digitize(ts, ts_samples, right=True)
 
             if dig[0] == dig[1]:
                 events_in_sample[ts_samples[dig[0] - 1]][group] += (
@@ -543,7 +554,6 @@ class Timeline:
 
         return {
             "data": list(events_in_sample.values()),
-            "end_ts": self.end_ts,
             "groups": list(self.rules.keys()),
             "samples": list(ts_samples),
             "start_ts": self.start_ts,

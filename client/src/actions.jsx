@@ -4,7 +4,8 @@ import {
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
 	FETCH_SUMMARY,
-	FETCH_TIMELINE
+	FETCH_TIMELINE,
+	UPDATE_WINDOW
 } from "./helpers/types";
 
 const SERVER_URL = "http://localhost:5000";
@@ -44,9 +45,9 @@ export const fetchExperiments = () => async (dispatch) => {
 	});
 };
 
-export const fetchSummary = (experiment_tag) => async (dispatch) => {
+export const fetchSummary = (sample_count) => async (dispatch) => {
 	const data = await POSTWrapper("fetch_summary", {
-		experiment: experiment_tag
+		sample_count: sample_count
 	});
 	dispatch({
 		type: FETCH_SUMMARY,
@@ -88,3 +89,10 @@ export const fetchBackgroundSummary = () => async (dispatch) => {
 		payload: backgroundSummary
 	});
 };
+
+export const updateWindow = (windowStart, windowEnd) => async (dispatch) => {
+	dispatch({
+		type: UPDATE_WINDOW,
+		payload: [windowStart, windowEnd]
+	})
+}

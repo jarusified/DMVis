@@ -5,8 +5,10 @@ import {
 	FETCH_METADATA,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
-	UPDATE_EVENT_SUMMARY
+	UPDATE_EVENT_SUMMARY,
+	UPDATE_WINDOW
 } from "./helpers/types";
+
 
 const initialState = {
 	backgroundSummary: [],
@@ -31,7 +33,9 @@ const initialState = {
 		window: 0
 	},
 	timelineEnd: 0,
-	timelineStart: 0
+	timelineStart: 0,
+	windowStart: 0,
+	windowEnd: 0
 };
 
 export default function Reducer(state = initialState, action) {
@@ -76,6 +80,12 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				currentEventSummary: action.payload
 			};
+		case UPDATE_WINDOW:
+			return {
+				...state,
+				windowStart: action.payload[0],
+				windowEnd: action.payload[1]
+			}
 		default:
 			return state;
 	}

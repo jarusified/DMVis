@@ -1,11 +1,11 @@
 import { Grid, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import * as d3 from "d3";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchSummary, fetchTimeline } from "../actions";
-import { COLORS, msTimestampToSec } from "../helpers/utils";
+import { fetchSummary, updateWindow } from "../actions";
+import { COLORS, msTimestampToSec, milli_to_micro, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	summary: {
@@ -18,19 +18,28 @@ function SummaryTimelineWrapper() {
 	const dispatch = useDispatch();
 
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
+	const summary = useSelector((store) => store.summary);
 	const timelineEnd = useSelector((store) => store.timelineEnd);
 	const timelineStart = useSelector((store) => store.timelineStart);
-	const summary = useSelector((store) => store.summary);
+	const windowEnd = useSelector((store) => store.windowEnd);
+	const windowStart = useSelector((store) => store.windowStart);
+
+	const svgRef = useRef(undefined);
+	const brushRef = useRef(undefined);
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
-			dispatch(fetchSummary(selectedExperiment));
+			const barWidth = 30;
+			const sampleCount = Math.floor(width / barWidth);
+			dispatch(fetchSummary(sampleCount));
 		}
 	}, [selectedExperiment]);
 
 	const margin = { top: 30, right: 20, bottom: 10, left: 40 };
+	const svgWidth = window.innerWidth;
 	const width = window.innerWidth - margin.left - margin.right;
-	const height = 150 - margin.bottom - margin.top;
+	const svgHeight = 150;
+	const height = svgHeight - margin.bottom - margin.top;
 
 	useEffect(() => {
 		d3.select("#summary-view").selectAll("*").remove();
@@ -49,10 +58,11 @@ function SummaryTimelineWrapper() {
 				.domain(samples)
 				.range([0, width])
 				.padding(0.1);
+
 			let y = d3
 				.scaleLinear()
 				.domain([0, 100])
-				.range([height - margin.bottom, 0]);
+				.range([height, 0]);
 
 			let xAxis = d3
 				.axisBottom()
@@ -67,54 +77,45 @@ function SummaryTimelineWrapper() {
 				.tickFormat((d) => d);
 
 			// Brush interaction
-			let brushExtent;
-			let brush = d3.brushX().on("start brush", handleBrush);
+			brushRef.current = d3.brushX()
+				.extent([[0, x.range()[0]], [width, x.range()[1]]])
+				.on("start brush", handleBrush);
 
 			function handleBrush(e) {
-				brushExtent = e.selection;
-				update();
+				let brushExtent = e.selection || x.range();
+				let _ts = _extent_to_timestamp(brushExtent);
+				console.debug("Brush extent (on selection): ", brushExtent)
+				dispatch(updateWindow(timelineStart + _ts[0], timelineStart + _ts[1]));
 			}
 
 			function _extent_to_timestamp(brushExtent) {
 				/*
-                Convert brush extent to timestamp.
-                */
-				const factor = (end_ts - start_ts) / width;
+				Convert brush extent to timestamp.
+				*/
+				const factor = (timelineEnd - timelineStart) / (width);
 				return [factor * brushExtent[0], factor * brushExtent[1]];
 			}
 
-			function update() {
-				let _ts = _extent_to_timestamp(brushExtent);
-				// dispatch(fetchTimeline(start_ts + _ts[0], start_ts + _ts[1]));
-
-				d3.selectAll("rect").style("fill", function (d) {
-					let inBrushExtent =
-						brushExtent && d.ts >= _ts[0] && d.ts <= _ts[1];
-
-					return inBrushExtent ? "red" : COLORS[d["name"]];
-				});
-			}
-
-			let svg = d3
+			svgRef.current = d3
 				.select("#summary-view")
 				.append("svg")
-				.attr("width", width + margin.left)
-				.attr("height", height + margin.top)
+				.attr("width", svgWidth)
+				.attr("height", svgHeight)
 				.append("g")
 				.attr(
 					"transform",
 					"translate(" + margin.left + "," + margin.top + ")"
 				);
 
-			svg.append("g")
+			svgRef.current.append("g")
 				.attr("class", "x axis")
-				.attr("transform", "translate(0," + -30 + ")")
+				.attr("transform", "translate(0," + -margin.top + ")")
 				.call(xAxis)
 				.selectAll("text")
 				.style("text-anchor", "end")
 				.attr("dx", ".8em");
 
-			svg.append("g")
+			svgRef.current.append("g")
 				.attr("class", "y axis")
 				.call(yAxis)
 				.append("text")
@@ -135,7 +136,7 @@ function SummaryTimelineWrapper() {
 				return (val / width) * 100;
 			}
 
-			const stacked = svg
+			const stacked = svgRef.current
 				.append("g")
 				.attr("class", "stacked_bar_chart")
 				.selectAll("g");
@@ -165,18 +166,35 @@ function SummaryTimelineWrapper() {
 					);
 				})
 				.attr("width", x.bandwidth());
-
-			var closest = samples.reduce(function (prev, curr) {
-				return Math.abs(curr - (start_ts + window)) <
-					Math.abs(prev - (start_ts + window))
-					? curr
-					: prev;
-			});
-
-			svg.call(brush);
-			// .call(brush.move, [0, x(closest)])
 		}
 	}, [summary]);
+
+	useEffect(() => {
+		if (summary.samples.length > 0 && windowStart != 0 && windowEnd != 0) {
+			const samples = summary.samples;
+
+			let x = d3
+				.scaleBand()
+				.domain(samples)
+				.range([0, width])
+
+			let start_bin = x.domain().reduce((prev, curr) => {
+				return Math.abs(curr - windowStart) < Math.abs(prev - windowStart) ? curr : prev;
+			});
+
+			let end_bin = x.domain().reduce((prev, curr) => {
+				console.debug(curr - windowEnd, prev - windowEnd)
+				return Math.abs(curr - windowEnd) < Math.abs(prev - windowEnd) ? curr : prev;
+			});
+
+			if (svgRef.current != undefined && brushRef != undefined) {
+				svgRef.current.call(brushRef.current)
+					.call(brushRef.current.move, [x(start_bin), x(end_bin)])
+			}
+		}
+
+	}, [windowStart, windowEnd])
+
 	return (
 		<Paper>
 			<Grid container>

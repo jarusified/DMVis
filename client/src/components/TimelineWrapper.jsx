@@ -8,14 +8,14 @@ import ToggleButton from "@mui/material/ToggleButton";
 import Tooltip from "@mui/material/Tooltip";
 import * as d3 from "d3";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DataSet } from "vis-data";
 import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchTimeline } from "../actions";
-import { micro_to_milli, msTimestampToSec } from "../helpers/utils";
+import { fetchTimeline, updateWindow } from "../actions";
+import { micro_to_milli, milli_to_micro, msTimestampToSec, durToSec } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
@@ -27,12 +27,16 @@ function TimelineWrapper() {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
-	const [isStacked, setIsStacked] = useState(false);
-
 	const currentTimeline = useSelector((store) => store.currentTimeline);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const timelineEnd = useSelector((store) => store.timelineEnd);
 	const timelineStart = useSelector((store) => store.timelineStart);
+	const windowEnd = useSelector((store) => store.windowEnd);
+	const windowStart = useSelector((store) => store.windowStart);
+	const summary = useSelector((store) => store.summary);
+
+
+	const txRef = useRef(undefined);
 
 	useEffect(() => {
 		if (
@@ -78,9 +82,12 @@ function TimelineWrapper() {
 					}
 				}
 			},
+			groupOrder: function (a, b) {
+				return a.value - b.value;
+			},
 			margin: {
 				item: 5,
-				axis: 10,
+				axis: 10
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
@@ -90,25 +97,47 @@ function TimelineWrapper() {
 				return moment(date);
 			},
 			orientation: "top",
-			stack: isStacked,
+			preferZoom: true,
+			stack: false,
+			stackSubgroups: false,
 			tooltip: {
 				followMouse: true,
 				template: function (item, element, data) {
-					return item.content;
+					return item.content + " : " + item.dur;
 				}
 			}
 		};
 
 		// Create a Timeline
-		let tx = new Timeline(container);
-		tx.setOptions(_options);
-		tx.setItems(_events);
-		tx.setGroups(_groups);
+		txRef.current = new Timeline(container);
 
-		document.getElementById("timeline-view").onclick = function (event) {
-			const props = tx.getEventProperties(event);
+		txRef.current.setItems(_events);
+		txRef.current.setGroups(_groups);
+		txRef.current.setOptions(_options);
 
-			switch (props.what) {
+		txRef.current.on('click', (properties) => {
+			switch (properties.what) {
+				case 'group-label': {
+					let group = _groups.get(properties.group)
+					_options.stack = !_options.stack;
+					_options.stackSubgroups = !_options.stackSubgroups;
+					_options.cluster = !_options.cluster;
+
+					txRef.current.setOptions(_options);
+
+					if (group.content == "runtime" && group.showNested == false) {
+						// const filteredItems = _events.get({
+						// 	filter: (item) => {
+						// 		return item.group == "snprof";
+						// 	}
+						// });
+
+						// tx.itemSet.clusterGenerator.setItems(new DataSet(filteredItems));
+						// tx.itemSet.clusterGenerator.updateData();
+						// tx.redraw();
+					}
+					break
+				}
 				case "axis":
 					break;
 				case "background":
@@ -118,17 +147,32 @@ function TimelineWrapper() {
 				case "item":
 					break;
 			}
-		};
+		});
+
+		txRef.current.on('rangechanged', (properties) => {
+			if (properties.byUser == true) {
+				if (properties.end - properties.start > summary.ts_width / 1e3) {
+					dispatch(updateWindow(milli_to_micro(properties.start), milli_to_micro(properties.end)))
+				}
+			}
+		});
 
 		// Interactions: Fit the timeline to the screenWidth.
 		document.getElementById("fit-button").onclick = function () {
-			tx.fit();
+			txRef.current.fit();
 		};
 
-		tx.on("click", function (props) {
-			console.log(props);
-		});
-	}, [currentTimeline, isStacked]);
+		dispatch(updateWindow(timelineStart, timelineStart + 1e7));
+
+	}, [currentTimeline]);
+
+	useEffect(() => {
+		if (txRef.current != undefined) {
+			txRef.current.setWindow(micro_to_milli(windowStart), micro_to_milli(windowEnd));
+		}
+	}, [windowStart, windowEnd]);
+
+
 	return (
 		<Paper>
 			<Typography
@@ -163,13 +207,6 @@ function TimelineWrapper() {
 						</ToggleButton>
 					</Tooltip>
 				</Grid>
-				{/* <Grid item>
-					<ToggleButton size="small" value="check" selected={isStacked} onChange={() => { setIsStacked(!isStacked); }}>
-					<Tooltip title="Stack" arrow>
-							<ReorderIcon className="icon" />
-						</Tooltip>
-					</ToggleButton>
-				</Grid> */}
 				<Grid item xs={6} container justifyContent="flex-end">
 					<Typography variant="caption">
 						Total time:{" "}
