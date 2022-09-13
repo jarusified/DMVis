@@ -23,7 +23,8 @@ SNPROF_GROUP_INDEX = (
     5  # TODO: (surajk) This is a hack. Need to make it more generalizable.
 )
 
-# Pandas automatically converts to scientific notation when creating new dataframes. To avoid this, we set the pandas options to format to float gloablly.
+# Pandas automatically converts to scientific notation when creating new dataframes.
+# To avoid this, we set the pandas options to format to float gloablly.
 pd.options.display.float_format = "{:.3f}".format
 
 
@@ -76,16 +77,17 @@ class Timeline:
                 "class_name": "epoch",
             },
         }
+        self.grp_to_index, self.index_to_grp = construct_mapper(self.rules)
 
-        # loads the profile
+        # Read the profile
         LOGGER.debug(f"Loading {file_path} as a timeline.")
         self.profile = load_json(file_path=file_path)
 
+        # Access the properties from the JSON.
         self.timeline = self.profile["data"]["traceEvents"]
         self.start_ts = self.profile["data"]["startTimestamp"]
         self.end_ts = self.profile["data"]["endTimestamp"]
 
-        # TODO: (surajk) Need to jsonize and add event.args to the timeline_df.
         # Convert the timeline to a pandas.DataFrame
         self.timeline_df = self.to_df(self.timeline, skip_keys=["args"])
 
@@ -94,17 +96,21 @@ class Timeline:
         #   "type": determined by the event type: 'point', 'range', and 'background'.
         self.add_vis_fields()
 
-        self.grp_to_index, self.index_to_grp = construct_mapper(self.rules)
-
         # Process the dataframe according to their respective types.
+        # Format: { type: pd.DataFrame({Event}) for type in ["point", "background", "range"] }
         self.grp_df_dict = self.construct_timeline_df_dict()
 
-        # Process the sub_group timelines in the events. If a sub_group is not present, we have an empty dataframe.
+        # Process the sub_group timelines in the events.
         self.sub_grp_df_dict = self.construct_subgroup_timeline_df_dict()
+        # If a sub_group is not present, there will be an empty dataframe.
+        # Format: { grp: pd.DataFrame({Event} for grp in self.rules.keys() }2
 
     ################### Supporting functions ###################
     @staticmethod
     def match_event_group_and_type(event, rules):
+        """
+        Utility function to match the events to correspoinding group and vis_type based on the rules object.
+        """
         group = None
         type = None
 
@@ -213,7 +219,7 @@ class Timeline:
         """
         Add the vis fields based on the type of event.
         # TODO: (surajk) Create vis_fields for the "traceEvents" fields inside the args.
-        # NOTE: (surajk) Think hard. We maybe can use a builder pattern here.
+        # NOTE: (surajk) We should consider employing builder pattern to add/remove fields on the dataframe.
         """
         for idx, event in self.timeline_df.iterrows():
             # Add "group", "type" fields.
@@ -355,25 +361,28 @@ class Timeline:
 
                     args = self.get_event_args(row["id"])
 
-                    # TODO: (surajk) Hack here. we need to be able to filter out 'M' events before this stage, grouping the events per timeline would help.
-                    _df = self.to_df(args["traceEvents"], skip_keys=["args"])
-                    _df["rt_id"] = row["id"]
+                    if args is not None and "traceEvents" in args.keys():
 
-                    # NOTE: We assume the sub_group events are only going to be range-based events.
-                    _range_df = self.construct_range_df(
-                        _df, override={"group": SNPROF_GROUP_INDEX, "className": grp}
-                    )
+                        # TODO: (surajk) Hack here. we need to be able to filter out 'M' events before this stage, grouping the events per timeline would help.
+                        _df = self.to_df(args["traceEvents"], skip_keys=["args"])
+                        _df["rt_id"] = row["id"]
 
-                    new_rt_events_df = Timeline.add_rt_setup_and_teardown_events(
-                        _range_df, rt_start_time, rt_end_time
-                    )
-                    new_rt_events_df["content"] = new_rt_events_df["name"]
+                        # NOTE: We assume the sub_group events are only going to be range-based events.
+                        _range_df = self.construct_range_df(
+                            _df,
+                            override={"group": SNPROF_GROUP_INDEX, "className": grp},
+                        )
 
-                    _range_df = pd.concat([_range_df, new_rt_events_df])
+                        new_rt_events_df = Timeline.add_rt_setup_and_teardown_events(
+                            _range_df, rt_start_time, rt_end_time
+                        )
+                        new_rt_events_df["content"] = new_rt_events_df["name"]
 
-                    sub_group_df_dict[grp] = pd.concat(
-                        [sub_group_df_dict[grp], _range_df]
-                    )
+                        _range_df = pd.concat([_range_df, new_rt_events_df])
+
+                        sub_group_df_dict[grp] = pd.concat(
+                            [sub_group_df_dict[grp], _range_df]
+                        )
 
         return sub_group_df_dict
 
@@ -476,7 +485,9 @@ class Timeline:
 
         if "range" in event_types:
             for grp in self.sub_grp_df_dict:
-                ret += self.sub_grp_df_dict[grp]["name"].unique().tolist()
+                _df = self.sub_grp_df_dict[grp]
+                if not _df.empty:
+                    ret += self.sub_grp_df_dict[grp]["name"].unique().tolist()
 
         return list(set(ret))
 
@@ -602,18 +613,19 @@ class Timeline:
         subgrp_to_index = {}
         # Collect event durations from the sub-group events.
         for grp in self.sub_grp_df_dict:
-            _df = self.sub_grp_df_dict["runtime"]
+            _df = self.sub_grp_df_dict[grp]
+            if not _df.empty:
 
-            # NOTE: (surajk) This is incorrect, `df.set_index("name").to_dict()["className"]`, we use className as a hack becasue `group` is an index, and we dont have a good way to handle the addition of runtime events.
-            subgrp_to_index = {
-                **_df.set_index("name").to_dict()["className"],
-                **subgrp_to_index,
-            }
+                # NOTE: (surajk) This is incorrect, `df.set_index("name").to_dict()["className"]`, we use className as a hack becasue `group` is an index, and we dont have a good way to handle the addition of runtime events.
+                subgrp_to_index = {
+                    **_df.set_index("name").to_dict()["class    Name"],
+                    **subgrp_to_index,
+                }
 
-            agg = group_by_and_apply_sum(_df, "dur")
-            durations = combine_dicts_and_sum_values(durations, agg["dur"])
+                agg = group_by_and_apply_sum(_df, "dur")
+                durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
-            grp_to_index = {**grp_to_index, **subgrp_to_index}
+                grp_to_index = {**grp_to_index, **subgrp_to_index}
 
         result = [
             {
