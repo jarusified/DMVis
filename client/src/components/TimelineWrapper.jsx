@@ -162,7 +162,10 @@ function TimelineWrapper() {
 			txRef.current.fit();
 		};
 
-		dispatch(updateWindow(timelineStart, timelineStart + 1e7));
+		// Enable brushing only if the timeline is more than 100 seconds.
+		if (timelineEnd - timelineStart > 1e8) {
+			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
+		}
 
 	}, [currentTimeline]);
 
