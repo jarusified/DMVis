@@ -15,7 +15,7 @@ function EventSummaryWrapper() {
 
 	const margin = { top: 10, right: 20, bottom: 10, left: 20 };
 	const containerWidth = window.innerWidth / 2;
-	const containerHeight = window.innerHeight / 5;
+	const containerHeight = window.innerHeight / 4;
 	const width = containerWidth - margin.left - margin.right;
 	const height = containerHeight - margin.bottom - margin.top;
 	const containerID = "#event-summary-view";
@@ -40,10 +40,12 @@ function EventSummaryWrapper() {
 				.domain(events)
 				.range([0, width])
 				.padding(0.2);
+
 			let y = d3
 				.scaleLinear()
 				.domain([0, d3.max(durations)])
-				.range([height, 0]);
+				.range([height, 0])
+				.nice(5);
 
 			let xAxis = d3
 				.axisBottom()
@@ -56,8 +58,8 @@ function EventSummaryWrapper() {
 			let yAxis = d3
 				.axisLeft()
 				.scale(y)
-				.ticks(3)
-				.tickFormat((d) => durToSec(d) + "s");
+				.ticks(5)
+				.tickFormat((d) => durToSec(d, 2) + "s");
 
 			let svg = d3
 				.select(containerID)

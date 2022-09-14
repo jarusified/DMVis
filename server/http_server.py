@@ -99,7 +99,7 @@ class HTTPServer:
         @cross_origin()
         def fetch_experiments():
             sorted_experiments = self.profiles.sort_by_date()
-            return jsonify(experiments=sorted_experiments)
+            return jsonify(experiments=sorted_experiments, dataDir=self.data_dir)
 
         @app.route("/set_experiment", methods=["POST"])
         @cross_origin()
@@ -118,6 +118,8 @@ class HTTPServer:
                 window_start = request_context["window_start"]
                 window_end = request_context["window_end"]
                 timeline = self.timeline.get_timeline(window_start, window_end)
+                with open("./timeline_data.json", "w") as outfile:
+                    json.dump(timeline, outfile)
                 return jsonify(timeline)
             else:
                 return jsonify({})

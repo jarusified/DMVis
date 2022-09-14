@@ -53,26 +53,26 @@ class Timeline:
                 ],
                 "event_type": "range",
                 "nested_events": "traceEvents",
-                "content": lambda e: "",  # "Tensor ",  # + e["args"]["tensor size"],
+                # "content": lambda e: "",  # "Tensor ",  # + e["args"]["tensor size"],
                 "class_name": "runtime",
             },
             "compile": {
                 "regex": ["compile"],
                 "event_type": "range",
-                "content": lambda e: " ",
+                # "content": lambda e: " ",
                 "class_name": "compile",
             },
             "tracing": {
                 "regex": ["tracing"],
                 "event_type": "range",
-                "content": lambda e: " ",
+                # "content": lambda e: " ",
                 "class_name": "tracing",
             },
             "Epoch": {
                 "regex": ["Epoch"],
                 "event_type": "background",
-                "content": lambda e: "epoch-" + str(e["args"]["epoch_id"])
-                if e["args"] is not None and "epoch_id" in e["args"]
+                "content": lambda e: "epoch-" + str(e["epoch_id"])
+                if e is not None and "epoch_id" in e
                 else "",
                 "class_name": "epoch",
             },
@@ -85,11 +85,14 @@ class Timeline:
 
         # Access the properties from the JSON.
         self.timeline = self.profile["data"]["traceEvents"]
-        self.start_ts = self.profile["data"]["startTimestamp"]
-        self.end_ts = self.profile["data"]["endTimestamp"]
+        self.start_ts = self.timeline[0]["ts"]
+        self.end_ts = self.timeline[-1]["ts"]
 
         # Convert the timeline to a pandas.DataFrame
+        # We skip args at the moment because of its dtype=JSON, which requires further refactor to convert to a valid column in timeline_df.
+        # TODO (surajk): Add `args` to the final timeline_df.
         self.timeline_df = self.to_df(self.timeline, skip_keys=["args"])
+        LOGGER.debug(f"Constructed the timeline dataframe with {self.timeline_df.shape[0]} events")
 
         # Add vis-related fields as columns in the dataframe.
         #   "group": determined by the self.rules
@@ -101,15 +104,16 @@ class Timeline:
         self.grp_df_dict = self.construct_timeline_df_dict()
 
         # Process the sub_group timelines in the events.
-        self.sub_grp_df_dict = self.construct_subgroup_timeline_df_dict()
         # If a sub_group is not present, there will be an empty dataframe.
-        # Format: { grp: pd.DataFrame({Event} for grp in self.rules.keys() }2
+        # Format: { grp: pd.DataFrame({Event} for grp in self.rules.keys() }
+        self.sub_grp_df_dict = self.construct_subgroup_timeline_df_dict()
 
     ################### Supporting functions ###################
     @staticmethod
     def match_event_group_and_type(event, rules):
         """
         Utility function to match the events to correspoinding group and vis_type based on the rules object.
+        TODO: (surajk) Add documentation to the function.
         """
         group = None
         type = None
@@ -142,9 +146,11 @@ class Timeline:
         return group, type
 
     @staticmethod
-    def match_start_and_end_events(df):
+    def match_start_and_end_events(df) -> List:
         """
-        Match the begin and end events from the dataframe."""
+        Match the begin and end events from the dataframe.
+        TODO: (suraj) Add documentation on the format.
+        """
         ret = []
         stack = []
         for idx, [id, row] in enumerate(df.iterrows()):
@@ -157,7 +163,7 @@ class Timeline:
         return ret
 
     @staticmethod
-    def add_rt_setup_and_teardown_events(rt_df, rt_start_time, rt_end_time):
+    def add_rt_setup_and_teardown_events(rt_df, rt_start_time, rt_end_time) -> pd.DataFrame:
         """
         Adds runtime setup and teardown events to the runtime dataframe.
         """
@@ -230,9 +236,11 @@ class Timeline:
             # Add "content" field.
             if "content" in self.rules[_group].keys():
                 _event = self.get_event_by_id(event["id"])
-                _content = self.rules[_group]["content"](_event)
+                _args = self.get_event_args(_event["id"])
+                _content = self.rules[_group]["content"](_args)
             else:
                 _content = ""
+
             self.timeline_df.at[idx, "content"] = _content
 
     def construct_point_df(
@@ -310,7 +318,7 @@ class Timeline:
         ret_df["content"] = (
             ret_df["name"]
             if ret_df["group"].unique().tolist()[0] == SNPROF_GROUP_INDEX
-            else ""
+            else ret_df["content"]
         )
 
         return ret_df
@@ -388,37 +396,6 @@ class Timeline:
 
     ################### Post-processing functions ###################
     @staticmethod
-    def sliding_window(timeline, start_ts, end_ts):
-        """
-        Return the type: [0, 1, .... x] where x is the index in which the event of type (from TIMELINE_TYPES )
-        """
-        ret = {"point": [], "range": [], "background": []}
-        for type in TIMELINE_TYPES:
-            for idx, event in enumerate(timeline):
-                event_ts = event["ts"]
-                if event["type"] == type:
-                    # if start_ts <= event_ts and event_ts <= end_ts:
-                    ret[type].append(
-                        {"idx": idx, "ph": event["ph"], "name": event["name"]}
-                    )
-
-            # # NOTE: The timeline will behave weirdly if the `B` and `E` phases are included even if the phase is outside the sliding window, so we will make sure the begin and end events are tracked even if they are outside the window.
-            # if (type == 'range' or type == 'background') and len(ret[type]) > 0:
-            #     if ret[type][-1]["ph"] == "B":
-            #         print("adding to end", )
-            #         this_idx = ret[type][-1]["idx"]
-            #         next_end_event = timeline[this_idx + 1]
-            #         ret[type].append({"idx": this_idx, "ph": next_end_event["ph"],  "name": next_end_event["name"]})
-
-            #     if ret[type][0]["ph"] == "E":
-            #         print("Adding to start", ret[type][0])
-            #         this_idx = ret[type][0]["idx"]
-            #         prev_begin_event = timeline[this_idx - 1]
-            #         ret[type].append({"idx": this_idx, "ph": prev_begin_event["ph"],  "name": prev_begin_event["name"]})
-
-        return ret
-
-    @staticmethod
     def combine_events(
         grp_df_dict: Dict[str, pd.DataFrame],
         sub_grp_df_dict: Dict[str, pd.DataFrame] = None,
@@ -446,33 +423,32 @@ class Timeline:
         """
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
+        TODO: (surajk) Restructure this piece of code to assign ids to sub_grps.
         """
-        group_vertical_ordering = ["tracing", "compile", "runtime", "Epoch"]
-        nested_events = []
+        ret = []
+        group_vertical_ordering = ["tracing", "compile", "runtime", "snprof", "Epoch"]
+        include_snprof = False
         for event in all_events:
-            if event not in grp_to_index:
-                if event not in nested_events:
-                    nested_events.append(event)
-
-        all_groups = []
-        for event in all_events:
-            if event not in nested_events:
+            if event in group_vertical_ordering:
                 _obj = {
                     "id": grp_to_index[event],
                     "content": event,
                     "value": group_vertical_ordering.index(event),
                 }
-                if event == "runtime":
+                if event == "runtime" and include_snprof:
                     _obj["nestedGroups"] = [SNPROF_GROUP_INDEX]
                     _obj["treeLevel"] = 1
                     _obj["showNested"] = False
-                all_groups.append(_obj)
+                ret.append(_obj)
+            else: # NOTE: Here we treat all events not in grp_to_index to belong to `runtime (aka snprof)`
+                include_snprof = True
 
-        all_groups.append(
-            {"id": SNPROF_GROUP_INDEX, "content": "snprof", "treeLevel": 2}
-        )
+        if include_snprof:
+            ret.append(
+                {"id": SNPROF_GROUP_INDEX, "content": "snprof", "treeLevel": 2, "value": group_vertical_ordering.index("snprof")}
+            )
 
-        return all_groups
+        return ret
 
     ################### Exposed APIs ###################
     def get_all_events(self, event_types: List) -> List:
@@ -515,7 +491,7 @@ class Timeline:
         derived_metadata = {
             "timelineStart": self.start_ts,
             "timelineEnd": self.end_ts,
-            "selectedExperiment": exp,
+            "selectedExperiment": exp
         }
 
         _all_metadata = list(test_metadata.items()) + list(profile_metadata.items())
@@ -530,7 +506,6 @@ class Timeline:
         """
         Returns the summary timeline based on uniform-sampling.
         """
-
         events = Timeline.combine_events(self.grp_df_dict, exclude_background=True)
 
         ts_width = math.ceil((self.end_ts - self.start_ts) / sample_count)
@@ -544,7 +519,7 @@ class Timeline:
             group = self.index_to_grp[event["group"]]
 
             ts = np.array([event["start"], event["end"]])
-            dig = np.digitize(ts, ts_samples, right=True)
+            dig = np.digitize(ts, ts_samples)
 
             if dig[0] == dig[1]:
                 events_in_sample[ts_samples[dig[0] - 1]][group] += (
@@ -618,7 +593,7 @@ class Timeline:
 
                 # NOTE: (surajk) This is incorrect, `df.set_index("name").to_dict()["className"]`, we use className as a hack becasue `group` is an index, and we dont have a good way to handle the addition of runtime events.
                 subgrp_to_index = {
-                    **_df.set_index("name").to_dict()["class    Name"],
+                    **_df.set_index("name").to_dict()["group"],
                     **subgrp_to_index,
                 }
 

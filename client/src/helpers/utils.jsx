@@ -6,11 +6,13 @@ export const HIGHLIGHT_COLOR = "#f28e2b"; // '#212121'
 export const DRAM_COLOR = "#5ab4ac";
 export const PMEM_COLOR = "#d8b365";
 
+// TODO: (surajk) Fix this hardcoding.
 export const COLORS = {
 	compile: "#8dd3c7",
 	runtime: "#bebada",
 	tracing: "#ffffb3",
-	Epoch: "#69ff6233"
+	Epoch: "#69ff6233",
+	5: "#bebada"
 };
 
 export const CONFIG_LEGEND = {

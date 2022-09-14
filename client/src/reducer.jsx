@@ -18,6 +18,7 @@ const initialState = {
 		groups: [],
 		start_ts: 0
 	},
+	dataDir: "",
 	experiments: [],
 	events: [],
 	eventSummary: [],
@@ -43,6 +44,7 @@ export default function Reducer(state = initialState, action) {
 		case FETCH_EXPERIMENTS:
 			return {
 				...state,
+				dataDir: action.payload.dataDir,
 				experiments: action.payload.experiments,
 				selectedExperiment: action.payload.experiments[0]
 			};

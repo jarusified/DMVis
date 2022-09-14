@@ -36,7 +36,7 @@ export default function MetadataWrapper() {
 			{profileMetadata.length > 0 ? (
 				<TableContainer
 					component={Paper}
-					sx={{ minWidth: 150, maxHeight: 250 }}
+					sx={{ minWidth: 150, maxHeight: 270 }}
 				>
 					<Table
 						size="small"

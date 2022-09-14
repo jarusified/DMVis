@@ -41,7 +41,7 @@ const theme = createTheme({
 
 function App() {
 	useEffect(() => {
-		document.title = "JIT Profiler Visualization";
+		document.title = "NOVA-VIS";
 	}, []);
 	return (
 		<Provider store={store}>

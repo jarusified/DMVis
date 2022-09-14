@@ -1,4 +1,7 @@
-import { Grid, Paper, Typography } from "@material-ui/core";
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Item from '@mui/material/ListItem';
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -19,7 +22,8 @@ import { micro_to_milli, milli_to_micro, msTimestampToSec, durToSec } from "../h
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
-		width: window.innerWidth - 20
+		width: window.innerWidth - 10,
+		left: 5
 	}
 }));
 
@@ -34,7 +38,6 @@ function TimelineWrapper() {
 	const windowEnd = useSelector((store) => store.windowEnd);
 	const windowStart = useSelector((store) => store.windowStart);
 	const summary = useSelector((store) => store.summary);
-
 
 	const txRef = useRef(undefined);
 
@@ -180,11 +183,11 @@ function TimelineWrapper() {
 		<Paper>
 			<Typography
 				variant="overline"
-				style={{ fontWeight: "bold", marginRight: 1 }}
+				style={{ fontWeight: "bold" }}
 			>
 				Timeline
 			</Typography>
-			<Grid container m={1}>
+			<Grid container>
 				{/*<Grid item id="left-button">
 					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
 						<Tooltip title="Previous" arrow>
@@ -210,11 +213,17 @@ function TimelineWrapper() {
 						</ToggleButton>
 					</Tooltip>
 				</Grid>
-				<Grid item xs={6} container justifyContent="flex-end">
+				<Grid item xs={6} justifyContent="flex-end">
 					<Typography variant="caption">
-						Total time:{" "}
-						{msTimestampToSec(timelineEnd, timelineStart)}s; Total
-						events: {currentTimeline.events.length}
+						Total time: {"  "}
+						<span style={{ color: "#00adb5" }}>{msTimestampToSec(timelineEnd, timelineStart)}s</span>
+					</Typography>
+					<Typography>
+						{"     "}
+					</Typography>
+					<Typography variant="caption">
+						Total events: {"  "}
+						<span style={{ color: "#00adb5" }}>{currentTimeline.events.length}</span>
 					</Typography>
 				</Grid>
 			</Grid>

@@ -104,18 +104,18 @@ export default function DetailedTabWrapper() {
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>
 				<AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
-					<Tabs
+					{/* <Tabs
 						value={tabIndex}
 						className={classes.tab}
 						onChange={handleChange}
 						indicatorColor="#000"
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
-					>
-						<Tab label="Per-event" {...a11yProps(0)} />
+					> */}
+						{/* <Tab label="Per-event" {...a11yProps(0)} /> */}
 						{/* <Tab label="Per-tensor" {...a11yProps(1)} /> */}
-						<Tab label="Per-epoch" {...a11yProps(2)} />
-					</Tabs>
+						{/* <Tab label="Per-epoch" {...a11yProps(2)} /> */}
+					{/* </Tabs> */}
 				</AppBar>
 				<SwipeableViews
 					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -128,9 +128,9 @@ export default function DetailedTabWrapper() {
 					{/* <TabPanel value={tabIndex} index={1} dir={theme.direction}>
                         Item Two
                     </TabPanel> */}
-					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
+					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<BackgroundSummaryWrapper />
-					</TabPanel>
+					</TabPanel> */}
 				</SwipeableViews>
 			</Box>
 		</Paper>

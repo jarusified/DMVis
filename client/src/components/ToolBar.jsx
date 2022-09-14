@@ -106,6 +106,7 @@ export default function ToolBar() {
 	const dispatch = useDispatch();
 	const experiments = useSelector((store) => store.experiments);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
+	const dataDir = useSelector((store) => store.dataDir);
 	const [open, setOpen] = useState(false);
 
 	const handleDrawerOpen = () => {
@@ -143,10 +144,10 @@ export default function ToolBar() {
 						<MenuIcon />
 					</IconButton> */}
 					<Typography variant="h6" noWrap component="div">
-						NOVA - Performance Visualization
+						NOVA - VIS
 					</Typography>
-					<Typography variant="text" noWrap component="div">
-						Num. of profiles: {experiments.length} runs
+					<Typography variant="text" noWrap component="div" >
+						Found <strong>{experiments.length}</strong> profiles in <span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
 					{experiments.length > 0 ? (
 						<FormControl
@@ -168,7 +169,11 @@ export default function ToolBar() {
 									</MenuItem>
 								))}
 							</Select>
-							<FormHelperText>Select the profile</FormHelperText>
+							<FormHelperText>
+								<span style={{ color: "#00adb5" }}>
+									Select the profile
+								</span>
+							</FormHelperText>
 						</FormControl>
 					) : (
 						<></>
