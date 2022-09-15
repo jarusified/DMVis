@@ -47,9 +47,9 @@ data_files = list_files_update("example_data", whitelist_folders=DATA_FOLDERS)
 
 
 setup(
-    name="nova",
+    name="nova_vis",
     version="0.0.1",
-    description="NOVA Performance Visualization",
+    description="NOVA-VIS",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.sambanovasystems.com/surajk/JIT-performance-logs",
