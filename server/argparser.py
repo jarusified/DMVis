@@ -2,15 +2,15 @@ import argparse
 from server.logger import get_logger
 
 LOGGER = get_logger(__name__)
+ALLOWED_FORMATS = ["JIT", "SNPROF"]
 
 
 class ArgParser:
     """
-    Argparser class decodes the arguments passed to
+    Argparser class decodes the arguments passed using the cmd line interface.
     """
 
     def __init__(self, args_string):
-
         assert isinstance(args_string, list)
 
         # Parse the arguments passed.
@@ -19,7 +19,7 @@ class ArgParser:
 
         # Verify if only valid things are passed.
         self._verify_parser()
-        LOGGER.info(f"Arguments verified.")
+        LOGGER.info(f"Command args verified!")
 
     def __str__(self):
         items = ("%s = %r" % (k, v) for k, v in self.__dict__.items())
@@ -28,22 +28,23 @@ class ArgParser:
     def __repr__(self):
         return self.__str__()
 
-    # --------------------------------------------------------------------------
-    # Private methods.
     @staticmethod
     def _create_parser():
         """
         Parse the input arguments.
+
+        :params: None
+        :return: None
         """
         parser = argparse.ArgumentParser(prefix_chars="--")
         parser.add_argument(
-            "--http",
-            help="Server mode -- Spawns a http server on specified port",
-            type=int,
-            required=False,
+            "--data_dir", help="Performance directory path", type=str, required=True
         )
         parser.add_argument(
-            "--data_dir", help="Data directory path", type=str, required=True
+            "--format",
+            help="Timeline trace format: allowed = ['JIT', 'SNPROF'].",
+            type=str,
+            required=True,
         )
         return parser
 
@@ -52,19 +53,22 @@ class ArgParser:
         Verify the input arguments.
 
         Raises expections if something is not provided
-        Check if the config file is provided and exists!
 
-        :pargs : argparse.Namespace
-            Arguments passed by the user.
-
-        Returns
-        -------
+        :params: None
+        :return: None
         """
 
         _has_data_dir = self.args["data_dir"] is not None
 
         if not _has_data_dir:
             LOGGER.error(f"Option --data_dir not provided.")
+            self.parser.print_help()
+            exit(1)
+
+        _has_format = self.args["format"]
+
+        if _has_format not in ALLOWED_FORMATS:
+            LOGGER.error(f"Invalid timeline format provided.")
             self.parser.print_help()
             exit(1)
 

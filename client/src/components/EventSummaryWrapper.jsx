@@ -43,7 +43,7 @@ function EventSummaryWrapper() {
 
 			let y = d3
 				.scaleLinear()
-				.domain([0, d3.max(durations)])
+				.domain([d3.min(durations), d3.max(durations)])
 				.range([height, 0])
 				.nice(5);
 

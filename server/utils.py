@@ -57,7 +57,6 @@ def get_latest_file(path):
 def remap_dict_of_list(mapper: dict):
     """
     Utility to remap the dict, values become keys.
-    TODO: (surajk) Generalize the for loop - key, val
     """
     ret = {}
     for idx, key in enumerate(mapper):
@@ -82,7 +81,6 @@ def construct_mapper(obj: dict):
 def load_json(file_path) -> json:
     """
     Loads a timeline from a JSON file.
-    TODO (surajk): Add validation for the chrome trace format.
     """
     with open(file_path, "r") as f:
         try:
@@ -116,3 +114,14 @@ def combine_dicts_and_sum_values(dict_1, dict_2):
         key: dict_1.get(key, 0) + dict_2.get(key, 0)
         for key in set(dict_1) | set(dict_2)
     }
+
+
+def dict_to_list_of_vals(dict):
+    ret = {}
+    for k, v in dict.items():
+        if v not in ret:
+            ret[v] = []
+
+        ret[v].append(k)
+
+    return ret

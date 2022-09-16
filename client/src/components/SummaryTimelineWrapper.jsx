@@ -77,6 +77,7 @@ function SummaryTimelineWrapper() {
 				.tickFormat((d) => d);
 
 			// Brush interaction
+			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/30
 			brushRef.current = d3.brushX()
 				.extent([[0, x.range()[0]], [width, x.range()[1]]])
 				.on("start brush", handleBrush);

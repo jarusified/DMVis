@@ -8,7 +8,7 @@ TEST_FOLDER = "example_data/gm"
 
 
 def test_construct():
-    d = Datasets(data_dir=TEST_FOLDER)
+    d = Datasets(data_dir=TEST_FOLDER, profile_format="JIT")
 
     # Check if the number of profiles in the directory is 6.
     assert len(d.profiles) == 6
@@ -18,7 +18,7 @@ def test_construct():
 
 
 def test_get_profile():
-    d = Datasets(data_dir=TEST_FOLDER)
+    d = Datasets(data_dir=TEST_FOLDER, profile_format="JIT")
 
     assert all(
         type(d.get_profile(filename)) == Timeline
@@ -27,7 +27,7 @@ def test_get_profile():
 
 
 def test_sort_by_event_count():
-    d = Datasets(data_dir=TEST_FOLDER)
+    d = Datasets(data_dir=TEST_FOLDER, profile_format="JIT")
     sorted_datasets = d.sort_by_event_count()
 
     json = {}
@@ -45,7 +45,7 @@ def test_sort_by_event_count():
 
 
 def test_sort_by_timestamp():
-    d = Datasets(data_dir=TEST_FOLDER)
+    d = Datasets(data_dir=TEST_FOLDER, profile_format="JIT")
     sorted_datasets = d.sort_by_date()
 
     json = {}

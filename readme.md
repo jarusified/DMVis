@@ -29,7 +29,7 @@ For running the react client. This loads the interface on the localhost.
 npm run dev
 ```
 
-For updating the build 
+For updating the build
 ```
 npm run build
 ```
@@ -39,4 +39,16 @@ To make sure the recent changes are reflected by the installed package, we need 
 ```
 cd server
 pip install -e .
+```
+
+Before pushing your first commit, install git's pre-commit which does a lot of formatting and cleanup automatically.
+```
+pip install pre-commit
+pre-commit install
+```
+
+For testing, use `tox`
+```
+pip install tox
+tox .
 ```

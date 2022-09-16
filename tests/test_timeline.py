@@ -12,23 +12,20 @@ VIS_COLUMNS = ["group", "type", "content"]
 
 @pytest.fixture
 def logregT():
-    return Timeline(file_path=os.path.join(os.getcwd(), TEST_LOGREG_PATH))
+    return Timeline(file_path=os.path.join(os.getcwd(), TEST_LOGREG_PATH), profile_format="JIT")
 
 
 @pytest.fixture
 def summaryT():
-    return Timeline(file_path=os.path.join(os.getcwd(), TEST_SUMMARY_PATH))
+    return Timeline(file_path=os.path.join(os.getcwd(), TEST_SUMMARY_PATH), profile_format="JIT")
 
 
 @pytest.fixture
 def addbmmT():
-    return Timeline(file_path=os.path.join(os.getcwd(), TEST_ADDBMM_PATH))
+    return Timeline(file_path=os.path.join(os.getcwd(), TEST_ADDBMM_PATH), profile_format="JIT")
 
 
 def test_addbmm(addbmmT):
-    # TODO: (surajk) Need to evaluate in a better fashion.
-    assert "data" in addbmmT.profile
-
     assert (len(addbmmT.timeline)) == 8
 
     keys = list(addbmmT.timeline[0].keys())
@@ -44,7 +41,7 @@ def test_addbmm(addbmmT):
     )
 
     # Check if all sub_groups in the dataframe are tracked.
-    sub_groups = [grp for grp in addbmmT.rules if "nested_events" in addbmmT.rules[grp]]
+    sub_groups = [grp for grp in addbmmT.rules["grouping"] if "sub_groups" in addbmmT.rules["grouping"][grp]]
     assert set(list(addbmmT.sub_grp_df_dict.keys())) == set(sub_groups)
 
     # Check the number of rt contexts in `sub_grp_timeline_df`
@@ -52,9 +49,6 @@ def test_addbmm(addbmmT):
 
 
 def test_logreg(logregT):
-    # TODO: (surajk) Need to evaluate in a better fashion.
-    assert "data" in logregT.profile
-
     assert (len(logregT.timeline)) == 56
 
     keys = list(logregT.timeline[0].keys())
@@ -70,7 +64,7 @@ def test_logreg(logregT):
     )
 
     # Check if all sub_groups in the dataframe are tracked.
-    sub_groups = [grp for grp in logregT.rules if "nested_events" in logregT.rules[grp]]
+    sub_groups = [grp for grp in logregT.rules["grouping"] if "sub_groups" in logregT.rules["grouping"][grp]]
     print(sub_groups)
     assert set(list(logregT.sub_grp_df_dict.keys())) == set(sub_groups)
 

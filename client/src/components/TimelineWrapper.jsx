@@ -122,13 +122,16 @@ function TimelineWrapper() {
 			switch (properties.what) {
 				case 'group-label': {
 					let group = _groups.get(properties.group)
-					_options.stack = !_options.stack;
-					_options.stackSubgroups = !_options.stackSubgroups;
-					_options.cluster = !_options.cluster;
+					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
+					// _options.stack = !_options.stack;
+					// _options.stackSubgroups = !_options.stackSubgroups;
+					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/28
+					// _options.cluster = !_options.cluster;
 
 					txRef.current.setOptions(_options);
 
 					if (group.content == "runtime" && group.showNested == false) {
+						// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
 						// const filteredItems = _events.get({
 						// 	filter: (item) => {
 						// 		return item.group == "snprof";
@@ -153,11 +156,15 @@ function TimelineWrapper() {
 		});
 
 		txRef.current.on('rangechanged', (properties) => {
-			if (properties.byUser == true) {
-				if (properties.end - properties.start > summary.ts_width / 1e3) {
-					dispatch(updateWindow(milli_to_micro(properties.start), milli_to_micro(properties.end)))
-				}
-			}
+			// TODO: This below code updates the summaryTimeline with the ranges provided by the upper timeline.
+			// But this forces the control too much and cause very glitchy motion to restrict the ranges.
+			// For now, this is commented out.
+			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/21
+			// if (properties.byUser == true) {
+			// 	if (properties.end - properties.start > summary.ts_width / 1e3) {
+			// 		dispatch(updateWindow(milli_to_micro(properties.start), milli_to_micro(properties.end)))
+			// 	}
+			// }
 		});
 
 		// Interactions: Fit the timeline to the screenWidth.

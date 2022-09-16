@@ -9,7 +9,7 @@ from server.http_server import HTTPServer
 APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
 APP_PORT = int(os.getenv("APP_PORT", 5000))
 APP_NAME = "NOVA-VIS"
-APP_VERSION = "0.0.1.beta"
+APP_VERSION = "0.0.1"
 
 LOGGER = get_logger(__name__)
 
