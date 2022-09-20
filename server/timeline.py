@@ -20,7 +20,7 @@ from server.utils import (
 LOGGER = get_logger(__name__)
 
 EVENT_TYPES = ["background", "point", "range"]
-ALLOWED_EVENT_PH = ["B", "E", "i"]
+ALLOWED_EVENT_PH = ["B", "E", "X"]
 
 # Pandas automatically converts to scientific notation when creating new dataframes.
 # To avoid this, we set the pandas options to format to float gloablly.
@@ -39,6 +39,10 @@ class Timeline:
 
         self.grp_to_idx = {grp: idx for idx, grp in enumerate(self.rules["ordering"])}
         self.idx_to_grp = {idx: grp for idx, grp in enumerate(self.rules["ordering"])}
+
+        if len(self.timeline) == 0:
+            LOGGER.error(f"No events found in {file_path}!")
+            exit(1)
 
         # Access the properties from the JSON.
         self.start_ts = self.timeline[0]["ts"]
@@ -114,6 +118,20 @@ class Timeline:
             timeline = profile["traceEvents"]
             metadata = {}
 
+        elif format == "KINETO":
+            rules = Rules().kineto()
+
+            if "traceEvents" not in profile.keys():
+                LOGGER.error(f"Missing field: `traceEvents`")
+                exit(1)
+
+            timeline = profile["traceEvents"]
+            metadata = profile["deviceProperties"]
+
+        else:
+            LOGGER.error("Invalid profile format!")
+
+
         # Assert if the required fields in rules that are used by this class are present.
         assert set(["grouping", "ordering"]) == set(rules.keys())
 
@@ -150,13 +168,14 @@ class Timeline:
 
             # Add "content" field.
             if "content" in group_rules[_group].keys():
-                _event = self.get_event_by_id(event["id"])
-                _args = self.get_event_args(_event["id"])
+                _event = self.get_event_by_id(idx)
+                _args = self.get_event_args(idx)
                 _content = group_rules[_group]["content"](_args)
             else:
                 _content = ""
 
             self.timeline_df.at[idx, "content"] = _content
+
 
     def construct_point_df(
         self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
@@ -165,22 +184,21 @@ class Timeline:
         Construct the dataframe containing the point-based events.
         """
         assert column in df.columns
+        grouping_rules = self.rules["grouping"]
+
 
         ret = []
         for idx in range(0, df.shape[0]):
             _e = df.iloc[idx].to_dict()
-            _e["className"] = (
-                self.rules[_e["group"]]["class_name"]
-                if "className" not in override
-                else override["className"]
-            )
-            _e["dur"] = 0  # Duration for a point event is 0
-            _e["group"] = (
-                self.grp_to_index[_e["group"]]
-                if "group" not in override
-                else override["group"]
-            )
+
+            _e["className"] = grouping_rules[_e["group"]]["class_name"]
+            _e["dur"] = 0  if _e['ph'] == "i" else _e["dur"] # Duration for a point event is 0
+            _e["group"] = self.grp_to_idx[_e["group"]]
             _e["start"] = _e["ts"]
+
+            if _e['ph'] == "X":
+                _e["end"] = _e["start"] + _e["dur"]
+                _e["type"] = "range"
 
             del _e["ts"]
             ret.append(_e)
@@ -233,6 +251,18 @@ class Timeline:
 
         return ret_df
 
+    def construct_x_range_df(self, df: pd.DataFrame, column: str='ph'):
+        """
+        Construct the dataframe containing x-range events (i.e., ph == 'X').
+        """
+
+        assert column in df.columns
+
+        grouping_rules = self.rules["grouping"]
+        ret = []
+
+
+
     def construct_timeline_df_dict(self) -> Dict[str, pd.DataFrame]:
         """
         Process the timeline dataframe by grouping the events based on the allowed event types.
@@ -246,8 +276,10 @@ class Timeline:
 
             if type in ["range", "background"]:
                 df_dict[type] = self.construct_range_df(grp)
-            elif type == "point":
+            elif type in ["point", "x-range"]:
                 df_dict[type] = self.construct_point_df(grp)
+            elif type == "x-range":
+                df_dict[type] = self.construct_x_range_df(grp)
             else:
                 raise ValueError("Invalid type detected in the `self.rules`")
 
@@ -361,6 +393,8 @@ class Timeline:
             type = "range"
         elif event["ph"] == "i":
             type = "point"
+        elif event["ph"] == "X":
+            type = "x-range"
         else:
             LOGGER.debug(f"Unsupported event type: {event['ph']}")
             return {"group": group, "type": type}
@@ -371,9 +405,10 @@ class Timeline:
                 regex_to_group[reg] = grp
 
         for [regex, grp] in regex_to_group.items():
+            print(regex, event["name"])
             if re.search(regex, event["name"]):
                 group = grp
-                LOGGER.debug(f"Match found: {regex}: {grp}")
+                LOGGER.info(f"Match found: {regex}: {grp}")
                 break
 
         assert group, f"No matching group identified for {event}."
@@ -671,9 +706,10 @@ class Timeline:
 
         # Collect event durations from the group events.
         for _type in event_types:
-            _df = self.grp_df_dict[_type]
-            agg = group_by_and_apply_sum(_df, "dur")
-            durations = combine_dicts_and_sum_values(durations, agg["dur"])
+            if _type in self.grp_df_dict:
+                _df = self.grp_df_dict[_type]
+                agg = group_by_and_apply_sum(_df, "dur")
+                durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
         # Collect event durations from the sub-group events.
         if include_sub_groups:

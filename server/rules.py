@@ -111,3 +111,40 @@ class Rules:
             },
             "ordering": ["FE", "SN", "SAL", "BUF", "RT"],
         }
+
+    def kineto(self) -> Dict:
+        return {
+            "grouping": {
+                "CPU": {
+                    "regex": [
+                        "cuda(\\w+)",
+                    ],
+                    "event_type": "x-range",
+                    "class_name": "runtime",
+                    "content": lambda e: "",
+                },
+                "DM": {
+                    "regex": ["Memcpy (\\w+)"],
+                    "event_type": "x-range",
+                    "class_name": "compile",
+                    "content": lambda e: "",
+                },
+                "GPU": {
+                    "regex": [
+                        "squa(\\w+)"
+                    ],
+                    "event_type": "x-range",
+                    "class_name": "tracing",
+                    "content": lambda e: "",
+                },
+                "Epoch": {
+                    "regex": ["Epoch"],
+                    "event_type": "background",
+                    "class_name": "epoch",
+                    "content": lambda e: "",
+                },
+            },
+            # TODO: This should be its own function.
+            # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/22
+            "ordering": ["CPU", "GPU", "DM", "Epoch"]
+        }

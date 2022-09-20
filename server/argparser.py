@@ -2,7 +2,7 @@ import argparse
 from server.logger import get_logger
 
 LOGGER = get_logger(__name__)
-ALLOWED_FORMATS = ["JIT", "SNPROF"]
+ALLOWED_FORMATS = ["JIT", "SNPROF", "KINETO"]
 
 
 class ArgParser:
@@ -42,7 +42,7 @@ class ArgParser:
         )
         parser.add_argument(
             "--format",
-            help="Timeline trace format: allowed = ['JIT', 'SNPROF'].",
+            help="Timeline trace format: allowed = ['JIT', 'SNPROF', 'KINETO'].",
             type=str,
             required=True,
         )
