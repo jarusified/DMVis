@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchSummary, updateWindow } from "../actions";
-import { COLORS, msTimestampToSec, milli_to_micro, micro_to_milli } from "../helpers/utils";
+import { COLORS, formatDuration } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	summary: {
@@ -68,7 +68,7 @@ function SummaryTimelineWrapper() {
 				.axisBottom()
 				.scale(x)
 				.ticks(5)
-				.tickFormat((d) => msTimestampToSec(d, start_ts) + "s");
+				.tickFormat((d) => formatDuration(d, start_ts));
 
 			let yAxis = d3
 				.axisLeft()

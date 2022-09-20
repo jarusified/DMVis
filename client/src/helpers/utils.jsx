@@ -48,12 +48,12 @@ export function micro_to_milli(x) {
 	}
 }
 
-export function milli_to_micro(x) {
-	return x * 1000;
-}
-
-export function msTimestampToSec(millis, start_ts) {
-	return ((millis - start_ts) / 1e6).toFixed(1);
+export function formatDuration(millis, start_ts) {
+	let duration = millis - start_ts
+	if(duration < 1e3) {
+		return duration + '\u03BC'
+	}
+	return (duration/ 1e6).toFixed(1) + 's';
 }
 
 export function durToSec(millis, precision = 0) {
