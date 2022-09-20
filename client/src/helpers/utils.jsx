@@ -39,7 +39,13 @@ export function formatPower(x) {
 }
 
 export function micro_to_milli(x) {
-	return x / 1000;
+	let exp = String(x.toExponential());
+	exp = Number(exp.substr(exp.lastIndexOf('e') + 1));
+	if(exp == 12) {
+		return x / 1000;
+	} else {
+		return x;
+	}
 }
 
 export function milli_to_micro(x) {

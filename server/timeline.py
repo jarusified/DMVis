@@ -405,10 +405,9 @@ class Timeline:
                 regex_to_group[reg] = grp
 
         for [regex, grp] in regex_to_group.items():
-            print(regex, event["name"])
             if re.search(regex, event["name"]):
                 group = grp
-                LOGGER.info(f"Match found: {regex}: {grp}")
+                LOGGER.debug(f"Match found: {regex}: {grp}")
                 break
 
         assert group, f"No matching group identified for {event}."
@@ -539,7 +538,7 @@ class Timeline:
         ret = []
 
         all_groups = self.get_uniques_from_timeline(
-            ["point", "range", "background"], column="group"
+            ["point", "range", "background", "x-range"], column="group"
         )
         ordering_rules = self.rules["ordering"]
 
