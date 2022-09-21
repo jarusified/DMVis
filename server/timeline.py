@@ -172,7 +172,6 @@ class Timeline:
             if "content" in group_rules[_group].keys():
                 _event = self.get_event_by_id(idx)
                 _args = self.get_event_args(idx)
-                print(_event, _args)
                 _content = group_rules[_group]["content"](_args)
             else:
                 _content = ""

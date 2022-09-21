@@ -65,7 +65,6 @@ def test_logreg(logregT):
 
     # Check if all sub_groups in the dataframe are tracked.
     sub_groups = [grp for grp in logregT.rules["grouping"] if "sub_groups" in logregT.rules["grouping"][grp]]
-    print(sub_groups)
     assert set(list(logregT.sub_grp_df_dict.keys())) == set(sub_groups)
 
     # Check the number of rt contexts in `sub_grp_timeline_df`
