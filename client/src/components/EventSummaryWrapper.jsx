@@ -60,7 +60,7 @@ function EventSummaryWrapper() {
 				.axisLeft()
 				.scale(y)
 				.ticks(5)
-				.tickFormat((d) => formatTimestamp(d, 2) + "s");
+				.tickFormat((d) => formatTimestamp(d));
 
 			let svg = d3
 				.select(containerID)
@@ -82,6 +82,9 @@ function EventSummaryWrapper() {
 				})
 				.attr("y", (d) => {
 					return y(d.dur);
+				})
+				.attr("class", (d) => {
+					console.log(d);
 				})
 				.attr("width", x.bandwidth())
 				.attr("height", (d) => {
