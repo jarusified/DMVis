@@ -56,7 +56,10 @@ export function formatDuration(millis, start_ts) {
 	return (duration/ 1e6).toFixed(1) + 's';
 }
 
-export function durToSec(millis, precision = 0) {
+export function formatTimestamp(millis, precision = 0) {
+	if (millis < 1e6) {
+		return millis.toFixed(precision);
+	}
 	return (millis / 1e6).toFixed(precision);
 }
 

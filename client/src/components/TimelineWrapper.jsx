@@ -18,7 +18,7 @@ import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
 import { fetchTimeline, updateWindow } from "../actions";
-import { micro_to_milli, formatDuration, durToSec } from "../helpers/utils";
+import { micro_to_milli, formatDuration } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {

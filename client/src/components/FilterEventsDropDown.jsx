@@ -7,7 +7,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import React, { useState } from "react";
 
-import { durToSec } from "../helpers/utils";
+import { formatTimestamp } from "../helpers/utils";
 
 const DROPDOWN_WIDTH = window.innerWidth / 5;
 const ITEM_HEIGHT = 40;
@@ -87,7 +87,7 @@ export default function FilterEventsDropDown(props) {
 							primary={
 								value.event +
 								" : " +
-								durToSec(value.dur, 2) +
+								formatTimestamp(value.dur, 2) +
 								"s"
 							}
 						/>

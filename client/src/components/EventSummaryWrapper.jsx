@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchEventSummary } from "../actions";
-import { COLORS, durToSec } from "../helpers/utils";
+import { COLORS, formatTimestamp } from "../helpers/utils";
 
 function EventSummaryWrapper() {
 	const dispatch = useDispatch();
@@ -34,6 +34,7 @@ function EventSummaryWrapper() {
 		) {
 			const events = currentEventSummary.map((bar) => bar.event);
 			const durations = currentEventSummary.map((bar) => bar.dur);
+			console.log(durations)
 
 			let x = d3
 				.scaleBand()
@@ -59,7 +60,7 @@ function EventSummaryWrapper() {
 				.axisLeft()
 				.scale(y)
 				.ticks(5)
-				.tickFormat((d) => durToSec(d, 2) + "s");
+				.tickFormat((d) => formatTimestamp(d, 2) + "s");
 
 			let svg = d3
 				.select(containerID)
