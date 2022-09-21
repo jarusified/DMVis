@@ -126,7 +126,7 @@ class Timeline:
                 exit(1)
 
             timeline = profile["traceEvents"]
-            metadata = profile["deviceProperties"]
+            metadata = [{"name": _k, "key": _v} for _k, _v in profile["deviceProperties"][0].items()]
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -606,6 +606,7 @@ class Timeline:
         """
         Get the metadata for a Timeline.
         """
+        print(self.metadata)
         return {
             "general": {
                 "timelineStart": self.start_ts,
