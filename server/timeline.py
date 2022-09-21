@@ -126,11 +126,13 @@ class Timeline:
                 exit(1)
 
             timeline = profile["traceEvents"]
-            metadata = [{"name": _k, "key": _v} for _k, _v in profile["deviceProperties"][0].items()]
+            metadata = [
+                {"name": _k, "key": _v}
+                for _k, _v in profile["deviceProperties"][0].items()
+            ]
 
         else:
             LOGGER.error("Invalid profile format!")
-
 
         # Assert if the required fields in rules that are used by this class are present.
         assert set(["grouping", "ordering"]) == set(rules.keys())
@@ -170,12 +172,12 @@ class Timeline:
             if "content" in group_rules[_group].keys():
                 _event = self.get_event_by_id(idx)
                 _args = self.get_event_args(idx)
+                print(_event, _args)
                 _content = group_rules[_group]["content"](_args)
             else:
                 _content = ""
 
-            self.timeline_df.at[idx, "content"] = _content
-
+            self.timeline_df.at[idx, "content"] = _event["name"]
 
     def construct_point_df(
         self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
@@ -186,17 +188,18 @@ class Timeline:
         assert column in df.columns
         grouping_rules = self.rules["grouping"]
 
-
         ret = []
         for idx in range(0, df.shape[0]):
             _e = df.iloc[idx].to_dict()
 
             _e["className"] = grouping_rules[_e["group"]]["class_name"]
-            _e["dur"] = 0  if _e['ph'] == "i" else _e["dur"] # Duration for a point event is 0
+            _e["dur"] = (
+                0 if _e["ph"] == "i" else _e["dur"]
+            )  # Duration for a point event is 0
             _e["group"] = self.grp_to_idx[_e["group"]]
             _e["start"] = _e["ts"]
 
-            if _e['ph'] == "X":
+            if _e["ph"] == "X":
                 _e["end"] = _e["start"] + _e["dur"]
                 _e["type"] = "range"
 
@@ -251,7 +254,7 @@ class Timeline:
 
         return ret_df
 
-    def construct_x_range_df(self, df: pd.DataFrame, column: str='ph'):
+    def construct_x_range_df(self, df: pd.DataFrame, column: str = "ph"):
         """
         Construct the dataframe containing x-range events (i.e., ph == 'X').
         """
@@ -260,8 +263,6 @@ class Timeline:
 
         grouping_rules = self.rules["grouping"]
         ret = []
-
-
 
     def construct_timeline_df_dict(self) -> Dict[str, pd.DataFrame]:
         """
@@ -606,7 +607,6 @@ class Timeline:
         """
         Get the metadata for a Timeline.
         """
-        print(self.metadata)
         return {
             "general": {
                 "timelineStart": self.start_ts,
@@ -691,7 +691,9 @@ class Timeline:
         }
 
     def get_event_summary(
-        self, event_types=["point", "range", "background"], include_sub_groups=False
+        self,
+        event_types=["point", "range", "background", "x-range"],
+        include_sub_groups=False,
     ):
         """
         Returns the event-duration summary.

@@ -115,7 +115,7 @@ class Rules:
     def kineto(self) -> Dict:
         return {
             "grouping": {
-                "CPU": {
+                "CUDA": {
                     "regex": [
                         "cuda(\\w+)",
                     ],
@@ -123,16 +123,14 @@ class Rules:
                     "class_name": "runtime",
                     "content": lambda e: "",
                 },
-                "DM": {
+                "DATA MOV": {
                     "regex": ["Memcpy (\\w+)"],
                     "event_type": "x-range",
                     "class_name": "compile",
-                    "content": lambda e: "",
+                    "content": lambda e: str(e["memory bandwidth (GB/s)"]),
                 },
-                "GPU": {
-                    "regex": [
-                        "squa(\\w+)"
-                    ],
+                "COMPUTE": {
+                    "regex": ["squa(\\w+)"],
                     "event_type": "x-range",
                     "class_name": "tracing",
                     "content": lambda e: "",
@@ -146,5 +144,5 @@ class Rules:
             },
             # TODO: This should be its own function.
             # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/22
-            "ordering": ["CPU", "GPU", "DM", "Epoch"]
+            "ordering": ["COMPUTE", "CUDA", "DATA MOV", "Epoch"],
         }
