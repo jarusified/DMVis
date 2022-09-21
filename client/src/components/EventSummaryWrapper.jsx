@@ -34,7 +34,6 @@ function EventSummaryWrapper() {
 		) {
 			const events = currentEventSummary.map((bar) => bar.event);
 			const durations = currentEventSummary.map((bar) => bar.dur);
-			console.log(durations)
 
 			let x = d3
 				.scaleBand()
@@ -60,7 +59,7 @@ function EventSummaryWrapper() {
 				.axisLeft()
 				.scale(y)
 				.ticks(5)
-				.tickFormat((d) => formatTimestamp(d, 2) + "s");
+				.tickFormat((d) => formatTimestamp(d));
 
 			let svg = d3
 				.select(containerID)
@@ -83,12 +82,15 @@ function EventSummaryWrapper() {
 				.attr("y", (d) => {
 					return y(d.dur);
 				})
+				.attr("class", (d) => {
+					return d.class_name;
+				})
 				.attr("width", x.bandwidth())
 				.attr("height", (d) => {
 					return height - y(d.dur);
 				})
 				.attr("fill", (d) => {
-					return COLORS[d.group];
+					return COLORS[d.class_name];
 				});
 
 			svg.append("g")

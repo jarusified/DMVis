@@ -7,13 +7,11 @@ export const DRAM_COLOR = "#5ab4ac";
 export const PMEM_COLOR = "#d8b365";
 
 // TODO: Fix color hardcoding.
-// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/20
 export const COLORS = {
-	compile: "#8dd3c7",
-	runtime: "#bebada",
-	tracing: "#ffffb3",
-	Epoch: "#69ff6233",
-	5: "#bebada"
+	"fg-2": "#8dd3c7",
+	"fg-1": "#bebada",
+	"fg-3": "#ffffb3",
+	"bg-1": "#69ff6233"
 };
 
 export const CONFIG_LEGEND = {

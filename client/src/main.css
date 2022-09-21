@@ -19,8 +19,7 @@ path {
 }
 
 /* alternating column backgrounds */
-/* https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/20 */
-.vis-time-axis .vis-grid.vis-odd {
+.vis-time-axis.vis-grid.vis-odd {
 	background: #f5f5f5;
 }
 
@@ -28,68 +27,43 @@ path {
 	border-left: 2px solid green;
 }
 
-.vis-item.vis-dot.compile.runtime.tracing {
+.vis-item.vis-dot{
 	border-radius: 5px;
 	border-width: 5px;
 }
 
-.vis-item.vis-line.compile.runtime.tracing {
-	border-width: 5px;
-}
-
-.vis-item.vis-box.compile.runtime.tracing {
-	border-radius: 0;
-	border-width: 2px;
-	font-size: 24pt;
-	font-weight: bold;
-}
-
-.vis-item.compile {
-	background-color: #8dd3c7;
-	border-color: #549523;
+.vis-item.vis-dot.vis-selected {
+	background-color: #f1a340 !important;
+	border-color: orangered;
 	color: white;
-	box-shadow: 0 0 1px #8dd3c7;
+	box-shadow: 0 0 2px gray;
 }
 
-.vis-item.tracing {
-	background-color: #ffffb3;
-	border-color: #f1a340;
-	box-shadow: 0 0 1px #ffffb3;
-}
-
-.vis-item.runtime {
+.fg-1 {
 	background-color: #bebada;
 	border-color: purple;
 	color: white;
 	box-shadow: 0 0 1px #bebada;
 }
 
-.vis-item.vis-background.epoch {
+.fg-2 {
+	background-color: #8dd3c7;
+	border-color: #549523;
+	color: white;
+	box-shadow: 0 0 1px #8dd3c7;
+}
+
+.fg-3 {
+	background-color: #ffffb3;
+	border-color: #f1a340;
+	box-shadow: 0 0 1px #ffffb3;
+}
+
+.bg-1 {
 	background-color: rgba(105, 255, 98, 0.2);
 	border-color: #3a3654;
 	color: black;
 	box-shadow: 0 0 2px rgba(105, 255, 98, 0.2);
-}
-
-.vis-item.vis-background.marker {
-	border-left: 2px solid green;
-}
-
-.vis-item.vis-selected {
-	background-color: #f1a340;
-	border-color: orangered;
-}
-
-.vis-item.vis-selected {
-	background-color: #f1a340 !important;
-	border-color: orangered;
-	color: white;
-	box-shadow: 0 0 20xpx gray;
-}
-
-.vis-item.vis-selected {
-	border-color: green;
-	background-color: lightgreen;
 }
 
 .icon>path {

@@ -46,30 +46,24 @@ class Rules:
                         "name": "snprof",
                         "content": lambda e: e["name"],
                     },
-                    "class_name": "runtime",
                     "content": lambda e: "",
                 },
                 "compile": {
                     "regex": ["compile"],
                     "event_type": "range",
-                    "class_name": "compile",
                     "content": lambda e: "",
                 },
                 "tracing": {
                     "regex": ["tracing"],
                     "event_type": "range",
-                    "class_name": "tracing",
                     "content": lambda e: "",
                 },
                 "Epoch": {
                     "regex": ["Epoch"],
                     "event_type": "background",
-                    "class_name": "epoch",
                     "content": lambda e: "",
                 },
             },
-            # TODO: This should be its own function.
-            # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/22
             "ordering": ["tracing", "compile", "runtime", "snprof", "Epoch"],
         }
 
@@ -82,31 +76,26 @@ class Rules:
                     ],
                     "event_type": "range",
                     # "content": lambda e: "", #e["name"],
-                    "class_name": "runtime",
                 },
                 "RT": {
                     "regex": ["RT_(\\w+)"],
                     "event_type": "range",
                     # "content": lambda e: "", #e["name"],
-                    "class_name": "runtime",
                 },
                 "SN": {
                     "regex": ["SN_(\\w+)"],
                     "event_type": "range",
                     # "content": lambda e: "", #e["name"],
-                    "class_name": "runtime",
                 },
                 "SAL": {
                     "regex": ["SAL_(\\w+)"],
                     "event_type": "range",
                     # "content": lambda e: "", #e["name"],
-                    "class_name": "runtime",
                 },
                 "BUF": {
                     "regex": ["BUF_(\\w+)"],
                     "event_type": "range",
                     # "content": lambda e: "", #e["name"],
-                    "class_name": "runtime",
                 },
             },
             "ordering": ["FE", "SN", "SAL", "BUF", "RT"],
@@ -120,29 +109,18 @@ class Rules:
                         "cuda(\\w+)",
                     ],
                     "event_type": "x-range",
-                    "class_name": "runtime",
                     "content": lambda e: "",
                 },
                 "DATA MOV": {
                     "regex": ["Memcpy (\\w+)"],
                     "event_type": "x-range",
-                    "class_name": "compile",
                     "content": lambda e: str(e["memory bandwidth (GB/s)"]),
                 },
                 "COMPUTE": {
-                    "regex": ["squa(\\w+)"],
+                    "regex": ["squa(\\w+)", "gemm_(\\w+)"],
                     "event_type": "x-range",
-                    "class_name": "tracing",
-                    "content": lambda e: "",
-                },
-                "Epoch": {
-                    "regex": ["Epoch"],
-                    "event_type": "background",
-                    "class_name": "epoch",
                     "content": lambda e: "",
                 },
             },
-            # TODO: This should be its own function.
-            # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/22
-            "ordering": ["COMPUTE", "CUDA", "DATA MOV", "Epoch"],
+            "ordering": ["COMPUTE", "CUDA", "DATA MOV"],
         }
