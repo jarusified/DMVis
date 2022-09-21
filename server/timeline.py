@@ -207,8 +207,8 @@ class Timeline:
         grouping_rules = self.rules["grouping"]
 
         ret = []
-        for idx in range(0, df.shape[0]):
-            _e = df.iloc[idx].to_dict()
+        for idx, row in df.iterrows():
+            _e = row.to_dict()
 
             _e["className"] = self.grp_to_cls[_e["group"]]
             _e["dur"] = (
@@ -271,16 +271,6 @@ class Timeline:
         ret_df = ret_df.drop(columns=["ph"])
 
         return ret_df
-
-    def construct_x_range_df(self, df: pd.DataFrame, column: str = "ph"):
-        """
-        Construct the dataframe containing x-range events (i.e., ph == 'X').
-        """
-
-        assert column in df.columns
-
-        grouping_rules = self.rules["grouping"]
-        ret = []
 
     def construct_timeline_df_dict(self) -> Dict[str, pd.DataFrame]:
         """
@@ -364,7 +354,7 @@ class Timeline:
                             _range_df, rt_start_time, rt_end_time
                         )
 
-                        _range_df = pd.concat([_range_df, new_rt_events_df])
+                        _range_df = pd.concat([_range_df, new_rt_events_df], sort=False)
 
                         sub_group_df_dict[grp] = pd.concat(
                             [sub_group_df_dict[grp], _range_df]
