@@ -120,7 +120,7 @@ class Rules:
                     "regex": ["squa(\\w+)", "gemm_(\\w+)"],
                     "event_type": "x-range",
                     "content": lambda e: "",
-                }
+                },
             },
             "ordering": ["COMPUTE", "CUDA", "DATA MOV"],
         }

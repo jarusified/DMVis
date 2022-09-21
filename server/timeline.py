@@ -155,7 +155,7 @@ class Timeline:
                     class_prefix = "bg"
                 else:
                     class_prefix = "fg"
-            else: # TODO: (surajk) sub-groups should have categorical colors!
+            else:  # TODO: (surajk) sub-groups should have categorical colors!
                 class_prefix = "fg"
 
             self.grp_to_cls[grp] = class_prefix + "-" + str(idx % 3 + 1)
@@ -752,11 +752,13 @@ class Timeline:
         result = []
         for grp_idx in all_groups_idx:
             group = self.idx_to_grp[grp_idx]
-            result.append({
-                "event": group.upper(),
-                "dur": grp_durations[grp_idx],
-                "group": group,
-                "class_name": self.grp_to_cls[group]
-            })
+            result.append(
+                {
+                    "event": group.upper(),
+                    "dur": grp_durations[grp_idx],
+                    "group": group,
+                    "class_name": self.grp_to_cls[group],
+                }
+            )
 
         return sorted(result, key=lambda x: x["dur"], reverse=True)
