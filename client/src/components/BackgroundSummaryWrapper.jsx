@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchBackgroundSummary } from "../actions";
-import { COLORS, durToSec } from "../helpers/utils";
+import { COLORS, formatTimestamp } from "../helpers/utils";
 
 export default function BackgroundSummaryWrapper() {
 	const dispatch = useDispatch();
@@ -52,7 +52,7 @@ export default function BackgroundSummaryWrapper() {
 				.axisLeft()
 				.scale(y)
 				.ticks(5)
-				.tickFormat((d) => durToSec(d) + "s");
+				.tickFormat((d) => formatTimestamp(d));
 
 			let svg = d3
 				.select(containerID)

@@ -39,18 +39,27 @@ export function formatPower(x) {
 }
 
 export function micro_to_milli(x) {
-	return x / 1000;
+	let exp = String(x.toExponential());
+	exp = Number(exp.substr(exp.lastIndexOf('e') + 1));
+	if(exp == 12) {
+		return x / 1000;
+	} else {
+		return x;
+	}
 }
 
-export function milli_to_micro(x) {
-	return x * 1000;
+export function formatDuration(millis, start_ts) {
+	let duration = millis - start_ts
+	if(duration < 1e3) {
+		return duration + '\u03BC'
+	}
+	return (duration/ 1e6).toFixed(1) + 's';
 }
 
-export function msTimestampToSec(millis, start_ts) {
-	return ((millis - start_ts) / 1e6).toFixed(1);
-}
-
-export function durToSec(millis, precision = 0) {
+export function formatTimestamp(millis, precision = 0) {
+	if (millis < 1e6) {
+		return millis.toFixed(precision);
+	}
 	return (millis / 1e6).toFixed(precision);
 }
 

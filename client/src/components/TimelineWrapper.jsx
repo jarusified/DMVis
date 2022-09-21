@@ -18,7 +18,7 @@ import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
 import { fetchTimeline, updateWindow } from "../actions";
-import { micro_to_milli, milli_to_micro, msTimestampToSec, durToSec } from "../helpers/utils";
+import { micro_to_milli, formatDuration } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
@@ -72,16 +72,13 @@ function TimelineWrapper() {
 			autoResize: true,
 			format: {
 				minorLabels: function (date, scale, step) {
-					const duration = moment.duration(
-						date.diff(micro_to_milli(timelineStart))
-					);
 					switch (scale) {
 						case "millisecond":
-							return Math.ceil(duration.asMilliseconds()) + "ms";
+							return formatDuration(date, timelineStart);
 						case "second":
-							return Math.ceil(duration.asSeconds()) + "s";
+							return formatDuration(date, timelineStart);
 						case "minute":
-							return Math.ceil(duration.asMinutes()) + "min";
+							return formatDuration(date, timelineStart);
 					}
 				}
 			},
@@ -223,7 +220,7 @@ function TimelineWrapper() {
 				<Grid item xs={6} justifyContent="flex-end">
 					<Typography variant="caption">
 						Total time: {"  "}
-						<span style={{ color: "#00adb5" }}>{msTimestampToSec(timelineEnd, timelineStart)}s</span>
+						<span style={{ color: "#00adb5" }}>{formatDuration(timelineEnd, timelineStart)}</span>
 					</Typography>
 					<Typography>
 						{"     "}
