@@ -47,6 +47,7 @@ function SummaryTimelineWrapper() {
 		const bars = summary.data;
 		const groups = summary.groups;
 		const samples = summary.samples;
+		const class_names = summary.class_names;
 		const ts_width = summary.ts_width;
 		const start_ts = summary.start_ts;
 		const end_ts = summary.end_ts;
@@ -127,10 +128,6 @@ function SummaryTimelineWrapper() {
 				.text("%");
 
 			// Stacked bar chart
-			const color = d3
-				.scaleOrdinal()
-				.domain(groups)
-				.range(["#bebada", "#8dd3c7", "#ffffb3", "#deebf7"]);
 			const stackedData = d3.stack().keys(groups)(bars);
 
 			function to_perc(val, width) {
@@ -147,7 +144,8 @@ function SummaryTimelineWrapper() {
 				.enter()
 				.append("g")
 				.attr("fill", function (d) {
-					return color(d.key);
+					const class_name = class_names[d.key]
+					return COLORS[class_name];
 				})
 				.selectAll("rect")
 				.data(function (d) {

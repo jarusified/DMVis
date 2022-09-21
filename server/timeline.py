@@ -37,8 +37,7 @@ class Timeline:
         # Derive the rules based on profile_format and read json from file_path.
         self.rules, self.timeline, self.metadata = self.init(file_path, profile_format)
 
-        self.grp_to_idx = {grp: idx for idx, grp in enumerate(self.rules["ordering"])}
-        self.idx_to_grp = {idx: grp for idx, grp in enumerate(self.rules["ordering"])}
+        self.calculate_mappers()
 
         if len(self.timeline) == 0:
             LOGGER.error(f"No events found in {file_path}!")
@@ -143,6 +142,25 @@ class Timeline:
 
         return rules, timeline, metadata
 
+    def calculate_mappers(self):
+        self.grp_to_idx = {grp: idx for idx, grp in enumerate(self.rules["ordering"])}
+        self.idx_to_grp = {idx: grp for idx, grp in enumerate(self.rules["ordering"])}
+
+        self.grp_to_cls = {}
+        for idx, grp in enumerate(self.rules["ordering"]):
+            if grp in self.rules["grouping"]:
+                grouping_rule = self.rules["grouping"][grp]
+
+                if grouping_rule["event_type"] == "background":
+                    class_prefix = "bg"
+                else:
+                    class_prefix = "fg"
+            else: # TODO: (surajk) sub-groups should have categorical colors!
+                class_prefix = "fg"
+
+            self.grp_to_cls[grp] = class_prefix + "-" + str(idx % 3 + 1)
+        self.cls_to_grp = dict_to_list_of_vals(self.grp_to_cls)
+
     def to_df(self, timeline: json, skip_keys=[]) -> pd.DataFrame:
         keys = timeline[0].keys()
         f_keys = [i for i in keys if i not in skip_keys]
@@ -165,12 +183,13 @@ class Timeline:
         for idx, event in self.timeline_df.iterrows():
             # Add "group", "type" fields.
             _group, _type = Timeline.match_event_group_and_type(event, group_rules)
+            _event = self.get_event_by_id(idx)
+
             self.timeline_df.at[idx, "group"] = _group
             self.timeline_df.at[idx, "type"] = _type
 
             # Add "content" field.
             if "content" in group_rules[_group].keys():
-                _event = self.get_event_by_id(idx)
                 _args = self.get_event_args(idx)
                 _content = group_rules[_group]["content"](_args)
             else:
@@ -191,7 +210,7 @@ class Timeline:
         for idx in range(0, df.shape[0]):
             _e = df.iloc[idx].to_dict()
 
-            _e["className"] = grouping_rules[_e["group"]]["class_name"]
+            _e["className"] = self.grp_to_cls[_e["group"]]
             _e["dur"] = (
                 0 if _e["ph"] == "i" else _e["dur"]
             )  # Duration for a point event is 0
@@ -231,7 +250,7 @@ class Timeline:
 
             _range_event = copy.deepcopy(_s)
             _range_event["className"] = (
-                grouping_rules[_s["group"]]["class_name"]
+                self.grp_to_cls[_e["group"]]
                 if "className" not in override
                 else override["className"]
             )
@@ -658,6 +677,7 @@ class Timeline:
         return {
             "data": list(events_in_sample.values()),
             "groups": list(self.rules["grouping"].keys()),
+            "class_names": self.grp_to_cls,
             "samples": list(ts_samples),
             "start_ts": self.start_ts,
             "ts_width": ts_width,
@@ -691,13 +711,15 @@ class Timeline:
 
     def get_event_summary(
         self,
-        event_types=["point", "range", "background", "x-range"],
+        event_types=["point", "range", "x-range"],
         include_sub_groups=False,
     ):
         """
         Returns the event-duration summary.
+        TODO: Major clean up needed here. Clarify what is a group_idx and group.
+        Also make sure the logic is simplified to only show the events that are toggled on in the timeline view.
         """
-        all_groups = self.get_uniques_from_timeline(
+        all_groups_idx = self.get_uniques_from_timeline(
             event_types, column="group", exclude_sub_grps=(not include_sub_groups)
         )
         all_events = self.get_uniques_from_timeline(
@@ -721,18 +743,20 @@ class Timeline:
                     durations = combine_dicts_and_sum_values(durations, agg["dur"])
 
         # Sum all the durations within each group.
-        grp_durations = {grp: 0 for grp in all_groups}
-        for grp in all_groups:
-            for event in self.grp_to_events[grp]:
+        grp_durations = {grp: 0 for grp in all_groups_idx}
+        for grp_idx in all_groups_idx:
+            for event in self.grp_to_events[grp_idx]:
                 if event in durations:
-                    grp_durations[grp] += durations[event]
+                    grp_durations[grp_idx] += durations[event]
 
-        result = [
-            {
-                "event": self.idx_to_grp[grp].upper(),
-                "dur": grp_durations[grp],
-                "group": self.idx_to_grp[grp],
-            }
-            for grp in all_groups
-        ]
+        result = []
+        for grp_idx in all_groups_idx:
+            group = self.idx_to_grp[grp_idx]
+            result.append({
+                "event": group.upper(),
+                "dur": grp_durations[grp_idx],
+                "group": group,
+                "class_name": self.grp_to_cls[group]
+            })
+
         return sorted(result, key=lambda x: x["dur"], reverse=True)
