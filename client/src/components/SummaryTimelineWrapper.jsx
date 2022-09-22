@@ -62,7 +62,6 @@ function SummaryTimelineWrapper() {
 
 			let y = d3
 				.scaleLinear()
-				.domain([0, 100])
 				.range([height, 0]);
 
 			let xAxis = d3
@@ -139,6 +138,14 @@ function SummaryTimelineWrapper() {
 				.attr("class", "stacked_bar_chart")
 				.selectAll("g");
 
+			const y_max = d3.max(bars, function(d) {
+				return Object.keys(d).
+					filter((key) => !key.includes('ts')).
+					reduce((cur, key) => { return cur + d[key]}, 0);
+			});
+			console.log(y_max)
+			y.domain([0, to_perc(y_max, ts_width)]);
+
 			stacked
 				.data(stackedData)
 				.enter()
@@ -157,7 +164,9 @@ function SummaryTimelineWrapper() {
 					return x(d.data.ts);
 				})
 				.attr("y", function (d) {
+					console.log(to_perc(d[1], ts_width))
 					return y(to_perc(d[1], ts_width));
+					// return y(100);
 				})
 				.attr("height", function (d) {
 					return (
