@@ -146,7 +146,6 @@ class HTTPServer:
         def fetch_timeline_detailed():
             """
             Route to fetch the current timeline.
-            TODO: Move the dumped data to a .dot folder.
             """
             if self.timeline is not None:
                 request_context = request.json

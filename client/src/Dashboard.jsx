@@ -3,9 +3,9 @@ import { CssBaseline, Grid } from "@mui/material";
 import React from "react";
 
 import DetailedTabWrapper from "./components/DetailedTabWrapper";
-import MetadataWrapper from "./components/MetadataWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
+import TopologyWrapper from "./components/TopologyWrapper";
 import ToolBar from "./components/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ export default function Dashboard() {
 							<DetailedTabWrapper />
 						</Grid>
 						<Grid item xs={6} p={1}>
-							<MetadataWrapper />
+							<TopologyWrapper />
 						</Grid>
 					</Grid>
 				</Grid>

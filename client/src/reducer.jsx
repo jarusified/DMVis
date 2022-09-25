@@ -35,6 +35,7 @@ const initialState = {
 	},
 	timelineEnd: 0,
 	timelineStart: 0,
+	topology: {},
 	windowStart: 0,
 	windowEnd: 0
 };
