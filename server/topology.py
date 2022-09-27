@@ -1,4 +1,3 @@
-import profile
 import xml.etree.ElementTree as ET
 
 from server.utils import (

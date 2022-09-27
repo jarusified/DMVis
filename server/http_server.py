@@ -211,3 +211,18 @@ class HTTPServer:
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
+
+        @app.route("/fetch_topology", methods=["GET"])
+        @cross_origin()
+        def fetch_topology():
+            if self.topology is not None:
+                layout = self.topology.get_layout()
+                layout_path = os.path.join(
+                    self.out_dir, "nova_layout.json"
+                )
+                with open(layout_path, "w") as outfile:
+                    json.dump(layout, outfile)
+                return jsonify(layout)
+            else:
+                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
+                return jsonify({})
