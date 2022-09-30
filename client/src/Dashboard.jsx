@@ -5,7 +5,7 @@ import React from "react";
 import DetailedTabWrapper from "./components/DetailedTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
-import TopologyWrapper from "./components/TopologyWrapper";
+import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import ToolBar from "./components/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ export default function Dashboard() {
 							<DetailedTabWrapper />
 						</Grid>
 						<Grid item xs={6} p={1}>
-							<TopologyWrapper />
+							<HardwareTabWrapper />
 						</Grid>
 					</Grid>
 				</Grid>

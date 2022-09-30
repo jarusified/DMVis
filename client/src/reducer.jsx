@@ -5,6 +5,7 @@ import {
 	FETCH_METADATA,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
+	FETCH_TOPOLOGY,
 	UPDATE_EVENT_SUMMARY,
 	UPDATE_WINDOW
 } from "./helpers/types";
@@ -35,7 +36,7 @@ const initialState = {
 	},
 	timelineEnd: 0,
 	timelineStart: 0,
-	topology: {},
+	topology: "",
 	windowStart: 0,
 	windowEnd: 0
 };
@@ -77,6 +78,11 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				backgroundSummary: action.payload
+			};
+		case FETCH_TOPOLOGY: 
+			return {
+				...state,
+				topology: action.payload
 			};
 		case UPDATE_EVENT_SUMMARY:
 			return {

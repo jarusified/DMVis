@@ -2,7 +2,7 @@ import os
 import pathlib
 import warnings
 
-from flask import Flask, json, jsonify, request
+from flask import Flask, json, jsonify, request, send_from_directory
 from flask_cors import CORS, cross_origin
 
 from server.logger import get_logger
@@ -212,17 +212,7 @@ class HTTPServer:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
 
-        @app.route("/fetch_topology", methods=["GET"])
+        @app.route('/static/topology.svg', methods=["GET"])
         @cross_origin()
-        def fetch_topology():
-            if self.topology is not None:
-                layout = self.topology.get_layout()
-                layout_path = os.path.join(
-                    self.out_dir, "nova_layout.json"
-                )
-                with open(layout_path, "w") as outfile:
-                    json.dump(layout, outfile)
-                return jsonify(layout)
-            else:
-                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
-                return jsonify({})
+        def serve_topology():
+            return send_from_directory(self.data_dir, 'topology.svg')
