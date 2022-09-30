@@ -25,9 +25,6 @@ export default function MetadataWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold" }}>
-				Hardware Topology
-			</Typography>
 			<Grid>
 				<Zoom>
 					<img

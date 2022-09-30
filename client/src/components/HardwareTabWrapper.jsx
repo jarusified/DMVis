@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
 import { UPDATE_EVENT_SUMMARY } from "../helpers/types";
-import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
-import EventSummaryWrapper from "./EventSummaryWrapper";
-import FilterEventsDropDown from "./FilterEventsDropDown";
 import MetadataWrapper from "./MetadataWrapper";
+import TopologyWrapper from "./TopologyWrapper";
+// import CommunicationWrapper from "./CommunicationWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -88,19 +87,8 @@ export default function DetailedTabWrapper() {
 						variant="overline"
 						style={{ fontWeight: "bold" }}
 					>
-						Summary
+						Hardware
 					</Typography>
-				</Grid>
-				<Grid item xs={6} flex justifyContent="flex-end">
-					{eventSummary.length > 0 ? (
-						<FilterEventsDropDown
-							selectedValue={eventSummary}
-							open={open}
-							propagateChange={handleFilterChange}
-						/>
-					) : (
-						<></>
-					)}
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>
@@ -113,9 +101,9 @@ export default function DetailedTabWrapper() {
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Per-timeline" {...a11yProps(0)} />
-						<Tab label="Per-event" {...a11yProps(1)} />
-						{/* <Tab label="Per-epoch" {...a11yProps(2)} /> */}
+						<Tab label="Topology" {...a11yProps(0)} />
+						<Tab label="Metadata" {...a11yProps(1)} />
+						<Tab label="Communication" {...a11yProps(2)} />
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -124,14 +112,15 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<EventSummaryWrapper />
+						<TopologyWrapper />
 					</TabPanel>
-					{/* <TabPanel value={tabIndex} index={1} dir={theme.direction}>
+                    <TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<MetadataWrapper />
-                    </TabPanel> */}
+					</TabPanel>
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
-						<BackgroundSummaryWrapper />
-					</TabPanel> */}
+						<CommunicationWrapper />
+                    </TabPanel> */}
+					
 				</SwipeableViews>
 			</Box>
 		</Paper>
