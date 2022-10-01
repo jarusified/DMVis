@@ -60,10 +60,7 @@ function SummaryTimelineWrapper() {
 				.range([0, width])
 				.padding(0.1);
 
-			let y = d3
-				.scaleLinear()
-				.domain([0, 100])
-				.range([height, 0]);
+			let y = d3.scaleLinear().domain([0, 100]).range([height, 0]);
 
 			let xAxis = d3
 				.axisBottom()
@@ -79,22 +76,28 @@ function SummaryTimelineWrapper() {
 
 			// Brush interaction
 			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/30
-			brushRef.current = d3.brushX()
-				.extent([[0, x.range()[0]], [width, x.range()[1]]])
+			brushRef.current = d3
+				.brushX()
+				.extent([
+					[0, x.range()[0]],
+					[width, x.range()[1]]
+				])
 				.on("start brush", handleBrush);
 
 			function handleBrush(e) {
 				let brushExtent = e.selection || x.range();
 				let _ts = _extent_to_timestamp(brushExtent);
-				console.debug("Brush extent (on selection): ", brushExtent)
-				dispatch(updateWindow(timelineStart + _ts[0], timelineStart + _ts[1]));
+				console.debug("Brush extent (on selection): ", brushExtent);
+				dispatch(
+					updateWindow(timelineStart + _ts[0], timelineStart + _ts[1])
+				);
 			}
 
 			function _extent_to_timestamp(brushExtent) {
 				/*
 				Convert brush extent to timestamp.
 				*/
-				const factor = (timelineEnd - timelineStart) / (width);
+				const factor = (timelineEnd - timelineStart) / width;
 				return [factor * brushExtent[0], factor * brushExtent[1]];
 			}
 
@@ -109,7 +112,8 @@ function SummaryTimelineWrapper() {
 					"translate(" + margin.left + "," + margin.top + ")"
 				);
 
-			svgRef.current.append("g")
+			svgRef.current
+				.append("g")
 				.attr("class", "x axis")
 				.attr("transform", "translate(0," + -margin.top + ")")
 				.call(xAxis)
@@ -117,7 +121,8 @@ function SummaryTimelineWrapper() {
 				.style("text-anchor", "end")
 				.attr("dx", ".8em");
 
-			svgRef.current.append("g")
+			svgRef.current
+				.append("g")
 				.attr("class", "y axis")
 				.call(yAxis)
 				.append("text")
@@ -144,7 +149,7 @@ function SummaryTimelineWrapper() {
 				.enter()
 				.append("g")
 				.attr("fill", function (d) {
-					const class_name = class_names[d.key]
+					const class_name = class_names[d.key];
 					return COLORS[class_name];
 				})
 				.selectAll("rect")
@@ -172,27 +177,29 @@ function SummaryTimelineWrapper() {
 		if (summary.samples.length > 0 && windowStart != 0 && windowEnd != 0) {
 			const samples = summary.samples;
 
-			let x = d3
-				.scaleBand()
-				.domain(samples)
-				.range([0, width])
+			let x = d3.scaleBand().domain(samples).range([0, width]);
 
 			let start_bin = x.domain().reduce((prev, curr) => {
-				return Math.abs(curr - windowStart) < Math.abs(prev - windowStart) ? curr : prev;
+				return Math.abs(curr - windowStart) <
+					Math.abs(prev - windowStart)
+					? curr
+					: prev;
 			});
 
 			let end_bin = x.domain().reduce((prev, curr) => {
-				console.debug(curr - windowEnd, prev - windowEnd)
-				return Math.abs(curr - windowEnd) < Math.abs(prev - windowEnd) ? curr : prev;
+				console.debug(curr - windowEnd, prev - windowEnd);
+				return Math.abs(curr - windowEnd) < Math.abs(prev - windowEnd)
+					? curr
+					: prev;
 			});
 
 			if (svgRef.current != undefined && brushRef != undefined) {
-				svgRef.current.call(brushRef.current)
-					.call(brushRef.current.move, [x(start_bin), x(end_bin)])
+				svgRef.current
+					.call(brushRef.current)
+					.call(brushRef.current.move, [x(start_bin), x(end_bin)]);
 			}
 		}
-
-	}, [windowStart, windowEnd])
+	}, [windowStart, windowEnd]);
 
 	return (
 		<Paper>

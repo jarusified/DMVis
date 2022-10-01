@@ -13,7 +13,9 @@ class Datasets:
         Dataset class for collecting the profiles from the input `data_dir`.
         """
         self.data_dir = data_dir
-        self.experiments = os.listdir(data_dir)
+        self.experiments = [
+            exp for exp in os.listdir(data_dir) if exp.split(".")[1] == "json"
+        ]
 
         self.file_paths = {
             exp: os.path.join(os.path.abspath(data_dir), exp)

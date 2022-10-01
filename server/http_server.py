@@ -2,7 +2,7 @@ import os
 import pathlib
 import warnings
 
-from flask import Flask, json, jsonify, request
+from flask import Flask, json, jsonify, request, send_from_directory
 from flask_cors import CORS, cross_origin
 
 from server.logger import get_logger
@@ -146,7 +146,6 @@ class HTTPServer:
         def fetch_timeline_detailed():
             """
             Route to fetch the current timeline.
-            TODO: Move the dumped data to a .dot folder.
             """
             if self.timeline is not None:
                 request_context = request.json
@@ -212,3 +211,12 @@ class HTTPServer:
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
+
+        @app.route("/static/topology.svg", methods=["GET"])
+        @cross_origin()
+        def serve_topology():
+            import base64
+
+            with open(os.path.join(self.data_dir, "topology.svg"), "rb") as image_file:
+                ret = base64.b64encode(image_file.read())
+            return ret

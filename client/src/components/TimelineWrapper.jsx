@@ -1,14 +1,14 @@
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Item from '@mui/material/ListItem';
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import ReorderIcon from "@mui/icons-material/Reorder";
+import Grid from "@mui/material/Grid";
+import Item from "@mui/material/ListItem";
+import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 import * as d3 from "d3";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
@@ -18,7 +18,7 @@ import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
 import { fetchTimeline, updateWindow } from "../actions";
-import { micro_to_milli, formatDuration } from "../helpers/utils";
+import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
@@ -115,10 +115,10 @@ function TimelineWrapper() {
 		txRef.current.setGroups(_groups);
 		txRef.current.setOptions(_options);
 
-		txRef.current.on('click', (properties) => {
+		txRef.current.on("click", (properties) => {
 			switch (properties.what) {
-				case 'group-label': {
-					let group = _groups.get(properties.group)
+				case "group-label": {
+					let group = _groups.get(properties.group);
 					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
 					// _options.stack = !_options.stack;
 					// _options.stackSubgroups = !_options.stackSubgroups;
@@ -127,19 +127,21 @@ function TimelineWrapper() {
 
 					txRef.current.setOptions(_options);
 
-					if (group.content == "runtime" && group.showNested == false) {
+					if (
+						group.content == "runtime" &&
+						group.showNested == false
+					) {
 						// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
 						// const filteredItems = _events.get({
 						// 	filter: (item) => {
 						// 		return item.group == "snprof";
 						// 	}
 						// });
-
 						// tx.itemSet.clusterGenerator.setItems(new DataSet(filteredItems));
 						// tx.itemSet.clusterGenerator.updateData();
 						// tx.redraw();
 					}
-					break
+					break;
 				}
 				case "axis":
 					break;
@@ -152,7 +154,7 @@ function TimelineWrapper() {
 			}
 		});
 
-		txRef.current.on('rangechanged', (properties) => {
+		txRef.current.on("rangechanged", (properties) => {
 			// TODO: This below code updates the summaryTimeline with the ranges provided by the upper timeline.
 			// But this forces the control too much and cause very glitchy motion to restrict the ranges.
 			// For now, this is commented out.
@@ -173,22 +175,20 @@ function TimelineWrapper() {
 		if (timelineEnd - timelineStart > 1e8) {
 			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
 		}
-
 	}, [currentTimeline]);
 
 	useEffect(() => {
 		if (txRef.current != undefined) {
-			txRef.current.setWindow(micro_to_milli(windowStart), micro_to_milli(windowEnd));
+			txRef.current.setWindow(
+				micro_to_milli(windowStart),
+				micro_to_milli(windowEnd)
+			);
 		}
 	}, [windowStart, windowEnd]);
 
-
 	return (
 		<Paper>
-			<Typography
-				variant="overline"
-				style={{ fontWeight: "bold" }}
-			>
+			<Typography variant="overline" style={{ fontWeight: "bold" }}>
 				Timeline
 			</Typography>
 			<Grid container>
@@ -220,14 +220,16 @@ function TimelineWrapper() {
 				<Grid item xs={6} justifyContent="flex-end">
 					<Typography variant="caption">
 						Total time: {"  "}
-						<span style={{ color: "#00adb5" }}>{formatDuration(timelineEnd, timelineStart)}</span>
+						<span style={{ color: "#00adb5" }}>
+							{formatDuration(timelineEnd, timelineStart)}
+						</span>
 					</Typography>
-					<Typography>
-						{"     "}
-					</Typography>
+					<Typography>{"     "}</Typography>
 					<Typography variant="caption">
 						Total events: {"  "}
-						<span style={{ color: "#00adb5" }}>{currentTimeline.events.length}</span>
+						<span style={{ color: "#00adb5" }}>
+							{currentTimeline.events.length}
+						</span>
 					</Typography>
 				</Grid>
 			</Grid>

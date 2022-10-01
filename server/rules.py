@@ -104,6 +104,11 @@ class Rules:
     def kineto(self) -> Dict:
         return {
             "grouping": {
+                "DATA MOV": {
+                    "regex": ["Mem(\\w+)", "(\\w+)Mem", "(\\w+)Free", "Malloc"],
+                    "event_type": "x-range",
+                    "content": lambda e: e,  # str(e["memory bandwidth (GB/s)"]),
+                },
                 "CUDA": {
                     "regex": [
                         "cuda(\\w+)",
@@ -111,13 +116,16 @@ class Rules:
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },
-                "DATA MOV": {
-                    "regex": ["Memcpy (\\w+)"],
-                    "event_type": "x-range",
-                    "content": lambda e: str(e["memory bandwidth (GB/s)"]),
-                },
                 "COMPUTE": {
-                    "regex": ["squa(\\w+)", "gemm_(\\w+)"],
+                    "regex": [
+                        "random_(\\w+)",
+                        "gemm",
+                        "void at::native",
+                        "volta_dgemm",
+                        "void computeBlockCounts",
+                        "void compactK",
+                        "void mfem::CuKernel1D",
+                    ],
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },

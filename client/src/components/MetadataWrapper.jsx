@@ -29,10 +29,6 @@ export default function MetadataWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold" }}>
-				Metadata
-			</Typography>
-
 			{profileMetadata.length > 0 ? (
 				<TableContainer
 					component={Paper}

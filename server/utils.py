@@ -3,6 +3,7 @@ import json
 import psutil
 import functools
 import pandas as pd
+import xml.etree.ElementTree as ET
 
 
 def get_memory_usage(process=None):
@@ -80,7 +81,7 @@ def construct_mapper(obj: dict):
 
 def load_json(file_path) -> json:
     """
-    Loads a timeline from a JSON file.
+    Loads a JSON file.
     """
     with open(file_path, "r") as f:
         try:
@@ -89,6 +90,14 @@ def load_json(file_path) -> json:
             return None
 
     return d
+
+
+def load_xml(file_path) -> ET:
+    """
+    Load a XML file
+    """
+    tree = ET.parse(file_path)
+    return tree
 
 
 def is_list_identical(list1, list2) -> bool:

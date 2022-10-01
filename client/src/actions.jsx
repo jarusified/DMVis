@@ -5,6 +5,7 @@ import {
 	FETCH_METADATA,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
+	FETCH_TOPOLOGY,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
@@ -94,5 +95,23 @@ export const updateWindow = (windowStart, windowEnd) => async (dispatch) => {
 	dispatch({
 		type: UPDATE_WINDOW,
 		payload: [windowStart, windowEnd]
-	})
-}
+	});
+};
+
+export const fetchTopology = () => async (dispatch) => {
+	const request_context = {
+		method: "GET",
+		headers: { "Content-Type": "application/svg" },
+		mode: "cors"
+	};
+	const response = await fetch(
+		`${SERVER_URL}/static/topology.svg`,
+		request_context
+	);
+	const text = await response.text();
+
+	dispatch({
+		type: FETCH_TOPOLOGY,
+		payload: text
+	});
+};
