@@ -37,8 +37,8 @@ export function formatPower(x) {
 
 export function micro_to_milli(x) {
 	let exp = String(x.toExponential());
-	exp = Number(exp.substr(exp.lastIndexOf('e') + 1));
-	if(exp == 12) {
+	exp = Number(exp.substr(exp.lastIndexOf("e") + 1));
+	if (exp == 12) {
 		return x / 1000;
 	} else {
 		return x;
@@ -46,11 +46,11 @@ export function micro_to_milli(x) {
 }
 
 export function formatDuration(millis, start_ts) {
-	let duration = millis - start_ts
-	if(duration < 1e3) {
-		return duration + '\u03BC'
+	let duration = millis - start_ts;
+	if (duration < 1e3) {
+		return duration + "\u03BC";
 	}
-	return (duration/ 1e6).toFixed(1) + 's';
+	return (duration / 1e6).toFixed(1) + "s";
 }
 
 export function formatTimestamp(millis, precision = 0) {
@@ -67,7 +67,7 @@ export const barBisect = (scale, pos) => {
 
 	let val;
 	if (ticksLeft < pos && pos < ticksRight) {
-		for (val = 0; pos > ticksLeft + ticksStep * (val + 1); val++) { }
+		for (val = 0; pos > ticksLeft + ticksStep * (val + 1); val++) {}
 	}
 	return ticksDomain[val];
 };
