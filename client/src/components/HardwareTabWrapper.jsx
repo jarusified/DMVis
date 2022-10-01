@@ -14,6 +14,7 @@ import SwipeableViews from "react-swipeable-views";
 import { UPDATE_EVENT_SUMMARY } from "../helpers/types";
 import MetadataWrapper from "./MetadataWrapper";
 import TopologyWrapper from "./TopologyWrapper";
+
 // import CommunicationWrapper from "./CommunicationWrapper";
 
 const useStyles = makeStyles((theme) => ({
@@ -114,13 +115,12 @@ export default function DetailedTabWrapper() {
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<TopologyWrapper />
 					</TabPanel>
-                    <TabPanel value={tabIndex} index={1} dir={theme.direction}>
+					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<MetadataWrapper />
 					</TabPanel>
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<CommunicationWrapper />
                     </TabPanel> */}
-					
 				</SwipeableViews>
 			</Box>
 		</Paper>

@@ -212,10 +212,11 @@ class HTTPServer:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
 
-        @app.route('/static/topology.svg', methods=["GET"])
+        @app.route("/static/topology.svg", methods=["GET"])
         @cross_origin()
         def serve_topology():
             import base64
-            with open(os.path.join(self.data_dir, 'topology.svg'), "rb") as image_file:
+
+            with open(os.path.join(self.data_dir, "topology.svg"), "rb") as image_file:
                 ret = base64.b64encode(image_file.read())
             return ret

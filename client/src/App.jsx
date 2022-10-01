@@ -1,5 +1,5 @@
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import "@fontsource/roboto";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";

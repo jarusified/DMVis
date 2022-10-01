@@ -10,7 +10,6 @@ import {
 	UPDATE_WINDOW
 } from "./helpers/types";
 
-
 const initialState = {
 	backgroundSummary: [],
 	currentTimeline: {
@@ -79,7 +78,7 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				backgroundSummary: action.payload
 			};
-		case FETCH_TOPOLOGY: 
+		case FETCH_TOPOLOGY:
 			return {
 				...state,
 				topology: action.payload
@@ -94,7 +93,7 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				windowStart: action.payload[0],
 				windowEnd: action.payload[1]
-			}
+			};
 		default:
 			return state;
 	}

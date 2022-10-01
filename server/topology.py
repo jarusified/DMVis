@@ -1,8 +1,7 @@
 import xml.etree.ElementTree as ET
 
-from server.utils import (
-    load_xml
-)
+from server.utils import load_xml
+
 
 class Topology:
     def __init__(self, file_path: str, profile_format: str):
@@ -19,7 +18,7 @@ class Topology:
             xml_str = load_xml(file_path)
             xml_tree = ET.fromstring(xml_str)
             topo = self.from_xml(self.xml_tree)
-            return xml_tree, topo 
+            return xml_tree, topo
 
     def parse_xml(self, node):
         """
@@ -29,14 +28,14 @@ class Topology:
 
         name = node.tag
 
-        pytype = type(name, (object, ), {})
+        pytype = type(name, (object,), {})
         pyobj = pytype()
 
         for attr in node.attrib.keys():
             setattr(pyobj, attr, node.get(attr))
 
-        if node.text and node.text != '' and node.text != ' ' and node.text != '\n':
-            setattr(pyobj, 'text', node.text)
+        if node.text and node.text != "" and node.text != " " and node.text != "\n":
+            setattr(pyobj, "text", node.text)
 
         for cn in node:
             if not hasattr(pyobj, cn.tag):

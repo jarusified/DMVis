@@ -31,19 +31,18 @@ export default function MetadataWrapper() {
 
 	useEffect(() => {
 		if (topology.length > 0) {
-			const img = document.getElementById('topology');
+			const img = document.getElementById("topology");
 			img.src = "data:image/svg+xml;base64," + topology;
 		}
 	}, [topology]);
 
 	return (
 		<Paper>
-				<Zoom>
-					<img id="topology" alt="" 
-						width={window.innerWidth/4 - 40} />
-				</Zoom>
+			<Zoom>
+				<img id="topology" alt="" width={window.innerWidth / 4 - 40} />
+			</Zoom>
 
-				{/* {ReactHtmlParser(topology)} */}
+			{/* {ReactHtmlParser(topology)} */}
 		</Paper>
 	);
 }

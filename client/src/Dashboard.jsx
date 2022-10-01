@@ -3,9 +3,9 @@ import { CssBaseline, Grid } from "@mui/material";
 import React from "react";
 
 import DetailedTabWrapper from "./components/DetailedTabWrapper";
+import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
-import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import ToolBar from "./components/ToolBar";
 
 const useStyles = makeStyles((theme) => ({

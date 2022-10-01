@@ -146,8 +146,9 @@ export default function ToolBar() {
 					<Typography variant="h6" noWrap component="div">
 						NOVA - VIS
 					</Typography>
-					<Typography variant="text" noWrap component="div" >
-						Found <strong>{experiments.length}</strong> profiles in <span style={{ color: "#00adb5" }}>{dataDir}</span>
+					<Typography variant="text" noWrap component="div">
+						Found <strong>{experiments.length}</strong> profiles in{" "}
+						<span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
 					{experiments.length > 0 ? (
 						<FormControl

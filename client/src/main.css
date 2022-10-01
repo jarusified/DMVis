@@ -27,7 +27,7 @@ path {
 	border-left: 2px solid green;
 }
 
-.vis-item.vis-dot{
+.vis-item.vis-dot {
 	border-radius: 5px;
 	border-width: 5px;
 }
@@ -66,7 +66,7 @@ path {
 	box-shadow: 0 0 2px rgba(105, 255, 98, 0.2);
 }
 
-.icon>path {
+.icon > path {
 	fill: #abcdec;
 	stroke: none;
 }
