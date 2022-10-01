@@ -215,4 +215,7 @@ class HTTPServer:
         @app.route('/static/topology.svg', methods=["GET"])
         @cross_origin()
         def serve_topology():
-            return send_from_directory(self.data_dir, 'topology.svg')
+            import base64
+            with open(os.path.join(self.data_dir, 'topology.svg'), "rb") as image_file:
+                ret = base64.b64encode(image_file.read())
+            return ret

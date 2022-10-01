@@ -8,7 +8,6 @@ import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchTopology } from "../actions";
-import cpu from "./a.svg";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -32,23 +31,19 @@ export default function MetadataWrapper() {
 
 	useEffect(() => {
 		if (topology.length > 0) {
-			console.log(topology);
-			const img = document.querySelector('img');
-			// img.src = "data:image/svg+xml;charset=utf-8," + topology
+			const img = document.getElementById('topology');
+			img.src = "data:image/svg+xml;base64," + topology;
 		}
 	}, [topology]);
 
 	return (
 		<Paper>
-			<Grid>
 				<Zoom>
-					<img alt="" 
-						src={cpu} 
-						width={window.innerWidth/2 - 40} />
+					<img id="topology" alt="" 
+						width={window.innerWidth/4 - 40} />
 				</Zoom>
 
 				{/* {ReactHtmlParser(topology)} */}
-			</Grid>
 		</Paper>
 	);
 }

@@ -105,7 +105,7 @@ class Rules:
         return {
             "grouping": {
                 "DATA MOV": {
-                    "regex": ["Memcpy (\\w+)", "(\\w+)Mem", "(\\w+)Free"],
+                    "regex": ["Mem(\\w+)", "(\\w+)Mem", "(\\w+)Free", "Malloc"],
                     "event_type": "x-range",
                     "content": lambda e: e, # str(e["memory bandwidth (GB/s)"]),
                 },
@@ -117,7 +117,7 @@ class Rules:
                     "content": lambda e: "",
                 },
                 "COMPUTE": {
-                    "regex": ["random_(\\w+)", "void at::native", "volta_dgemm", "void computeBlockCounts", "void compactK", "void mfem::CuKernel1D"],
+                    "regex": ["random_(\\w+)", "gemm", "void at::native", "volta_dgemm", "void computeBlockCounts", "void compactK", "void mfem::CuKernel1D"],
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },

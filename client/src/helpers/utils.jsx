@@ -6,7 +6,6 @@ export const HIGHLIGHT_COLOR = "#f28e2b"; // '#212121'
 export const DRAM_COLOR = "#5ab4ac";
 export const PMEM_COLOR = "#d8b365";
 
-// TODO: Fix color hardcoding.
 export const COLORS = {
 	"fg-2": "#8dd3c7",
 	"fg-1": "#bebada",
