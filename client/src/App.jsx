@@ -1,4 +1,4 @@
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "@fontsource/roboto";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
@@ -56,9 +56,9 @@ function App() {
 
 function DashboardWrapper() {
 	return (
-		<MuiThemeProvider theme={theme}>
+		<ThemeProvider theme={theme}>
 			<Dashboard />
-		</MuiThemeProvider>
+		</ThemeProvider>
 	);
 }
 
