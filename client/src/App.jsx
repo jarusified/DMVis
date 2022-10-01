@@ -1,5 +1,5 @@
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import "@fontsource/roboto";
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -56,9 +56,9 @@ function App() {
 
 function DashboardWrapper() {
 	return (
-		<MuiThemeProvider theme={theme}>
+		<ThemeProvider theme={theme}>
 			<Dashboard />
-		</MuiThemeProvider>
+		</ThemeProvider>
 	);
 }
 
