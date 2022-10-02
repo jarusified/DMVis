@@ -77,7 +77,7 @@ export const fetchMetadata = (exp) => async (dispatch) => {
 };
 
 export const fetchEventSummary = (groups) => async (dispatch) => {
-	const eventSummary = await GETWrapper("fetch_event_summary", {"groups": groups});
+	const eventSummary = await POSTWrapper("fetch_event_summary", {groups: groups});
 	dispatch({
 		type: FETCH_EVENT_SUMMARY,
 		payload: eventSummary

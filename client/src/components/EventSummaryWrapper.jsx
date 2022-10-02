@@ -11,7 +11,7 @@ function EventSummaryWrapper() {
 		(store) => store.currentEventSummary
 	);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-
+	const timelineSummary = useSelector((store) => store.timelineSummary);
 	const style = {
 		top: 10,
 		right: 20,
@@ -24,7 +24,8 @@ function EventSummaryWrapper() {
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
-			dispatch(fetchEventSummary());
+			let groups = timelineSummary.map((d) => d.group)
+			dispatch(fetchEventSummary(groups));
 		}
 	}, [selectedExperiment]);
 

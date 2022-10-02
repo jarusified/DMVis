@@ -61,7 +61,7 @@ export default function DetailedTabWrapper() {
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 
-	const eventSummary = useSelector((store) => store.eventSummary);
+	const timelineSummary = useSelector((store) => store.timelineSummary);
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
@@ -92,9 +92,9 @@ export default function DetailedTabWrapper() {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} flex justifyContent="flex-end">
-					{eventSummary.length > 0 ? (
+					{timelineSummary.length > 0 ? (
 						<FilterEventsDropDown
-							selectedValue={eventSummary}
+							selectedValue={timelineSummary}
 							open={open}
 							propagateChange={handleFilterChange}
 						/>
