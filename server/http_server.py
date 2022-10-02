@@ -33,6 +33,7 @@ class HTTPServer:
         self.data_dir = os.path.abspath(args.args["data_dir"])
 
         self.project_dir = pathlib.Path(__file__).parent.parent.resolve()
+        self.static_dir = os.path.join(self.project_dir, "static")
         self.out_dir = os.path.join(self.project_dir, ".nova")
         create_dir_after_check(self.out_dir)
         LOGGER.info(f"Client data files will be dumped at {self.out_dir}")
@@ -240,7 +241,10 @@ class HTTPServer:
         @cross_origin()
         def serve_topology():
             import base64
+            file_path = os.path.join(self.data_dir, "topology.svg")
+            if not os.path.exists(file_path):
+                file_path = os.path.join(self.static_dir, "topology-default.svg")
 
-            with open(os.path.join(self.data_dir, "topology.svg"), "rb") as image_file:
+            with open(file_path, "rb") as image_file:
                 ret = base64.b64encode(image_file.read())
             return ret
