@@ -13,9 +13,9 @@ import SwipeableViews from "react-swipeable-views";
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
-import EventSummaryWrapper from "./EventSummaryWrapper";
+import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
-import TimelineSummaryWrapper from "./TimelineSummaryWrapper";
+import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -124,10 +124,10 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<TimelineSummaryWrapper />
+						<PerTimelineSummaryWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<EventSummaryWrapper />
+						<PerEventSummaryWrapper />
 					</TabPanel>
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<BackgroundSummaryWrapper />

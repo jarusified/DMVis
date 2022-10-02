@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchTimelineSummary } from "../actions";
+import { fetchEventSummary } from "../actions";
 import D3BarGraph from "../ui/d3-bar-graph";
 
-function TimelineSummaryWrapper() {
+function PerEventSummaryWrapper() {
 	const dispatch = useDispatch();
 
-	const currentTimelineSummary = useSelector(
-		(store) => store.currentTimelineSummary
+	const currentEventSummary = useSelector(
+		(store) => store.currentEventSummary
 	);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-
+	const timelineSummary = useSelector((store) => store.timelineSummary);
 	const style = {
 		top: 10,
 		right: 20,
@@ -20,29 +20,30 @@ function TimelineSummaryWrapper() {
 		width: window.innerWidth / 2,
 		height: window.innerHeight / 4
 	};
-	const containerID = useRef("timeline-summary-view");
+	const containerID = useRef("event-summary-view");
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
-			dispatch(fetchTimelineSummary());
+			let groups = timelineSummary.map((d) => d.group);
+			dispatch(fetchEventSummary(groups));
 		}
 	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (
-			currentTimelineSummary != undefined &&
-			currentTimelineSummary.length > 0
+			currentEventSummary != undefined &&
+			currentEventSummary.length > 0
 		) {
 			D3BarGraph(
 				containerID.current,
 				style,
-				currentTimelineSummary,
+				currentEventSummary,
 				"event",
 				"dur"
 			);
 		}
-	}, [currentTimelineSummary]);
+	}, [currentEventSummary]);
 	return <div id={containerID.current}></div>;
 }
 
-export default TimelineSummaryWrapper;
+export default PerEventSummaryWrapper;
