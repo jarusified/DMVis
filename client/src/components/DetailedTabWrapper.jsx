@@ -15,7 +15,7 @@ import { UPDATE_EVENT_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import EventSummaryWrapper from "./EventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
-import MetadataWrapper from "./MetadataWrapper";
+import TimelineSummaryWrapper from "./TimelineSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -124,11 +124,11 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<EventSummaryWrapper />
+						<TimelineSummaryWrapper />
 					</TabPanel>
-					{/* <TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<MetadataWrapper />
-                    </TabPanel> */}
+					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
+						<EventSummaryWrapper />
+                    </TabPanel>
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<BackgroundSummaryWrapper />
 					</TabPanel> */}

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchEventSummary } from "../actions";
 import D3BarGraph from "../ui/d3-bar-graph";
 
-function EventSummaryWrapper() {
+function TimelineSummaryWrapper() {
 	const dispatch = useDispatch();
 
 	const currentEventSummary = useSelector(
@@ -20,7 +20,7 @@ function EventSummaryWrapper() {
 		width: window.innerWidth / 2,
 		height: window.innerHeight / 4
 	};
-	const containerID = useRef("event-summary-view");
+	const containerID = useRef("timeline-summary-view");
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
@@ -39,4 +39,4 @@ function EventSummaryWrapper() {
 	return <div id={containerID.current}></div>;
 }
 
-export default EventSummaryWrapper;
+export default TimelineSummaryWrapper;

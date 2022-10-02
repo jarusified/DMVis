@@ -2,16 +2,16 @@ import * as d3 from "d3";
 
 import { COLORS, formatTimestamp } from "../helpers/utils";
 
-function D3BarGraph(containerID, style, data, xProp, yProp) {
+function D3BarGraph(containerName, style, data, xProp, yProp) {
 	const width = style.width - style.left - style.right;
 	const height = style.height - style.bottom - style.top;
 
 	// Clean up existing elements
+	const containerID = "#" + containerName;
 	d3.select(containerID).selectAll("*").remove();
 
 	const xData = data.map((d) => d[xProp]);
 	const yData = data.map((d) => d[yProp]);
-	console.log(data);
 
 	let x = d3.scaleBand().domain(xData).range([0, width]).padding(0.2);
 
@@ -61,7 +61,6 @@ function D3BarGraph(containerID, style, data, xProp, yProp) {
 		})
 		.attr("width", x.bandwidth())
 		.attr("height", (d) => {
-			console.log(height, d, y(d.dur));
 			return height - y(d.dur);
 		})
 		.attr("fill", (d) => {
