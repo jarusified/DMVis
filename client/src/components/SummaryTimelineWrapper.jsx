@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchSummary, updateWindow } from "../actions";
-import { COLORS, formatDuration } from "../helpers/utils";
+import { COLORS, formatDuration, formatTimestamp } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	summary: {
@@ -40,9 +40,10 @@ function SummaryTimelineWrapper() {
 	const width = window.innerWidth - margin.left - margin.right;
 	const svgHeight = 150;
 	const height = svgHeight - margin.bottom - margin.top;
+	const containerID = "summary-view"
 
 	useEffect(() => {
-		d3.select("#summary-view").selectAll("*").remove();
+		d3.select("#" + containerID).selectAll("*").remove();
 
 		const bars = summary.data;
 		const groups = summary.groups;
@@ -52,6 +53,7 @@ function SummaryTimelineWrapper() {
 		const start_ts = summary.start_ts;
 		const end_ts = summary.end_ts;
 		const window = summary.window;
+		const max_ts = summary.max_ts;
 
 		if (Object.keys(bars).length > 0) {
 			let x = d3
@@ -60,19 +62,19 @@ function SummaryTimelineWrapper() {
 				.range([0, width])
 				.padding(0.1);
 
-			let y = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+			let y = d3.scaleLinear().domain([0, max_ts]).range([height, 0]);
 
 			let xAxis = d3
 				.axisBottom()
 				.scale(x)
 				.ticks(5)
-				.tickFormat((d) => formatDuration(d, start_ts));
+				.tickFormat((d) => formatDuration(d, start_ts, false));
 
 			let yAxis = d3
 				.axisLeft()
 				.scale(y)
 				.ticks(3)
-				.tickFormat((d) => d);
+				.tickFormat((d) => formatTimestamp(d));
 
 			// Brush interaction
 			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/30
@@ -102,7 +104,7 @@ function SummaryTimelineWrapper() {
 			}
 
 			svgRef.current = d3
-				.select("#summary-view")
+				.select("#" + containerID)
 				.append("svg")
 				.attr("width", svgWidth)
 				.attr("height", svgHeight)
@@ -162,11 +164,11 @@ function SummaryTimelineWrapper() {
 					return x(d.data.ts);
 				})
 				.attr("y", function (d) {
-					return y(to_perc(d[1], ts_width));
+					return y(d[1]);
 				})
 				.attr("height", function (d) {
 					return (
-						y(to_perc(d[0], ts_width)) - y(to_perc(d[1], ts_width))
+						y(d[0]) - y(d[1])
 					);
 				})
 				.attr("width", x.bandwidth());
@@ -205,7 +207,7 @@ function SummaryTimelineWrapper() {
 		<Paper>
 			<Grid container>
 				<Grid item>
-					<div id="summary-view"></div>
+					<div id={containerID}></div>
 				</Grid>
 			</Grid>
 		</Paper>

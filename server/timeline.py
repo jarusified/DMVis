@@ -685,7 +685,10 @@ class Timeline:
                 if i <= len(ts_samples) - 1:
                     events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
 
+        max_ts = 0
+
         for [sample, val] in events_in_sample.items():
+            max_ts = max(sum(val.values()), max_ts)
             val["ts"] = sample
 
         return {
@@ -695,6 +698,7 @@ class Timeline:
             "samples": list(ts_samples),
             "start_ts": self.start_ts,
             "ts_width": ts_width,
+            "max_ts": max_ts
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:
@@ -736,10 +740,6 @@ class Timeline:
         all_groups_idx = self.get_uniques_from_timeline(
             event_types, column="group", exclude_sub_grps=(not include_sub_groups)
         )
-        all_events = self.get_uniques_from_timeline(
-            event_types, column="name", exclude_sub_grps=(not include_sub_groups)
-        )
-
         # Sum all the durations within each group.
         grp_durations = {grp: 0 for grp in all_groups_idx}
         for grp_idx in all_groups_idx:
