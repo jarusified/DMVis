@@ -1,12 +1,13 @@
 import {
 	FETCH_BACKGROUND_SUMMARY,
+	FETCH_TIMELINE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
 	FETCH_TOPOLOGY,
-	UPDATE_EVENT_SUMMARY,
+	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
@@ -23,6 +24,7 @@ const initialState = {
 	events: [],
 	eventSummary: [],
 	currentEventSummary: [],
+	currentTimelineSummary: [],
 	groups: [],
 	profileMetadata: [],
 	selectedExperiment: "",
@@ -67,26 +69,32 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				summary: action.payload
 			};
+		case FETCH_BACKGROUND_SUMMARY:
+			return {
+				...state,
+				backgroundSummary: action.payload
+			};
 		case FETCH_EVENT_SUMMARY:
 			return {
 				...state,
 				eventSummary: action.payload,
 				currentEventSummary: action.payload
 			};
-		case FETCH_BACKGROUND_SUMMARY:
+		case FETCH_TIMELINE_SUMMARY:
 			return {
 				...state,
-				backgroundSummary: action.payload
+				timelineSummary: action.payload,
+				currentTimelineSummary: action.payload
 			};
 		case FETCH_TOPOLOGY:
 			return {
 				...state,
 				topology: action.payload
 			};
-		case UPDATE_EVENT_SUMMARY:
+		case UPDATE_TIMELINE_SUMMARY:
 			return {
 				...state,
-				currentEventSummary: action.payload
+				currentTimelineSummary: action.payload
 			};
 		case UPDATE_WINDOW:
 			return {

@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { UPDATE_EVENT_SUMMARY } from "../helpers/types";
+import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import EventSummaryWrapper from "./EventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
@@ -75,7 +75,7 @@ export default function DetailedTabWrapper() {
 		setOpen(false);
 		// Send a dispatch to update the event summary.
 		dispatch({
-			type: UPDATE_EVENT_SUMMARY,
+			type: UPDATE_TIMELINE_SUMMARY,
 			payload: value
 		});
 	};

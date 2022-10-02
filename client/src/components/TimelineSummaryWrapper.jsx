@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchEventSummary } from "../actions";
+import { fetchTimelineSummary } from "../actions";
 import D3BarGraph from "../ui/d3-bar-graph";
 
 function TimelineSummaryWrapper() {
 	const dispatch = useDispatch();
 
-	const currentEventSummary = useSelector(
-		(store) => store.currentEventSummary
+	const currentTimelineSummary = useSelector(
+		(store) => store.currentTimelineSummary
 	);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
@@ -24,18 +24,18 @@ function TimelineSummaryWrapper() {
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
-			dispatch(fetchEventSummary());
+			dispatch(fetchTimelineSummary());
 		}
 	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (
-			currentEventSummary != undefined &&
-			currentEventSummary.length > 0
+			currentTimelineSummary != undefined &&
+			currentTimelineSummary.length > 0
 		) {
-			D3BarGraph(containerID.current, style, currentEventSummary, "event", "dur");
+			D3BarGraph(containerID.current, style, currentTimelineSummary, "event", "dur");
 		}
-	}, [currentEventSummary]);
+	}, [currentTimelineSummary]);
 	return <div id={containerID.current}></div>;
 }
 

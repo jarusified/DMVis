@@ -699,7 +699,7 @@ class Timeline:
             "start_ts": window_end,
         }
 
-    def get_event_summary(
+    def get_timeline_summary(
         self,
         event_types=["point", "range", "x-range"],
         include_sub_groups=False,
@@ -750,5 +750,19 @@ class Timeline:
                     "class_name": self.grp_to_cls[group],
                 }
             )
+
+        return sorted(result, key=lambda x: x["dur"], reverse=True)
+
+    def get_event_summary(
+        self,
+        groups=[],
+        event_types=["point", "range", "x-range"],
+        include_sub_groups=False):
+        """
+        
+        """
+        # Determine the groups that should be visualized, if not provided, all
+        # events are visualized.
+        result = []
 
         return sorted(result, key=lambda x: x["dur"], reverse=True)
