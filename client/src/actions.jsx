@@ -5,6 +5,7 @@ import {
 	FETCH_METADATA,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
+	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	UPDATE_WINDOW
 } from "./helpers/types";
@@ -75,11 +76,21 @@ export const fetchMetadata = (exp) => async (dispatch) => {
 	});
 };
 
-export const fetchEventSummary = () => async (dispatch) => {
-	const eventSummary = await GETWrapper("fetch_event_summary");
+export const fetchEventSummary = (groups) => async (dispatch) => {
+	const eventSummary = await POSTWrapper("fetch_event_summary", {
+		groups: groups
+	});
 	dispatch({
 		type: FETCH_EVENT_SUMMARY,
 		payload: eventSummary
+	});
+};
+
+export const fetchTimelineSummary = () => async (dispatch) => {
+	const timelineSummary = await GETWrapper("fetch_timeline_summary");
+	dispatch({
+		type: FETCH_TIMELINE_SUMMARY,
+		payload: timelineSummary
 	});
 };
 

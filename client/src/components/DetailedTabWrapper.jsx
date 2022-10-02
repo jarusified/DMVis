@@ -11,11 +11,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { UPDATE_EVENT_SUMMARY } from "../helpers/types";
+import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import EventSummaryWrapper from "./EventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
-import MetadataWrapper from "./MetadataWrapper";
+import TimelineSummaryWrapper from "./TimelineSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -61,7 +61,7 @@ export default function DetailedTabWrapper() {
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 
-	const eventSummary = useSelector((store) => store.eventSummary);
+	const timelineSummary = useSelector((store) => store.timelineSummary);
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
@@ -75,7 +75,7 @@ export default function DetailedTabWrapper() {
 		setOpen(false);
 		// Send a dispatch to update the event summary.
 		dispatch({
-			type: UPDATE_EVENT_SUMMARY,
+			type: UPDATE_TIMELINE_SUMMARY,
 			payload: value
 		});
 	};
@@ -92,9 +92,9 @@ export default function DetailedTabWrapper() {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} flex justifyContent="flex-end">
-					{eventSummary.length > 0 ? (
+					{timelineSummary.length > 0 ? (
 						<FilterEventsDropDown
-							selectedValue={eventSummary}
+							selectedValue={timelineSummary}
 							open={open}
 							propagateChange={handleFilterChange}
 						/>
@@ -124,11 +124,11 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
+						<TimelineSummaryWrapper />
+					</TabPanel>
+					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<EventSummaryWrapper />
 					</TabPanel>
-					{/* <TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<MetadataWrapper />
-                    </TabPanel> */}
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<BackgroundSummaryWrapper />
 					</TabPanel> */}
