@@ -73,6 +73,8 @@ class Timeline:
         self.event_to_grp = self.construct_event_to_grp_dict()
         self.grp_to_events = dict_to_list_of_vals(self.event_to_grp)
 
+        self.event_durations = self.construct_event_duration_dict()
+
     ################### Pre-processing functions ###################
     def init(self, file_path: str, format: str) -> None:
         """
@@ -388,6 +390,28 @@ class Timeline:
                 event_to_grp = {**event_to_grp, **event_to_subgrp}
 
         return event_to_grp
+
+    def construct_event_duration_dict(self, include_sub_groups=False) -> Dict[str, str]:
+        all_events = list(self.event_to_grp.keys())
+        event_types = list(self.grp_df_dict.keys())
+        durations = {event: 0 for event in all_events}
+
+        # Collect event durations from the group events.
+        for _type in event_types:
+            if _type in self.grp_df_dict:
+                _df = self.grp_df_dict[_type]
+                agg = group_by_and_apply_sum(_df, "dur")
+                durations = combine_dicts_and_sum_values(durations, agg["dur"])
+
+        # Collect event durations from the sub-group events.
+        if include_sub_groups:
+            for grp in self.sub_grp_df_dict:
+                _df = self.sub_grp_df_dict[grp]
+                if not _df.empty:
+                    agg = group_by_and_apply_sum(_df, "dur")
+                    durations = combine_dicts_and_sum_values(durations, agg["dur"])
+
+        return durations
 
     ################### Supporting functions ###################
     @staticmethod
@@ -715,29 +739,13 @@ class Timeline:
         all_events = self.get_uniques_from_timeline(
             event_types, column="name", exclude_sub_grps=(not include_sub_groups)
         )
-        durations = {event: 0 for event in all_events}
-
-        # Collect event durations from the group events.
-        for _type in event_types:
-            if _type in self.grp_df_dict:
-                _df = self.grp_df_dict[_type]
-                agg = group_by_and_apply_sum(_df, "dur")
-                durations = combine_dicts_and_sum_values(durations, agg["dur"])
-
-        # Collect event durations from the sub-group events.
-        if include_sub_groups:
-            for grp in self.sub_grp_df_dict:
-                _df = self.sub_grp_df_dict[grp]
-                if not _df.empty:
-                    agg = group_by_and_apply_sum(_df, "dur")
-                    durations = combine_dicts_and_sum_values(durations, agg["dur"])
-
+        
         # Sum all the durations within each group.
         grp_durations = {grp: 0 for grp in all_groups_idx}
         for grp_idx in all_groups_idx:
             for event in self.grp_to_events[grp_idx]:
-                if event in durations:
-                    grp_durations[grp_idx] += durations[event]
+                if event in self.event_durations:
+                    grp_durations[grp_idx] += self.event_durations[event]
 
         result = []
         for grp_idx in all_groups_idx:
@@ -759,10 +767,28 @@ class Timeline:
         event_types=["point", "range", "x-range"],
         include_sub_groups=False):
         """
-        
         """
         # Determine the groups that should be visualized, if not provided, all
         # events are visualized.
-        result = []
-
+        if len(groups) == 0:
+            all_groups_idx = self.get_uniques_from_timeline(
+                event_types, column="group", exclude_sub_grps=(not include_sub_groups)
+            )
+            all_groups = [self.idx_to_grp[grp_idx] for grp_idx in all_groups_idx]
+            groups = all_groups
+        
+        all_events = []
+        for group in groups:
+            group_idx = self.grp_to_idx[group]
+            all_events = all_events + self.grp_to_events[group_idx]
+        
+        result = [
+            {
+                "event": event,
+                "dur": self.event_durations[event],
+                "group": self.event_to_grp[event],
+                "class_name": self.grp_to_cls[self.idx_to_grp[self.event_to_grp[event]]],
+            }
+            for event in all_events]
+        
         return sorted(result, key=lambda x: x["dur"], reverse=True)
