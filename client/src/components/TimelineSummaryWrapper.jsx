@@ -33,7 +33,13 @@ function TimelineSummaryWrapper() {
 			currentTimelineSummary != undefined &&
 			currentTimelineSummary.length > 0
 		) {
-			D3BarGraph(containerID.current, style, currentTimelineSummary, "event", "dur");
+			D3BarGraph(
+				containerID.current,
+				style,
+				currentTimelineSummary,
+				"event",
+				"dur"
+			);
 		}
 	}, [currentTimelineSummary]);
 	return <div id={containerID.current}></div>;

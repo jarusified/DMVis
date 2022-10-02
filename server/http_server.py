@@ -187,7 +187,9 @@ class HTTPServer:
             Route to fetch the summary for all range-events in the timeline.
             """
             if self.timeline is not None:
-                timeline_summary = self.timeline.get_timeline_summary(["range", "x-range"])
+                timeline_summary = self.timeline.get_timeline_summary(
+                    ["range", "x-range"]
+                )
                 timeline_summary_path = os.path.join(
                     self.out_dir, "nova_timeline_summary.json"
                 )
@@ -203,11 +205,13 @@ class HTTPServer:
         def fetch_event_summary():
             """
             Route to fetch the summary for all range-events in the timeline.
-            """    
+            """
             if self.timeline is not None:
                 request_context = request.json
                 event_groups = request_context["groups"]
-                event_summary = self.timeline.get_event_summary(event_groups, ["range", "x-range"])
+                event_summary = self.timeline.get_event_summary(
+                    event_groups, ["range", "x-range"]
+                )
                 event_summary_path = os.path.join(
                     self.out_dir, "nova_event_summary.json"
                 )

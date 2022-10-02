@@ -128,7 +128,7 @@ export default function DetailedTabWrapper() {
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<EventSummaryWrapper />
-                    </TabPanel>
+					</TabPanel>
 					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<BackgroundSummaryWrapper />
 					</TabPanel> */}

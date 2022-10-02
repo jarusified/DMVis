@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchEventSummary } from "../actions";
@@ -24,7 +24,7 @@ function EventSummaryWrapper() {
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
-			let groups = timelineSummary.map((d) => d.group)
+			let groups = timelineSummary.map((d) => d.group);
 			dispatch(fetchEventSummary(groups));
 		}
 	}, [selectedExperiment]);
@@ -34,7 +34,13 @@ function EventSummaryWrapper() {
 			currentEventSummary != undefined &&
 			currentEventSummary.length > 0
 		) {
-			D3BarGraph(containerID.current, style, currentEventSummary, "event", "dur");
+			D3BarGraph(
+				containerID.current,
+				style,
+				currentEventSummary,
+				"event",
+				"dur"
+			);
 		}
 	}, [currentEventSummary]);
 	return <div id={containerID.current}></div>;

@@ -739,7 +739,7 @@ class Timeline:
         all_events = self.get_uniques_from_timeline(
             event_types, column="name", exclude_sub_grps=(not include_sub_groups)
         )
-        
+
         # Sum all the durations within each group.
         grp_durations = {grp: 0 for grp in all_groups_idx}
         for grp_idx in all_groups_idx:
@@ -765,9 +765,9 @@ class Timeline:
         self,
         groups=[],
         event_types=["point", "range", "x-range"],
-        include_sub_groups=False):
-        """
-        """
+        include_sub_groups=False,
+    ):
+        """ """
         # Determine the groups that should be visualized, if not provided, all
         # events are visualized.
         if len(groups) == 0:
@@ -776,19 +776,22 @@ class Timeline:
             )
             all_groups = [self.idx_to_grp[grp_idx] for grp_idx in all_groups_idx]
             groups = all_groups
-        
+
         all_events = []
         for group in groups:
             group_idx = self.grp_to_idx[group]
             all_events = all_events + self.grp_to_events[group_idx]
-        
+
         result = [
             {
                 "event": event,
                 "dur": self.event_durations[event],
                 "group": self.event_to_grp[event],
-                "class_name": self.grp_to_cls[self.idx_to_grp[self.event_to_grp[event]]],
+                "class_name": self.grp_to_cls[
+                    self.idx_to_grp[self.event_to_grp[event]]
+                ],
             }
-            for event in all_events]
-        
+            for event in all_events
+        ]
+
         return sorted(result, key=lambda x: x["dur"], reverse=True)
