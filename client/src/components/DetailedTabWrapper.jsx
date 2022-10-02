@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
+import { fetchEventSummary } from "../actions";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
@@ -78,6 +79,8 @@ export default function DetailedTabWrapper() {
 			type: UPDATE_TIMELINE_SUMMARY,
 			payload: value
 		});
+		const selected_groups = value.map((d) => d.group);
+		dispatch(fetchEventSummary(selected_groups));
 	};
 
 	return (
