@@ -86,8 +86,7 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={6}>
 					<Typography
 						variant="overline"
-						style={{ fontWeight: "bold" }}
-					>
+						style={{ fontWeight: "bold", fontSize: theme.text.fontSize }}>
 						Hardware
 					</Typography>
 				</Grid>

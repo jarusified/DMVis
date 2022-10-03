@@ -1,3 +1,4 @@
+import { useTheme } from "@emotion/react";
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TimelineWrapper() {
+	const theme = useTheme();
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
@@ -188,7 +190,7 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold" }}>
+			<Typography variant="overline" style={{ fontWeight: "bold", fontSize: theme.text.fontSize }}>
 				Timeline
 			</Typography>
 			<Grid container>

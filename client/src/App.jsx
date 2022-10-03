@@ -35,7 +35,8 @@ const theme = createTheme({
 		},
 		secondary: {
 			main: "#000"
-		}
+		},
+		fontSize: 14
 	}
 });
 

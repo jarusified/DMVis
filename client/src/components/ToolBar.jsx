@@ -143,10 +143,10 @@ export default function ToolBar() {
 					>
 						<MenuIcon />
 					</IconButton> */}
-					<Typography variant="h6" noWrap component="div">
-						Data Movement Visualized!
+					<Typography variant="h5" noWrap component="div">
+						Data Movement VISualized!
 					</Typography>
-					<Typography variant="text" noWrap component="div">
+					<Typography variant="subtitle1" noWrap component="div">
 						Found <strong>{experiments.length}</strong> profiles in{" "}
 						<span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
@@ -171,7 +171,7 @@ export default function ToolBar() {
 								))}
 							</Select>
 							<FormHelperText>
-								<span style={{ color: "#00adb5" }}>
+								<span style={{ color: "#00adb5", fontSize: theme.text.fontSize }}>
 									Select the profile
 								</span>
 							</FormHelperText>
