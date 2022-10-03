@@ -144,7 +144,7 @@ export default function ToolBar() {
 						<MenuIcon />
 					</IconButton> */}
 					<Typography variant="h6" noWrap component="div">
-						NOVA - VIS
+						Data Movement Visualized!
 					</Typography>
 					<Typography variant="text" noWrap component="div">
 						Found <strong>{experiments.length}</strong> profiles in{" "}

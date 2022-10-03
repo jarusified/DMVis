@@ -41,7 +41,7 @@ const theme = createTheme({
 
 function App() {
 	useEffect(() => {
-		document.title = "NOVA-VIS";
+		document.title = "DMV is all you care";
 	}, []);
 	return (
 		<Provider store={store}>
