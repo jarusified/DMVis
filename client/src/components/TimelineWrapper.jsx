@@ -82,7 +82,7 @@ function TimelineWrapper() {
 						case "minute":
 							return formatDuration(date, timelineStart);
 					}
-				}
+				},
 			},
 			groupOrder: function (a, b) {
 				return a.value - b.value;
@@ -100,6 +100,7 @@ function TimelineWrapper() {
 			},
 			orientation: "top",
 			preferZoom: true,
+			showMajorLabels: false,
 			stack: false,
 			stackSubgroups: false,
 			tooltip: {
@@ -190,7 +191,7 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold", fontSize: theme.text.fontSize }}>
+			<Typography variant="overline" style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}>
 				Timeline
 			</Typography>
 			<Grid container>
@@ -220,14 +221,14 @@ function TimelineWrapper() {
 					</Tooltip>
 				</Grid>
 				<Grid item xs={6} justifyContent="flex-end">
-					<Typography variant="caption">
+					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
 						Total time: {"  "}
 						<span style={{ color: "#00adb5" }}>
 							{formatDuration(timelineEnd, timelineStart)}
 						</span>
 					</Typography>
 					<Typography>{"     "}</Typography>
-					<Typography variant="caption">
+					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
 						Total events: {"  "}
 						<span style={{ color: "#00adb5" }}>
 							{currentTimeline.events.length}

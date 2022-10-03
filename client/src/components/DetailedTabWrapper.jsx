@@ -89,7 +89,7 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={6}>
 					<Typography
 						variant="overline"
-						style={{ fontWeight: "bold", fontSize: theme.text.fontSize }}
+						style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}
 					>
 						Summary
 					</Typography>
