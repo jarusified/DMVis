@@ -38,8 +38,8 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 	let svg = d3
 		.select(containerID)
 		.append("svg")
-		.attr("width", width)
-		.attr("height", height)
+		.attr("width", style.width)
+		.attr("height", style.height)
 		.append("g")
 		.attr(
 			"transform",
@@ -72,19 +72,26 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 		.attr("transform", "translate(0," + height + ")")
 		.call(xAxis)
 		.selectAll("text")
+		.style("text-anchor", "end")
 		.attr("dy", x.bandwidth() / 2)
 		.attr("dx", -3)
-		.style("text-anchor", "end")
-		.attr("transform", "rotate(90)");
+		.attr("transform", "rotate(90)")
 
 	svg.append("g")
 		.attr("class", "y axis")
 		.call(yAxis)
 		.append("text")
 		.attr("transform", "rotate(-90)")
-		.attr("y", 0)
-		.attr("dy", "1em")
+		.attr("y", 1)
+		.attr("dy", "0.71em")
 		.style("text-anchor", "end")
-		.text("time (s))");
+		.text("time");
+
+	svg.append("text")
+		.attr("class", "x label")
+		.attr("text-anchor", "end")
+		.attr("x", width - 30)
+		.attr("y", height + 15)
+		.text(xProp);
 }
 export default D3BarGraph;

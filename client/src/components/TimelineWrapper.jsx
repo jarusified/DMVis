@@ -89,7 +89,7 @@ function TimelineWrapper() {
 			},
 			margin: {
 				item: 5,
-				axis: 10
+				axis: 10,
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
@@ -222,7 +222,7 @@ function TimelineWrapper() {
 				</Grid>
 				<Grid item xs={6} justifyContent="flex-end">
 					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
-						Total time: {"  "}
+						Total time: {" "}
 						<span style={{ color: "#00adb5" }}>
 							{formatDuration(timelineEnd, timelineStart)}
 						</span>

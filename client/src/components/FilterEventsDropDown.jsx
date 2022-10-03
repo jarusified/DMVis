@@ -88,8 +88,7 @@ export default function FilterEventsDropDown(props) {
 							primary={
 								value.event +
 								" : " +
-								formatTimestamp(value.dur, 2) +
-								"s"
+								formatTimestamp(value.dur, 2)
 							}
 						/>
 					</MenuItem>
