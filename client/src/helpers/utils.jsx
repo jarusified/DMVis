@@ -45,17 +45,31 @@ export function micro_to_milli(x) {
 	}
 }
 
-export function formatDuration(millis, start_ts) {
+export function formatDuration(millis, start_ts, with_metric=true) {
 	let duration = millis - start_ts;
+	let ts = "";
+	let metric = "";
 	if (duration < 1e3) {
-		return duration + "\u03BC";
+		ts = duration;
+		metric = "\u03BC";
+	} else if(duration < 1e6 && duration > 1e3) {
+		ts = (duration / 1e3).toFixed(1);
+		metric = "ms"
+	} else {
+		ts = (duration / 1e6).toFixed(1);
+		metric = "s";
 	}
-	return (duration / 1e6).toFixed(1) + "s";
+	if(with_metric) {
+		return ts + " " + metric;
+	} else {
+		return ts;
+	}
+	
 }
 
 export function formatTimestamp(millis, precision = 0) {
-	if (millis < 1e6) {
-		return millis.toFixed(precision);
+	if (millis < 1e6 && millis > 1e3) {
+		return millis/1e3.toFixed(1) + 'ms';
 	}
 	return (millis / 1e6).toFixed(precision);
 }
