@@ -14,11 +14,11 @@ function PerEventSummaryWrapper() {
 	const timelineSummary = useSelector((store) => store.timelineSummary);
 	const style = {
 		top: 10,
-		right: 20,
+		right: 40,
 		bottom: 10,
 		left: 20,
-		width: window.innerWidth / 2,
-		height: window.innerHeight / 4
+		width: window.innerWidth / 2 - 30,
+		height: window.innerHeight / 3
 	};
 	const containerID = useRef("event-summary-view");
 

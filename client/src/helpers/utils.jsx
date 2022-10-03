@@ -60,7 +60,7 @@ export function formatDuration(millis, start_ts, with_metric=true) {
 		metric = "s";
 	}
 	if(with_metric) {
-		return ts + " " + metric;
+		return ts + metric;
 	} else {
 		return ts;
 	}
@@ -71,7 +71,7 @@ export function formatTimestamp(millis, precision = 0) {
 	if (millis < 1e6 && millis > 1e3) {
 		return millis/1e3.toFixed(1) + 'ms';
 	}
-	return (millis / 1e6).toFixed(precision);
+	return (millis / 1e6).toFixed(precision) + 's';
 }
 
 export const barBisect = (scale, pos) => {

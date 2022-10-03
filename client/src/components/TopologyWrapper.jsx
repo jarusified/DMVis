@@ -39,7 +39,7 @@ export default function MetadataWrapper() {
 	return (
 		<Paper>
 			<Zoom>
-				<img id="topology" alt="" width={window.innerWidth / 4 - 40} />
+				<img id="topology" alt="" />
 			</Zoom>
 
 			{/* {ReactHtmlParser(topology)} */}

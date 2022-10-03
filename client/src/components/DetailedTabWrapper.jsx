@@ -89,7 +89,7 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={6}>
 					<Typography
 						variant="overline"
-						style={{ fontWeight: "bold" }}
+						style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}
 					>
 						Summary
 					</Typography>
@@ -118,7 +118,7 @@ export default function DetailedTabWrapper() {
 					>
 						<Tab label="Per-timeline" {...a11yProps(0)} />
 						<Tab label="Per-event" {...a11yProps(1)} />
-						{/* <Tab label="Per-epoch" {...a11yProps(2)} /> */}
+						<Tab label="Calling Context Tree" {...a11yProps(2)} />
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -132,9 +132,9 @@ export default function DetailedTabWrapper() {
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<PerEventSummaryWrapper />
 					</TabPanel>
-					{/* <TabPanel value={tabIndex} index={2} dir={theme.direction}>
-						<BackgroundSummaryWrapper />
-					</TabPanel> */}
+					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
+						{/* <CCTWrapper /> */}
+					</TabPanel>
 				</SwipeableViews>
 			</Box>
 		</Paper>

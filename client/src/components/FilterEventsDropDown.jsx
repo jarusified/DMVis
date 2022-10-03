@@ -64,10 +64,11 @@ export default function FilterEventsDropDown(props) {
 	return (
 		<FormControl
 			sx={{ width: DROPDOWN_WIDTH }}
-			variant="standard"
+			variant="outlined"
+			color="primary"
 			size="small"
 		>
-			<InputLabel id="multiple-checkbox-label"></InputLabel>
+			<InputLabel id="multiple-checkbox-label" sx={{ top: -5 }}>Event Groups</InputLabel>
 			<Select
 				labelId="multiple-checkbox-label"
 				id="multiple-checkbox"
@@ -87,8 +88,7 @@ export default function FilterEventsDropDown(props) {
 							primary={
 								value.event +
 								" : " +
-								formatTimestamp(value.dur, 2) +
-								"s"
+								formatTimestamp(value.dur, 2)
 							}
 						/>
 					</MenuItem>

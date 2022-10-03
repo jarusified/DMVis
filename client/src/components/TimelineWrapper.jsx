@@ -1,3 +1,4 @@
+import { useTheme } from "@emotion/react";
 import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TimelineWrapper() {
+	const theme = useTheme();
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
@@ -80,14 +82,14 @@ function TimelineWrapper() {
 						case "minute":
 							return formatDuration(date, timelineStart);
 					}
-				}
+				},
 			},
 			groupOrder: function (a, b) {
 				return a.value - b.value;
 			},
 			margin: {
 				item: 5,
-				axis: 10
+				axis: 10,
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
@@ -98,6 +100,7 @@ function TimelineWrapper() {
 			},
 			orientation: "top",
 			preferZoom: true,
+			showMajorLabels: false,
 			stack: false,
 			stackSubgroups: false,
 			tooltip: {
@@ -188,7 +191,7 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ fontWeight: "bold" }}>
+			<Typography variant="overline" style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}>
 				Timeline
 			</Typography>
 			<Grid container>
@@ -218,14 +221,14 @@ function TimelineWrapper() {
 					</Tooltip>
 				</Grid>
 				<Grid item xs={6} justifyContent="flex-end">
-					<Typography variant="caption">
-						Total time: {"  "}
+					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
+						Total time: {" "}
 						<span style={{ color: "#00adb5" }}>
 							{formatDuration(timelineEnd, timelineStart)}
 						</span>
 					</Typography>
 					<Typography>{"     "}</Typography>
-					<Typography variant="caption">
+					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
 						Total events: {"  "}
 						<span style={{ color: "#00adb5" }}>
 							{currentTimeline.events.length}
