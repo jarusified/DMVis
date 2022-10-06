@@ -59,6 +59,7 @@ export default function DetailedTabWrapper() {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 
+	const [parentTabIndex, setParentTabIndex] = React.useState(0);
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 
@@ -71,6 +72,10 @@ export default function DetailedTabWrapper() {
 	const handleChangeIndex = (index) => {
 		setTabIndex(index);
 	};
+
+	const handleChangeParentIndex = (index) => {
+		setParentTabIndex(index);
+	}
 
 	const handleFilterChange = (value) => {
 		setOpen(false);
@@ -113,23 +118,59 @@ export default function DetailedTabWrapper() {
 			<Box sx={{ bgcolor: "background.paper" }}>
 				<AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
 					<Tabs
-						value={tabIndex}
+						value={parentTabIndex}
 						className={classes.tab}
-						onChange={handleChange}
+						onChange={handleChangeParentIndex}
 						indicatorColor="#000"
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Per-timeline" {...a11yProps(0)} />
-						<Tab label="Per-event" {...a11yProps(1)} />
-						<Tab label="Calling Context Tree" {...a11yProps(2)} />
+						<Tab label="Latency" />
+						<Tab label="Bandwidth" />
 					</Tabs>
+
+					{parentTabIndex == 0 ? 
+						(
+							<Tabs
+								value={tabIndex}
+								className={classes.tab}
+								onChange={handleChange}
+								indicatorColor="#000"
+								variant="fullWidth"
+								aria-label="Runtime summary"
+							>
+								<Tab label="Per-timeline" {...a11yProps(0)} />
+								<Tab label="Per-device" {...a11yProps(1)} />
+							</Tabs>
+						) : 
+						(
+							<Tabs
+								value={tabIndex}
+								className={classes.tab}
+								onChange={handleChange}
+								indicatorColor="#000"
+								variant="fullWidth"
+								aria-label="Runtime summary"
+							>
+								<Tab label="Per-timeline" {...a11yProps(0)} />
+								<Tab label="Per-event" {...a11yProps(1)} />
+								<Tab label="Calling Context Tree" {...a11yProps(2)} />
+							</Tabs>
+						)
+					}
+					
 				</AppBar>
 				<SwipeableViews
 					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
 					index={tabIndex}
 					onChangeIndex={handleChangeIndex}
 				>
+					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
+						{/* <CCTWrapper /> */}
+					</TabPanel>
+					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
+						{/* <CCTWrapper /> */}
+					</TabPanel>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<PerTimelineSummaryWrapper />
 					</TabPanel>
@@ -139,6 +180,7 @@ export default function DetailedTabWrapper() {
 					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						{/* <CCTWrapper /> */}
 					</TabPanel>
+					
 				</SwipeableViews>
 			</Box>
 		</Paper>
