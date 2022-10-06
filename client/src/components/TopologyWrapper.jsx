@@ -1,6 +1,6 @@
-import { Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
 import ReactHtmlParser from "react-html-parser";
 import Zoom from "react-medium-image-zoom";

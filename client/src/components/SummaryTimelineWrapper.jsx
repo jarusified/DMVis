@@ -1,5 +1,5 @@
-import { Grid, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Paper } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,10 +40,12 @@ function SummaryTimelineWrapper() {
 	const width = window.innerWidth - margin.left - margin.right;
 	const svgHeight = 150;
 	const height = svgHeight - margin.bottom - margin.top;
-	const containerID = "summary-view"
+	const containerID = "summary-view";
 
 	useEffect(() => {
-		d3.select("#" + containerID).selectAll("*").remove();
+		d3.select("#" + containerID)
+			.selectAll("*")
+			.remove();
 
 		const bars = summary.data;
 		const groups = summary.groups;
@@ -75,6 +77,17 @@ function SummaryTimelineWrapper() {
 				.scale(y)
 				.ticks(3)
 				.tickFormat((d) => formatTimestamp(d));
+
+			let tooltip = d3
+				.select("#" + containerID)
+				.append("div")
+				.style("opacity", 0)
+				.attr("class", "tooltip")
+				.style("background-color", "white")
+				.style("border", "solid")
+				.style("border-width", "2px")
+				.style("border-radius", "5px")
+				.style("padding", "5px");
 
 			// Brush interaction
 			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/30
@@ -138,7 +151,7 @@ function SummaryTimelineWrapper() {
 			const stackedData = d3.stack().keys(groups)(bars);
 
 			function to_perc(val, width) {
-				return (val / width) * 100;
+				return ((val / width) * 100).toFixed(0);
 			}
 
 			const stacked = svgRef.current
@@ -167,11 +180,38 @@ function SummaryTimelineWrapper() {
 					return y(d[1]);
 				})
 				.attr("height", function (d) {
-					return (
-						y(d[0]) - y(d[1])
-					);
+					return y(d[0]) - y(d[1]);
 				})
-				.attr("width", x.bandwidth());
+				.attr("width", x.bandwidth())
+				.on("mouseover", (e, d) => {
+					tooltip.style("opacity", 1);
+					d3.select(this)
+						.style("stroke", "black")
+						.style("opacity", 1);
+				})
+				.on("mousemove", (e, d) => {
+					let html =
+						formatDuration(d.data.ts, timelineStart) + " => ";
+					for (let key of Object.keys(d.data)) {
+						if (key != "ts") {
+							html +=
+								key +
+								" : " +
+								to_perc(d.data[key], ts_width) +
+								"%; \t";
+						}
+					}
+					tooltip
+						.html(html)
+						.style("left", d3.pointer(e)[0] + "px")
+						.style("top", d3.pointer(e)[1] + "px");
+				})
+				.on("mouseout", (d) => {
+					tooltip.style("opacity", 0);
+					d3.select(this)
+						.style("stroke", "none")
+						.style("opacity", 0.8);
+				});
 		}
 	}, [summary]);
 

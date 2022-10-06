@@ -1,10 +1,10 @@
-import { Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Typography } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

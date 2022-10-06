@@ -1,21 +1,21 @@
-import { Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Paper, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import { fetchEventSummary } from "../actions";
+import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
-import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
+import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +89,11 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={6}>
 					<Typography
 						variant="overline"
-						style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}
+						style={{
+							margin: 10,
+							fontWeight: "bold",
+							fontSize: theme.text.fontSize
+						}}
 					>
 						Summary
 					</Typography>

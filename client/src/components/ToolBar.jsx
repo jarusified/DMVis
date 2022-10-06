@@ -1,5 +1,4 @@
 import { useTheme } from "@emotion/react";
-import { makeStyles } from "@material-ui/core/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,6 +15,7 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -132,17 +132,17 @@ export default function ToolBar() {
 			<AppBar open={open} elevation={1} position="absolute">
 				<Toolbar className={classes.toolbar}>
 					{/* <IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						sx={{
-							marginRight: "36px",
-							...(open && { display: "none" }),
-						}}
-					>
-						<MenuIcon />
-					</IconButton> */}
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    sx={{
+                        marginRight: "36px",
+                        ...(open && { display: "none" }),
+                    }}
+                >
+                    <MenuIcon />
+                </IconButton> */}
 					<Typography variant="h5" noWrap component="div">
 						Data Movement VISualized!
 					</Typography>
@@ -171,7 +171,12 @@ export default function ToolBar() {
 								))}
 							</Select>
 							<FormHelperText>
-								<span style={{ color: "#00adb5", fontSize: theme.text.fontSize }}>
+								<span
+									style={{
+										color: "#00adb5",
+										fontSize: theme.text.fontSize
+									}}
+								>
 									Select the profile
 								</span>
 							</FormHelperText>
@@ -183,7 +188,7 @@ export default function ToolBar() {
 			</AppBar>
 			<Drawer variant="permanent" open={open}>
 				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
+					<IconButton onClick={handleDrawerClose} size="large">
 						{theme.direction === "rtl" ? (
 							<ChevronRightIcon />
 						) : (

@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Grid } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 
 import DetailedTabWrapper from "./components/DetailedTabWrapper";

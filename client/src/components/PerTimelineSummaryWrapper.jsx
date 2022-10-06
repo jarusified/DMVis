@@ -18,8 +18,8 @@ function PerTimelineSummaryWrapper() {
 		right: 40,
 		bottom: 10,
 		left: 20,
-		width: window.innerWidth / 2  - 30,
-		height: window.innerHeight / 3
+		width: window.innerWidth / 2 - 30,
+		height: window.innerHeight / 3 - 50
 	};
 
 	useEffect(() => {
