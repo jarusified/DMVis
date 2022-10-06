@@ -1,5 +1,5 @@
 import "@fontsource/roboto";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React, { useEffect } from "react";
 import { Provider } from "react-redux";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -11,7 +11,6 @@ import "./main.css";
 import Reducer from "./reducer";
 
 const store = createStore(Reducer, applyMiddleware(thunkMiddleware));
-
 
 // Adjust the color theme here.
 const theme = createTheme({

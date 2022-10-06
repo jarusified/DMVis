@@ -1,5 +1,4 @@
 import { useTheme } from "@emotion/react";
-import makeStyles from '@mui/styles/makeStyles';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -16,6 +15,7 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -127,10 +127,11 @@ export default function ToolBar() {
 		}
 	}, [selectedExperiment]);
 
-	return <>
-        <AppBar open={open} elevation={1} position="absolute">
-            <Toolbar className={classes.toolbar}>
-                {/* <IconButton
+	return (
+		<>
+			<AppBar open={open} elevation={1} position="absolute">
+				<Toolbar className={classes.toolbar}>
+					{/* <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     onClick={handleDrawerOpen}
@@ -142,55 +143,61 @@ export default function ToolBar() {
                 >
                     <MenuIcon />
                 </IconButton> */}
-                <Typography variant="h5" noWrap component="div">
-                    Data Movement VISualized!
-                </Typography>
-                <Typography variant="subtitle1" noWrap component="div">
-                    Found <strong>{experiments.length}</strong> profiles in{" "}
-                    <span style={{ color: "#00adb5" }}>{dataDir}</span>
-                </Typography>
-                {experiments.length > 0 ? (
-                    <FormControl
-                        className={classes.formControl}
-                        size="small"
-                        margin="dense"
-                    >
-                        <Select
-                            labelId="dataset-label"
-                            id="dataset-select"
-                            value={selectedExperiment}
-                            onChange={(e) => {
-                                dispatch(fetchMetadata(e.target.value));
-                            }}
-                        >
-                            {experiments.map((cc) => (
-                                <MenuItem key={cc} value={cc}>
-                                    {cc}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                        <FormHelperText>
-                            <span style={{ color: "#00adb5", fontSize: theme.text.fontSize }}>
-                                Select the profile
-                            </span>
-                        </FormHelperText>
-                    </FormControl>
-                ) : (
-                    <></>
-                )}
-            </Toolbar>
-        </AppBar>
-        <Drawer variant="permanent" open={open}>
-            <DrawerHeader>
-                <IconButton onClick={handleDrawerClose} size="large">
-                    {theme.direction === "rtl" ? (
-                        <ChevronRightIcon />
-                    ) : (
-                        <ChevronLeftIcon />
-                    )}
-                </IconButton>
-            </DrawerHeader>
-            <Divider />
-        </Drawer>
-    </>;
+					<Typography variant="h5" noWrap component="div">
+						Data Movement VISualized!
+					</Typography>
+					<Typography variant="subtitle1" noWrap component="div">
+						Found <strong>{experiments.length}</strong> profiles in{" "}
+						<span style={{ color: "#00adb5" }}>{dataDir}</span>
+					</Typography>
+					{experiments.length > 0 ? (
+						<FormControl
+							className={classes.formControl}
+							size="small"
+							margin="dense"
+						>
+							<Select
+								labelId="dataset-label"
+								id="dataset-select"
+								value={selectedExperiment}
+								onChange={(e) => {
+									dispatch(fetchMetadata(e.target.value));
+								}}
+							>
+								{experiments.map((cc) => (
+									<MenuItem key={cc} value={cc}>
+										{cc}
+									</MenuItem>
+								))}
+							</Select>
+							<FormHelperText>
+								<span
+									style={{
+										color: "#00adb5",
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Select the profile
+								</span>
+							</FormHelperText>
+						</FormControl>
+					) : (
+						<></>
+					)}
+				</Toolbar>
+			</AppBar>
+			<Drawer variant="permanent" open={open}>
+				<DrawerHeader>
+					<IconButton onClick={handleDrawerClose} size="large">
+						{theme.direction === "rtl" ? (
+							<ChevronRightIcon />
+						) : (
+							<ChevronLeftIcon />
+						)}
+					</IconButton>
+				</DrawerHeader>
+				<Divider />
+			</Drawer>
+		</>
+	);
 }

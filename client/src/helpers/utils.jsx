@@ -45,33 +45,32 @@ export function micro_to_milli(x) {
 	}
 }
 
-export function formatDuration(millis, start_ts, with_metric=true) {
+export function formatDuration(millis, start_ts, with_metric = true) {
 	let duration = millis - start_ts;
 	let ts = "";
 	let metric = "";
 	if (duration < 1e3) {
 		ts = duration;
 		metric = "\u03BC";
-	} else if(duration < 1e6 && duration > 1e3) {
+	} else if (duration < 1e6 && duration > 1e3) {
 		ts = (duration / 1e3).toFixed(1);
-		metric = "ms"
+		metric = "ms";
 	} else {
 		ts = (duration / 1e6).toFixed(1);
 		metric = "s";
 	}
-	if(with_metric) {
+	if (with_metric) {
 		return ts + metric;
 	} else {
 		return ts;
 	}
-
 }
 
 export function formatTimestamp(millis, precision = 0) {
 	if (millis < 1e6 && millis > 1e3) {
-		return millis/(1e3).toFixed(1) + 'ms';
+		return millis / (1e3).toFixed(1) + "ms";
 	}
-	return (millis / 1e6).toFixed(precision) + 's';
+	return (millis / 1e6).toFixed(precision) + "s";
 }
 
 export const barBisect = (scale, pos) => {

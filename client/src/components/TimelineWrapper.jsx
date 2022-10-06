@@ -1,5 +1,4 @@
 import { useTheme } from "@emotion/react";
-import { makeStyles } from "@mui/styles";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
@@ -10,6 +9,7 @@ import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { makeStyles } from "@mui/styles";
 import * as d3 from "d3";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
@@ -82,14 +82,14 @@ function TimelineWrapper() {
 						case "minute":
 							return formatDuration(date, timelineStart);
 					}
-				},
+				}
 			},
 			groupOrder: function (a, b) {
 				return a.value - b.value;
 			},
 			margin: {
 				item: 5,
-				axis: 10,
+				axis: 10
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
@@ -191,7 +191,14 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Typography variant="overline" style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}>
+			<Typography
+				variant="overline"
+				style={{
+					margin: 10,
+					fontWeight: "bold",
+					fontSize: theme.text.fontSize
+				}}
+			>
 				Timeline
 			</Typography>
 			<Grid container>
@@ -221,14 +228,20 @@ function TimelineWrapper() {
 					</Tooltip>
 				</Grid>
 				<Grid item xs={6} justifyContent="flex-end">
-					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
-						Total time: {" "}
+					<Typography
+						variant="caption"
+						style={{ fontSize: theme.text.fontSize }}
+					>
+						Total time:{" "}
 						<span style={{ color: "#00adb5" }}>
 							{formatDuration(timelineEnd, timelineStart)}
 						</span>
 					</Typography>
 					<Typography>{"     "}</Typography>
-					<Typography variant="caption" style={{ fontSize: theme.text.fontSize }}>
+					<Typography
+						variant="caption"
+						style={{ fontSize: theme.text.fontSize }}
+					>
 						Total events: {"  "}
 						<span style={{ color: "#00adb5" }}>
 							{currentTimeline.events.length}

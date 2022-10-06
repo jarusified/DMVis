@@ -1,11 +1,11 @@
 import { Paper, Typography } from "@mui/material";
-import makeStyles from '@mui/styles/makeStyles';
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -86,7 +86,12 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={6}>
 					<Typography
 						variant="overline"
-						style={{ margin: 10, fontWeight: "bold", fontSize: theme.text.fontSize }}>
+						style={{
+							margin: 10,
+							fontWeight: "bold",
+							fontSize: theme.text.fontSize
+						}}
+					>
 						Hardware
 					</Typography>
 				</Grid>

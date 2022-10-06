@@ -85,15 +85,12 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 			let value = d[xProp] + " - " + formatTimestamp(d[yProp], 2);
 			tooltip
 				.html(value)
-				.style("left", (d3.mouse(this)[0]+70) + "px")
-				.style("top", (d3.mouse(this)[1]) + "px")
+				.style("left", d3.mouse(this)[0] + 70 + "px")
+				.style("top", d3.mouse(this)[1] + "px");
 		})
 		.on("mouseout", (d) => {
-			tooltip
-				.style("opacity", 0)
-			d3.select(this)
-				.style("stroke", "none")
-				.style("opacity", 0.8);
+			tooltip.style("opacity", 0);
+			d3.select(this).style("stroke", "none").style("opacity", 0.8);
 		});
 
 	svg.append("g")
