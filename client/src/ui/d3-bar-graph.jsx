@@ -46,6 +46,12 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 			"translate(" + 2 * style.left + "," + -style.bottom + ")"
 		);
 
+	let tooltip = d3.select(containerID)
+		.append("div")
+		.style("position", "relative")
+		.style("visibility", "hidden")
+		.text("");
+
 	svg.selectAll("bars")
 		.data(data)
 		.enter()
@@ -65,7 +71,10 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 		})
 		.attr("fill", (d) => {
 			return COLORS[d.class_name];
-		});
+		})
+		.on("mouseover", (e, d) => { tooltip.text(d[xProp] + ' - ' + formatTimestamp(d[yProp])); return tooltip.style("visibility", "visible");})
+  		// .on("mousemove", (d) => {return tooltip.style("top", (event.pageY)+"px").style("left",(event.pageX)+"px");})
+  		// .on("mouseout", (d) => {return tooltip.style("visibility", "hidden");});
 
 	svg.append("g")
 		.attr("class", "x axis")
