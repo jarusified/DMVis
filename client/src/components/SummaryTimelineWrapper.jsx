@@ -1,5 +1,5 @@
-import { Grid, Paper } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Grid, Paper } from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
