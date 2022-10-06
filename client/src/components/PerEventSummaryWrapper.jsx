@@ -18,7 +18,7 @@ function PerEventSummaryWrapper() {
 		bottom: 10,
 		left: 20,
 		width: window.innerWidth / 2 - 30,
-		height: window.innerHeight / 3
+		height: window.innerHeight / 3 - 50
 	};
 	const containerID = useRef("event-summary-view");
 

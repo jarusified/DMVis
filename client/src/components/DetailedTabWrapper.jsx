@@ -7,16 +7,15 @@ import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
-import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
-import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
-import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
+import DetailedLatencyTabWrapper from "./DetailedLatencyTabWrapper";
+import DetailedThroughputTabWrapper from "./DetailedThroughputTabWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -59,7 +58,6 @@ export default function DetailedTabWrapper() {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 
-	const [parentTabIndex, setParentTabIndex] = React.useState(0);
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 
@@ -72,10 +70,6 @@ export default function DetailedTabWrapper() {
 	const handleChangeIndex = (index) => {
 		setTabIndex(index);
 	};
-
-	const handleChangeParentIndex = (index) => {
-		setParentTabIndex(index);
-	}
 
 	const handleFilterChange = (value) => {
 		setOpen(false);
@@ -118,47 +112,16 @@ export default function DetailedTabWrapper() {
 			<Box sx={{ bgcolor: "background.paper" }}>
 				<AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
 					<Tabs
-						value={parentTabIndex}
+						value={tabIndex}
 						className={classes.tab}
-						onChange={handleChangeParentIndex}
+						onChange={handleChange}
 						indicatorColor="#000"
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Latency" />
-						<Tab label="Bandwidth" />
+						<Tab label="Latency" {...a11yProps(0)} />
+						<Tab label="Bandwidth" {...a11yProps(1)} />
 					</Tabs>
-
-					{parentTabIndex == 0 ? 
-						(
-							<Tabs
-								value={tabIndex}
-								className={classes.tab}
-								onChange={handleChange}
-								indicatorColor="#000"
-								variant="fullWidth"
-								aria-label="Runtime summary"
-							>
-								<Tab label="Per-timeline" {...a11yProps(0)} />
-								<Tab label="Per-device" {...a11yProps(1)} />
-							</Tabs>
-						) : 
-						(
-							<Tabs
-								value={tabIndex}
-								className={classes.tab}
-								onChange={handleChange}
-								indicatorColor="#000"
-								variant="fullWidth"
-								aria-label="Runtime summary"
-							>
-								<Tab label="Per-timeline" {...a11yProps(0)} />
-								<Tab label="Per-event" {...a11yProps(1)} />
-								<Tab label="Calling Context Tree" {...a11yProps(2)} />
-							</Tabs>
-						)
-					}
-					
 				</AppBar>
 				<SwipeableViews
 					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -166,21 +129,11 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						{/* <CCTWrapper /> */}
+						<DetailedLatencyTabWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						{/* <CCTWrapper /> */}
+						<DetailedThroughputTabWrapper />
 					</TabPanel>
-					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<PerTimelineSummaryWrapper />
-					</TabPanel>
-					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<PerEventSummaryWrapper />
-					</TabPanel>
-					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
-						{/* <CCTWrapper /> */}
-					</TabPanel>
-					
 				</SwipeableViews>
 			</Box>
 		</Paper>
