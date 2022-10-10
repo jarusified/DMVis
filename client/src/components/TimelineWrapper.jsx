@@ -123,10 +123,10 @@ function TimelineWrapper() {
 				case "group-label": {
 					let group = _groups.get(properties.group);
 					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
-					// _options.stack = !_options.stack;
+					_options.stack = !_options.stack;
 					// _options.stackSubgroups = !_options.stackSubgroups;
 					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/28
-					// _options.cluster = !_options.cluster;
+					_options.cluster = !_options.cluster;
 
 					txRef.current.setOptions(_options);
 
@@ -162,11 +162,11 @@ function TimelineWrapper() {
 			// But this forces the control too much and cause very glitchy motion to restrict the ranges.
 			// For now, this is commented out.
 			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/21
-			// if (properties.byUser == true) {
-			// 	if (properties.end - properties.start > summary.ts_width / 1e3) {
-			// 		dispatch(updateWindow(milli_to_micro(properties.start), milli_to_micro(properties.end)))
-			// 	}
-			// }
+			if (properties.byUser == true) {
+				if (properties.end - properties.start > summary.ts_width / 1e3) {
+					dispatch(updateWindow(Date.parse(properties.start), Date.parse(properties.end)))
+				}
+			}
 		});
 
 		// Interactions: Fit the timeline to the screenWidth.
