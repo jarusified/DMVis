@@ -100,14 +100,21 @@ export default function CommunicationTabWrapper() {
 					index={tabIndex}
 					onChangeIndex={handleChangeIndex}
 				>
-					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-
-					</TabPanel>
-					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-
-					</TabPanel>
-					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
-					</TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={0}
+						dir={theme.direction}
+					></TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={1}
+						dir={theme.direction}
+					></TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={2}
+						dir={theme.direction}
+					></TabPanel>
 				</SwipeableViews>
 			</Box>
 		</Paper>

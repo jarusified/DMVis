@@ -9,7 +9,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { a11yProps, TabPanel } from "../ui/tab-panel";
+import { TabPanel, a11yProps } from "../ui/tab-panel";
 import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 

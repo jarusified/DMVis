@@ -25,7 +25,7 @@ export default function MetadataWrapper() {
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	useEffect(() => {
-		if (selectedExperiment !== ""  || topology.length == 0) {
+		if (selectedExperiment !== "" || topology.length == 0) {
 			dispatch(fetchTopology());
 		}
 	}, [selectedExperiment]);
@@ -40,7 +40,7 @@ export default function MetadataWrapper() {
 	return (
 		<Paper>
 			<Zoom>
-				<img id="topology" alt="" width={window.innerWidth / 3}/>
+				<img id="topology" alt="" width={window.innerWidth / 3} />
 			</Zoom>
 
 			{/* {ReactHtmlParser(topology)} */}

@@ -118,8 +118,11 @@ export default function DetailedTabWrapper() {
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<TopologyWrapper />
 					</TabPanel>
-					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-					</TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={1}
+						dir={theme.direction}
+					></TabPanel>
 				</SwipeableViews>
 			</Box>
 		</Paper>

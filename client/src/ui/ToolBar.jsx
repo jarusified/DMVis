@@ -170,7 +170,12 @@ export default function ToolBar() {
 								))}
 							</Select>
 							<FormHelperText>
-								<span style={{ color: "#00adb5", fontSize: theme.text.fontSize }}>
+								<span
+									style={{
+										color: "#00adb5",
+										fontSize: theme.text.fontSize
+									}}
+								>
 									Select the profile
 								</span>
 							</FormHelperText>

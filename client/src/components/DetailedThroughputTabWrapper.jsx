@@ -9,7 +9,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { a11yProps, TabPanel } from "../ui/tab-panel";
+import { TabPanel, a11yProps } from "../ui/tab-panel";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -54,13 +54,21 @@ export default function DetailedLatencyTabWrapper() {
 					index={tabIndex}
 					onChangeIndex={handleChangeIndex}
 				>
-					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-					</TabPanel>
-					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-					</TabPanel>
-					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
-					</TabPanel>
-					
+					<TabPanel
+						value={tabIndex}
+						index={0}
+						dir={theme.direction}
+					></TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={1}
+						dir={theme.direction}
+					></TabPanel>
+					<TabPanel
+						value={tabIndex}
+						index={2}
+						dir={theme.direction}
+					></TabPanel>
 				</SwipeableViews>
 			</Box>
 		</Paper>

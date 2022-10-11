@@ -23,7 +23,7 @@ import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
-		width: window.innerWidth * 0.66,
+		width: window.innerWidth * 0.66
 	}
 }));
 
@@ -162,8 +162,16 @@ function TimelineWrapper() {
 			// For now, this is commented out.
 			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/21
 			if (properties.byUser == true) {
-				if (properties.end - properties.start > summary.ts_width / 1e3) {
-					dispatch(updateWindow(Date.parse(properties.start), Date.parse(properties.end)))
+				if (
+					properties.end - properties.start >
+					summary.ts_width / 1e3
+				) {
+					dispatch(
+						updateWindow(
+							Date.parse(properties.start),
+							Date.parse(properties.end)
+						)
+					);
 				}
 			}
 		});

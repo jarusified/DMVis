@@ -2,10 +2,10 @@ import { CssBaseline, Grid } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 
-import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
-import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
 import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
+import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
+import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
 import ToolBar from "./ui/ToolBar";
@@ -55,9 +55,7 @@ export default function Dashboard() {
 							<CommunicationTabWrapper />
 						</Grid>
 					</Grid>
-
 				</Grid>
-
 			</main>
 		</Grid>
 	);
