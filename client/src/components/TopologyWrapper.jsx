@@ -22,12 +22,13 @@ export default function MetadataWrapper() {
 	const dispatch = useDispatch();
 
 	const topology = useSelector((store) => store.topology);
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	useEffect(() => {
-		if (topology.length == 0) {
+		if (selectedExperiment !== ""  || topology.length == 0) {
 			dispatch(fetchTopology());
 		}
-	});
+	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (topology.length > 0) {
