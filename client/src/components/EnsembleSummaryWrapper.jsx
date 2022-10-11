@@ -1,9 +1,8 @@
 import { Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
-import ReactHtmlParser from "react-html-parser";
-import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,8 +16,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function MetadataWrapper() {
+export default function EnsembleSummaryWrapper() {
 	const classes = useStyles();
+	const theme = useTheme();
 	const dispatch = useDispatch();
 
 	const topology = useSelector((store) => store.topology);
@@ -30,20 +30,25 @@ export default function MetadataWrapper() {
 		}
 	}, [selectedExperiment]);
 
-	useEffect(() => {
-		if (topology.length > 0) {
-			const img = document.getElementById("topology");
-			img.src = "data:image/svg+xml;base64," + topology;
-		}
-	}, [topology]);
-
 	return (
 		<Paper>
-			<Zoom>
-				<img id="topology" alt="" width={window.innerWidth / 3} />
-			</Zoom>
-
-			{/* {ReactHtmlParser(topology)} */}
+			<Grid container>
+				<Grid item xs={6}>
+					<Typography
+						variant="overline"
+						style={{
+							margin: 10,
+							fontWeight: "bold",
+							fontSize: theme.text.fontSize
+						}}
+					>
+						Summary
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid>
+				<svg width={window.innerWidth / 4}></svg>
+			</Grid>
 		</Paper>
 	);
 }

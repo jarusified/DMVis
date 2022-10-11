@@ -12,7 +12,7 @@ from server.utils import create_dir_after_check
 # Globals
 FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
 STATIC_FOLDER_PATH = os.path.join(FOLDER_PATH, "static")
-DEFAULT_SORT_EXPERIMENTS = "EVENT_COUNT"
+DEFAULT_SORT_EXPERIMENTS = "START_TIMESTAMP"
 LOGGER = get_logger(__name__)
 
 # Create a Flask server.
@@ -42,6 +42,7 @@ class HTTPServer:
         HTTPServer._check_data_dir_exists(self.data_dir)
 
         self.experiments = os.listdir(self.data_dir)
+        self.experiment = ""
         self.profile_format = args.args["format"]
         LOGGER.info(f"PROFILE FORMAT: {self.profile_format}")
         self.handle_routes()
@@ -137,9 +138,9 @@ class HTTPServer:
             request_context = request.json
             if "experiment" not in request_context:
                 LOGGER.error("Invalid Request! experiment field missing.")
-            experiment = request_context["experiment"]
-            self.timeline = self.profiles.get_profile(experiment)
-            metadata = self.timeline.get_metadata(experiment)
+            self.experiment = request_context["experiment"]
+            self.timeline = self.profiles.get_profile(self.experiment)
+            metadata = self.timeline.get_metadata(self.experiment)
             return jsonify(metadata)
 
         @app.route("/fetch_timeline", methods=["POST"])
@@ -241,7 +242,13 @@ class HTTPServer:
         @cross_origin()
         def serve_topology():
             import base64
-            file_path = os.path.join(self.data_dir, "topology.svg")
+
+            if "-" in self.experiment:
+                exp = self.experiment.split('-')[1]
+            else:
+                exp = "default"
+
+            file_path = os.path.join(self.data_dir, f"topology-{exp}.svg")
             if not os.path.exists(file_path):
                 file_path = os.path.join(self.static_dir, "topology-default.svg")
 

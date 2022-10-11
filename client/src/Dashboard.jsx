@@ -2,11 +2,13 @@ import { CssBaseline, Grid } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
 
-import DetailedTabWrapper from "./components/DetailedTabWrapper";
+import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
+import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
+import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
 import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
-import ToolBar from "./components/ToolBar";
+import ToolBar from "./ui/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,17 +38,21 @@ export default function Dashboard() {
 				<div className={classes.appBarSpacer} />
 				<Grid mt={1} mb={1}>
 					<Grid container>
-						<Grid item xs={12} p={1}>
-							<TimelineWrapper />
+						<Grid item xs={4} p={1}>
+							<EnsembleSummaryWrapper />
 						</Grid>
-						<Grid item xs={12} p={1}>
+						<Grid xs={7} p={1}>
+							<TimelineWrapper />
 							<SummaryTimelineWrapper />
 						</Grid>
-						<Grid item xs={6} p={1}>
-							<DetailedTabWrapper />
-						</Grid>
-						<Grid item xs={6} p={1}>
+						<Grid item xs={4} p={1}>
 							<HardwareTabWrapper />
+						</Grid>
+						<Grid item xs={4} p={1}>
+							<ApplicationTabWrapper />
+						</Grid>
+						<Grid item xs={4} p={1}>
+							<CommunicationTabWrapper />
 						</Grid>
 					</Grid>
 				</Grid>

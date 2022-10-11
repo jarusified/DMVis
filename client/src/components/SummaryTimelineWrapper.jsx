@@ -9,7 +9,8 @@ import { COLORS, formatDuration, formatTimestamp } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	summary: {
-		width: window.innerWidth - 20
+		width: window.innerWidth * 0.66,
+		left: window.innerWidth / 3
 	}
 }));
 
@@ -36,8 +37,8 @@ function SummaryTimelineWrapper() {
 	}, [selectedExperiment]);
 
 	const margin = { top: 30, right: 20, bottom: 10, left: 40 };
-	const svgWidth = window.innerWidth;
-	const width = window.innerWidth - margin.left - margin.right;
+	const svgWidth = window.innerWidth * 0.66;
+	const width = svgWidth - margin.left - margin.right;
 	const svgHeight = 150;
 	const height = svgHeight - margin.bottom - margin.top;
 	const containerID = "summary-view";
