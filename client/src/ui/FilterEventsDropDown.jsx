@@ -68,9 +68,7 @@ export default function FilterEventsDropDown(props) {
 			color="primary"
 			size="small"
 		>
-			<InputLabel id="multiple-checkbox-label" sx={{ top: -5 }}>
-				Event Groups
-			</InputLabel>
+			<InputLabel id="multiple-checkbox-label" sx={{ top: -5 }}>Event Groups</InputLabel>
 			<Select
 				labelId="multiple-checkbox-label"
 				id="multiple-checkbox"

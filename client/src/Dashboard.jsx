@@ -7,7 +7,7 @@ import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
 import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
-import ToolBar from "./components/ToolBar";
+import ToolBar from "./ui/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
 	root: {

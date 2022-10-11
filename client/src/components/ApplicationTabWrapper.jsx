@@ -14,7 +14,7 @@ import SwipeableViews from "react-swipeable-views";
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
-import FilterEventsDropDown from "./FilterEventsDropDown";
+import FilterEventsDropDown from "../ui/FilterEventsDropDown";
 import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
@@ -95,7 +95,7 @@ export default function ApplicationTabWrapper() {
 							fontSize: theme.text.fontSize
 						}}
 					>
-						Summary
+						Application
 					</Typography>
 				</Grid>
 				<Grid item xs={6} flex justifyContent="flex-end">
