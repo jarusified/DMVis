@@ -14,7 +14,7 @@ import SwipeableViews from "react-swipeable-views";
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import FilterEventsDropDown from "../ui/FilterEventsDropDown";
-import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
+import { TabPanel, a11yProps } from "../ui/tab-panel";
 import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
@@ -24,35 +24,6 @@ const useStyles = makeStyles((theme) => ({
 		background: "#fff"
 	}
 }));
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`full-width-tabpanel-${index}`}
-			aria-labelledby={`full-width-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-		</div>
-	);
-}
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.number.isRequired,
-	value: PropTypes.number.isRequired
-};
-
-function a11yProps(index) {
-	return {
-		id: `full-width-tab-${index}`,
-		"aria-controls": `full-width-tabpanel-${index}`
-	};
-}
 
 export default function ApplicationTabWrapper() {
 	const classes = useStyles();

@@ -12,10 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
+import { TabPanel, a11yProps } from "../ui/tab-panel";
 import MetadataWrapper from "./MetadataWrapper";
 import TopologyWrapper from "./TopologyWrapper";
-
-// import CommunicationWrapper from "./CommunicationWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -23,35 +22,6 @@ const useStyles = makeStyles((theme) => ({
 		background: "#fff"
 	}
 }));
-
-function TabPanel(props) {
-	const { children, value, index, ...other } = props;
-
-	return (
-		<div
-			role="tabpanel"
-			hidden={value !== index}
-			id={`full-width-tabpanel-${index}`}
-			aria-labelledby={`full-width-tab-${index}`}
-			{...other}
-		>
-			{value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-		</div>
-	);
-}
-
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.number.isRequired,
-	value: PropTypes.number.isRequired
-};
-
-function a11yProps(index) {
-	return {
-		id: `full-width-tab-${index}`,
-		"aria-controls": `full-width-tabpanel-${index}`
-	};
-}
 
 export default function DetailedTabWrapper() {
 	const classes = useStyles();
