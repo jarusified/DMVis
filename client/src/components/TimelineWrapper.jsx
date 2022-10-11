@@ -23,8 +23,7 @@ import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
-		width: window.innerWidth - 10,
-		left: 5
+		width: window.innerWidth * 0.66,
 	}
 }));
 
@@ -202,20 +201,6 @@ function TimelineWrapper() {
 				Timeline
 			</Typography>
 			<Grid container>
-				{/*<Grid item id="left-button">
-					<ToggleButton variant="contained" value="check" size="small" className={classes.button}>
-						<Tooltip title="Previous" arrow>
-							<ChevronLeftIcon className="icon" />
-						</Tooltip>
-					</ToggleButton>
-				</Grid>
-				<Grid item id="right-button">
-					<ToggleButton size="small" value="check" className={classes.button}>
-						<Tooltip title="Next" arrow>
-							<ChevronRightIcon className="icon" />
-						</Tooltip>
-					</ToggleButton>
-				</Grid>*/}
 				<Grid item id="fit-button" xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton

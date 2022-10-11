@@ -86,7 +86,7 @@ export default function ApplicationTabWrapper() {
 	return (
 		<Paper>
 			<Grid container>
-				<Grid item xs={6}>
+				<Grid item xs={4}>
 					<Typography
 						variant="overline"
 						style={{
@@ -98,7 +98,7 @@ export default function ApplicationTabWrapper() {
 						Application
 					</Typography>
 				</Grid>
-				<Grid item xs={6} flex justifyContent="flex-end">
+				<Grid item xs={4} flex justifyContent="flex-end">
 					{timelineSummary.length > 0 ? (
 						<FilterEventsDropDown
 							selectedValue={timelineSummary}
@@ -120,9 +120,9 @@ export default function ApplicationTabWrapper() {
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
+						<Tab label="Calling Context Tree" {...a11yProps(2)} />
 						<Tab label="Per-timeline" {...a11yProps(0)} />
 						<Tab label="Per-event" {...a11yProps(1)} />
-						<Tab label="Calling Context Tree" {...a11yProps(2)} />
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -131,13 +131,14 @@ export default function ApplicationTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<PerTimelineSummaryWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<PerEventSummaryWrapper />
+						<PerTimelineSummaryWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
+						<PerEventSummaryWrapper />
 					</TabPanel>
+
 				</SwipeableViews>
 			</Box>
 		</Paper>

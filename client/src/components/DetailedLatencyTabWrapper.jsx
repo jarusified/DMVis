@@ -66,7 +66,6 @@ export default function DetailedLatencyTabWrapper() {
 					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						{/* <CCTWrapper /> */}
 					</TabPanel>
-					
 				</SwipeableViews>
 			</Box>
 		</Paper>
