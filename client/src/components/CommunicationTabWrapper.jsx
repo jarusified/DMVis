@@ -11,12 +11,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
-import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
-import MetadataWrapper from "./MetadataWrapper";
-import TopologyWrapper from "./TopologyWrapper";
-
-// import CommunicationWrapper from "./CommunicationWrapper";
-
 const useStyles = makeStyles((theme) => ({
 	tab: {
 		color: "#000",
@@ -53,7 +47,7 @@ function a11yProps(index) {
 	};
 }
 
-export default function DetailedTabWrapper() {
+export default function CommunicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -61,7 +55,7 @@ export default function DetailedTabWrapper() {
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
 
-	const eventSummary = useSelector((store) => store.eventSummary);
+	const timelineSummary = useSelector((store) => store.timelineSummary);
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
@@ -69,15 +63,6 @@ export default function DetailedTabWrapper() {
 
 	const handleChangeIndex = (index) => {
 		setTabIndex(index);
-	};
-
-	const handleFilterChange = (value) => {
-		setOpen(false);
-		// Send a dispatch to update the event summary.
-		dispatch({
-			type: UPDATE_TIMELINE_SUMMARY,
-			payload: value
-		});
 	};
 
 	return (
@@ -92,7 +77,7 @@ export default function DetailedTabWrapper() {
 							fontSize: theme.text.fontSize
 						}}
 					>
-						Hardware
+						Communication
 					</Typography>
 				</Grid>
 			</Grid>
@@ -106,8 +91,8 @@ export default function DetailedTabWrapper() {
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Topology" {...a11yProps(0)} />
-						<Tab label="Data Layout" {...a11yProps(1)} />
+						<Tab label="host-device" {...a11yProps(0)} />
+						<Tab label="device-device" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -116,9 +101,12 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<TopologyWrapper />
+
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
+
+					</TabPanel>
+					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
 					</TabPanel>
 				</SwipeableViews>
 			</Box>

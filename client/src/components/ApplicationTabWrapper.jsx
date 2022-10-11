@@ -7,15 +7,16 @@ import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SwipeableViews from "react-swipeable-views";
 
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
+import BackgroundSummaryWrapper from "./BackgroundSummaryWrapper";
 import FilterEventsDropDown from "./FilterEventsDropDown";
-import DetailedLatencyTabWrapper from "./DetailedLatencyTabWrapper";
-import DetailedThroughputTabWrapper from "./DetailedThroughputTabWrapper";
+import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
+import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -53,7 +54,7 @@ function a11yProps(index) {
 	};
 }
 
-export default function DetailedTabWrapper() {
+export default function ApplicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -119,8 +120,9 @@ export default function DetailedTabWrapper() {
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Latency" {...a11yProps(0)} />
-						<Tab label="Bandwidth" {...a11yProps(1)} />
+						<Tab label="Per-timeline" {...a11yProps(0)} />
+						<Tab label="Per-event" {...a11yProps(1)} />
+						<Tab label="Calling Context Tree" {...a11yProps(2)} />
 					</Tabs>
 				</AppBar>
 				<SwipeableViews
@@ -129,10 +131,12 @@ export default function DetailedTabWrapper() {
 					onChangeIndex={handleChangeIndex}
 				>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
-						<DetailedLatencyTabWrapper />
+						<PerTimelineSummaryWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
-						<DetailedThroughputTabWrapper />
+						<PerEventSummaryWrapper />
+					</TabPanel>
+					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
 					</TabPanel>
 				</SwipeableViews>
 			</Box>
