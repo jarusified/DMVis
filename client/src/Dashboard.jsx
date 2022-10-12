@@ -41,7 +41,7 @@ export default function Dashboard() {
 						<Grid item xs={4} p={1}>
 							<EnsembleSummaryWrapper />
 						</Grid>
-						<Grid xs={7} p={1}>
+						<Grid item xs={7} p={1}>
 							<TimelineWrapper />
 							<SummaryTimelineWrapper />
 						</Grid>
