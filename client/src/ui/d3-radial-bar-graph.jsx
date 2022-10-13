@@ -107,8 +107,9 @@ export default function D3RadialBarGraph(props) {
 					? "rotate(90)translate(0,16)"
 					: "rotate(-90)translate(0,-9)";
 			})
-			.text(function (d) {
-				return ((formatDuration(d, startTs, false) / formatDuration(endTs, startTs, false)) * 100).toFixed(0);
+			.text(function (d, i) {
+				return ((i / 12)*100).toFixed(0);
+				// return ((formatDuration(d, startTs, false) / formatDuration(endTs, startTs, false)) * 100).toFixed(0);
 			});
 
 		let yAxis = svg.append("g").attr("text-anchor", "middle");
@@ -151,7 +152,7 @@ export default function D3RadialBarGraph(props) {
 				return -y(0);
 			})
 			.attr("dy", "10em")
-			.text("Data movement");
+			.text("");
 
 		// let legend = svg.append("g")
 		//     .selectAll("g")

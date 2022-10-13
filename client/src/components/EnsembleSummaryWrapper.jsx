@@ -57,18 +57,7 @@ export default function EnsembleSummaryWrapper() {
 						height: window.innerHeight / 3
 					};
 					return (
-						<Grid item xs={4} p={1} key={exp.split(".")[0]}>
-							<Typography
-								variant="overline"
-								style={{
-									left: 10,
-									textAlign: "center",
-									fontWeight: "bold",
-									fontSize: theme.text.fontSize
-								}}
-							>
-								{exp}
-							</Typography>{" "}
+						<Grid item xs={4} pt={4}  key={exp.split(".")[0]}>
 							<D3RadialBarGraph
 								containerName={
 									containerID.current +
@@ -84,6 +73,17 @@ export default function EnsembleSummaryWrapper() {
 								startTs={start_ts}
 								endTs={end_ts}
 							/>
+							<Typography
+								align="center"
+								display="block"
+								variant="overline"
+								style={{
+									fontWeight: "bold",
+									fontSize: theme.text.fontSize
+								}}
+							>
+								{exp}
+							</Typography>{" "}
 						</Grid>
 					);
 				})
