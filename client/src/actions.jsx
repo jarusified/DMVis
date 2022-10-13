@@ -1,5 +1,5 @@
 import {
-	FETCH_BACKGROUND_SUMMARY,
+	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
@@ -94,11 +94,11 @@ export const fetchTimelineSummary = () => async (dispatch) => {
 	});
 };
 
-export const fetchBackgroundSummary = () => async (dispatch) => {
-	const backgroundSummary = await GETWrapper("fetch_background_summary");
+export const fetchEnsembleSummary = () => async (dispatch) => {
+	const ensembleSummary = await POSTWrapper("fetch_ensemble_summary");
 	dispatch({
-		type: FETCH_BACKGROUND_SUMMARY,
-		payload: backgroundSummary
+		type: FETCH_ENSEMBLE_SUMMARY,
+		payload: ensembleSummary
 	});
 };
 

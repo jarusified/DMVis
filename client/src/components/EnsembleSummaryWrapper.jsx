@@ -1,10 +1,14 @@
+import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Grid from "@mui/material/Grid";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchSummary, updateWindow } from "../actions";
+import { fetchEnsembleSummary } from "../actions";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,43 +24,71 @@ export default function EnsembleSummaryWrapper() {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 
-	const style = {
-		top: 30,
-		right: 20,
-		bottom: 10,
-		left: 40,
-		width: window.innerWidth / 3,
-		height: window.innerHeight / 3
-	};
-
 	const containerID = useRef("event-summary-view");
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-	const summary = useSelector((store) => store.summary);
+	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 
 	useEffect(() => {
 		if (selectedExperiment !== "") {
 			const barWidth = 50;
-			const sampleCount = Math.floor(style.width / barWidth);
-			console.log(sampleCount);
-			dispatch(fetchSummary(sampleCount));
+			const sampleCount = Math.floor(window.innerWidth / 3/ barWidth);
+			dispatch(fetchEnsembleSummary(sampleCount));
 		}
 	}, [selectedExperiment]);
 
-	useEffect(() => {
-		const bars = summary.data;
-		const groups = summary.groups;
-		const samples = summary.samples;
-		const class_names = summary.class_names;
-		const ts_width = summary.ts_width;
-		const start_ts = summary.start_ts;
-		const end_ts = summary.end_ts;
-		const window = summary.window;
-		const max_ts = summary.max_ts;
-
-		if (Object.keys(bars).length > 0) {
-			D3RadialBarGraph(containerID.current, style, samples, bars, groups, max_ts, class_names, start_ts);
-		}
-	}, [summary]);
-
-	return <div id={containerID.current}></div>;
+	return (
+		<Box sx={{ display: "flex" }}>
+			{Object.keys(ensembleSummary).length > 0 ? (
+				Object.keys(ensembleSummary).map((exp) => {
+					const {
+						data,
+						groups,
+						samples,
+						max_ts,
+						class_names,
+						start_ts
+					} = ensembleSummary[exp];
+					const style = {
+						top: 30,
+						right: 20,
+						bottom: 10,
+						left: 40,
+						width: window.innerWidth / 3,
+						height: window.innerHeight / 3
+					};
+					return (
+						<Grid item xs={4} p={1} key={exp.split(".")[0]}>
+							<Typography
+								variant="overline"
+								style={{
+									left: 10,
+									textAlign: "center",
+									fontWeight: "bold",
+									fontSize: theme.text.fontSize
+								}}
+							>
+								{exp}
+							</Typography>{" "}
+							<D3RadialBarGraph
+								containerName={
+									containerID.current +
+									"-" +
+									exp.split(".")[0]
+								}
+								style={style}
+								xProp={samples}
+								yProp={data}
+								zProp={groups}
+								maxY={max_ts}
+								classNames={class_names}
+								startTs={start_ts}
+							/>
+						</Grid>
+					);
+				})
+			) : (
+				<CircularProgress />
+			)}
+		</Box>
+	);
 }

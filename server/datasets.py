@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 
 from server.logger import get_logger
 from server.timeline import Timeline
@@ -31,6 +31,14 @@ class Datasets:
         for name, profile in self.profiles.items():
             LOGGER.info(f"{name} contains {profile.get_event_count()} events. ")
         LOGGER.info(f"=====================================")
+
+    def get_all_profiles(self) -> Dict[str, Timeline]:
+        """
+        Returns the Timeline object for all experiments.
+
+        :returns: Dictionary containing all the experiment timelines.
+        """
+        return self.profiles
 
     def get_profile(self, experiment: str) -> Timeline:
         """

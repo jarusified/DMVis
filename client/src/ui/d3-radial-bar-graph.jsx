@@ -3,7 +3,8 @@ import * as d3 from "d3";
 import { COLORS, formatTimestamp, formatDuration } from "../helpers/utils";
 
 
-function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class_names, start_ts) {
+export default function D3RadialBarGraph(props) {
+    const {containerName, style, xProp, yProp, zProp, maxY, classNames, startTs }  = props
     const containerID = "#" + containerName;
     d3.select(containerID).selectAll("*").remove();
 
@@ -31,7 +32,7 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
         .data(d3.stack().keys(zProp)(yProp))
         .join("g")
         .attr("fill", (d) => {
-            const class_name = class_names[d.key];
+            const class_name = classNames[d.key];
             return COLORS[class_name];
         })
         .selectAll("path")
@@ -62,7 +63,7 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
         .attr("transform", function (d) {
             return (x(d) + x.bandwidth() / 2 + Math.PI / 2) % (2 * Math.PI) < Math.PI ? "rotate(90)translate(0,16)" : "rotate(-90)translate(0,-9)";
         })
-        .text(function (d) { return formatDuration(d, start_ts, false); });
+        .text(function (d) { return formatDuration(d, startTs, false); });
 
     var yAxis = svg.append("g")
         .attr("text-anchor", "middle");
@@ -112,6 +113,8 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
     //     .attr("y", 9)
     //     .attr("dy", "0.35em")
     //     .text(function (d) { return d; });
-}
 
-export default D3RadialBarGraph;
+    return (
+        <div id={containerName}></div>
+    )
+}
