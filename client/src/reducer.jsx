@@ -50,7 +50,6 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				dataDir: action.payload.dataDir,
 				experiments: action.payload.experiments,
-				selectedExperiment: action.payload.experiments[0]
 			};
 		case FETCH_METADATA:
 			return {

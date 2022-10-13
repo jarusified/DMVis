@@ -6,8 +6,9 @@ import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { fetchEnsembleSummary } from "../actions";
+import { fetchEnsembleSummary, fetchMetadata } from "../actions";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,18 +23,21 @@ export default function EnsembleSummaryWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
+	const navigate = useNavigate()
 
 	const containerID = useRef("event-summary-view");
-	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 
 	useEffect(() => {
-		if (selectedExperiment !== "") {
 			const barWidth = 50;
-			const sampleCount = Math.floor(window.innerWidth / 3/ barWidth);
+			const sampleCount = Math.floor((window.innerWidth / 3)/ barWidth);
 			dispatch(fetchEnsembleSummary(sampleCount));
-		}
-	}, [selectedExperiment]);
+	}, []);
+
+	function onClick(exp) {
+		dispatch(fetchMetadata(exp));
+		navigate("/dashboard");
+	}
 
 	return (
 		<Grid container>
@@ -57,7 +61,7 @@ export default function EnsembleSummaryWrapper() {
 						height: window.innerHeight / 3
 					};
 					return (
-						<Grid item xs={4} pt={4}  key={exp.split(".")[0]}>
+						<Grid item xs={4} pt={4}  key={exp.split(".")[0]} onClick={() => onClick(exp)}>
 							<D3RadialBarGraph
 								containerName={
 									containerID.current +
