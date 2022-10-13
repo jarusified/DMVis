@@ -43,7 +43,6 @@ export default function Dashboard() {
 						</Grid>
 						<Grid item xs={7} p={1}>
 							<TimelineWrapper />
-							<SummaryTimelineWrapper />
 						</Grid>
 						<Grid item xs={4} p={1}>
 							<HardwareTabWrapper />
