@@ -25,8 +25,8 @@ export default function EnsembleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 4,
-		height: window.innerHeight / 4
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
 	};
 
 	const containerID = useRef("event-summary-view");

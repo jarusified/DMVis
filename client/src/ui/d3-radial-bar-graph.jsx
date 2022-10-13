@@ -16,9 +16,6 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
 
     let innerRadius = 80,
         outerRadius = Math.min(style.width, style.height) / 2;
-        // g = svg
-        //     .append("g")
-        //     .attr("transform", "translate(" + style.width / 2 + "," + style.height / 2 + ")");
 
     let x = d3.scaleBand()
         .range([0, 2 * Math.PI])
@@ -33,7 +30,7 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
         .selectAll("g")
         .data(d3.stack().keys(zProp)(yProp))
         .join("g")
-        .attr("stroke", (d) => {
+        .attr("fill", (d) => {
             const class_name = class_names[d.key];
             return COLORS[class_name];
         })
@@ -46,9 +43,8 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
             .startAngle((d) => { return x(d.data.ts); })
             .endAngle((d) => { return x(d.data.ts) + x.bandwidth(); })
             .padAngle(0.01)
-            .padRadius(innerRadius))
-        .attr("fill", "#f00");
-
+            .padRadius(innerRadius));
+            
     var label = svg.append("g")
         .selectAll("g")
         .data(xProp)
@@ -78,7 +74,8 @@ function D3RadialBarGraph(containerName, style, xProp, yProp, zProp, maxY, class
 
     yTick.append("circle")
         .attr("fill", "none")
-        .attr("stroke", "#000")
+        .attr("stroke", "#F6F4F9")
+        .attr("stroke-width", 0.5)
         .attr("r", y);
 
     yTick.append("text")
