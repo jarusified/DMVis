@@ -43,7 +43,6 @@ export default function EnsembleSummaryWrapper() {
 	}, [selectedExperiment]);
 
 	useEffect(() => {
-		console.log(summary);
 		const bars = summary.data;
 		const groups = summary.groups;
 		const samples = summary.samples;
