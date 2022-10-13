@@ -12,12 +12,13 @@ export default function D3RadialBarGraph(props) {
 		zProp,
 		maxY,
 		classNames,
-		startTs
+		startTs,
+		endTs
 	} = props;
 	useEffect(() => {
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
-		console.log(props, containerID);
+
 		let svg = d3
 			.select(containerID)
 			.append("svg")
@@ -107,50 +108,50 @@ export default function D3RadialBarGraph(props) {
 					: "rotate(-90)translate(0,-9)";
 			})
 			.text(function (d) {
-				return formatDuration(d, startTs, false);
+				return ((formatDuration(d, startTs, false) / formatDuration(endTs, startTs, false)) * 100).toFixed(0);
 			});
 
 		let yAxis = svg.append("g").attr("text-anchor", "middle");
 
-		let yTick = yAxis
-			.selectAll("g")
-			.data(y.ticks(3).slice(1))
-			.enter()
-			.append("g");
+		// let yTick = yAxis
+		// 	.selectAll("g")
+		// 	.data(y.ticks(3).slice(1))
+		// 	.enter()
+		// 	.append("g");
 
-		yTick
-			.append("circle")
-			.attr("fill", "none")
-			.attr("stroke", "#F6F4F9")
-			.attr("stroke-width", 0.5)
-			.attr("r", y);
+		// yTick
+		// 	.append("circle")
+		// 	.attr("fill", "none")
+		// 	.attr("stroke", "#F6F4F9")
+		// 	.attr("stroke-width", 0.5)
+		// 	.attr("r", y);
 
-		yTick
-			.append("text")
-			.attr("y", function (d) {
-				return -y(d);
-			})
-			.attr("dy", "0.35em")
-			.attr("fill", "none")
-			.attr("stroke", "#fff")
-			.attr("stroke-width", 5)
-			.text((d) => formatTimestamp(d));
+		// yTick
+		// 	.append("text")
+		// 	.attr("y", function (d) {
+		// 		return -y(d);
+		// 	})
+		// 	.attr("dy", "0.35em")
+		// 	.attr("fill", "none")
+		// 	.attr("stroke", "#fff")
+		// 	.attr("stroke-width", 5)
+		// 	.text((d) => formatTimestamp(d));
 
-		yTick
-			.append("text")
-			.attr("y", function (d) {
-				return -y(d);
-			})
-			.attr("dy", "0.35em")
-			.text((d) => formatTimestamp(d));
+		// yTick
+		// 	.append("text")
+		// 	.attr("y", function (d) {
+		// 		return -y(d);
+		// 	})
+		// 	.attr("dy", "0.35em")
+		// 	.text((d) => formatTimestamp(d));
 
 		yAxis
 			.append("text")
 			.attr("y", function (d) {
-				return -y(y.ticks(5).pop());
+				return -y(0);
 			})
-			.attr("dy", "-1em")
-			.text("runtime");
+			.attr("dy", "10em")
+			.text("Data movement");
 
 		// let legend = svg.append("g")
 		//     .selectAll("g")

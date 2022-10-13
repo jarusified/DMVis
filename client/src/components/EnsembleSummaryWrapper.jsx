@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@mui/material/styles";
@@ -37,7 +36,7 @@ export default function EnsembleSummaryWrapper() {
 	}, [selectedExperiment]);
 
 	return (
-		<Box sx={{ display: "flex" }}>
+		<Grid container>
 			{Object.keys(ensembleSummary).length > 0 ? (
 				Object.keys(ensembleSummary).map((exp) => {
 					const {
@@ -46,7 +45,8 @@ export default function EnsembleSummaryWrapper() {
 						samples,
 						max_ts,
 						class_names,
-						start_ts
+						start_ts,
+						end_ts
 					} = ensembleSummary[exp];
 					const style = {
 						top: 30,
@@ -82,6 +82,7 @@ export default function EnsembleSummaryWrapper() {
 								maxY={max_ts}
 								classNames={class_names}
 								startTs={start_ts}
+								endTs={end_ts}
 							/>
 						</Grid>
 					);
@@ -89,6 +90,6 @@ export default function EnsembleSummaryWrapper() {
 			) : (
 				<CircularProgress />
 			)}
-		</Box>
+		</Grid>
 	);
 }

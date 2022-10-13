@@ -27,11 +27,7 @@ export default function EnsembleDashboard() {
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Grid mt={1} mb={1}>
-					<Grid container>
-						<EnsembleSummaryWrapper />
-					</Grid>
-				</Grid>
+				<EnsembleSummaryWrapper />
 			</main>
 		</Grid>
 	);
