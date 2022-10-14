@@ -8,7 +8,7 @@ import {
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	UPDATE_SELECTED_EXPERIMENT,
-	UPDATE_WINDOW,
+	UPDATE_WINDOW
 } from "./helpers/types";
 
 const SERVER_URL = "http://localhost:5000";

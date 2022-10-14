@@ -23,22 +23,21 @@ export default function EnsembleSummaryWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const containerID = useRef("event-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 
-
 	useEffect(() => {
-			const barWidth = 50;
-			const sampleCount = Math.floor((window.innerWidth / 3)/ barWidth);
-			dispatch(fetchEnsembleSummary(sampleCount));
+		const barWidth = 50;
+		const sampleCount = Math.floor(window.innerWidth / 3 / barWidth);
+		dispatch(fetchEnsembleSummary(sampleCount));
 	}, []);
 
 	function onClick(exp) {
 		updateSelectedExperiment(exp);
-		navigate('/dashboard')
+		navigate("/dashboard");
 	}
 
 	return (
@@ -64,7 +63,7 @@ export default function EnsembleSummaryWrapper() {
 						height: window.innerHeight / 3
 					};
 					return (
-						<Grid item xs={4} pt={4}  key={exp.split(".")[0]}>
+						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
 							<D3RadialBarGraph
 								containerName={
 									containerID.current +
@@ -88,8 +87,8 @@ export default function EnsembleSummaryWrapper() {
 								sx={{
 									fontWeight: "italics",
 									fontSize: theme.text.fontSize,
-									textDecoration: 'underline',
-									color: '#102B4D',
+									textDecoration: "underline",
+									color: "#102B4D",
 									cursor: "pointer"
 								}}
 								onClick={onClick}

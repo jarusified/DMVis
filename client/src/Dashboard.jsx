@@ -30,17 +30,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 	const classes = useStyles();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	useEffect(() => {
-		if(selectedExperiment == "") {
+		if (selectedExperiment == "") {
 			navigate("/");
 		} else {
 			dispatch(fetchMetadata(selectedExperiment));
 		}
-	}, [selectedExperiment])
+	}, [selectedExperiment]);
 
 	return (
 		<Grid className={classes.root}>

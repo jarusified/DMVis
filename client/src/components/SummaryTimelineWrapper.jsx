@@ -31,7 +31,7 @@ function SummaryTimelineWrapper() {
 	useEffect(() => {
 		if (selectedExperiment !== "") {
 			const barWidth = 50;
-			const sampleCount = Math.floor((window.innerWidth / 4) / barWidth);
+			const sampleCount = Math.floor(window.innerWidth / 4 / barWidth);
 			dispatch(fetchSummary(sampleCount));
 		}
 	}, [selectedExperiment]);

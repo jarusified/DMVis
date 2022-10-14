@@ -7,8 +7,8 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
-	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
+	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
@@ -51,7 +51,7 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				dataDir: action.payload.dataDir,
-				experiments: action.payload.experiments,
+				experiments: action.payload.experiments
 			};
 		case FETCH_METADATA:
 			return {
@@ -103,7 +103,7 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				selectedExperiment: action.payload
-			}
+			};
 		case UPDATE_WINDOW:
 			return {
 				...state,

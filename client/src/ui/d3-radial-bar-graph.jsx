@@ -1,7 +1,7 @@
 import * as d3 from "d3";
+import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useState } from "react";
 
-import {interpolateOranges} from "d3-scale-chromatic";
 import { COLORS, formatDuration } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
@@ -37,7 +37,9 @@ export default function D3RadialBarGraph(props) {
 			)
 			.style("cursor", "pointer")
 			.style("font", "10px sans-serif")
-			.on('click', (d) => {setHover(hover => !hover)})
+			.on("click", (d) => {
+				setHover((hover) => !hover);
+			});
 
 		let innerRadius = 80,
 			outerRadius = Math.min(style.width, style.height) / 2;
@@ -113,10 +115,20 @@ export default function D3RadialBarGraph(props) {
 			.attr("cx", "50%")
 			.attr("cy", "50%")
 			.attr("r", 40)
-			.style("fill", () => interpolateOranges((endTs - startTs) / (ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0])))
+			.style("fill", () =>
+				interpolateOranges(
+					(endTs - startTs) /
+						(ensembleSummary["runtime_range"][1] -
+							ensembleSummary["runtime_range"][0])
+				)
+			)
 			.attr("transform", () => {
 				return (
-					"translate(" + -style.width / 2 + "," + -style.height / 2 + ")"
+					"translate(" +
+					-style.width / 2 +
+					"," +
+					-style.height / 2 +
+					")"
 				);
 			});
 
@@ -125,11 +137,9 @@ export default function D3RadialBarGraph(props) {
 			.attr("fill", "#000")
 			.attr("font-size", 12)
 			.attr("transform", () => {
-				return (
-					"translate(" + -20 + "," + 0 + ")"
-				);
+				return "translate(" + -20 + "," + 0 + ")";
 			})
-			.text(formatDuration(endTs, startTs, true))
+			.text(formatDuration(endTs, startTs, true));
 
 		// Add y-axis ticks.
 		// Commented out for now.
@@ -176,15 +186,13 @@ export default function D3RadialBarGraph(props) {
 		// 	.text("");
 	}, [props]);
 
-	useEffect( () => {
-		if(hover) {
-			d3.selectAll('.hidden-text')
-				.attr("opacity", 1)
+	useEffect(() => {
+		if (hover) {
+			d3.selectAll(".hidden-text").attr("opacity", 1);
 		} else {
-			d3.selectAll('.hidden-text')
-				.attr('opacity', 0);
+			d3.selectAll(".hidden-text").attr("opacity", 0);
 		}
-	}, [hover])
+	}, [hover]);
 
 	return <div id={containerName}></div>;
 }
