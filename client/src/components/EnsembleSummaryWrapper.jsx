@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
-import { formatTimestamp } from "../helpers/utils";
+import { COLORS, formatTimestamp } from "../helpers/utils";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
-import Legend from "../ui/legend";
+import LinearScaleLegend from "../ui/LinearScaleLegend";
+import CategoryLegend from "../ui/CategoryLegend";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -31,6 +32,7 @@ export default function EnsembleSummaryWrapper() {
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 	const [ runtimeRange, setRuntimeRange ] = useState([0, 0]);
+	const [ categoryColormap, setCategoryColormap ] = useState([]);
 
 	useEffect(() => {
 		const barWidth = 50;
@@ -49,10 +51,25 @@ export default function EnsembleSummaryWrapper() {
 		}
 	}, [ensembleSummary]);
 
+	useEffect(() => {
+		// TODO: Make this more reliable to not depend on individual summaries.
+		if(Object.keys(individualSummary).length > 0)  {
+			const exp = Object.keys(individualSummary)[0];
+			const class_names = individualSummary[exp]['class_names'];
+
+			let colormap = []
+			for(let cls in class_names) {
+				colormap.push({ key: cls, value: COLORS[class_names[cls]]});
+			}
+			setCategoryColormap(colormap);
+		}
+	}, [individualSummary])
+
 	return (
 		<Grid container>
 			<Grid item xs={12}>
-				<Legend range={runtimeRange}/>
+				<LinearScaleLegend range={runtimeRange} />
+				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {

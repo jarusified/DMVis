@@ -52,7 +52,7 @@ function drawLinearScale(id, props) {
 	d3.select("#" + id)
 		.append("text")
 		.attr("font-size", 12)
-		.attr("x", props.width / 2 - props.left / 2)
+		.attr("x", props.width / 2 - props.left)
 		.attr("y", props.height - props.top - props.bottom)
 		.text(props.caption.toUpperCase());
 }
