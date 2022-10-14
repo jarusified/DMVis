@@ -26,7 +26,9 @@ export default function EnsembleSummaryWrapper() {
 	const navigate = useNavigate()
 
 	const containerID = useRef("event-summary-view");
+	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
+
 
 	useEffect(() => {
 			const barWidth = 50;
@@ -36,13 +38,12 @@ export default function EnsembleSummaryWrapper() {
 
 	function onClick(exp) {
 		dispatch(fetchMetadata(exp));
-		navigate("/dashboard");
 	}
 
 	return (
 		<Grid container>
-			{Object.keys(ensembleSummary).length > 0 ? (
-				Object.keys(ensembleSummary).map((exp) => {
+			{Object.keys(individualSummary).length > 0 ? (
+				Object.keys(individualSummary).map((exp) => {
 					const {
 						data,
 						groups,
@@ -51,7 +52,8 @@ export default function EnsembleSummaryWrapper() {
 						class_names,
 						start_ts,
 						end_ts
-					} = ensembleSummary[exp];
+					} = individualSummary[exp];
+
 					const style = {
 						top: 30,
 						right: 20,
@@ -76,6 +78,7 @@ export default function EnsembleSummaryWrapper() {
 								classNames={class_names}
 								startTs={start_ts}
 								endTs={end_ts}
+								ensembleSummary={ensembleSummary}
 							/>
 							<Typography
 								align="center"

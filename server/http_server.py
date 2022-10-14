@@ -169,11 +169,17 @@ class HTTPServer:
         @cross_origin()
         def fetch_ensemble_summary():
             all_timelines = self.profiles.get_all_profiles()
-            ret = {}
+            ind_info = {}
             for (exp, timeline) in all_timelines.items():
-                ret[exp] = timeline.get_summary(sample_count=12)
+                ind_info[exp] = timeline.get_summary(sample_count=12)
             
-            return ret
+            ensemble_info = {
+                "runtime_range": self.profiles.max_min_runtime()
+            }
+            return {
+                'individual': ind_info,
+                'ensemble': ensemble_info
+            }
 
 
         @app.route("/fetch_summary", methods=["POST"])

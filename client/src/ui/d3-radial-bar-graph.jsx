@@ -1,7 +1,8 @@
 import * as d3 from "d3";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { COLORS, formatDuration, formatTimestamp } from "../helpers/utils";
+import {interpolateOranges} from "d3-scale-chromatic";
+import { COLORS, formatDuration } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	const {
@@ -13,8 +14,12 @@ export default function D3RadialBarGraph(props) {
 		maxY,
 		classNames,
 		startTs,
-		endTs
+		endTs,
+		ensembleSummary,
 	} = props;
+
+	const [hover, setHover] = useState(false);
+
 	useEffect(() => {
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
@@ -30,7 +35,8 @@ export default function D3RadialBarGraph(props) {
 					style.height
 				}`
 			)
-			.style("font", "10px sans-serif");
+			.style("font", "10px sans-serif")
+			.on('click', (d) => {setHover(hover => !hover)})
 
 		let innerRadius = 80,
 			outerRadius = Math.min(style.width, style.height) / 2;
@@ -46,6 +52,15 @@ export default function D3RadialBarGraph(props) {
 			.range([innerRadius, outerRadius])
 			.domain([0, maxY]);
 
+		const arc = d3
+			.arc()
+			.innerRadius((d) => y(d[0]))
+			.outerRadius((d) => y(d[1]))
+			.startAngle((d) => x(d.data.ts))
+			.endAngle((d) => x(d.data.ts) + x.bandwidth())
+			.padAngle(0.01)
+			.padRadius(innerRadius);
+
 		svg.append("g")
 			.selectAll("g")
 			.data(d3.stack().keys(zProp)(yProp))
@@ -55,30 +70,11 @@ export default function D3RadialBarGraph(props) {
 				return COLORS[class_name];
 			})
 			.selectAll("path")
-			.data(function (d) {
-				return d;
-			})
+			.data((d) => d)
 			.join("path")
-			.attr(
-				"d",
-				d3
-					.arc()
-					.innerRadius((d) => {
-						return y(d[0]);
-					})
-					.outerRadius((d) => {
-						return y(d[1]);
-					})
-					.startAngle((d) => {
-						return x(d.data.ts);
-					})
-					.endAngle((d) => {
-						return x(d.data.ts) + x.bandwidth();
-					})
-					.padAngle(0.01)
-					.padRadius(innerRadius)
-			);
+			.attr("d", arc);
 
+		// Add labels
 		let label = svg
 			.append("g")
 			.selectAll("g")
@@ -86,7 +82,7 @@ export default function D3RadialBarGraph(props) {
 			.enter()
 			.append("g")
 			.attr("text-anchor", "middle")
-			.attr("transform", function (d) {
+			.attr("transform", (d) => {
 				return (
 					"rotate(" +
 					(((x(d) + x.bandwidth() / 2) * 180) / Math.PI - 90) +
@@ -100,18 +96,42 @@ export default function D3RadialBarGraph(props) {
 
 		label
 			.append("text")
-			.attr("transform", function (d) {
+			.attr("class", "hidden-text")
+			.attr("opacity", 0)
+			.attr("transform", (d) => {
 				return (x(d) + x.bandwidth() / 2 + Math.PI / 2) %
 					(2 * Math.PI) <
 					Math.PI
 					? "rotate(90)translate(0,16)"
 					: "rotate(-90)translate(0,-9)";
 			})
-			.text(function (d, i) {
-				return ((i / 12)*100).toFixed(0);
-				// return ((formatDuration(d, startTs, false) / formatDuration(endTs, startTs, false)) * 100).toFixed(0);
+			.text((d) => formatDuration(d, startTs, false));
+
+		// Add secondary encoding.
+		svg.append("circle")
+			.attr("cx", "50%")
+			.attr("cy", "50%")
+			.attr("r", 40)
+			.style("fill", () => interpolateOranges((endTs - startTs) / (ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0])))
+			.attr("transform", () => {
+				return (
+					"translate(" + -style.width / 2 + "," + -style.height / 2 + ")"
+				);
 			});
 
+		svg.append("text")
+			.attr("class", "hidden-text")
+			.attr("fill", "#000")
+			.attr("font-size", 12)
+			.attr("transform", () => {
+				return (
+					"translate(" + -20 + "," + 0 + ")"
+				);
+			})
+			.text(formatDuration(endTs, startTs, true))
+
+		// Add y-axis ticks.
+		// Commented out for now.
 		let yAxis = svg.append("g").attr("text-anchor", "middle");
 
 		// let yTick = yAxis
@@ -146,31 +166,25 @@ export default function D3RadialBarGraph(props) {
 		// 	.attr("dy", "0.35em")
 		// 	.text((d) => formatTimestamp(d));
 
-		yAxis
-			.append("text")
-			.attr("y", function (d) {
-				return -y(0);
-			})
-			.attr("dy", "10em")
-			.text("");
-
-		// let legend = svg.append("g")
-		//     .selectAll("g")
-		//     .data(zProp)
-		//     .enter().append("g")
-		//     .attr("transform", function (d, i) { return "translate(-40," + (i - (zProp.length - 1) / 2) * 20 + ")"; });
-
-		// legend.append("rect")
-		//     .attr("width", 18)
-		//     .attr("height", 18)
-		//     .attr("fill", z);
-
-		// legend.append("text")
-		//     .attr("x", 24)
-		//     .attr("y", 9)
-		//     .attr("dy", "0.35em")
-		//     .text(function (d) { return d; });
+		// yAxis
+		// 	.append("text")
+		// 	.attr("y", function (d) {
+		// 		return -y(0);
+		// 	})
+		// 	.attr("dy", "10em")
+		// 	.text("");
 	}, [props]);
+
+	useEffect( () => {
+		console.log(hover);
+		if(hover) {
+			d3.selectAll('.hidden-text')
+				.attr("opacity", 1)
+		} else {
+			d3.selectAll('.hidden-text')
+				.attr('opacity', 0);
+		}
+	}, [hover])
 
 	return <div id={containerName}></div>;
 }

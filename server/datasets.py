@@ -83,3 +83,15 @@ class Datasets:
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
         )
         return list(dict(sorted_experiments).keys())
+
+    def max_min_runtime(self) -> List[float]:
+        """
+        Returns the max and min runtimes of the self.profiles .
+
+        :params: None
+         :returns: List[min, max]
+        """
+        dur_dict = {
+            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.experiments
+        }
+        return [min(dur_dict.values()), max(dur_dict.values())]

@@ -21,11 +21,12 @@ const initialState = {
 	},
 	currentTimelineSummary: [],
 	dataDir: "",
-	ensembleSummary: [],
+	ensembleSummary: {},
 	events: [],
 	eventSummary: [],
 	experiments: [],
 	groups: [],
+	individualSummary: {},
 	profileMetadata: [],
 	selectedExperiment: "",
 	summary: {
@@ -72,7 +73,8 @@ export default function Reducer(state = initialState, action) {
 		case FETCH_ENSEMBLE_SUMMARY:
 			return {
 				...state,
-				ensembleSummary: action.payload
+				ensembleSummary: action.payload.ensemble,
+				individualSummary: action.payload.individual
 			};
 		case FETCH_EVENT_SUMMARY:
 			return {
