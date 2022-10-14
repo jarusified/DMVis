@@ -15,7 +15,7 @@ export default function D3RadialBarGraph(props) {
 		classNames,
 		startTs,
 		endTs,
-		ensembleSummary,
+		ensembleSummary
 	} = props;
 
 	const [hover, setHover] = useState(false);
@@ -35,6 +35,7 @@ export default function D3RadialBarGraph(props) {
 					style.height
 				}`
 			)
+			.style("cursor", "pointer")
 			.style("font", "10px sans-serif")
 			.on('click', (d) => {setHover(hover => !hover)})
 
@@ -176,7 +177,6 @@ export default function D3RadialBarGraph(props) {
 	}, [props]);
 
 	useEffect( () => {
-		console.log(hover);
 		if(hover) {
 			d3.selectAll('.hidden-text')
 				.attr("opacity", 1)

@@ -8,7 +8,7 @@ import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { fetchEnsembleSummary, fetchMetadata } from "../actions";
+import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +37,8 @@ export default function EnsembleSummaryWrapper() {
 	}, []);
 
 	function onClick(exp) {
-		dispatch(fetchMetadata(exp));
+		updateSelectedExperiment(exp);
+		navigate('/dashboard')
 	}
 
 	return (
@@ -63,7 +64,7 @@ export default function EnsembleSummaryWrapper() {
 						height: window.innerHeight / 3
 					};
 					return (
-						<Grid item xs={4} pt={4}  key={exp.split(".")[0]} onClick={() => onClick(exp)}>
+						<Grid item xs={4} pt={4}  key={exp.split(".")[0]}>
 							<D3RadialBarGraph
 								containerName={
 									containerID.current +
@@ -82,12 +83,16 @@ export default function EnsembleSummaryWrapper() {
 							/>
 							<Typography
 								align="center"
-								display="block"
 								variant="overline"
-								style={{
-									fontWeight: "bold",
-									fontSize: theme.text.fontSize
+								display="block"
+								sx={{
+									fontWeight: "italics",
+									fontSize: theme.text.fontSize,
+									textDecoration: 'underline',
+									color: '#102B4D',
+									cursor: "pointer"
 								}}
+								onClick={onClick}
 							>
 								{exp}
 							</Typography>{" "}

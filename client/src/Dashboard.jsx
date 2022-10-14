@@ -1,6 +1,8 @@
 import { CssBaseline, Grid } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
 import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
@@ -28,6 +30,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 	const classes = useStyles();
+	const navigate = useNavigate()
+
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
+
+	useEffect(() => {
+		if(selectedExperiment == "") {
+			navigate("/");
+		} else {
+			dispatch(fetchMetadata(selectedExperiment));
+		}
+	}, [selectedExperiment])
 
 	return (
 		<Grid className={classes.root}>

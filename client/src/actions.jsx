@@ -7,7 +7,8 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
-	UPDATE_WINDOW
+	UPDATE_SELECTED_EXPERIMENT,
+	UPDATE_WINDOW,
 } from "./helpers/types";
 
 const SERVER_URL = "http://localhost:5000";
@@ -99,6 +100,13 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 	dispatch({
 		type: FETCH_ENSEMBLE_SUMMARY,
 		payload: ensembleSummary
+	});
+};
+
+export const updateSelectedExperiment = (exp) => async (dispatch) => {
+	dispatch({
+		type: UPDATE_SELECTED_EXPERIMENT,
+		payload: exp
 	});
 };
 

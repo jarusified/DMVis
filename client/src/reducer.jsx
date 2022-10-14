@@ -8,6 +8,7 @@ import {
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	UPDATE_TIMELINE_SUMMARY,
+	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
@@ -98,6 +99,11 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				currentTimelineSummary: action.payload
 			};
+		case UPDATE_SELECTED_EXPERIMENT:
+			return {
+				...state,
+				selectedExperiment: action.payload
+			}
 		case UPDATE_WINDOW:
 			return {
 				...state,
