@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useState } from "react";
 
-import { COLORS, formatDuration } from "../helpers/utils";
+import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	const {
@@ -111,17 +111,15 @@ export default function D3RadialBarGraph(props) {
 			.text((d) => formatDuration(d, startTs, false));
 
 		// Add secondary encoding.
+		const this_duration = endTs - startTs;
+		const ensemble_duration = ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0];
+		const runtime_color = interpolateOranges(this_duration / ensemble_duration);
+		const runtime_color_contrast = setContrast(runtime_color);
 		svg.append("circle")
 			.attr("cx", "50%")
 			.attr("cy", "50%")
 			.attr("r", 40)
-			.style("fill", () =>
-				interpolateOranges(
-					(endTs - startTs) /
-						(ensembleSummary["runtime_range"][1] -
-							ensembleSummary["runtime_range"][0])
-				)
-			)
+			.style("fill", runtime_color)
 			.attr("transform", () => {
 				return (
 					"translate(" +
@@ -134,7 +132,7 @@ export default function D3RadialBarGraph(props) {
 
 		svg.append("text")
 			.attr("class", "hidden-text")
-			.attr("fill", "#000")
+			.attr("fill", runtime_color_contrast)
 			.attr("font-size", 12)
 			.attr("transform", () => {
 				return "translate(" + -20 + "," + 0 + ")";
