@@ -3,13 +3,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
+import { formatTimestamp } from "../helpers/utils";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
+import Legend from "../ui/legend";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -28,6 +30,7 @@ export default function EnsembleSummaryWrapper() {
 	const containerID = useRef("event-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
+	const [ runtimeRange, setRuntimeRange ] = useState([0, 0]);
 
 	useEffect(() => {
 		const barWidth = 50;
@@ -40,8 +43,17 @@ export default function EnsembleSummaryWrapper() {
 		navigate("/dashboard");
 	}
 
+	useEffect(() => {
+		if(Object.keys(ensembleSummary).length > 0)  {
+			setRuntimeRange([ formatTimestamp(ensembleSummary["runtime_range"][0], 0), formatTimestamp(ensembleSummary["runtime_range"][1], 0) ]);
+		}
+	}, [ensembleSummary]);
+
 	return (
 		<Grid container>
+			<Grid item xs={12}>
+				<Legend range={runtimeRange}/>
+			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
 					const {

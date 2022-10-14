@@ -68,7 +68,7 @@ export function formatDuration(millis, start_ts, with_metric = true) {
 
 export function formatTimestamp(millis, precision = 0) {
 	if (millis < 1e6 && millis > 1e3) {
-		return millis / (1e3).toFixed(1) + "ms";
+		return (millis / 1e3).toFixed(precision) + "ms";
 	}
 	return (millis / 1e6).toFixed(precision) + "s";
 }
