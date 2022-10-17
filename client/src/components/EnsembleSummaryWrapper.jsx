@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Card from '@mui/material/Card';
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
@@ -93,37 +94,39 @@ export default function EnsembleSummaryWrapper() {
 					};
 					return (
 						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
-							<D3RadialBarGraph
-								containerName={
-									containerID.current +
-									"-" +
-									exp.split(".")[0]
-								}
-								style={style}
-								xProp={samples}
-								yProp={data}
-								zProp={groups}
-								maxY={max_ts}
-								classNames={class_names}
-								startTs={start_ts}
-								endTs={end_ts}
-								ensembleSummary={ensembleSummary}
-							/>
-							<Typography
-								align="center"
-								variant="overline"
-								display="block"
-								sx={{
-									fontWeight: "italics",
-									fontSize: theme.text.fontSize,
-									textDecoration: "underline",
-									color: "#102B4D",
-									cursor: "pointer"
-								}}
-								onClick={onClick}
-							>
-								{exp}
-							</Typography>{" "}
+							<Card style={{borderColor: 'gray'}}>
+								<D3RadialBarGraph
+									containerName={
+										containerID.current +
+										"-" +
+										exp.split(".")[0]
+									}
+									style={style}
+									xProp={samples}
+									yProp={data}
+									zProp={groups}
+									maxY={max_ts}
+									classNames={class_names}
+									startTs={start_ts}
+									endTs={end_ts}
+									ensembleSummary={ensembleSummary}
+								/>
+								<Typography
+									align="center"
+									variant="overline"
+									display="block"
+									sx={{
+										fontWeight: "italics",
+										fontSize: theme.text.fontSize,
+										textDecoration: "underline",
+										color: "#102B4D",
+										cursor: "pointer"
+									}}
+									onClick={onClick}
+								>
+									{exp}
+								</Typography>{" "}
+							</Card>
 						</Grid>
 					);
 				})
