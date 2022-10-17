@@ -11,6 +11,7 @@ import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
 import ToolBar from "./ui/ToolBar";
+import { fetchMetadata } from "./actions";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);

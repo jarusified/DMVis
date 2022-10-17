@@ -1,6 +1,5 @@
 import * as d3 from "d3";
-import { interpolateOranges } from "d3-scale-chromatic";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function drawCategories(id, props) {
     // console.log(props.colormap);
@@ -11,7 +10,6 @@ function drawCategories(id, props) {
 		.enter()
 		.append("g")
 		.attr("transform", function (d, i) {
-            console.log( ( (props.categories.length - 1) / 8) * 20);
 			return "translate(0," + ( i + (props.categories.length - 1) / 8) * 20 + ")";
 		});
 

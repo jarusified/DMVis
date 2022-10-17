@@ -80,7 +80,7 @@ function drawCategories(data, id) {
 		});
 }
 
-export default function Legend(props) {
+export default function LinearScaleLegend(props) {
 	const runtimeProps = {
 		bottom: 20,
 		captionLeft: props.range[0],

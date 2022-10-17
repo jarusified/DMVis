@@ -32,6 +32,8 @@ export default function EnsembleSummaryWrapper() {
 	const containerID = useRef("event-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
+
 	const [ runtimeRange, setRuntimeRange ] = useState([0, 0]);
 	const [ categoryColormap, setCategoryColormap ] = useState([]);
 
@@ -42,9 +44,16 @@ export default function EnsembleSummaryWrapper() {
 	}, []);
 
 	function onClick(exp) {
-		updateSelectedExperiment(exp);
-		navigate("/dashboard");
+		console.log("Selected experiment: ", exp);
+		dispatch(updateSelectedExperiment(exp));
 	}
+
+	useEffect(() => {
+		console.log(selectedExperiment);
+		if(selectedExperiment != "") {
+			navigate("/dashboard");
+		}
+	}, [selectedExperiment])
 
 	useEffect(() => {
 		if(Object.keys(ensembleSummary).length > 0)  {
@@ -122,7 +131,7 @@ export default function EnsembleSummaryWrapper() {
 										color: "#102B4D",
 										cursor: "pointer"
 									}}
-									onClick={onClick}
+									onClick={() => onClick(exp)}
 								>
 									{exp}
 								</Typography>{" "}
