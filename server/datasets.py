@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Dict
 
 from server.logger import get_logger
 from server.timeline import Timeline
@@ -31,6 +31,14 @@ class Datasets:
         for name, profile in self.profiles.items():
             LOGGER.info(f"{name} contains {profile.get_event_count()} events. ")
         LOGGER.info(f"=====================================")
+
+    def get_all_profiles(self) -> Dict[str, Timeline]:
+        """
+        Returns the Timeline object for all experiments.
+
+        :returns: Dictionary containing all the experiment timelines.
+        """
+        return self.profiles
 
     def get_profile(self, experiment: str) -> Timeline:
         """
@@ -75,3 +83,15 @@ class Datasets:
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
         )
         return list(dict(sorted_experiments).keys())
+
+    def max_min_runtime(self) -> List[float]:
+        """
+        Returns the max and min runtimes of the self.profiles .
+
+        :params: None
+         :returns: List[min, max]
+        """
+        dur_dict = {
+            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.experiments
+        }
+        return [min(dur_dict.values()), max(dur_dict.values())]

@@ -13,7 +13,7 @@ a {
 }
 
 path {
-	fill: none;
+	/* fill: none; */
 	stroke: gray;
 	stroke-width: 0.8px;
 }

@@ -1,3 +1,4 @@
+from audioop import cross
 import os
 import pathlib
 import warnings
@@ -164,6 +165,23 @@ class HTTPServer:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
 
+        @app.route("/fetch_ensemble_summary", methods=["POST"])
+        @cross_origin()
+        def fetch_ensemble_summary():
+            all_timelines = self.profiles.get_all_profiles()
+            ind_info = {}
+            for (exp, timeline) in all_timelines.items():
+                ind_info[exp] = timeline.get_summary(sample_count=12)
+            
+            ensemble_info = {
+                "runtime_range": self.profiles.max_min_runtime()
+            }
+            return {
+                'individual': ind_info,
+                'ensemble': ensemble_info
+            }
+
+
         @app.route("/fetch_summary", methods=["POST"])
         @cross_origin()
         def fetch_summary():
@@ -220,20 +238,6 @@ class HTTPServer:
                 with open(event_summary_path, "w") as outfile:
                     json.dump(event_summary, outfile)
                 return jsonify(event_summary)
-            else:
-                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
-                return jsonify({})
-
-        @app.route("/fetch_background_summary", methods=["GET"])
-        @cross_origin()
-        def fetch_background_summary():
-            """
-            Route to fetch the summary for all background-events in the timeline.
-            TODO: Currently this view has been disabled. Need to update logic to realize there is a background event and only visualize this if such information exists.
-            """
-            if self.timeline is not None:
-                bkg_summary = self.timeline.get_event_summary(["background"])
-                return jsonify(bkg_summary)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})

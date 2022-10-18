@@ -1,5 +1,5 @@
 import {
-	FETCH_BACKGROUND_SUMMARY,
+	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
@@ -7,25 +7,27 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
 const initialState = {
-	backgroundSummary: [],
+	currentEventSummary: [],
 	currentTimeline: {
 		end_ts: 0,
 		events: [],
 		groups: [],
 		start_ts: 0
 	},
+	currentTimelineSummary: [],
 	dataDir: "",
-	experiments: [],
+	ensembleSummary: {},
 	events: [],
 	eventSummary: [],
-	currentEventSummary: [],
-	currentTimelineSummary: [],
+	experiments: [],
 	groups: [],
+	individualSummary: {},
 	profileMetadata: [],
 	selectedExperiment: "",
 	summary: {
@@ -49,8 +51,7 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				dataDir: action.payload.dataDir,
-				experiments: action.payload.experiments,
-				selectedExperiment: action.payload.experiments[0]
+				experiments: action.payload.experiments
 			};
 		case FETCH_METADATA:
 			return {
@@ -70,10 +71,11 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				summary: action.payload
 			};
-		case FETCH_BACKGROUND_SUMMARY:
+		case FETCH_ENSEMBLE_SUMMARY:
 			return {
 				...state,
-				backgroundSummary: action.payload
+				ensembleSummary: action.payload.ensemble,
+				individualSummary: action.payload.individual
 			};
 		case FETCH_EVENT_SUMMARY:
 			return {
@@ -96,6 +98,11 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				currentTimelineSummary: action.payload
+			};
+		case UPDATE_SELECTED_EXPERIMENT:
+			return {
+				...state,
+				selectedExperiment: action.payload
 			};
 		case UPDATE_WINDOW:
 			return {

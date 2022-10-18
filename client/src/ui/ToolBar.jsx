@@ -120,11 +120,11 @@ export default function ToolBar() {
 		dispatch(fetchExperiments());
 	}, []);
 
-	useEffect(() => {
-		if (selectedExperiment !== "") {
-			dispatch(fetchMetadata(selectedExperiment));
-		}
-	}, [selectedExperiment]);
+	// useEffect(() => {
+	// 	if (selectedExperiment !== "") {
+	// 		dispatch(fetchMetadata(selectedExperiment));
+	// 	}
+	// }, [selectedExperiment]);
 
 	return (
 		<>
@@ -149,7 +149,7 @@ export default function ToolBar() {
 						Found <strong>{experiments.length}</strong> profiles in{" "}
 						<span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
-					{experiments.length > 0 ? (
+					{selectedExperiment != "" && experiments.length > 0 ? (
 						<FormControl
 							className={classes.formControl}
 							size="small"

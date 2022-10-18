@@ -1,5 +1,5 @@
 import {
-	FETCH_BACKGROUND_SUMMARY,
+	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
@@ -7,6 +7,7 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_WINDOW
 } from "./helpers/types";
 
@@ -94,11 +95,18 @@ export const fetchTimelineSummary = () => async (dispatch) => {
 	});
 };
 
-export const fetchBackgroundSummary = () => async (dispatch) => {
-	const backgroundSummary = await GETWrapper("fetch_background_summary");
+export const fetchEnsembleSummary = () => async (dispatch) => {
+	const ensembleSummary = await POSTWrapper("fetch_ensemble_summary");
 	dispatch({
-		type: FETCH_BACKGROUND_SUMMARY,
-		payload: backgroundSummary
+		type: FETCH_ENSEMBLE_SUMMARY,
+		payload: ensembleSummary
+	});
+};
+
+export const updateSelectedExperiment = (exp) => async (dispatch) => {
+	dispatch({
+		type: UPDATE_SELECTED_EXPERIMENT,
+		payload: exp
 	});
 };
 

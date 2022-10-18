@@ -7,6 +7,7 @@ import { applyMiddleware, createStore } from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import Dashboard from "./Dashboard";
+import EnsembleDashboard from "./EnsembleDashboard";
 import "./main.css";
 import Reducer from "./reducer";
 
@@ -48,7 +49,8 @@ function App() {
 		<Provider store={store}>
 			<Router>
 				<Routes>
-					<Route path="/" element={<DashboardWrapper />} />
+					<Route path="/dashboard" element={<DashboardWrapper />} />
+					<Route path="/" element={<EnsembleDashboardWrapper />} />
 				</Routes>
 			</Router>
 		</Provider>
@@ -59,6 +61,14 @@ function DashboardWrapper() {
 	return (
 		<ThemeProvider theme={theme}>
 			<Dashboard />
+		</ThemeProvider>
+	);
+}
+
+function EnsembleDashboardWrapper() {
+	return (
+		<ThemeProvider theme={theme}>
+			<EnsembleDashboard />
 		</ThemeProvider>
 	);
 }

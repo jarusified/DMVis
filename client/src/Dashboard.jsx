@@ -1,12 +1,14 @@
 import { CssBaseline, Grid } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+import { fetchMetadata } from "./actions";
 import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
 import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
-import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
 import HardwareTabWrapper from "./components/HardwareTabWrapper";
-import SummaryTimelineWrapper from "./components/SummaryTimelineWrapper";
+import SingleSummaryWrapper from "./components/SingleSummaryWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
 import ToolBar from "./ui/ToolBar";
 
@@ -28,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	const selectedExperiment = useSelector((store) => store.selectedExperiment);
+
+	useEffect(() => {
+		if (selectedExperiment == "") {
+			navigate("/");
+		} else {
+			dispatch(fetchMetadata(selectedExperiment));
+		}
+	}, [selectedExperiment]);
 
 	return (
 		<Grid className={classes.root}>
@@ -39,11 +53,10 @@ export default function Dashboard() {
 				<Grid mt={1} mb={1}>
 					<Grid container>
 						<Grid item xs={4} p={1}>
-							<EnsembleSummaryWrapper />
+							<SingleSummaryWrapper />
 						</Grid>
 						<Grid item xs={7} p={1}>
 							<TimelineWrapper />
-							<SummaryTimelineWrapper />
 						</Grid>
 						<Grid item xs={4} p={1}>
 							<HardwareTabWrapper />
