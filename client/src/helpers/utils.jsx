@@ -160,11 +160,13 @@ export const rgbArrayToHex = (CMYK) => {
 
 export function hexToRgb(hex) {
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? {
-		r: parseInt(result[1], 16),
-		g: parseInt(result[2], 16),
-		b: parseInt(result[3], 16),
-	} : null;
+	return result
+		? {
+				r: parseInt(result[1], 16),
+				g: parseInt(result[2], 16),
+				b: parseInt(result[3], 16)
+		  }
+		: null;
 }
 
 export function rgbToHex(r, g, b) {
@@ -174,9 +176,12 @@ export function rgbToHex(r, g, b) {
 export function setContrast(rgb) {
 	// console.log(hex);
 	// const rgb = hexToRgb(hex);
-	const o = Math.round(((parseInt(rgb.r) * 299) +
-		(parseInt(rgb.g) * 587) +
-		(parseInt(rgb.b) * 114)) / 1000);
+	const o = Math.round(
+		(parseInt(rgb.r) * 299 +
+			parseInt(rgb.g) * 587 +
+			parseInt(rgb.b) * 114) /
+			1000
+	);
 
-	return (o > 128) ? "#000" : "#fff";
+	return o > 128 ? "#000" : "#fff";
 }

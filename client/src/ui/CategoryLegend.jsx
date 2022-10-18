@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useEffect } from "react";
 
 function drawCategories(id, props) {
-    // console.log(props.colormap);
+	// console.log(props.colormap);
 	let legend = d3
 		.select("#" + id)
 		.selectAll("g")
@@ -10,13 +10,18 @@ function drawCategories(id, props) {
 		.enter()
 		.append("g")
 		.attr("transform", function (d, i) {
-			return "translate(0," + ( i + (props.categories.length - 1) / 8) * 20 + ")";
+			return (
+				"translate(0," +
+				(i + (props.categories.length - 1) / 8) * 20 +
+				")"
+			);
 		});
 
-	legend.append("rect")
-        .attr("width", 18)
-        .attr("height", 18)
-        .attr("fill", (d) => d.value);
+	legend
+		.append("rect")
+		.attr("width", 18)
+		.attr("height", 18)
+		.attr("fill", (d) => d.value);
 
 	legend
 		.append("text")
@@ -36,10 +41,10 @@ export default function CategoryLegend(props) {
 		right: 50,
 		top: 25,
 		width: 400,
-        categories: props.colormap
+		categories: props.colormap
 	};
 	useEffect(() => {
-		drawCategories("catLegend", categoryProps)
+		drawCategories("catLegend", categoryProps);
 	}, [props]);
 
 	return (

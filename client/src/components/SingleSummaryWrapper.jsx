@@ -23,36 +23,26 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function EnsembleSummaryWrapper() {
+export default function SingleSummaryWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const containerID = useRef("ensemble-summary-view");
+	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
+	const [thisSummary, setThisSummary] = useState([]);
 
 	useEffect(() => {
 		const barWidth = 50;
 		const sampleCount = Math.floor(window.innerWidth / 3 / barWidth);
 		dispatch(fetchEnsembleSummary(sampleCount));
 	}, []);
-
-	function onClick(exp) {
-		console.log("Selected experiment: ", exp);
-		dispatch(updateSelectedExperiment(exp));
-	}
-
-	useEffect(() => {
-		if (selectedExperiment != "") {
-			navigate("/dashboard");
-		}
-	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (Object.keys(ensembleSummary).length > 0) {
@@ -74,6 +64,8 @@ export default function EnsembleSummaryWrapper() {
 				colormap.push({ key: cls, value: COLORS[class_names[cls]] });
 			}
 			setCategoryColormap(colormap);
+
+			setThisSummary(individualSummary[selectedExperiment]);
 		}
 	}, [individualSummary]);
 
@@ -83,17 +75,17 @@ export default function EnsembleSummaryWrapper() {
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
-			{Object.keys(individualSummary).length > 0 ? (
-				Object.keys(individualSummary).map((exp) => {
+			{Object.keys(thisSummary).length > 0 ? (
+				() => {
 					const {
 						data,
 						groups,
 						samples,
 						max_ts,
-						class_names,
+						class_name,
 						start_ts,
 						end_ts
-					} = individualSummary[exp];
+					} = individualSummary[selectedExperiment];
 
 					const style = {
 						top: 30,
@@ -104,13 +96,18 @@ export default function EnsembleSummaryWrapper() {
 						height: window.innerHeight / 3
 					};
 					return (
-						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
+						<Grid
+							item
+							xs={4}
+							pt={4}
+							key={selectedExperiment.split(".")[0]}
+						>
 							<Card style={{ borderColor: "gray" }}>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
 										"-" +
-										exp.split(".")[0]
+										selectedExperiment.split(".")[0]
 									}
 									style={style}
 									xProp={samples}
@@ -122,25 +119,10 @@ export default function EnsembleSummaryWrapper() {
 									endTs={end_ts}
 									ensembleSummary={ensembleSummary}
 								/>
-								<Typography
-									align="center"
-									variant="overline"
-									display="block"
-									sx={{
-										fontWeight: "italics",
-										fontSize: theme.text.fontSize,
-										textDecoration: "underline",
-										color: "#102B4D",
-										cursor: "pointer"
-									}}
-									onClick={() => onClick(exp)}
-								>
-									{exp}
-								</Typography>{" "}
 							</Card>
 						</Grid>
 					);
-				})
+				}
 			) : (
 				<CircularProgress />
 			)}
