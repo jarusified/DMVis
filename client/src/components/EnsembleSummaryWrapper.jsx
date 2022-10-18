@@ -46,13 +46,8 @@ export default function EnsembleSummaryWrapper() {
 	function onClick(exp) {
 		console.log("Selected experiment: ", exp);
 		dispatch(updateSelectedExperiment(exp));
+		navigate("/dashboard");
 	}
-
-	useEffect(() => {
-		if (selectedExperiment != "") {
-			navigate("/dashboard");
-		}
-	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (Object.keys(ensembleSummary).length > 0) {
