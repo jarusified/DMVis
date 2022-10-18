@@ -63,7 +63,7 @@ export default function SingleSummaryWrapper() {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
 			const class_names =
-				individualSummary[selectedExperiment]["class_names"];
+				individualSummary[selectedExperiment]["classNames"];
 
 			let colormap = [];
 			for (let cls in class_names) {

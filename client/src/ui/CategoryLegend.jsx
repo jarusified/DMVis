@@ -2,7 +2,6 @@ import * as d3 from "d3";
 import { useEffect } from "react";
 
 function drawCategories(id, props) {
-	// console.log(props.colormap);
 	let legend = d3
 		.select("#" + id)
 		.selectAll("g")

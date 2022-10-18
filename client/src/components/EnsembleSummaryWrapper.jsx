@@ -53,7 +53,6 @@ export default function EnsembleSummaryWrapper() {
 	}, []);
 
 	function onClick(exp) {
-		console.log("Selected experiment: ", exp);
 		dispatch(updateSelectedExperiment(exp));
 		navigate("/dashboard");
 	}
@@ -71,7 +70,7 @@ export default function EnsembleSummaryWrapper() {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
 			const exp = Object.keys(individualSummary)[0];
-			const class_names = individualSummary[exp]["class_names"];
+			const class_names = individualSummary[exp]["classNames"];
 
 			let colormap = [];
 			for (let cls in class_names) {
