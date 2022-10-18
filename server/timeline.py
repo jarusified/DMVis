@@ -692,14 +692,15 @@ class Timeline:
             val["ts"] = sample
 
         return {
-            "data": list(events_in_sample.values()),
-            "groups": list(self.rules["grouping"].keys()),
-            "class_names": self.grp_to_cls,
-            "samples": list(ts_samples),
-            "start_ts": self.start_ts,
-            "end_ts": self.end_ts,
+            "classNames": self.grp_to_cls,
+            "maxY": max_ts,
+            "startTs": self.start_ts,
+            "endTs": self.end_ts,
             "ts_width": ts_width,
-            "max_ts": max_ts,
+            "yData": list(events_in_sample.values()),
+            "xData": list(ts_samples),
+            "zData": list(self.rules["grouping"].keys()),
+
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:

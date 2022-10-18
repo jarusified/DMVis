@@ -37,6 +37,15 @@ export default function EnsembleSummaryWrapper() {
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
 
+	const style = {
+		top: 30,
+		right: 20,
+		bottom: 10,
+		left: 40,
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
+	};
+
 	useEffect(() => {
 		const barWidth = 50;
 		const sampleCount = Math.floor(window.innerWidth / 3 / barWidth);
@@ -80,24 +89,6 @@ export default function EnsembleSummaryWrapper() {
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
-					const {
-						data,
-						groups,
-						samples,
-						max_ts,
-						class_names,
-						start_ts,
-						end_ts
-					} = individualSummary[exp];
-
-					const style = {
-						top: 30,
-						right: 20,
-						bottom: 10,
-						left: 40,
-						width: window.innerWidth / 3,
-						height: window.innerHeight / 3
-					};
 					return (
 						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
 							<Card style={{ borderColor: "gray" }}>
@@ -108,13 +99,7 @@ export default function EnsembleSummaryWrapper() {
 										exp.split(".")[0]
 									}
 									style={style}
-									xProp={samples}
-									yProp={data}
-									zProp={groups}
-									maxY={max_ts}
-									classNames={class_names}
-									startTs={start_ts}
-									endTs={end_ts}
+									individualSummary={individualSummary[exp]}
 									ensembleSummary={ensembleSummary}
 								/>
 								<Typography

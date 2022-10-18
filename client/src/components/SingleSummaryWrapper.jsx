@@ -25,9 +25,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleSummaryWrapper() {
 	const classes = useStyles();
-	const theme = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const style = {
+		top: 30,
+		right: 20,
+		bottom: 10,
+		left: 40,
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
+	};
 
 	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
@@ -36,7 +43,6 @@ export default function SingleSummaryWrapper() {
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
-	const [thisSummary, setThisSummary] = useState([]);
 
 	useEffect(() => {
 		const barWidth = 50;
@@ -56,73 +62,39 @@ export default function SingleSummaryWrapper() {
 	useEffect(() => {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
-			const exp = Object.keys(individualSummary)[0];
-			const class_names = individualSummary[exp]["class_names"];
+			const class_names =
+				individualSummary[selectedExperiment]["class_names"];
 
 			let colormap = [];
 			for (let cls in class_names) {
 				colormap.push({ key: cls, value: COLORS[class_names[cls]] });
 			}
 			setCategoryColormap(colormap);
-
-			setThisSummary(individualSummary[selectedExperiment]);
 		}
 	}, [individualSummary]);
 
 	return (
 		<Grid container>
-			<Grid item xs={12}>
-				<LinearScaleLegend range={runtimeRange} />
+			<Grid item>
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
-			{Object.keys(thisSummary).length > 0 ? (
-				() => {
-					const {
-						data,
-						groups,
-						samples,
-						max_ts,
-						class_name,
-						start_ts,
-						end_ts
-					} = individualSummary[selectedExperiment];
-
-					const style = {
-						top: 30,
-						right: 20,
-						bottom: 10,
-						left: 40,
-						width: window.innerWidth / 3,
-						height: window.innerHeight / 3
-					};
-					return (
-						<Grid
-							item
-							xs={4}
-							pt={4}
-							key={selectedExperiment.split(".")[0]}
-						>
-							<Card style={{ borderColor: "gray" }}>
-								<D3RadialBarGraph
-									containerName={
-										containerID.current +
-										"-" +
-										selectedExperiment.split(".")[0]
-									}
-									style={style}
-									xProp={samples}
-									yProp={data}
-									zProp={groups}
-									maxY={max_ts}
-									classNames={class_names}
-									startTs={start_ts}
-									endTs={end_ts}
-									ensembleSummary={ensembleSummary}
-								/>
-							</Card>
-						</Grid>
-					);
-				}
+			{Object.keys(individualSummary).length > 0 ? (
+				<Grid item xs={4} pt={4} key={selectedExperiment.split(".")[0]}>
+					<Card style={{ borderColor: "gray" }}>
+						<D3RadialBarGraph
+							containerName={
+								containerID.current +
+								"-" +
+								selectedExperiment.split(".")[0]
+							}
+							style={style}
+							individualSummary={
+								individualSummary[selectedExperiment]
+							}
+							ensembleSummary={ensembleSummary}
+						/>
+					</Card>
+				</Grid>
 			) : (
 				<CircularProgress />
 			)}

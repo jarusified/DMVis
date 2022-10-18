@@ -5,19 +5,9 @@ import { useEffect, useState } from "react";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
-	const {
-		containerName,
-		style,
-		xProp,
-		yProp,
-		zProp,
-		maxY,
-		classNames,
-		startTs,
-		endTs,
-		ensembleSummary
-	} = props;
-
+	const { style, containerName, ensembleSummary, individualSummary } = props;
+	
+	const { xData, yData, zData, maxY, classNames, startTs, endTs } = individualSummary;
 	const [hover, setHover] = useState(false);
 
 	useEffect(() => {
@@ -48,7 +38,7 @@ export default function D3RadialBarGraph(props) {
 			.scaleBand()
 			.range([0, 2 * Math.PI])
 			.align(0)
-			.domain(xProp);
+			.domain(xData);
 
 		let y = d3
 			.scaleRadial()
@@ -66,7 +56,7 @@ export default function D3RadialBarGraph(props) {
 
 		svg.append("g")
 			.selectAll("g")
-			.data(d3.stack().keys(zProp)(yProp))
+			.data(d3.stack().keys(zData)(yData))
 			.join("g")
 			.attr("fill", (d) => {
 				const class_name = classNames[d.key];
@@ -81,7 +71,7 @@ export default function D3RadialBarGraph(props) {
 		let label = svg
 			.append("g")
 			.selectAll("g")
-			.data(xProp)
+			.data(xData)
 			.enter()
 			.append("g")
 			.attr("text-anchor", "middle")
