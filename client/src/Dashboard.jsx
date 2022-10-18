@@ -46,7 +46,7 @@ export default function Dashboard() {
 	return (
 		<Grid className={classes.root}>
 			<CssBaseline />
-			<ToolBar />
+			<ToolBar withDropdown={true} />
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
