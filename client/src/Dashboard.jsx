@@ -50,7 +50,6 @@ export default function Dashboard() {
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Grid mt={1} mb={1}>
 					<Grid container>
 						<Grid item xs={4} p={1}>
 							<SingleSummaryWrapper />
@@ -68,7 +67,6 @@ export default function Dashboard() {
 							<CommunicationTabWrapper />
 						</Grid>
 					</Grid>
-				</Grid>
 			</main>
 		</Grid>
 	);

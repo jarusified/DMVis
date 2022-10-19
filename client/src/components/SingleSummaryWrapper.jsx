@@ -79,7 +79,6 @@ export default function SingleSummaryWrapper() {
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
-				<Grid item xs={4} pt={4} key={selectedExperiment.split(".")[0]}>
 					<Card style={{ borderColor: "gray" }}>
 						<D3RadialBarGraph
 							containerName={
@@ -94,7 +93,6 @@ export default function SingleSummaryWrapper() {
 							ensembleSummary={ensembleSummary}
 						/>
 					</Card>
-				</Grid>
 			) : (
 				<CircularProgress />
 			)}
