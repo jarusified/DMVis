@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
@@ -87,7 +88,7 @@ export default function EnsembleSummaryWrapper() {
 	}, [individualSummary]);
 
 	return (
-		<Grid container>
+		<Grid container justifyContent="center">
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
@@ -131,7 +132,9 @@ export default function EnsembleSummaryWrapper() {
 					);
 				})
 			) : (
-				<CircularProgress />
+				<Grid container justifyContent="center">
+					<CircularProgress />
+				</Grid>
 			)}
 		</Grid>
 	);

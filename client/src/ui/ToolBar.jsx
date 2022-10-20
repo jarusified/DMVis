@@ -149,7 +149,9 @@ export default function ToolBar(props) {
 						Found <strong>{experiments.length}</strong> profiles in{" "}
 						<span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
-					{props.withDropdown && selectedExperiment != "" && experiments.length > 0 ? (
+					{props.withDropdown &&
+					selectedExperiment != "" &&
+					experiments.length > 0 ? (
 						<FormControl
 							className={classes.formControl}
 							size="small"

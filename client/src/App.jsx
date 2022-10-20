@@ -27,12 +27,12 @@ const theme = createTheme({
 			contrastText: "#ffcc00"
 		},
 		background: "#fff",
-		backgroundHighlight: "#f8f8f8",
+		backgroundHighlight: "#f8f8f8"
 	},
 	text: {
 		fontSize: 14,
-		highlight: '#04ACB5',
-		white: '#000'
+		highlight: "#04ACB5",
+		white: "#000"
 	}
 });
 

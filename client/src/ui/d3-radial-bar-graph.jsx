@@ -6,8 +6,9 @@ import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	const { style, containerName, ensembleSummary, individualSummary } = props;
-	
-	const { xData, yData, zData, maxY, classNames, startTs, endTs } = individualSummary;
+
+	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
+		individualSummary;
 	const [hover, setHover] = useState(false);
 
 	useEffect(() => {

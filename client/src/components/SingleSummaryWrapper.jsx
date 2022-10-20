@@ -79,20 +79,20 @@ export default function SingleSummaryWrapper() {
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
-					<Card style={{ borderColor: "gray" }}>
-						<D3RadialBarGraph
-							containerName={
-								containerID.current +
-								"-" +
-								selectedExperiment.split(".")[0]
-							}
-							style={style}
-							individualSummary={
-								individualSummary[selectedExperiment]
-							}
-							ensembleSummary={ensembleSummary}
-						/>
-					</Card>
+				<Card style={{ borderColor: "gray" }}>
+					<D3RadialBarGraph
+						containerName={
+							containerID.current +
+							"-" +
+							selectedExperiment.split(".")[0]
+						}
+						style={style}
+						individualSummary={
+							individualSummary[selectedExperiment]
+						}
+						ensembleSummary={ensembleSummary}
+					/>
+				</Card>
 			) : (
 				<CircularProgress />
 			)}

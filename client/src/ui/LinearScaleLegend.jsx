@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function drawLinearScale(id, props) {
 	const data = Array.from(Array(100).keys());
@@ -57,29 +57,6 @@ function drawLinearScale(id, props) {
 		.text(props.caption.toUpperCase());
 }
 
-function drawCategories(data, id) {
-	let legend = d3
-		.select("")
-		.selectAll("g")
-		.data(zProp)
-		.enter()
-		.append("g")
-		.attr("transform", function (d, i) {
-			return "translate(-40," + (i - (zProp.length - 1) / 2) * 20 + ")";
-		});
-
-	legend.append("rect").attr("width", 18).attr("height", 18).attr("fill", z);
-
-	legend
-		.append("text")
-		.attr("x", 24)
-		.attr("y", 9)
-		.attr("dy", "0.35em")
-		.text(function (d) {
-			return d;
-		});
-}
-
 export default function LinearScaleLegend(props) {
 	const runtimeProps = {
 		bottom: 20,
@@ -95,7 +72,6 @@ export default function LinearScaleLegend(props) {
 	};
 	useEffect(() => {
 		drawLinearScale("legend", runtimeProps);
-		// drawCategories("legend", ["a"])
 	}, [props]);
 
 	return (

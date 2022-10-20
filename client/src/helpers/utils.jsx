@@ -174,7 +174,7 @@ export function rgbToHex(r, g, b) {
 }
 
 export function setContrast(rgb) {
-	const rgb_arr = rgb.match(/\d+/g);	
+	const rgb_arr = rgb.match(/\d+/g);
 	const o = Math.round(
 		(parseInt(rgb_arr[0]) * 299 +
 			parseInt(rgb_arr[1]) * 587 +

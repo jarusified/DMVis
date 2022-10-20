@@ -50,23 +50,23 @@ export default function Dashboard() {
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-					<Grid container>
-						<Grid item xs={4} p={1}>
-							<SingleSummaryWrapper />
-						</Grid>
-						<Grid item xs={7} p={1}>
-							<TimelineWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<HardwareTabWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<ApplicationTabWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<CommunicationTabWrapper />
-						</Grid>
+				<Grid container>
+					<Grid item xs={4} p={1}>
+						<SingleSummaryWrapper />
 					</Grid>
+					<Grid item xs={7} p={1}>
+						<TimelineWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<HardwareTabWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<ApplicationTabWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<CommunicationTabWrapper />
+					</Grid>
+				</Grid>
 			</main>
 		</Grid>
 	);
