@@ -174,12 +174,11 @@ export function rgbToHex(r, g, b) {
 }
 
 export function setContrast(rgb) {
-	// console.log(hex);
-	// const rgb = hexToRgb(hex);
+	const rgb_arr = rgb.match(/\d+/g);	
 	const o = Math.round(
-		(parseInt(rgb.r) * 299 +
-			parseInt(rgb.g) * 587 +
-			parseInt(rgb.b) * 114) /
+		(parseInt(rgb_arr[0]) * 299 +
+			parseInt(rgb_arr[1]) * 587 +
+			parseInt(rgb_arr[2]) * 114) /
 			1000
 	);
 
