@@ -1,8 +1,6 @@
 import { Paper, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
-import ReactHtmlParser from "react-html-parser";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,7 +38,7 @@ export default function MetadataWrapper() {
 	return (
 		<Paper>
 			<Zoom>
-				<img id="topology" alt="" width={window.innerWidth / 3} />
+				<img id="topology" alt="" />
 			</Zoom>
 
 			{/* {ReactHtmlParser(topology)} */}

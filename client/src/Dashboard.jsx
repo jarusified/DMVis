@@ -46,27 +46,25 @@ export default function Dashboard() {
 	return (
 		<Grid className={classes.root}>
 			<CssBaseline />
-			<ToolBar />
+			<ToolBar withDropdown={true} />
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Grid mt={1} mb={1}>
-					<Grid container>
-						<Grid item xs={4} p={1}>
-							<SingleSummaryWrapper />
-						</Grid>
-						<Grid item xs={7} p={1}>
-							<TimelineWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<HardwareTabWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<ApplicationTabWrapper />
-						</Grid>
-						<Grid item xs={4} p={1}>
-							<CommunicationTabWrapper />
-						</Grid>
+				<Grid container>
+					<Grid item xs={4} p={1}>
+						<SingleSummaryWrapper />
+					</Grid>
+					<Grid item xs={7} p={1}>
+						<TimelineWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<HardwareTabWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<ApplicationTabWrapper />
+					</Grid>
+					<Grid item xs={4} p={1}>
+						<CommunicationTabWrapper />
 					</Grid>
 				</Grid>
 			</main>

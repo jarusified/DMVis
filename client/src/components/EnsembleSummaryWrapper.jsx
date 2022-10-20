@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
@@ -20,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
 		height: "300px",
 		overflowY: "auto",
 		overflowX: "hidden"
+	},
+	experimentSummary: {
+		borderRadius: theme.spacing(1),
+		backgroundColor: theme.palette.background,
+		"&:hover": {
+			backgroundColor: theme.palette.backgroundHighlight
+		}
 	}
 }));
 
@@ -32,10 +40,18 @@ export default function EnsembleSummaryWrapper() {
 	const containerID = useRef("ensemble-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
-	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
+
+	const style = {
+		top: 30,
+		right: 20,
+		bottom: 10,
+		left: 40,
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
+	};
 
 	useEffect(() => {
 		const barWidth = 50;
@@ -44,15 +60,9 @@ export default function EnsembleSummaryWrapper() {
 	}, []);
 
 	function onClick(exp) {
-		console.log("Selected experiment: ", exp);
 		dispatch(updateSelectedExperiment(exp));
+		navigate("/dashboard");
 	}
-
-	useEffect(() => {
-		if (selectedExperiment != "") {
-			navigate("/dashboard");
-		}
-	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (Object.keys(ensembleSummary).length > 0) {
@@ -67,7 +77,7 @@ export default function EnsembleSummaryWrapper() {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
 			const exp = Object.keys(individualSummary)[0];
-			const class_names = individualSummary[exp]["class_names"];
+			const class_names = individualSummary[exp]["classNames"];
 
 			let colormap = [];
 			for (let cls in class_names) {
@@ -78,34 +88,35 @@ export default function EnsembleSummaryWrapper() {
 	}, [individualSummary]);
 
 	return (
-		<Grid container>
+		<Grid container justifyContent="center">
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
-					const {
-						data,
-						groups,
-						samples,
-						max_ts,
-						class_names,
-						start_ts,
-						end_ts
-					} = individualSummary[exp];
-
-					const style = {
-						top: 30,
-						right: 20,
-						bottom: 10,
-						left: 40,
-						width: window.innerWidth / 3,
-						height: window.innerHeight / 3
-					};
 					return (
-						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
-							<Card style={{ borderColor: "gray" }}>
+						<Grid
+							item
+							xs={4}
+							key={exp.split(".")[0]}
+							className={classes.experimentSummary}
+						>
+							<Typography
+								mt={0}
+								align="center"
+								variant="overline"
+								display="block"
+								sx={{
+									fontSize: theme.text.fontSize,
+									color: theme.text.highlight,
+									cursor: "pointer"
+								}}
+								onClick={() => onClick(exp)}
+							>
+								{exp}
+							</Typography>{" "}
+							<Card>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
@@ -113,36 +124,17 @@ export default function EnsembleSummaryWrapper() {
 										exp.split(".")[0]
 									}
 									style={style}
-									xProp={samples}
-									yProp={data}
-									zProp={groups}
-									maxY={max_ts}
-									classNames={class_names}
-									startTs={start_ts}
-									endTs={end_ts}
+									individualSummary={individualSummary[exp]}
 									ensembleSummary={ensembleSummary}
 								/>
-								<Typography
-									align="center"
-									variant="overline"
-									display="block"
-									sx={{
-										fontWeight: "italics",
-										fontSize: theme.text.fontSize,
-										textDecoration: "underline",
-										color: "#102B4D",
-										cursor: "pointer"
-									}}
-									onClick={() => onClick(exp)}
-								>
-									{exp}
-								</Typography>{" "}
 							</Card>
 						</Grid>
 					);
 				})
 			) : (
-				<CircularProgress />
+				<Grid container justifyContent="center">
+					<CircularProgress />
+				</Grid>
 			)}
 		</Grid>
 	);

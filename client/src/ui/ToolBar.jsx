@@ -99,7 +99,7 @@ const AppBar = styled(MuiAppBar, {
 	})
 }));
 
-export default function ToolBar() {
+export default function ToolBar(props) {
 	const theme = useTheme();
 	const classes = useStyles();
 	const dispatch = useDispatch();
@@ -149,7 +149,9 @@ export default function ToolBar() {
 						Found <strong>{experiments.length}</strong> profiles in{" "}
 						<span style={{ color: "#00adb5" }}>{dataDir}</span>
 					</Typography>
-					{selectedExperiment != "" && experiments.length > 0 ? (
+					{props.withDropdown &&
+					selectedExperiment != "" &&
+					experiments.length > 0 ? (
 						<FormControl
 							className={classes.formControl}
 							size="small"
