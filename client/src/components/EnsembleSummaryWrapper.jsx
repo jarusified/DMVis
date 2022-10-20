@@ -20,6 +20,13 @@ const useStyles = makeStyles((theme) => ({
 		height: "300px",
 		overflowY: "auto",
 		overflowX: "hidden"
+	},
+	experimentSummary: {
+		borderRadius: theme.spacing(1),
+		backgroundColor: theme.palette.white,
+		"&:hover": {
+			backgroundColor: theme.palette.background
+		}
 	}
 }));
 
@@ -89,8 +96,27 @@ export default function EnsembleSummaryWrapper() {
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
 					return (
-						<Grid item xs={4} pt={4} key={exp.split(".")[0]}>
-							<Card style={{ borderColor: "gray" }}>
+						<Grid
+							item
+							xs={4}
+							key={exp.split(".")[0]}
+							className={classes.experimentSummary}
+						>
+							<Typography
+								mt={0}
+								align="center"
+								variant="overline"
+								display="block"
+								sx={{
+									fontSize: theme.text.fontSize,
+									color: theme.text.highlight,
+									cursor: "pointer"
+								}}
+								onClick={() => onClick(exp)}
+							>
+								{exp}
+							</Typography>{" "}
+							<Card>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
@@ -101,21 +127,6 @@ export default function EnsembleSummaryWrapper() {
 									individualSummary={individualSummary[exp]}
 									ensembleSummary={ensembleSummary}
 								/>
-								<Typography
-									align="center"
-									variant="overline"
-									display="block"
-									sx={{
-										fontWeight: "italics",
-										fontSize: theme.text.fontSize,
-										textDecoration: "underline",
-										color: "#102B4D",
-										cursor: "pointer"
-									}}
-									onClick={() => onClick(exp)}
-								>
-									{exp}
-								</Typography>{" "}
 							</Card>
 						</Grid>
 					);

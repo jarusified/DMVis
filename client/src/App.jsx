@@ -26,18 +26,13 @@ const theme = createTheme({
 			main: "#0044ff",
 			contrastText: "#ffcc00"
 		},
-		background: {
-			paper: "#FFFFFF"
-		}
+		background:  "#f8f8f8",
+		backgroundHighlight: '#fff'
 	},
 	text: {
-		primary: {
-			main: "#fff"
-		},
-		secondary: {
-			main: "#000"
-		},
-		fontSize: 14
+		fontSize: 14,
+		highlight: '#04ACB5',
+		white: '#000'
 	}
 });
 
