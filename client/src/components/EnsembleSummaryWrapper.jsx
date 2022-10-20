@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	experimentSummary: {
 		borderRadius: theme.spacing(1),
-		backgroundColor: theme.palette.white,
+		backgroundColor: theme.palette.background,
 		"&:hover": {
-			backgroundColor: theme.palette.background
+			backgroundColor: theme.palette.backgroundHighlight
 		}
 	}
 }));
@@ -39,7 +39,6 @@ export default function EnsembleSummaryWrapper() {
 	const containerID = useRef("ensemble-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
-	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);

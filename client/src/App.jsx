@@ -26,8 +26,8 @@ const theme = createTheme({
 			main: "#0044ff",
 			contrastText: "#ffcc00"
 		},
-		background:  "#f8f8f8",
-		backgroundHighlight: '#fff'
+		background: "#fff",
+		backgroundHighlight: "#f8f8f8",
 	},
 	text: {
 		fontSize: 14,

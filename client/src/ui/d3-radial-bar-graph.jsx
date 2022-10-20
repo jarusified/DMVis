@@ -136,7 +136,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("fill", runtime_color_contrast)
 			.attr("font-size", 12)
 			.attr("transform", () => {
-				return "translate(" + -20 + "," + 0 + ")";
+				return "translate(" + -10 + "," + 0 + ")";
 			})
 			.text(formatDuration(endTs, startTs, true));
 
