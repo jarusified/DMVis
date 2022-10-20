@@ -6,10 +6,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SwipeableViews from "react-swipeable-views";
+import useEmblaCarousel from 'embla-carousel-react'
 
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
@@ -29,6 +28,7 @@ export default function ApplicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
+	const [emblaRef] = useEmblaCarousel()
 
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -37,10 +37,6 @@ export default function ApplicationTabWrapper() {
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
-	};
-
-	const handleChangeIndex = (index) => {
-		setTabIndex(index);
 	};
 
 	const handleFilterChange = (value) => {
@@ -96,11 +92,7 @@ export default function ApplicationTabWrapper() {
 						<Tab label="Per-event" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
-				<SwipeableViews
-					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-					index={tabIndex}
-					onChangeIndex={handleChangeIndex}
-				>
+				<div ref={emblaRef}> 
 					<TabPanel
 						value={tabIndex}
 						index={0}
@@ -112,7 +104,7 @@ export default function ApplicationTabWrapper() {
 					<TabPanel value={tabIndex} index={2} dir={theme.direction}>
 						<PerEventSummaryWrapper />
 					</TabPanel>
-				</SwipeableViews>
+				</div>
 			</Box>
 		</Paper>
 	);

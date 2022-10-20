@@ -6,14 +6,12 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SwipeableViews from "react-swipeable-views";
+import useEmblaCarousel from 'embla-carousel-react'
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import { TabPanel, a11yProps } from "../ui/tab-panel";
-import MetadataWrapper from "./MetadataWrapper";
 import TopologyWrapper from "./TopologyWrapper";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +25,7 @@ export default function DetailedTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
+	const [emblaRef] = useEmblaCarousel()
 
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -35,19 +34,6 @@ export default function DetailedTabWrapper() {
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
-	};
-
-	const handleChangeIndex = (index) => {
-		setTabIndex(index);
-	};
-
-	const handleFilterChange = (value) => {
-		setOpen(false);
-		// Send a dispatch to update the event summary.
-		dispatch({
-			type: UPDATE_TIMELINE_SUMMARY,
-			payload: value
-		});
 	};
 
 	return (
@@ -80,11 +66,7 @@ export default function DetailedTabWrapper() {
 						<Tab label="Data Layout" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
-				<SwipeableViews
-					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-					index={tabIndex}
-					onChangeIndex={handleChangeIndex}
-				>
+				<div ref={emblaRef}> 
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<TopologyWrapper />
 					</TabPanel>
@@ -93,7 +75,7 @@ export default function DetailedTabWrapper() {
 						index={1}
 						dir={theme.direction}
 					></TabPanel>
-				</SwipeableViews>
+				</div>
 			</Box>
 		</Paper>
 	);
