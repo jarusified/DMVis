@@ -6,10 +6,8 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import PropTypes from "prop-types";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import SwipeableViews from "react-swipeable-views";
+import React from "react";
+import useEmblaCarousel from 'embla-carousel-react'
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 
@@ -23,19 +21,12 @@ const useStyles = makeStyles((theme) => ({
 export default function CommunicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
-	const dispatch = useDispatch();
+	const [emblaRef] = useEmblaCarousel()
 
 	const [tabIndex, setTabIndex] = React.useState(0);
-	const [open, setOpen] = React.useState(false);
-
-	const timelineSummary = useSelector((store) => store.timelineSummary);
 
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
-	};
-
-	const handleChangeIndex = (index) => {
-		setTabIndex(index);
 	};
 
 	return (
@@ -68,11 +59,7 @@ export default function CommunicationTabWrapper() {
 						<Tab label="device-device" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
-				<SwipeableViews
-					axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-					index={tabIndex}
-					onChangeIndex={handleChangeIndex}
-				>
+				<div ref={emblaRef}> 
 					<TabPanel
 						value={tabIndex}
 						index={0}
@@ -88,7 +75,7 @@ export default function CommunicationTabWrapper() {
 						index={2}
 						dir={theme.direction}
 					></TabPanel>
-				</SwipeableViews>
+				</div>
 			</Box>
 		</Paper>
 	);
