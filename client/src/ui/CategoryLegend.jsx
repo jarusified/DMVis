@@ -35,7 +35,7 @@ function drawCategories(id, props) {
 export default function CategoryLegend(props) {
 	const categoryProps = {
 		bottom: 20,
-		height: 70,
+		height: 100,
 		left: 50,
 		right: 50,
 		top: 25,

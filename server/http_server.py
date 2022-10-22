@@ -8,7 +8,7 @@ from flask_cors import CORS, cross_origin
 
 from server.logger import get_logger
 from server.datasets import Datasets
-from server.utils import create_dir_after_check
+from server.utils import create_dir_after_check, load_json
 
 # Globals
 FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -259,3 +259,12 @@ class HTTPServer:
             with open(file_path, "rb") as image_file:
                 ret = base64.b64encode(image_file.read())
             return ret
+
+        @app.route("/fetch_cct", methods=["GET"])
+        @cross_origin()
+        def fetch_cct():
+            cct_path = os.path.join(self.out_dir, "cct.json")
+
+            cct = load_json(file_path=cct_path)
+            return jsonify(cct)
+            

@@ -1,4 +1,5 @@
 import {
+	FETCH_CCT,
 	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
@@ -13,6 +14,7 @@ import {
 } from "./helpers/types";
 
 const initialState = {
+	cct: {},
 	currentEventSummary: [],
 	currentTimeline: {
 		end_ts: 0,
@@ -47,6 +49,11 @@ const initialState = {
 
 export default function Reducer(state = initialState, action) {
 	switch (action.type) {
+		case FETCH_CCT:
+			return {
+				...state, 
+				cct: action.payload
+			}
 		case FETCH_EXPERIMENTS:
 			return {
 				...state,

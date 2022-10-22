@@ -160,7 +160,7 @@ class Timeline:
             else:  # TODO: (surajk) sub-groups should have categorical colors!
                 class_prefix = "fg"
 
-            self.grp_to_cls[grp] = class_prefix + "-" + str(idx % 3 + 1)
+            self.grp_to_cls[grp] = class_prefix + "-" + str(idx % 4 + 1)
         self.cls_to_grp = dict_to_list_of_vals(self.grp_to_cls)
 
     def to_df(self, timeline: json, skip_keys=[]) -> pd.DataFrame:

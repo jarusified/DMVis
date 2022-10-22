@@ -1,18 +1,15 @@
-import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
-import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
+import { fetchEnsembleSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
-import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
 const useStyles = makeStyles((theme) => ({

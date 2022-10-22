@@ -14,6 +14,7 @@ import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import FilterEventsDropDown from "../ui/FilterEventsDropDown";
 import { TabPanel, a11yProps } from "../ui/tab-panel";
+import CCTWrapper from "./CCTWrapper";
 import PerEventSummaryWrapper from "./PerEventSummaryWrapper";
 import PerTimelineSummaryWrapper from "./PerTimelineSummaryWrapper";
 
@@ -97,7 +98,9 @@ export default function ApplicationTabWrapper() {
 						value={tabIndex}
 						index={0}
 						dir={theme.direction}
-					></TabPanel>
+					>	
+						<CCTWrapper />
+					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<PerTimelineSummaryWrapper />
 					</TabPanel>
