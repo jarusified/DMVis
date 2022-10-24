@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useEffect, useState } from "react";
 
 export default function D3HyperGraph(props) {
-	const { nodes, links, containerName } = props;
+	const { nodes, links, containerName, style } = props;
 
     function groupPath(vertices) {
         // not draw convex hull if vertices.length <= 1
@@ -24,38 +24,73 @@ export default function D3HyperGraph(props) {
 		let node_dict = {};
 		nodes.forEach((node) => {
 			node.links_idx = { source: [], target: [] };
+            console.log(node.id);
 			node_dict[node.id] = node;
 		});
 
-		links.forEach((link, idx) => {
-			node_dict[link.source].links_idx.source.push(idx);
-			node_dict[link.target].links_idx.target.push(idx);
-		});
+        console.log(node_dict);
 
-		let vertices2he = d3
-			.nest()
-			.key((d) => d.target)
-			.rollup((d) => d.map((node) => node.source))
-			.entries(links);
-		vertices2he = Object.assign(
-			{},
-			...vertices2he.map((s) => ({ [s.key]: s.value }))
-		);
+         for(let i=0; i<links.length; i++){
+            let l = links[i];
+            console.log(l, i);
+            node_dict[l.source]["links_idx"].source.push(i);
+            node_dict[l.target]["links_idx"].target.push(i);
+        }
 
-		let he2vertices = d3
-			.nest()
-			.key((d) => d.source)
-			.rollup((d) => d.map((node) => node.target))
-			.entries(links);
-		he2vertices = Object.assign(
-			{},
-			...he2vertices.map((s) => ({ [s.key]: s.value }))
-		);
+		// links.forEach((link, idx) => {
+        //     console.log(link.source, idx, link.source, node_dict[link.source], node_dict[link.target]);
+        //     if (node_dict[link.source].link_idx != undefined) {
+		// 	    node_dict[link.source].links_idx.source.push(idx);
+        //     }
+        //     if (node_dict[link.target].link_idx != undefined)  {
+		// 	    node_dict[link.target].links_idx.target.push(idx);
+        //     }
+		// });
+
+		// let vertices2he = d3
+		// 	.nest()
+		// 	.key((d) => d.target)
+		// 	.rollup((d) => d.map((node) => node.source))
+		// 	.entries(links);
+		// vertices2he = Object.assign(
+		// 	{},
+		// 	...vertices2he.map((s) => ({ [s.key]: s.value }))
+		// );
+
+		// let he2vertices = d3
+		// 	.nest()
+		// 	.key((d) => d.source)
+		// 	.rollup((d) => d.map((node) => node.target))
+		// 	.entries(links);
+		// he2vertices = Object.assign(
+		// 	{},
+		// 	...he2vertices.map((s) => ({ [s.key]: s.value }))
+		// );
+
+        // Find the coordinates.
+        let distance_scale = d3.scaleLinear()
+            .domain([1,10])
+            .range([30,120])
+
+        links.forEach(l=>{
+            let source_size = l.source.split(".").length;
+            let target_size = l.target.split(".").length;
+            l.distance = distance_scale(Math.min((source_size+target_size)/2, 10));
+        })
+
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).distance(d => d.distance).id(d => d.id))
+            .force("charge", d3.forceManyBody(-500))
+            .force("center", d3.forceCenter(style.width, style.height))
+            .force("x", d3.forceX().strength(0.02))
+            .force("y", d3.forceY().strength(0.03))
+            .stop();
+        simulation.tick(300);
 
 		const svg_width = parseFloat(
 			d3.select("#" + containerName).style("width")
 		);
-		const svg_height = window_height / 2 - 30;
+		// const svg_height = window_height / 2 - 30;
 
 		// Clean up existing elements
 		const containerID = "#" + containerName;
@@ -98,17 +133,18 @@ export default function D3HyperGraph(props) {
         })
 
         let hg = nodes_g.selectAll("g").data(nodes.filter(d => d.bipartite == 1));
+        console.log(nodes.filter(d => d.bipartite == 1));
         hg.exit().remove();
         hg = hg.enter().append("g").merge(hg)
-            .attr("id", d => svg_id + '-nodegroup-' + d.id.replace(/[|]/g,""))
+            .attr("id", d => containerID + '-nodegroup-' + d.id.replace(/[|]/g,""))
             .attr("class", "he-group")
 
         hg.append("circle")
             .attr("r", d => get_node_radius(d.id))
-            .attr("fill", d.color)
-            .attr("id", d => this.svg_id+'-node-'+d.id.replace(/[|]/g,""))
-            .attr("cx", d=>d.x)
-            .attr("cy", d=>d.y)
+            .attr("fill", d => d.color)
+            .attr("id", d => containerID + '-node-' + d.id.replace(/[|]/g,""))
+            .attr("cx", d=> d.x)
+            .attr("cy", d=> d.y)
             .attr("class", "hyper_node")
 
         hg.append("text")
@@ -117,20 +153,22 @@ export default function D3HyperGraph(props) {
             .attr("x", d=>d.x)
             .attr("y", d=>d.y)
             .attr("class", "node-label")
-            .attr("id", d => this.svg_id+'-text-'+d.id.replace(/[|]/g,""))
+            .attr("id", d => containerID + '-text-' + d.id.replace(/[|]/g,""))
             .text(d => d.label);
 
         let vg = vertices_g.selectAll("g").data(nodes.filter(d => d.bipartite == 0))
 
+        console.log(nodes.filter(d => d.bipartite == 0));
+
         vg.exit().remove();
         vg = vg.enter().append("g").merge(vg)
-            .attr("id", d=>this.svg_id+'-nodegroup-'+d.id.replace(/[|]/g,""))
+            .attr("id", d=> containerID + '-nodegroup-' + d.id.replace(/[|]/g,""))
             .attr("class", "v-group")
 
         vg.append("circle")
-            .attr("r", d => this.get_node_radius(d.id))
+            .attr("r", d => get_node_radius(d.id))
             .attr("fill", "")
-            .attr("id", d => this.svg_id+'-node-'+d.id.replace(/[|]/g,""))
+            .attr("id", d => containerID +'-node-'+ d.id.replace(/[|]/g,""))
             .attr("cx", d=>d.x)
             .attr("cy", d=>d.y)
             .classed("vertex_node", true);
@@ -141,20 +179,20 @@ export default function D3HyperGraph(props) {
             .attr("x", d=>d.x)
             .attr("y", d=>d.y)
             .attr("class", "node-label")
-            .attr("id", d => this.svg_id+'-text-'+d.id.replace(/[|]/g,""))
+            .attr("id", d => containerID + '-text-' + d.id.replace(/[|]/g,""))
             .text(d => d.label);
 
-        let lg = this.links_group.selectAll("line").data(links);
-            lg.exit().remove();
-            lg = lg.enter().append("line").merge(lg)
-                .attr("stroke-width", d => Math.sqrt(d.value))
-                .attr("x1", d => d.source.x)
-                .attr("y1", d => d.source.y)
-                .attr("x2", d => d.target.x)
-                .attr("y2", d => d.target.y)
-                .attr("class", "hyper_edge")
-                .attr("stroke", "gray")
-                .attr("id", d => this.svg_id+"-edge-"+d.source.id.replace(/[|]/g,"")+"-"+d.target.id.replace(/[|]/g,""))
+        // let lg = links_g.selectAll("line").data(links);
+        //     lg.exit().remove();
+        //     lg = lg.enter().append("line").merge(lg)
+        //         .attr("stroke-width", d => Math.sqrt(d.value))
+        //         .attr("x1", d => d.source.x)
+        //         .attr("y1", d => d.source.y)
+        //         .attr("x2", d => d.target.x)
+        //         .attr("y2", d => d.target.y)
+        //         .attr("class", "hyper_edge")
+        //         .attr("stroke", "gray")
+        //         .attr("id", d => containerID + "-edge-" + d.source.id.replace(/[|]/g,"") + "-" + d.target.id.replace(/[|]/g,""))
     
          // draw convex hulls
         let links_new = [];
@@ -165,23 +203,27 @@ export default function D3HyperGraph(props) {
             links_new.push({"source":node, "target":node});
         })
             
-        let groups = d3.nest()
-            .key(d => d.source.id)
-            .rollup(d => d.map(node => [node.target.x, node.target.y]))
-            .entries(links_new)
+        console.log(links_new);
+        
+        // let groups = d3.nest()
+        //     .key(d => d.source.id)
+        //     .rollup(d => d.map(node => [node.target.x, node.target.y]))
+        //     .entries(links_new);
+
+        // console.log(groups);
 
         svg.select("g#hull-group").remove();
 
         let hulls = svg.select("g").insert("g", ":first-child")
             .attr("id", "hull-group")
             
-        hulls.selectAll("path").data(groups)
-            .enter().append("path")
-            .attr("fill", d => nodes_dict[d.key].color)
-            .attr("stroke", d => nodes_dict[d.key].color)
-            .attr("d", d => groupPath(d.value))
-            .attr("id", d => svg_id+"-hull-"+d.key.replace(/[|]/g,""))
-            .attr("class", "convex_hull")
+        // hulls.selectAll("path").data(groups)
+        //     .enter().append("path")
+        //     .attr("fill", d => nodes_dict[d.key].color)
+        //     .attr("stroke", d => nodes_dict[d.key].color)
+        //     .attr("d", d => groupPath(d.value))
+        //     .attr("id", d => svg_id+"-hull-"+d.key.replace(/[|]/g,""))
+        //     .attr("class", "convex_hull")
   
 	}, [props]);
 

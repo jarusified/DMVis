@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function MetadataWrapper() {
+export default function TopologyWrapper() {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 

@@ -14,7 +14,15 @@ function CCTWrapper() {
 	const cct = useSelector((store) => store.cct);
 	
 	const containerID = useRef("cct-view");
-
+	const style = {
+		top: 30,
+		right: 20,
+		bottom: 10,
+		left: 40,
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
+	};
+	
 	useEffect(() => {
 		if (selectedExperiment !== "") {
 			dispatch(fetchCCT());
@@ -27,6 +35,7 @@ function CCTWrapper() {
 				<Card style={{ borderColor: "gray" }}>
 					<D3HyperGraph
 						containerName={containerID.current}
+						style={style}
 						nodes={cct['nodes']}
                         links={cct['links']}
 					/>
