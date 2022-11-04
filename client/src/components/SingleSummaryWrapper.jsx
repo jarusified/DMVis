@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleSummaryWrapper() {
 	const classes = useStyles();
+	const theme = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const style = {
@@ -75,7 +76,16 @@ export default function SingleSummaryWrapper() {
 
 	return (
 		<Grid container>
-			
+			<Typography
+				variant="overline"
+				style={{
+					margin: 10,
+					fontWeight: "bold",
+					fontSize: theme.text.fontSize
+				}}
+			>
+				Summary
+			</Typography>
 			{Object.keys(individualSummary).length > 0 ? (
 				<Card style={{ borderColor: "gray" }}>
 					<D3RadialBarGraph
