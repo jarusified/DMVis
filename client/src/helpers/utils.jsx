@@ -10,6 +10,7 @@ export const COLORS = {
 	"fg-2": "#8dd3c7",
 	"fg-1": "#bebada",
 	"fg-3": "#ffffb3",
+	"fg-4": "#D9241E",
 	"bg-1": "#69ff6233"
 };
 
