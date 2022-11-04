@@ -6,6 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
+import { Typography } from "@mui/material";
 
 import { fetchEnsembleSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";

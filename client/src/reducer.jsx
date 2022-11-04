@@ -14,7 +14,11 @@ import {
 } from "./helpers/types";
 
 const initialState = {
-	cct: {},
+	cct: {
+		"nodes": [],
+		"links": []
+	},
+	cctLoaded: false,
 	currentEventSummary: [],
 	currentTimeline: {
 		end_ts: 0,
