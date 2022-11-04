@@ -594,6 +594,12 @@ class Timeline:
 
             ret.append(_obj)
 
+        ret.append({
+            "id": 4,
+            "content": "",
+            "value": 4
+        })
+
         return ret
 
     ################### Exposed APIs ###################

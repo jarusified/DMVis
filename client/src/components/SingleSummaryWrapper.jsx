@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import { fetchEnsembleSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
+import { formatDuration } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleSummaryWrapper() {
 	const classes = useStyles();
+	const theme = useTheme();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const style = {
@@ -35,9 +37,11 @@ export default function SingleSummaryWrapper() {
 
 	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
+	const currentTimeline = useSelector((store) => store.currentTimeline);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-
+	const timelineEnd = useSelector((store) => store.timelineEnd);
+	const timelineStart = useSelector((store) => store.timelineStart);
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
 
@@ -72,27 +76,74 @@ export default function SingleSummaryWrapper() {
 
 	return (
 		<Grid container>
-			<Grid item>
-				<CategoryLegend colormap={categoryColormap} />
-			</Grid>
-			{Object.keys(individualSummary).length > 0 ? (
-				<Card style={{ borderColor: "gray" }}>
-					<D3RadialBarGraph
-						containerName={
-							containerID.current +
-							"-" +
-							selectedExperiment.split(".")[0]
-						}
-						style={style}
-						individualSummary={
-							individualSummary[selectedExperiment]
-						}
-						ensembleSummary={ensembleSummary}
-					/>
-				</Card>
-			) : (
-				<CircularProgress />
-			)}
+			<Card style={{ borderColor: "white" }}>
+				<Grid item xs={4} p={1}>
+					<Typography
+						variant="overline"
+						style={{
+							margin: 10,
+							fontWeight: "bold",
+							fontSize: theme.text.fontSize
+						}}
+					>
+						Summary
+					</Typography>
+				</Grid>
+				{Object.keys(individualSummary).length > 0 ? (
+					<Grid>
+						<D3RadialBarGraph
+							containerName={
+								containerID.current +
+								"-" +
+								selectedExperiment.split(".")[0]
+							}
+							style={style}
+							individualSummary={
+								individualSummary[selectedExperiment]
+							}
+							ensembleSummary={ensembleSummary}
+							withInnerCircle={false}
+							withTicks={true}
+							withLabels={true}
+						/>
+						<Grid container>
+							<Grid item xs={6}>
+								<CategoryLegend colormap={categoryColormap} />
+							</Grid>
+							<Grid item xs={6} justifyContent={"center"}>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Time:{" "}
+									<span style={{ color: "#00adb5" }}>
+										{formatDuration(
+											timelineEnd,
+											timelineStart
+										)}
+									</span>
+								</Typography>
+								<Typography> </Typography>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Events: {"  "}
+									<span style={{ color: "#00adb5" }}>
+										{currentTimeline.events.length}
+									</span>
+								</Typography>
+							</Grid>
+						</Grid>
+					</Grid>
+				) : (
+					<CircularProgress />
+				)}
+			</Card>
 		</Grid>
 	);
 }

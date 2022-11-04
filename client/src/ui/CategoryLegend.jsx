@@ -39,7 +39,7 @@ export default function CategoryLegend(props) {
 		left: 50,
 		right: 50,
 		top: 25,
-		width: 400,
+		width: 200,
 		categories: props.colormap
 	};
 	useEffect(() => {

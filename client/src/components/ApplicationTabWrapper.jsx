@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -78,7 +78,7 @@ export default function ApplicationTabWrapper() {
 					)}
 				</Grid>
 			</Grid>
-			<Box sx={{ bgcolor: "background.paper" }}>
+			<Card sx={{ bgcolor: "background.paper" }}>
 				<AppBar position="static" sx={{ bgcolor: "#f1a340" }}>
 					<Tabs
 						value={tabIndex}
@@ -108,7 +108,7 @@ export default function ApplicationTabWrapper() {
 						<PerEventSummaryWrapper />
 					</TabPanel>
 				</div>
-			</Box>
+			</Card>
 		</Paper>
 	);
 }
