@@ -1,8 +1,8 @@
 import { useTheme } from "@emotion/react";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import ReorderIcon from "@mui/icons-material/Reorder";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import StopIcon from '@mui/icons-material/Stop';
 import Grid from "@mui/material/Grid";
 import Item from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
@@ -219,6 +219,33 @@ function TimelineWrapper() {
 							className={classes.button}
 						>
 							<FullscreenIcon className="icon" />
+						</ToggleButton>
+					</Tooltip>
+					<Tooltip title="Play" arrow>
+						<ToggleButton
+							size="small"
+							value="check"
+							className={classes.button}
+						>
+							<PlayArrowIcon className="icon" />
+						</ToggleButton>
+					</Tooltip>
+					<Tooltip title="Pause" arrow>
+						<ToggleButton
+							size="small"
+							value="check"
+							className={classes.button}
+						>
+							<PauseIcon className="icon" />
+						</ToggleButton>
+					</Tooltip>
+					<Tooltip title="Stop" arrow>
+						<ToggleButton
+							size="small"
+							value="check"
+							className={classes.button}
+						>
+							<StopIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
 				</Grid>
