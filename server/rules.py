@@ -105,7 +105,7 @@ class Rules:
         return {
             "grouping": {
                 "DATA MOV": {
-                    "regex": ["Mem(\\w+)"],
+                    "regex": ["Mem(\\w+)", "(\\w+)Free", "(\\w+)Malloc", "(\\w+)Alloc"],
                     "event_type": "x-range",
                     "content": lambda e: e,  # str(e["memory bandwidth (GB/s)"]),
                 },
@@ -116,10 +116,11 @@ class Rules:
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },
-                "COMPUTE": {
+                "GPU_COMPUTE": {
                     "regex": [
                         "random_(\\w+)",
                         "gemm",
+                        "fill_(\\w+)",
                         "void at::native",
                         "volta_dgemm",
                         "void computeBlockCounts",
@@ -129,6 +130,13 @@ class Rules:
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },
+                "CPU_COMPUTE": {
+                    "regex": [
+                        "fill_(\\w+)"
+                    ],
+                    "event_type": "x-range",
+                    "content": lambda e: "",
+                }
             },
-            "ordering": ["COMPUTE", "CUDA", "DATA MOV"],
+            "ordering": ["CPU_COMPUTE", "GPU_COMPUTE", "CUDA", "DATA MOV"],
         }
