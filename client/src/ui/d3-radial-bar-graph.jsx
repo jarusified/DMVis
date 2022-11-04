@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
-	const { style, containerName, ensembleSummary, individualSummary, withInnerCircle } = props;
+	const { style, containerName, ensembleSummary, individualSummary, withInnerCircle, withTicks, withLabels } = props;
 
 	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
 		individualSummary;
@@ -76,6 +76,13 @@ export default function D3RadialBarGraph(props) {
 			.enter()
 			.append("g")
 			.attr("text-anchor", "middle")
+			.attr("opacity", () => {
+				if(withTicks) {
+					return 1;
+				} else {
+					return 0;
+				}
+			})
 			.attr("transform", (d) => {
 				return (
 					"rotate(" +
@@ -91,7 +98,13 @@ export default function D3RadialBarGraph(props) {
 		label
 			.append("text")
 			.attr("class", "hidden-text")
-			.attr("opacity", 0)
+			.attr("opacity", () => {
+				if(withLabels) {
+					return 1;
+				} else {
+					return 0;
+				}
+			})
 			.attr("transform", (d) => {
 				return (x(d) + x.bandwidth() / 2 + Math.PI / 2) %
 					(2 * Math.PI) <
@@ -187,14 +200,6 @@ export default function D3RadialBarGraph(props) {
 		// 	.attr("dy", "10em")
 		// 	.text("");
 	}, [props]);
-
-	useEffect(() => {
-		if (hover) {
-			d3.selectAll(".hidden-text").attr("opacity", 1);
-		} else {
-			d3.selectAll(".hidden-text").attr("opacity", 0);
-		}
-	}, [hover]);
 
 	return <div id={containerName}></div>;
 }

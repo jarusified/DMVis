@@ -100,6 +100,8 @@ export default function SingleSummaryWrapper() {
 						}
 						ensembleSummary={ensembleSummary}
 						withInnerCircle={false}
+						withTicks={true}
+						withLabels={true}
 					/>
 					<Grid item>
 						<CategoryLegend colormap={categoryColormap} />
