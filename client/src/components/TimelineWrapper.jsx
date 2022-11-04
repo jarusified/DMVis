@@ -1,8 +1,8 @@
 import { useTheme } from "@emotion/react";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import StopIcon from '@mui/icons-material/Stop';
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import StopIcon from "@mui/icons-material/Stop";
 import Grid from "@mui/material/Grid";
 import Item from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
@@ -100,6 +100,7 @@ function TimelineWrapper() {
 			orientation: "top",
 			preferZoom: true,
 			showMajorLabels: false,
+			showMinorLabels: true,
 			stack: false,
 			stackSubgroups: false,
 			tooltip: {
@@ -248,6 +249,27 @@ function TimelineWrapper() {
 							<StopIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
+					<Typography
+						variant="caption"
+						style={{
+							margin: 20,
+							fontSize: theme.text.fontSize
+						}}
+					>
+						Events: {"  "}
+						<span style={{ color: "#00adb5" }}>
+							{currentTimeline.events.length}
+						</span>
+					</Typography>
+					<Typography
+						variant="caption"
+						style={{
+							margin: 20,
+							fontSize: theme.text.fontSize
+						}}
+					>
+						Groups: {"4"}
+					</Typography>
 				</Grid>
 			</Grid>
 			<Grid container>

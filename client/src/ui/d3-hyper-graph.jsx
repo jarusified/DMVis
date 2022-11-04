@@ -38,14 +38,13 @@ export default function D3HyperGraph(props) {
 			);
 
 		let links_g = svg.append("g").attr("id", "links_group");
-
 		let nodes_g = svg.append("g").attr("id", "nodes_group");
-
 		let vertices_g = svg.append("g").attr("id", "vertices_group");
 
-		let color_g = svg.append("g").attr("id", "color_group");
-
-		let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+		let colorScale = d3.scaleOrdinal()
+			.domain([0, 3])
+			.range([ "#8dd3c7", "#D9241E", "#bebada", "#ffffb3"]);
+		
 		let pie = d3
 			.pie()
 			.value((d) => d.value)
@@ -60,7 +59,7 @@ export default function D3HyperGraph(props) {
 
 		let hg = nodes_g
 			.selectAll("g")
-			.data(nodes.filter((d) => d.bipartite == 1));
+			.data(nodes);
 		hg.exit().remove();
 		hg = hg
 			.enter()
@@ -74,14 +73,16 @@ export default function D3HyperGraph(props) {
 
 		hg.append("circle")
 			.attr("r", (d) => get_node_radius(d.id))
-			.attr("fill", (d) => d.color)
+			.attr("fill", (d) => colorScale(d.cat))
+			.attr("stroke", "#000")
 			.attr(
 				"id",
 				(d) => containerName + "-node-" + d.id.replace(/[|]/g, "")
 			)
 			.attr("cx", (d) => d.x)
 			.attr("cy", (d) => d.y)
-			.attr("class", "hyper_node");
+			.attr("class", "hyper_node")
+			.on("mouseover", (d, e) => {console.log(e.id)});
 
 		hg.append("text")
 			.attr("dx", 12)
@@ -93,13 +94,13 @@ export default function D3HyperGraph(props) {
 				"id",
 				(d) => containerName + "-text-" + d.id.replace(/[|]/g, "")
 			)
-			.text((d) => d.label);
+			.text((d) => d.id);
 
 		let vg = vertices_g
 			.selectAll("g")
-			.data(nodes.filter((d) => d.bipartite == 0));
+			.data(nodes.filter((d) => d.cat == 0));
 
-		console.log(nodes.filter((d) => d.bipartite == 0));
+		console.log(nodes.filter((d) => d.cat == 0));
 
 		vg.exit().remove();
 		vg = vg
@@ -156,10 +157,9 @@ export default function D3HyperGraph(props) {
 			links_new.push({ source: node, target: node });
 		});
 
-		// let groups = d3.nest()
-		//     .key(d => d.source.id)
-		//     .rollup(d => d.map(node => [node.target.x, node.target.y]))
-		//     .entries(links_new);
+		// let groups = d3.rollup(links_new,
+		//     d => d.source.id)
+		    // d => d.map(node => [node.target.x, node.target.y]));
 
 		// console.log(groups);
 

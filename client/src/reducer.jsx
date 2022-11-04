@@ -14,6 +14,8 @@ import {
 } from "./helpers/types";
 
 const initialState = {
+	achievedOccupancy: 0,
+	blockUtilization: 0,
 	cct: {
 		"nodes": [],
 		"links": []
@@ -32,6 +34,7 @@ const initialState = {
 	events: [],
 	eventSummary: [],
 	experiments: [],
+	sharedMemUtilization: 0,
 	groups: [],
 	individualSummary: {},
 	profileMetadata: [],
@@ -67,10 +70,13 @@ export default function Reducer(state = initialState, action) {
 		case FETCH_METADATA:
 			return {
 				...state,
+				achievedOccupancy: action.payload.general.achievedOccupancy,
 				selectedExperiment: action.payload.general.selectedExperiment,
 				timelineStart: action.payload.general.timelineStart,
 				timelineEnd: action.payload.general.timelineEnd,
-				profileMetadata: action.payload.profile
+				profileMetadata: action.payload.profile,
+				sharedMemUtilization: action.payload.general.sharedMemUtilization,
+				blockUtilization: action.payload.general.blockUtilization
 			};
 		case FETCH_TIMELINE:
 			return {

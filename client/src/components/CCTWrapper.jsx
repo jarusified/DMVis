@@ -46,32 +46,27 @@ export default function CCTWrapper() {
 
          for(let i = 0; i < links.length; i++){
             let l = _links[i];
-            // console.log(l.source, node_dict, node_dict[l.source]);
             node_dict[l.source].links_idx.source.push(i);
             node_dict[l.target].links_idx.target.push(i);
         }
 
         // Find the coordinates.
         let distance_scale = d3.scaleLinear()
-            .domain([1,10])
-            .range([30,120])
+            .domain([0, 4])
+            .range([0, 120])
 
         _links.forEach(l=>{
-            let source_size = l.source.split(".").length;
-            let target_size = l.target.split(".").length;
-            l.distance = distance_scale(Math.min((source_size+target_size)/2, 10));
-        })
+			l.distance = distance_scale(l.depth);
+        });
 
         const simulation = d3.forceSimulation(_nodes)
             .force("link", d3.forceLink(_links).distance(d => d.distance).id(d => d.id))
-            // .force("charge", d3.forceManyBody(-500))
+            .force("charge", d3.forceManyBody(50))
             .force("center", d3.forceCenter(0, 0))
             .force("x", d3.forceX().strength(0.02))
             .force("y", d3.forceY().strength(0.03))
             .stop();
         simulation.tick(300);
-
-		console.log("here", node_dict);
 
 		setNodes(_nodes);
 		setLinks(_links);

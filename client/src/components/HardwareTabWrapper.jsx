@@ -63,18 +63,18 @@ export default function DetailedTabWrapper() {
 						aria-label="Aggregated detailed statistics"
 					>
 						<Tab label="Topology" {...a11yProps(0)} />
-						<Tab label="Data Layout" {...a11yProps(1)} />
+						{/* <Tab label="Data Layout" {...a11yProps(1)} /> */}
 					</Tabs>
 				</AppBar>
 				<div ref={emblaRef}> 
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<TopologyWrapper />
 					</TabPanel>
-					<TabPanel
+					{/* <TabPanel
 						value={tabIndex}
 						index={1}
 						dir={theme.direction}
-					></TabPanel>
+					></TabPanel> */}
 				</div>
 			</Box>
 		</Paper>

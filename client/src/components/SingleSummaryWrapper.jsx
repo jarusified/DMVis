@@ -39,7 +39,10 @@ export default function SingleSummaryWrapper() {
 
 	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
-	const currentTimeline = useSelector((store) => store.currentTimeline);
+
+	const sharedMemUtilization = useSelector((store) => store.sharedMemUtilization);
+	const blockUtilization = useSelector((store) => store.blockUtilization);
+	const achievedOccupancy = useSelector((store) => store.achievedOccupancy);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const timelineEnd = useSelector((store) => store.timelineEnd);
@@ -119,7 +122,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Time:{" "}
+									Runtime:{" "}
 									<span style={{ color: "#00adb5" }}>
 										{formatDuration(
 											timelineEnd,
@@ -134,9 +137,33 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Events: {"  "}
+									Shared mem utilization %: {"  "}
 									<span style={{ color: "#00adb5" }}>
-										{currentTimeline.events.length}
+										{sharedMemUtilization}
+									</span>
+								</Typography>
+								<Typography> </Typography>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Cache mem utilization %: {"  "}
+									<span style={{ color: "#00adb5" }}>
+										{blockUtilization}
+									</span>
+								</Typography>
+								<Typography> </Typography>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Est. achieved occupancy %: {"  "}
+									<span style={{ color: "#00adb5" }}>
+										{achievedOccupancy}
 									</span>
 								</Typography>
 							</Grid>
