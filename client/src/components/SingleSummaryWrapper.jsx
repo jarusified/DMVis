@@ -33,8 +33,8 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3,
-		height: window.innerHeight / 3
+		width: window.innerWidth / 3  - 50,
+		height: window.innerHeight / 3 - 50
 	};
 
 	const containerID = useRef("single-summary-view");

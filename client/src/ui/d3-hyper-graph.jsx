@@ -61,7 +61,6 @@ export default function D3HyperGraph(props) {
 		let hg = nodes_g
 			.selectAll("g")
 			.data(nodes.filter((d) => d.bipartite == 1));
-		console.log(hg);
 		hg.exit().remove();
 		hg = hg
 			.enter()
@@ -136,17 +135,17 @@ export default function D3HyperGraph(props) {
 			)
 			.text((d) => d.label);
 
-		// let lg = links_g.selectAll("line").data(links);
-		//     lg.exit().remove();
-		//     lg = lg.enter().append("line").merge(lg)
-		//         .attr("stroke-width", d => Math.sqrt(d.value))
-		//         .attr("x1", d => d.source.x)
-		//         .attr("y1", d => d.source.y)
-		//         .attr("x2", d => d.target.x)
-		//         .attr("y2", d => d.target.y)
-		//         .attr("class", "hyper_edge")
-		//         .attr("stroke", "gray")
-		//         .attr("id", d => containerID + "-edge-" + d.source.id.replace(/[|]/g,"") + "-" + d.target.id.replace(/[|]/g,""))
+		let lg = links_g.selectAll("line").data(links);
+		lg.exit().remove();
+		lg = lg.enter().append("line").merge(lg)
+			.attr("stroke-width", d => Math.sqrt(d.value))
+			.attr("x1", d => d.source.x)
+			.attr("y1", d => d.source.y)
+			.attr("x2", d => d.target.x)
+			.attr("y2", d => d.target.y)
+			.attr("class", "hyper_edge")
+			.attr("stroke", "gray")
+			.attr("id", d => containerID + "-edge-" + d.source.id.replace(/[|]/g,"") + "-" + d.target.id.replace(/[|]/g,""))
 
 		// draw convex hulls
 		let links_new = [];

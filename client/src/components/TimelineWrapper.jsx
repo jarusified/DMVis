@@ -23,7 +23,7 @@ import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
-		width: window.innerWidth * 0.66
+		width: window.innerWidth * 0.66 - 10
 	}
 }));
 
