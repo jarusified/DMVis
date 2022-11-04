@@ -126,6 +126,7 @@ export default function EnsembleSummaryWrapper() {
 									style={style}
 									individualSummary={individualSummary[exp]}
 									ensembleSummary={ensembleSummary}
+									withInnerCircle={true}
 								/>
 							</Card>
 						</Grid>

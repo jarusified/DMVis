@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material";
+import { Paper } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect } from "react";
 import Zoom from "react-medium-image-zoom";
@@ -32,6 +32,7 @@ export default function MetadataWrapper() {
 		if (topology.length > 0) {
 			const img = document.getElementById("topology");
 			img.src = "data:image/svg+xml;base64," + topology;
+			img.width = window.innerWidth/3 - 50;
 		}
 	}, [topology]);
 

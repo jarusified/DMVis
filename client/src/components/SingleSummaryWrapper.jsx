@@ -91,6 +91,7 @@ export default function SingleSummaryWrapper() {
 							individualSummary[selectedExperiment]
 						}
 						ensembleSummary={ensembleSummary}
+						withInnerCircle={false}
 					/>
 				</Card>
 			) : (
