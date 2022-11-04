@@ -198,16 +198,18 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Typography
-				variant="overline"
-				style={{
-					margin: 10,
-					fontWeight: "bold",
-					fontSize: theme.text.fontSize
-				}}
-			>
-				Timeline
-			</Typography>
+			<Grid item xs={4} p={1}>
+				<Typography
+					variant="overline"
+					style={{
+						margin: 10,
+						fontWeight: "bold",
+						fontSize: theme.text.fontSize
+					}}
+				>
+					Timeline
+				</Typography>
+			</Grid>
 			<Grid container>
 				<Grid item id="fit-button" xs={6}>
 					<Tooltip title="Fit" arrow>
@@ -219,27 +221,6 @@ function TimelineWrapper() {
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
-				</Grid>
-				<Grid item xs={6} justifyContent="flex-end">
-					<Typography
-						variant="caption"
-						style={{ fontSize: theme.text.fontSize }}
-					>
-						Total time:{" "}
-						<span style={{ color: "#00adb5" }}>
-							{formatDuration(timelineEnd, timelineStart)}
-						</span>
-					</Typography>
-					<Typography>{"     "}</Typography>
-					<Typography
-						variant="caption"
-						style={{ fontSize: theme.text.fontSize }}
-					>
-						Total events: {"  "}
-						<span style={{ color: "#00adb5" }}>
-							{currentTimeline.events.length}
-						</span>
-					</Typography>
 				</Grid>
 			</Grid>
 			<Grid container>
