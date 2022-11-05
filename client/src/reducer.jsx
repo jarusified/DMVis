@@ -16,10 +16,7 @@ import {
 const initialState = {
 	achievedOccupancy: 0,
 	blockUtilization: 0,
-	cct: {
-		"nodes": [],
-		"links": []
-	},
+	cct: {},
 	cctLoaded: false,
 	currentEventSummary: [],
 	currentTimeline: {

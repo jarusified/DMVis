@@ -67,22 +67,22 @@ export default function D3HyperGraph(props) {
 			.merge(hg)
 			.attr(
 				"id",
-				(d) => containerName + "-nodegroup-" + d.id.replace(/[|]/g, "")
+				(d) => { console.log(d); return containerName + "-nodegroup-" + d.data.name.replace(/[|]/g, "") }
 			)
 			.attr("class", "he-group");
 
 		hg.append("circle")
-			.attr("r", (d) => get_node_radius(d.id))
+			.attr("r", (d) => { console.log(d); return get_node_radius(d.id); })
 			.attr("fill", (d) => colorScale(d.cat))
 			.attr("stroke", "#000")
 			.attr(
 				"id",
-				(d) => containerName + "-node-" + d.id.replace(/[|]/g, "")
+				(d) => containerName + "-node-" + d.data.name.replace(/[|]/g, "")
 			)
 			.attr("cx", (d) => d.x)
 			.attr("cy", (d) => d.y)
 			.attr("class", "hyper_node")
-			.on("mouseover", (d, e) => {console.log(e.id)});
+			.on("mouseover", (d, e) => {console.log(e.data.name)});
 
 		hg.append("text")
 			.attr("dx", 12)
@@ -92,7 +92,7 @@ export default function D3HyperGraph(props) {
 			.attr("class", "node-label")
 			.attr(
 				"id",
-				(d) => containerName + "-text-" + d.id.replace(/[|]/g, "")
+				(d) => containerName + "-text-" + d.data.name.replace(/[|]/g, "")
 			)
 			.text((d) => d.id);
 
@@ -109,16 +109,16 @@ export default function D3HyperGraph(props) {
 			.merge(vg)
 			.attr(
 				"id",
-				(d) => containerName + "-nodegroup-" + d.id.replace(/[|]/g, "")
+				(d) => containerName + "-nodegroup-" +  d.data.name.replace(/[|]/g, "")
 			)
 			.attr("class", "v-group");
 
 		vg.append("circle")
-			.attr("r", (d) => get_node_radius(d.id))
+			.attr("r", (d) => get_node_radius(d.data.name))
 			.attr("fill", "")
 			.attr(
 				"id",
-				(d) => containerName + "-node-" + d.id.replace(/[|]/g, "")
+				(d) => containerName + "-node-" +  d.data.name.replace(/[|]/g, "")
 			)
 			.attr("cx", (d) => d.x)
 			.attr("cy", (d) => d.y)
@@ -132,7 +132,7 @@ export default function D3HyperGraph(props) {
 			.attr("class", "node-label")
 			.attr(
 				"id",
-				(d) => containerName + "-text-" + d.id.replace(/[|]/g, "")
+				(d) => containerName + "-text-" + d.data.name.replace(/[|]/g, "")
 			)
 			.text((d) => d.label);
 
@@ -146,7 +146,7 @@ export default function D3HyperGraph(props) {
 			.attr("y2", d => d.target.y)
 			.attr("class", "hyper_edge")
 			.attr("stroke", "gray")
-			.attr("id", d => containerID + "-edge-" + d.source.id.replace(/[|]/g,"") + "-" + d.target.id.replace(/[|]/g,""))
+			.attr("id", d => containerID + "-edge-" + d.source.data.name.replace(/[|]/g,"") + "-" + d.target.data.name.replace(/[|]/g,""))
 
 		// draw convex hulls
 		let links_new = [];
