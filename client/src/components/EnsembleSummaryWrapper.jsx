@@ -112,11 +112,10 @@ export default function EnsembleSummaryWrapper() {
 									color: theme.text.highlight,
 									cursor: "pointer"
 								}}
-								onClick={() => onClick(exp)}
 							>
 								{exp}
 							</Typography>{" "}
-							<Card>
+							<Card onClick={() => onClick(exp)}>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
