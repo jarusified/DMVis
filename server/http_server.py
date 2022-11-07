@@ -172,7 +172,7 @@ class HTTPServer:
             ind_info = {}
             for (exp, timeline) in all_timelines.items():
                 ind_info[exp] = timeline.get_summary(sample_count=12)
-            
+
             ensemble_info = {
                 "runtime_range": self.profiles.max_min_runtime()
             }
@@ -267,4 +267,3 @@ class HTTPServer:
 
             cct = load_json(file_path=cct_path)
             return jsonify(cct)
-            

@@ -32,7 +32,7 @@ export default function D3HyperGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${-style.width / 2} ${-style.height / 2} ${style.width} ${
+				`${0} ${0} ${style.width} ${
 					style.height
 				}`
 			);
@@ -44,7 +44,7 @@ export default function D3HyperGraph(props) {
 		let colorScale = d3.scaleOrdinal()
 			.domain([0, 3])
 			.range([ "#8dd3c7", "#D9241E", "#bebada", "#ffffb3"]);
-		
+
 		let pie = d3
 			.pie()
 			.value((d) => d.value)
@@ -72,8 +72,8 @@ export default function D3HyperGraph(props) {
 			.attr("class", "he-group");
 
 		hg.append("circle")
-			.attr("r", (d) => { console.log(d); return get_node_radius(d.id); })
-			.attr("fill", (d) => colorScale(d.cat))
+			.attr("r", (d) => { return get_node_radius(d.id); })
+			.attr("fill", (d) => colorScale(d))
 			.attr("stroke", "#000")
 			.attr(
 				"id",
@@ -98,9 +98,7 @@ export default function D3HyperGraph(props) {
 
 		let vg = vertices_g
 			.selectAll("g")
-			.data(nodes.filter((d) => d.cat == 0));
-
-		console.log(nodes.filter((d) => d.cat == 0));
+			.data(nodes);
 
 		vg.exit().remove();
 		vg = vg
@@ -139,14 +137,14 @@ export default function D3HyperGraph(props) {
 		let lg = links_g.selectAll("line").data(links);
 		lg.exit().remove();
 		lg = lg.enter().append("line").merge(lg)
-			.attr("stroke-width", d => Math.sqrt(d.value))
+			.attr("stroke-width", d => 3)
 			.attr("x1", d => d.source.x)
 			.attr("y1", d => d.source.y)
 			.attr("x2", d => d.target.x)
 			.attr("y2", d => d.target.y)
 			.attr("class", "hyper_edge")
 			.attr("stroke", "gray")
-			.attr("id", d => containerID + "-edge-" + d.source.data.name.replace(/[|]/g,"") + "-" + d.target.data.name.replace(/[|]/g,""))
+			.attr("id", d => containerName + "-edge-" + d.source.data.name.replace(/[|]/g,"") + "-" + d.target.data.name.replace(/[|]/g,""))
 
 		// draw convex hulls
 		let links_new = [];
