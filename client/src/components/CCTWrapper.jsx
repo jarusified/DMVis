@@ -28,11 +28,11 @@ export default function CCTWrapper() {
 		height: window.innerHeight / 3 - 50
 	};
 
-// useEffect(() => {
-// 	if (selectedExperiment !== "") {
-// 		dispatch(fetchCCT());
-// 	}
-// }, [selectedExperiment]);
+	// useEffect(() => {
+	// 	if (selectedExperiment !== "") {
+	// 		dispatch(fetchCCT());
+	// 	}
+	// }, [selectedExperiment]);
 
 	const treeData = {
 		name: "cudaGetDeviceProperties",

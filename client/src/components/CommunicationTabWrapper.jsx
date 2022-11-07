@@ -6,8 +6,8 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
-import useEmblaCarousel from 'embla-carousel-react'
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CommunicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
-	const [emblaRef] = useEmblaCarousel()
+	const [emblaRef] = useEmblaCarousel();
 
 	const [tabIndex, setTabIndex] = React.useState(0);
 
@@ -59,7 +59,7 @@ export default function CommunicationTabWrapper() {
 						<Tab label="device-device" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
-				<div ref={emblaRef}> 
+				<div ref={emblaRef}>
 					<TabPanel
 						value={tabIndex}
 						index={0}

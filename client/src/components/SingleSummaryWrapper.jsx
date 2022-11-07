@@ -1,3 +1,5 @@
+import { useTheme } from "@emotion/react";
+import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
@@ -6,8 +8,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@emotion/react";
-import { Typography } from "@mui/material";
 
 import { fetchEnsembleSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
@@ -33,14 +33,16 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3  - 50,
+		width: window.innerWidth / 3 - 50,
 		height: window.innerHeight / 3 - 50
 	};
 
 	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
 
-	const sharedMemUtilization = useSelector((store) => store.sharedMemUtilization);
+	const sharedMemUtilization = useSelector(
+		(store) => store.sharedMemUtilization
+	);
 	const blockUtilization = useSelector((store) => store.blockUtilization);
 	const achievedOccupancy = useSelector((store) => store.achievedOccupancy);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);

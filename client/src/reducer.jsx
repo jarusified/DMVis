@@ -55,9 +55,9 @@ export default function Reducer(state = initialState, action) {
 	switch (action.type) {
 		case FETCH_CCT:
 			return {
-				...state, 
+				...state,
 				cct: action.payload
-			}
+			};
 		case FETCH_EXPERIMENTS:
 			return {
 				...state,
@@ -72,7 +72,8 @@ export default function Reducer(state = initialState, action) {
 				timelineStart: action.payload.general.timelineStart,
 				timelineEnd: action.payload.general.timelineEnd,
 				profileMetadata: action.payload.profile,
-				sharedMemUtilization: action.payload.general.sharedMemUtilization,
+				sharedMemUtilization:
+					action.payload.general.sharedMemUtilization,
 				blockUtilization: action.payload.general.blockUtilization
 			};
 		case FETCH_TIMELINE:

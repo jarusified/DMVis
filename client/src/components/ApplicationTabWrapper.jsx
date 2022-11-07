@@ -6,9 +6,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useEmblaCarousel from 'embla-carousel-react'
 
 import { fetchEventSummary } from "../actions";
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
@@ -29,7 +29,7 @@ export default function ApplicationTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const [emblaRef] = useEmblaCarousel()
+	const [emblaRef] = useEmblaCarousel();
 
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -93,12 +93,8 @@ export default function ApplicationTabWrapper() {
 						<Tab label="Per-event" {...a11yProps(1)} />
 					</Tabs>
 				</AppBar>
-				<div ref={emblaRef}> 
-					<TabPanel
-						value={tabIndex}
-						index={0}
-						dir={theme.direction}
-					>	
+				<div ref={emblaRef}>
+					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<CCTWrapper />
 					</TabPanel>
 					<TabPanel value={tabIndex} index={1} dir={theme.direction}>

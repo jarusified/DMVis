@@ -6,9 +6,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import useEmblaCarousel from "embla-carousel-react";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import useEmblaCarousel from 'embla-carousel-react'
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import { TabPanel, a11yProps } from "../ui/tab-panel";
@@ -25,7 +25,7 @@ export default function DetailedTabWrapper() {
 	const classes = useStyles();
 	const theme = useTheme();
 	const dispatch = useDispatch();
-	const [emblaRef] = useEmblaCarousel()
+	const [emblaRef] = useEmblaCarousel();
 
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const [open, setOpen] = React.useState(false);
@@ -66,7 +66,7 @@ export default function DetailedTabWrapper() {
 						{/* <Tab label="Data Layout" {...a11yProps(1)} /> */}
 					</Tabs>
 				</AppBar>
-				<div ref={emblaRef}> 
+				<div ref={emblaRef}>
 					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<TopologyWrapper />
 					</TabPanel>
