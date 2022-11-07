@@ -4,8 +4,41 @@ import { COLORS } from "../helpers/utils";
 
 
 export default function D3HyperGraph(props) {
+	// Collapse the node and all it's children
+	function collapse(d) {
+		if (d.children) {
+			d._children = d.children;
+			d._children.forEach(collapse);
+			d.children = null;
+		}
+	}
+
 	useEffect(() => {
-		const { nodes, links, containerName, style } = props;
+		const { data, containerName, style } = props;
+
+		const treemap = d3.tree().size([style.height, style.width]);
+		const root = d3.hierarchy(data);
+
+		// Assigns the x and y position for the nodes
+		var tree = treemap(root);
+
+		const nodes = tree.descendants();
+		const links = root.links();
+
+		root.children.forEach(collapse);
+
+		const _link_force = d3
+			.forceLink(links)
+			.id((d) => d.data.name)
+			.distance(0)
+			.strength(1);
+
+		const simulation = d3.forceSimulation(nodes)
+			.force("link", _link_force)
+			.force("charge", d3.forceManyBody().strength(-300))
+			.force("x", d3.forceX())
+			.force("y", d3.forceY())
+			.force('collide', d3.forceCollide(d => 65))
 
 		const mapping = {
 			"cpu_compute": "fg-1",
@@ -41,7 +74,7 @@ export default function D3HyperGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${0} ${0} ${style.width} ${
+				`${0} ${-style.top} ${style.width} ${
 					style.height
 				}`
 			);
@@ -76,8 +109,7 @@ export default function D3HyperGraph(props) {
 			.merge(hg)
 			.attr(
 				"id",
-				(d) => { console.log(d); return containerName + "-nodegroup-" + d.data.name.replace(/[|]/g, "") }
-			)
+				(d) => containerName + "-nodegroup-" + d.data.name.replace(/[|]/g, ""))
 			.attr("class", "he-group");
 
 		hg.append("circle")
@@ -184,6 +216,16 @@ export default function D3HyperGraph(props) {
 		//     .attr("d", d => groupPath(d.value))
 		//     .attr("id", d => svg_id+"-hull-"+d.key.replace(/[|]/g,""))
 		//     .attr("class", "convex_hull")
+
+		const linkArc = d =>`M${d.source.x},${d.source.y}A0,0 0 0,1 ${d.target.x},${d.target.y}`
+
+		// simulation.on("tick", () => {
+		// 	links_g.attr("d", linkArc);
+		// 	nodes_g.attr("transform", d => `translate(${d.x},${d.y})`);
+		// });
+
+		// invalidation.then(() => simulation.stop());
+
 	}, [props]);
 
 	return <div id="cct-view"></div>;
