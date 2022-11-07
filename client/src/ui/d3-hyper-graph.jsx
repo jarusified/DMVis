@@ -1,9 +1,18 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
+import { COLORS } from "../helpers/utils";
+
 
 export default function D3HyperGraph(props) {
 	useEffect(() => {
-		const { nodes, links, containerName, style, node_dict } = props;
+		const { nodes, links, containerName, style } = props;
+
+		const mapping = {
+			"cpu_compute": "fg-1",
+			"gpu_compute": "fg-2",
+			"cuda": "fg-3",
+			"data_mov": "fg-4"
+		}
 
 		function groupPath(vertices) {
 			// not draw convex hull if vertices.length <= 1
@@ -113,10 +122,10 @@ export default function D3HyperGraph(props) {
 
 		vg.append("circle")
 			.attr("r", (d) => get_node_radius(d.data.name))
-			.attr("fill", "")
+			.attr("fill", (d) => { return COLORS[mapping[d.data.cat]] })
 			.attr(
 				"id",
-				(d) => containerName + "-node-" +  d.data.name.replace(/[|]/g, "")
+				(d) => containerName + "-node-" + d.data.name.replace(/[|]/g, "")
 			)
 			.attr("cx", (d) => d.x)
 			.attr("cy", (d) => d.y)
@@ -132,7 +141,7 @@ export default function D3HyperGraph(props) {
 				"id",
 				(d) => containerName + "-text-" + d.data.name.replace(/[|]/g, "")
 			)
-			.text((d) => d.label);
+			.text((d) => d.data.name);
 
 		let lg = links_g.selectAll("line").data(links);
 		lg.exit().remove();
