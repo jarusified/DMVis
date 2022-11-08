@@ -9,7 +9,7 @@ import { fetchTopology } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
-		height: "300px",
+		height: window.innerHeight / 3 - 30,
 		overflowY: "auto",
 		overflowX: "hidden"
 	}
@@ -22,11 +22,11 @@ export default function TopologyWrapper() {
 	const topology = useSelector((store) => store.topology);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 
-	// useEffect(() => {
-	// 	if (selectedExperiment !== "" || topology.length == 0) {
-	// 		dispatch(fetchTopology());
-	// 	}
-	// }, [selectedExperiment]);
+	useEffect(() => {
+		if (selectedExperiment !== "" || topology.length == 0) {
+			dispatch(fetchTopology());
+		}
+	}, [selectedExperiment]);
 
 	useEffect(() => {
 		if (topology.length > 0) {

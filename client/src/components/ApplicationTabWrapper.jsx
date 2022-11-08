@@ -71,7 +71,7 @@ export default function ApplicationTabWrapper() {
 						<FilterEventsDropDown
 							selectedValue={timelineSummary}
 							open={open}
-							propagateChange={handleFilterChange}
+							onChange={handleFilterChange}
 						/>
 					) : (
 						<></>

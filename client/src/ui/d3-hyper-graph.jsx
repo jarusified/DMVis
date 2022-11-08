@@ -76,10 +76,19 @@ export default function D3HyperGraph(props) {
 			.append("svg")
 			.attr("width", style.width)
 			.attr("height", style.height)
-			.attr(
-				"viewBox",
-				`${0} ${-style.top} ${style.width} ${style.height}`
-			);
+			// .attr(
+			// 	"viewBox",
+			// 	`${0} ${-style.top} ${style.width} ${style.height}`
+			// );
+
+		function zoomed({transform}) {
+			svg.attr("transform", transform);
+		}
+
+		svg.call(d3.zoom()
+			.extent([[0, 0], [style.width, style.height]])
+			.scaleExtent([1, 8])
+			.on("zoom", zoomed));
 
 		let links_g = svg.append("g").attr("id", "links_group");
 		let nodes_g = svg.append("g").attr("id", "nodes_group");
