@@ -59,6 +59,13 @@ path {
 	box-shadow: 0 0 1px #ffffb3;
 }
 
+.fg-4 {
+	background-color: #d9241e;
+	border-color: #ef9f9c;
+	box-shadow: 0 0 1px #d9241e;
+	color: white;
+}
+
 .bg-1 {
 	background-color: rgba(105, 255, 98, 0.2);
 	border-color: #3a3654;

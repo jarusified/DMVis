@@ -1,8 +1,8 @@
+import { useTheme } from "@emotion/react";
 import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
-import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
@@ -13,7 +13,6 @@ import { fetchEnsembleSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
 import { formatDuration } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
-import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,13 +33,18 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3,
-		height: window.innerHeight / 3
+		width: window.innerWidth / 3 - 50,
+		height: window.innerHeight / 3 - 50
 	};
 
 	const containerID = useRef("single-summary-view");
 	const individualSummary = useSelector((store) => store.individualSummary);
-	const currentTimeline = useSelector((store) => store.currentTimeline);
+
+	const sharedMemUtilization = useSelector(
+		(store) => store.sharedMemUtilization
+	);
+	const blockUtilization = useSelector((store) => store.blockUtilization);
+	const achievedOccupancy = useSelector((store) => store.achievedOccupancy);
 	const ensembleSummary = useSelector((store) => store.ensembleSummary);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const timelineEnd = useSelector((store) => store.timelineEnd);
@@ -120,7 +124,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Time:{" "}
+									Runtime:{" "}
 									<span style={{ color: "#00adb5" }}>
 										{formatDuration(
 											timelineEnd,
@@ -135,9 +139,33 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Events: {"  "}
+									Shared mem utilization %: {"  "}
 									<span style={{ color: "#00adb5" }}>
-										{currentTimeline.events.length}
+										{sharedMemUtilization}
+									</span>
+								</Typography>
+								<Typography> </Typography>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Cache mem utilization %: {"  "}
+									<span style={{ color: "#00adb5" }}>
+										{blockUtilization}
+									</span>
+								</Typography>
+								<Typography> </Typography>
+								<Typography
+									variant="caption"
+									style={{
+										fontSize: theme.text.fontSize
+									}}
+								>
+									Est. achieved occupancy %: {"  "}
+									<span style={{ color: "#00adb5" }}>
+										{achievedOccupancy}
 									</span>
 								</Typography>
 							</Grid>

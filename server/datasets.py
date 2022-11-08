@@ -14,7 +14,7 @@ class Datasets:
         """
         self.data_dir = data_dir
         self.experiments = [
-            exp for exp in os.listdir(data_dir) if exp.split(".")[1] == "json"
+            exp for exp in os.listdir(data_dir) if exp.split(".")[1] == "json" and exp.split(".")[0] != "cct"
         ]
 
         self.file_paths = {

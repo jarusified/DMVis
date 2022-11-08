@@ -213,6 +213,7 @@ class Timeline:
             _e = row.to_dict()
 
             _e["className"] = self.grp_to_cls[_e["group"]]
+            _e["idx"] = idx
             _e["dur"] = (
                 0 if _e["ph"] == "i" else _e["dur"]
             )  # Duration for a point event is 0
@@ -641,6 +642,35 @@ class Timeline:
     def get_end_timestamp(self) -> float:
         return self.end_ts
 
+    def get_occupancy(self) -> float:
+        df = self.grp_df_dict["x-range"]
+        kernel_df = df.loc[df['cat'] == 'kernel']
+        indexes = kernel_df['idx'].tolist()
+        occupancy = 0
+        for index in indexes:
+            occupancy += float(self.get_event_args(index)["est. achieved occupancy %"])
+        return occupancy / len(indexes)
+
+    def get_cpu_utilization(self) -> float:
+        df = self.grp_df_dict["x-range"]
+        kernel_df = df.loc[df['cat'] == 'kernel']
+        indexes = kernel_df['idx'].tolist()
+        mem = 0
+        for index in indexes:
+            mem += float(self.get_event_args(index)["blocks per SM"])
+
+        return round((mem / 49152) * 100, 2)
+
+    def get_shared_mem_utilization(self) -> float:
+        df = self.grp_df_dict["x-range"]
+        kernel_df = df.loc[df['cat'] == 'kernel']
+        indexes = kernel_df['idx'].tolist()
+        mem = 0
+        for index in indexes:
+            mem += float(self.get_event_args(index)["shared memory"])
+        return round((mem / 49152) * 100, 2)
+
+
     def get_metadata(self, exp) -> Tuple[Dict, Dict]:
         """
         Get the metadata for a Timeline.
@@ -650,6 +680,9 @@ class Timeline:
                 "timelineStart": self.start_ts,
                 "timelineEnd": self.end_ts,
                 "selectedExperiment": exp,
+                "achievedOccupancy": self.get_occupancy(),
+                "cpuUtilization": self.get_cpu_utilization(),
+                "sharedMemUtilization": self.get_shared_mem_utilization()
             },
             "profile": self.metadata,
         }

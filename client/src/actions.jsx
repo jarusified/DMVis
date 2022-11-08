@@ -1,4 +1,5 @@
 import {
+	FETCH_CCT,
 	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
@@ -132,5 +133,13 @@ export const fetchTopology = () => async (dispatch) => {
 	dispatch({
 		type: FETCH_TOPOLOGY,
 		payload: text
+	});
+};
+
+export const fetchCCT = () => async (dispatch) => {
+	const cct = await GETWrapper("fetch_cct");
+	dispatch({
+		type: FETCH_CCT,
+		payload: cct
 	});
 };

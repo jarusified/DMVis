@@ -5,7 +5,15 @@ import { useEffect, useState } from "react";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
-	const { style, containerName, ensembleSummary, individualSummary, withInnerCircle, withTicks, withLabels } = props;
+	const {
+		style,
+		containerName,
+		ensembleSummary,
+		individualSummary,
+		withInnerCircle,
+		withTicks,
+		withLabels
+	} = props;
 
 	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
 		individualSummary;
@@ -77,7 +85,7 @@ export default function D3RadialBarGraph(props) {
 			.append("g")
 			.attr("text-anchor", "middle")
 			.attr("opacity", () => {
-				if(withTicks) {
+				if (withTicks) {
 					return 1;
 				} else {
 					return 0;
@@ -99,7 +107,7 @@ export default function D3RadialBarGraph(props) {
 			.append("text")
 			.attr("class", "hidden-text")
 			.attr("opacity", () => {
-				if(withLabels) {
+				if (withLabels) {
 					return 1;
 				} else {
 					return 0;
@@ -130,7 +138,7 @@ export default function D3RadialBarGraph(props) {
 		const runtime_color = cScale(perc);
 		const runtime_color_contrast = setContrast(runtime_color);
 
-		if(withInnerCircle) {
+		if (withInnerCircle) {
 			svg.append("circle")
 				.attr("cx", "50%")
 				.attr("cy", "50%")
@@ -155,7 +163,7 @@ export default function D3RadialBarGraph(props) {
 				})
 				.text(formatDuration(endTs, startTs, true));
 		}
-		
+
 		// Add y-axis ticks.
 		// Commented out for now.
 		let yAxis = svg.append("g").attr("text-anchor", "middle");

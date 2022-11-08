@@ -1,4 +1,5 @@
 import {
+	FETCH_CCT,
 	FETCH_ENSEMBLE_SUMMARY,
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
@@ -13,6 +14,10 @@ import {
 } from "./helpers/types";
 
 const initialState = {
+	achievedOccupancy: 0,
+	blockUtilization: 0,
+	cct: {},
+	cctLoaded: false,
 	currentEventSummary: [],
 	currentTimeline: {
 		end_ts: 0,
@@ -26,6 +31,7 @@ const initialState = {
 	events: [],
 	eventSummary: [],
 	experiments: [],
+	sharedMemUtilization: 0,
 	groups: [],
 	individualSummary: {},
 	profileMetadata: [],
@@ -47,6 +53,11 @@ const initialState = {
 
 export default function Reducer(state = initialState, action) {
 	switch (action.type) {
+		case FETCH_CCT:
+			return {
+				...state,
+				cct: action.payload
+			};
 		case FETCH_EXPERIMENTS:
 			return {
 				...state,
@@ -56,10 +67,14 @@ export default function Reducer(state = initialState, action) {
 		case FETCH_METADATA:
 			return {
 				...state,
+				achievedOccupancy: action.payload.general.achievedOccupancy,
 				selectedExperiment: action.payload.general.selectedExperiment,
 				timelineStart: action.payload.general.timelineStart,
 				timelineEnd: action.payload.general.timelineEnd,
-				profileMetadata: action.payload.profile
+				profileMetadata: action.payload.profile,
+				sharedMemUtilization:
+					action.payload.general.sharedMemUtilization,
+				blockUtilization: action.payload.general.blockUtilization
 			};
 		case FETCH_TIMELINE:
 			return {
