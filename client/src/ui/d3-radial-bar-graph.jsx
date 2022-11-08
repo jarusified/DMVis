@@ -11,6 +11,7 @@ export default function D3RadialBarGraph(props) {
 		ensembleSummary,
 		individualSummary,
 		withInnerCircle,
+		withUtilization,
 		withTicks,
 		withLabels
 	} = props;
@@ -30,8 +31,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${-style.width / 2} ${-style.height / 2} ${style.width} ${
-					style.height
+				`${-style.width / 2} ${-style.height / 2} ${style.width} ${style.height
 				}`
 			)
 			.style("cursor", "pointer")
@@ -162,6 +162,27 @@ export default function D3RadialBarGraph(props) {
 					return "translate(" + -10 + "," + 0 + ")";
 				})
 				.text(formatDuration(endTs, startTs, true));
+		}
+
+		if (withUtilization) {
+			const xScale = d3.scaleLinear().range([0, innerRadius/2]).domain([0, 100]);
+			const yScale = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["gpuUtilization"].length]);
+
+
+			svg.append('path')
+				.attr('class', 'line')
+				.datum(individualSummary["gpuUtilization"])
+				.attr('d', d3.line().x(d => xScale(d)).y( (d, i) => yScale(i)))
+				.attr('fill', '#69BF71')
+
+			const xScale2 = d3.scaleLinear().range([0, -innerRadius/2]).domain([0, 100]);
+			const yScale2 = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["memUtilization"].length]);
+
+			svg.append('path')
+				.attr('class', 'line')
+				.datum(individualSummary["memUtilization"])
+				.attr('d', d3.line().x(d => xScale2(d)).y( (d, i) => yScale2(i)))
+				.attr('fill', '#F86045')
 		}
 
 		// Add y-axis ticks.

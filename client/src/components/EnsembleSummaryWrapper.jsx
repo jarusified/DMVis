@@ -15,6 +15,7 @@ import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
+import FilterEventsDropDown from "../ui/FilterEventsDropDown";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -66,6 +67,7 @@ export default function EnsembleSummaryWrapper() {
 
 	useEffect(() => {
 		if (Object.keys(ensembleSummary).length > 0) {
+			console.log(ensembleSummary);
 			setRuntimeRange([
 				formatTimestamp(ensembleSummary["runtime_range"][0], 0),
 				formatTimestamp(ensembleSummary["runtime_range"][1], 0)
@@ -76,6 +78,7 @@ export default function EnsembleSummaryWrapper() {
 	useEffect(() => {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
+			console.log(individualSummary)
 			const exp = Object.keys(individualSummary)[0];
 			const class_names = individualSummary[exp]["classNames"];
 
@@ -92,6 +95,17 @@ export default function EnsembleSummaryWrapper() {
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
+				<Grid item xs={4} flex justifyContent="flex-end">
+					{/* {timelineSummary.length > 0 ? (
+						<FilterEventsDropDown
+							selectedValue={timelineSummary}
+							open={open}
+							propagateChange={handleFilterChange}
+						/>
+					) : (
+						<></>
+					)} */}
+				</Grid>
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
@@ -125,7 +139,8 @@ export default function EnsembleSummaryWrapper() {
 									style={style}
 									individualSummary={individualSummary[exp]}
 									ensembleSummary={ensembleSummary}
-									withInnerCircle={true}
+									withInnerCircle={false}
+									withUtilization={true}
 									withTicks={false}
 								/>
 							</Card>
