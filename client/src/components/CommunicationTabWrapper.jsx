@@ -1,3 +1,4 @@
+import React from "react";
 import { Paper, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -7,7 +8,8 @@ import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import useEmblaCarousel from "embla-carousel-react";
-import React from "react";
+
+import HostDeviceCommunication from "./HostDeviceCommunication";
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 
@@ -64,15 +66,12 @@ export default function CommunicationTabWrapper() {
 						value={tabIndex}
 						index={0}
 						dir={theme.direction}
-					></TabPanel>
+					>
+						<HostDeviceCommunication />
+					</TabPanel>
 					<TabPanel
 						value={tabIndex}
 						index={1}
-						dir={theme.direction}
-					></TabPanel>
-					<TabPanel
-						value={tabIndex}
-						index={2}
 						dir={theme.direction}
 					></TabPanel>
 				</div>
