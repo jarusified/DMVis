@@ -25,7 +25,7 @@ export default function CCTWrapper() {
 		bottom: 10,
 		left: 40,
 		width: window.innerWidth / 3 - 30,
-		height: window.innerHeight / 3 - 50
+		height: window.innerHeight / 3 - 20
 	};
 
 	// useEffect(() => {
