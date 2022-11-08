@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 // import { fetchHostDeviceComm } from "../actions";
 import D3ChordDiagram from "../ui/d3-chord-diagram";
@@ -7,11 +9,6 @@ import D3ChordDiagram from "../ui/d3-chord-diagram";
 export default function HostDeviceCommunication() {
 	const dispatch = useDispatch();
 
-	const currentEventSummary = useSelector(
-		(store) => store.currentEventSummary
-	);
-	const selectedExperiment = useSelector((store) => store.selectedExperiment);
-	const timelineSummary = useSelector((store) => store.timelineSummary);
 	const style = {
 		top: 10,
 		right: 40,
@@ -22,6 +19,15 @@ export default function HostDeviceCommunication() {
 	};
 	const containerID = useRef("host-device-view");
 
+
+	// create a matrix
+	const matrixData = [
+		[0,  0, 8916, 2868],
+		[ 1951, 0, 2060, 6171],
+		[ 8010, 16145, 0, 8045],
+		[ 1013,   990,  940, 0]
+	];
+
 	// useEffect(() => {
 	// 	if (selectedExperiment !== "") {
 	// 		let groups = timelineSummary.map((d) => d.group);
@@ -29,11 +35,21 @@ export default function HostDeviceCommunication() {
 	// 	}
 	// }, [selectedExperiment]);
 
-	useEffect(() => {
-			// D3ChordDiagram(
-			// 	containerID.current,
-			// 	style
-			// )
-	});
+	return (
+		<Grid container>
+			{matrixData.length > 0 && matrixData[0].length > 0 ? (
+				<Card style={{ borderColor: "gray" }}>
+					<D3ChordDiagram
+						containerName={containerID.current}
+						style={style}
+						data={matrixData}
+					/>
+				</Card>
+			) : (
+				<CircularProgress />
+			)}
+		</Grid>
+	);
+
 	return <div id={containerID.current}></div>;
 }
