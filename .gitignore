@@ -15,3 +15,8 @@ venv/*
 .tox
 .cache
 .pytest_cache
+*.json
+*.svg
+*.csv
+*.z
+*.xml
