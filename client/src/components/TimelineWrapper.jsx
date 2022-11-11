@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import * as d3 from "d3";
 import moment from "moment";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DataSet } from "vis-data";
 import { Timeline } from "vis-timeline";
@@ -41,6 +41,7 @@ function TimelineWrapper() {
 	const summary = useSelector((store) => store.summary);
 
 	const txRef = useRef(undefined);
+	const [autoPlay, setAutoPlay] = useState(false);
 
 	useEffect(() => {
 		if (
@@ -177,9 +178,20 @@ function TimelineWrapper() {
 			}
 		});
 
-		// Interactions: Fit the timeline to the screenWidth.
+		// Interaction: Fit the timeline to the screenWidth.
 		document.getElementById("fit-button").onclick = function () {
 			txRef.current.fit();
+		};
+
+		// Interaction: Autoplay mode.
+		document.getElementById("play-button").onclick = function () {
+			console.log("play");
+			setAutoPlay(true);
+		};
+
+		document.getElementById("pause-button").onclick = function () {
+			console.log("Pause");
+			setAutoPlay(false);
 		};
 
 		// Enable brushing only if the timeline is more than 100 seconds.
@@ -187,6 +199,22 @@ function TimelineWrapper() {
 			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
 		}
 	}, [currentTimeline]);
+
+	function move() {
+		let speed = 0.1;
+		let range = txRef.current.getWindow();
+		const interval = range.end - range.start;
+		txRef.current.setWindow({
+			start: range.start.valueOf() + interval * speed,
+			end: range.end.valueOf() + interval * speed
+		});
+	}
+
+	useEffect(() => {
+		if (autoPlay) {
+			setInterval(move, 500);
+		}
+	}, [autoPlay]);
 
 	useEffect(() => {
 		if (txRef.current != undefined) {
@@ -212,9 +240,10 @@ function TimelineWrapper() {
 				</Typography>
 			</Grid>
 			<Grid container>
-				<Grid item id="fit-button" xs={6}>
+				<Grid item xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton
+							id="fit-button"
 							size="small"
 							value="check"
 							className={classes.button}
@@ -224,6 +253,7 @@ function TimelineWrapper() {
 					</Tooltip>
 					<Tooltip title="Play" arrow>
 						<ToggleButton
+							id="play-button"
 							size="small"
 							value="check"
 							className={classes.button}
@@ -233,6 +263,7 @@ function TimelineWrapper() {
 					</Tooltip>
 					<Tooltip title="Pause" arrow>
 						<ToggleButton
+							id="pause-button"
 							size="small"
 							value="check"
 							className={classes.button}
@@ -242,6 +273,7 @@ function TimelineWrapper() {
 					</Tooltip>
 					<Tooltip title="Stop" arrow>
 						<ToggleButton
+							id="stop-button"
 							size="small"
 							value="check"
 							className={classes.button}
