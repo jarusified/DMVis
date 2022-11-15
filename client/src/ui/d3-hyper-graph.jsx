@@ -76,10 +76,10 @@ export default function D3HyperGraph(props) {
 			.append("svg")
 			.attr("width", style.width)
 			.attr("height", style.height)
-			// .attr(
-			// 	"viewBox",
-			// 	`${0} ${-style.top} ${style.width} ${style.height}`
-			// );
+			.attr(
+				"viewBox",
+				`${0} ${-style.top} ${style.width} ${style.height}`
+			);
 
 		function zoomed({transform}) {
 			svg.attr("transform", transform);

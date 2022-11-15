@@ -29,7 +29,15 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			backgroundColor: theme.palette.backgroundHighlight
 		}
-	}
+	},
+	card: {
+		margin: "auto",
+		transition: "0.3s",
+		boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+		"&:hover": {
+			boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+		}
+	},
 }));
 
 export default function EnsembleSummaryWrapper() {
@@ -88,33 +96,27 @@ export default function EnsembleSummaryWrapper() {
 		}
 	}, [individualSummary]);
 
-	function onChange() {
-
-	}
-
-	function listTextfn() {
-		return "";
-	}
-
-	const metrics = ["a", "b"];
+	const metrics = ["GPU utilization", "CPU utilization"];
 
 	return (
 		<Grid container justifyContent="center">
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
-				<DropDown
+				{/* <DropDown
 					heading={"Left encoding"}
 					onChange={onChange}
 					listTextfn={listTextfn}
+					label={"GPU utilization"}
 					data={metrics}
 				/>
 				<DropDown
 					heading={"Right encoding"}
 					onChange={onChange}
 					listTextFn={listTextfn}
+					label={"CPU utilization"}
 					data={metrics}
-				/>
+				/> */}
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
@@ -123,7 +125,7 @@ export default function EnsembleSummaryWrapper() {
 							item
 							xs={4}
 							key={exp.split(".")[0]}
-							className={classes.experimentSummary}
+							// className={classes.experimentSummary}
 						>
 							<Typography
 								mt={0}
@@ -138,7 +140,7 @@ export default function EnsembleSummaryWrapper() {
 							>
 								{exp}
 							</Typography>{" "}
-							<Card onClick={() => onClick(exp)}>
+							<Card className={classes.card} onClick={() => onClick(exp)}>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
