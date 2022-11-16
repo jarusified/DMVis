@@ -114,6 +114,8 @@ export default function SingleSummaryWrapper() {
 							withInnerCircle={false}
 							withTicks={true}
 							withLabels={true}
+							withYAxis={true}
+							withPlayFeature={true}
 						/>
 						<Grid container>
 							<Grid item xs={6}>

@@ -141,6 +141,8 @@ export default function EnsembleSummaryWrapper() {
 									withInnerCircle={false}
 									withUtilization={true}
 									withTicks={false}
+									withYAxis={false}
+									withPlayFeature={false}
 								/>
 							</Card>
 						</Grid>

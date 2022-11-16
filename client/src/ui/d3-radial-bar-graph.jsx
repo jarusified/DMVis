@@ -16,6 +16,8 @@ export default function D3RadialBarGraph(props) {
 		withUtilization,
 		withTicks,
 		withLabels,
+		withYAxis,
+		withPlayFeature
 	} = props;
 
 	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
@@ -33,7 +35,8 @@ export default function D3RadialBarGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${-style.width / 2} ${-style.height / 2} ${style.width} ${style.height
+				`${-style.width / 2} ${-style.height / 2} ${style.width} ${
+					style.height
 				}`
 			)
 			.style("cursor", "pointer")
@@ -123,16 +126,21 @@ export default function D3RadialBarGraph(props) {
 
 		// Add secondary encoding.
 		const this_duration = endTs - startTs;
-		const ensemble_duration = ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0];
+		const ensemble_duration =
+			ensembleSummary["runtime_range"][1] -
+			ensembleSummary["runtime_range"][0];
 
 		// If the difference between the max and min is 0, it means there is
 		// only 1 run in the ensemble.
-		if (ensemble_duration == 0){
+		if (ensemble_duration == 0) {
 			withInnerCircle = false;
 		}
 
 		if (withInnerCircle) {
-			const perc = ((this_duration - ensembleSummary["runtime_range"][0]) / ensemble_duration) * 100;
+			const perc =
+				((this_duration - ensembleSummary["runtime_range"][0]) /
+					ensemble_duration) *
+				100;
 			const cScale = d3
 				.scaleSequential()
 				.interpolator(interpolateOranges)
@@ -165,7 +173,10 @@ export default function D3RadialBarGraph(props) {
 				.text(formatDuration(endTs, startTs, true));
 		}
 
-		if (individualSummary["gpuUtilization"] == undefined || individualSummary["memUtilization"] == undefined) {
+		if (
+			individualSummary["gpuUtilization"] == undefined ||
+			individualSummary["memUtilization"] == undefined
+		) {
 			withUtilization = false;
 		}
 
@@ -180,10 +191,19 @@ export default function D3RadialBarGraph(props) {
 			// 	.range([-innerRadius, innerRadius])
 			// 	.domain([0, individualSummary["gpuUtilization"].length]);
 
-			const xScale = d3.scaleLinear().range([0, innerRadius / 2]).domain([0, 100]);
-			const yScale = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["gpuUtilization"].length]);
+			const xScale = d3
+				.scaleLinear()
+				.range([0, innerRadius / 2])
+				.domain([0, 100]);
+			const yScale = d3
+				.scaleLinear()
+				.range([-innerRadius, innerRadius])
+				.domain([0, individualSummary["gpuUtilization"].length]);
 
-			const curve = d3.line().x(d => xScale(d)).y((d, i) => yScale(i));
+			const curve = d3
+				.line()
+				.x((d) => xScale(d))
+				.y((d, i) => yScale(i));
 			// const curve =  d3.arc()
 			// 	.innerRadius((d, i) => yScale(i))
 			// 	.startAngle((d) => x(d))
@@ -191,71 +211,76 @@ export default function D3RadialBarGraph(props) {
 			// 	.padAngle(0.01)
 			// 	.padRadius(innerRadius)
 
-			svg.append('path')
-				.attr('class', 'line')
+			svg.append("path")
+				.attr("class", "line")
 				.datum(individualSummary["gpuUtilization"])
-				.attr('d', curve)
-				.attr('fill', '#69BF71')
+				.attr("d", curve)
+				.attr("fill", "#69BF71")
 				.attr("transform", () => {
-					return "translate(" + - 1.5 * outerRadius + "," + 100 + ")";
+					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});
 
-			const xScale2 = d3.scaleLinear().range([0, -innerRadius / 2]).domain([0, 100]);
-			const yScale2 = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["memUtilization"].length]);
+			const xScale2 = d3
+				.scaleLinear()
+				.range([0, -innerRadius / 2])
+				.domain([0, 100]);
+			const yScale2 = d3
+				.scaleLinear()
+				.range([-innerRadius, innerRadius])
+				.domain([0, individualSummary["memUtilization"].length]);
 
-			svg.append('path')
-				.attr('class', 'line')
+			svg.append("path")
+				.attr("class", "line")
 				.datum(individualSummary["memUtilization"])
-				.attr('d', d3.line().x(d => xScale2(d)).y((d, i) => yScale2(i)))
-				.attr('fill', '#F86045')
+				.attr(
+					"d",
+					d3
+						.line()
+						.x((d) => xScale2(d))
+						.y((d, i) => yScale2(i))
+				)
+				.attr("fill", "#F86045")
 				.attr("transform", () => {
-					return "translate(" + - 1.5 * outerRadius + "," + 100 + ")";
+					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});
 		}
 
 		// Add y-axis ticks.
-		// Commented out for now.
-		let yAxis = svg.append("g").attr("text-anchor", "middle");
+		if (withYAxis) {
+			let yAxis = svg.append("g").attr("text-anchor", "middle");
 
-		// let yTick = yAxis
-		// 	.selectAll("g")
-		// 	.data(y.ticks(3).slice(1))
-		// 	.enter()
-		// 	.append("g");
+			let yTick = yAxis
+				.selectAll("g")
+				.data(y.ticks(4).slice(1))
+				.enter()
+				.append("g");
 
-		// yTick
-		// 	.append("circle")
-		// 	.attr("fill", "none")
-		// 	.attr("stroke", "#F6F4F9")
-		// 	.attr("stroke-width", 0.5)
-		// 	.attr("r", y);
+			yTick
+				.append("circle")
+				.attr("fill", "none")
+				.attr("stroke", "#F6F4F9")
+				.attr("stroke-width", 0.5)
+				.attr("r", y);
 
-		// yTick
-		// 	.append("text")
-		// 	.attr("y", function (d) {
-		// 		return -y(d);
-		// 	})
-		// 	.attr("dy", "0.35em")
-		// 	.attr("fill", "none")
-		// 	.attr("stroke", "#fff")
-		// 	.attr("stroke-width", 5)
-		// 	.text((d) => formatTimestamp(d));
+			yTick
+				.append("text")
+				.attr("y", function (d) {
+					return -y(d);
+				})
+				.attr("dy", "0.35em")
+				// .attr("fill", "#000")
+				.attr("stroke", "#fff")
+				// .attr("stroke-width", 1)
+				.text((d) => { return Math.floor((d/maxY)* 100)});
 
-		// yTick
-		// 	.append("text")
-		// 	.attr("y", function (d) {
-		// 		return -y(d);
-		// 	})
-		// 	.attr("dy", "0.35em")
-		// 	.text((d) => formatTimestamp(d));
-
-		// yAxis
-		// 	.append("text")
-		// 	.attr("y", function (d) {
-		// 		return -y(0);
-		// 	})
-		// 	.attr("dy", "10em")
-		// 	.text("");
+			yAxis
+				.append("text")
+				.attr("y", function (d) {
+					return -y(0);
+				})
+				.attr("dy", "10em")
+				.text("");
+		}
 	}, [props]);
 
 	return <div id={containerName}></div>;
