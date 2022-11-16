@@ -40,8 +40,8 @@ export default function D3RadialBarGraph(props) {
 				setHover((hover) => !hover);
 			});
 
-		let innerRadius = 80,
-			outerRadius = Math.min(style.width, style.height) / 2;
+		let innerRadius = Math.min(style.width, style.height) / 5;
+		let outerRadius = Math.min(style.width, style.height) / 2;
 
 		let x = d3
 			.scaleBand()
@@ -124,13 +124,8 @@ export default function D3RadialBarGraph(props) {
 
 		// Add secondary encoding.
 		const this_duration = endTs - startTs;
-		const ensemble_duration =
-			ensembleSummary["runtime_range"][1] -
-			ensembleSummary["runtime_range"][0];
-		const perc =
-			((this_duration - ensembleSummary["runtime_range"][0]) /
-				ensemble_duration) *
-			100;
+		const ensemble_duration = ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0];
+		const perc = ((this_duration - ensembleSummary["runtime_range"][0]) / ensemble_duration) * 100;
 		const cScale = d3
 			.scaleSequential()
 			.interpolator(interpolateOranges)
@@ -167,24 +162,47 @@ export default function D3RadialBarGraph(props) {
 		withUtilization = false;
 
 		if (withUtilization) {
-			const xScale = d3.scaleLinear().range([0, innerRadius/2]).domain([0, 100]);
+			// let xScale = d3
+			// 	.scaleLinear()
+			// 	.range([0, 2 * Math.PI])
+			// 	.domain([0, 100]);
+
+			// let yScale = d3
+			// 	.scaleRadial()
+			// 	.range([-innerRadius, innerRadius])
+			// 	.domain([0, individualSummary["gpuUtilization"].length]);
+
+			const xScale = d3.scaleLinear().range([0, innerRadius / 2]).domain([0, 100]);
 			const yScale = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["gpuUtilization"].length]);
 
+			const curve = d3.line().x(d => xScale(d)).y((d, i) => yScale(i));
+			// const curve =  d3.arc()
+			// 	.innerRadius((d, i) => yScale(i))
+			// 	.startAngle((d) => x(d))
+			// 	.endAngle((d) => x(d) + x.bandwidth())
+			// 	.padAngle(0.01)
+			// 	.padRadius(innerRadius)
 
 			svg.append('path')
 				.attr('class', 'line')
 				.datum(individualSummary["gpuUtilization"])
-				.attr('d', d3.line().x(d => xScale(d)).y( (d, i) => yScale(i)))
+				.attr('d', curve)
 				.attr('fill', '#69BF71')
+				.attr("transform", () => {
+					return "translate(" + - 1.5 * outerRadius + "," + 100 + ")";
+				});
 
-			const xScale2 = d3.scaleLinear().range([0, -innerRadius/2]).domain([0, 100]);
+			const xScale2 = d3.scaleLinear().range([0, -innerRadius / 2]).domain([0, 100]);
 			const yScale2 = d3.scaleLinear().range([-innerRadius, innerRadius]).domain([0, individualSummary["memUtilization"].length]);
 
 			svg.append('path')
 				.attr('class', 'line')
 				.datum(individualSummary["memUtilization"])
-				.attr('d', d3.line().x(d => xScale2(d)).y( (d, i) => yScale2(i)))
+				.attr('d', d3.line().x(d => xScale2(d)).y((d, i) => yScale2(i)))
 				.attr('fill', '#F86045')
+				.attr("transform", () => {
+					return "translate(" + - 1.5 * outerRadius + "," + 100 + ")";
+				});
 		}
 
 		// Add y-axis ticks.

@@ -7,11 +7,13 @@ export const DRAM_COLOR = "#5ab4ac";
 export const PMEM_COLOR = "#d8b365";
 
 export const COLORS = {
-	"fg-2": "#8dd3c7",
+	"fg-2": "#13B0B9",
 	"fg-1": "#bebada",
 	"fg-3": "#ffffb3",
-	"fg-4": "#D9241E",
-	"bg-1": "#69ff6233"
+	"fg-4": "#E43F3A",
+	"fg-5": "#69ff6233",
+	"fg-6": "#41BBD9",
+	"fg-7": "#383961"
 };
 
 export const CONFIG_LEGEND = {
