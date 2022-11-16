@@ -81,6 +81,21 @@ export default function D3HyperGraph(props) {
 				`${0} ${-style.top} ${style.width} ${style.height}`
 			);
 
+		function zoomed({ transform }) {
+			svg.attr("transform", transform);
+		}
+
+		svg.call(
+			d3
+				.zoom()
+				.extent([
+					[0, 0],
+					[style.width / 2, style.height / 2]
+				])
+				.scaleExtent([0.5, 8])
+				.on("zoom", zoomed)
+		);
+
 		let links_g = svg.append("g").attr("id", "links_group");
 		let nodes_g = svg.append("g").attr("id", "nodes_group");
 		let vertices_g = svg.append("g").attr("id", "vertices_group");
@@ -191,13 +206,64 @@ export default function D3HyperGraph(props) {
 			)
 			.text((d) => d.data.name);
 
+		// Per-type markers, as they don't inherit styles.
+		const markerBoxWidth = 20;
+		const markerBoxHeight = 20;
+		const refX = markerBoxWidth / 2;
+		const refY = markerBoxHeight / 2;
+		const markerWidth = markerBoxWidth / 2;
+		const markerHeight = markerBoxHeight / 2;
+		const arrowPoints = [
+			[0, 0],
+			[0, 10],
+			[10, 5]
+		];
+
+		svg.append("defs")
+			.append("marker")
+			.attr("id", "arrow")
+			.attr("viewBox", [0, 0, markerBoxWidth, markerBoxHeight])
+			.attr("refX", refX)
+			.attr("refY", refY)
+			.attr("markerWidth", markerBoxWidth)
+			.attr("markerHeight", markerBoxHeight)
+			.attr("orient", "auto-start-reverse")
+			.append("path")
+			.attr("d", d3.line()(arrowPoints))
+			.attr("stroke", "black");
+
+		const link = d3
+			.linkVertical()
+			.x((d) => d.x)
+			.y((d) => d.y);
+			// ({
+			// source: (d) => linkSource(d),
+			// target: (d) => linkTarget(d)
+		// });
+
+		// Source node position of the link must account for radius of the circle
+		const linkSource = (d) => {
+			return {
+				x: d.x,
+				y: d.y - markerHeight
+			};
+		};
+
+		// Target node position of the link must account for radius + arrow width
+		const linkTarget = (d) => {
+			return {
+				x: d.x,
+				y: d.y + markerWidth
+			};
+		};
+
 		let lg = links_g.selectAll("line").data(links);
 		lg.exit().remove();
 		lg = lg
 			.enter()
 			.append("line")
 			.merge(lg)
-			.attr("stroke-width", (d) => 3)
+			.attr("stroke-width", 1)
 			.attr("x1", (d) => d.source.x)
 			.attr("y1", (d) => d.source.y)
 			.attr("x2", (d) => d.target.x)
@@ -212,7 +278,9 @@ export default function D3HyperGraph(props) {
 					d.source.data.name.replace(/[|]/g, "") +
 					"-" +
 					d.target.data.name.replace(/[|]/g, "")
-			);
+			)
+			.attr("marker-end", "url(#arrow)")
+
 
 		// draw convex hulls
 		let links_new = [];

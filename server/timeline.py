@@ -6,6 +6,7 @@ from operator import sub
 import numpy as np
 import pandas as pd
 import re
+import os
 from typing import Dict, List, Tuple
 
 from server.logger import get_logger
@@ -131,6 +132,10 @@ class Timeline:
                 {"name": _k, "key": _v}
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
+            metadata.append({"name": 'gpuUtilization', "key": self.get_gpu_utilization(file_path, ' utilization_gpu') })
+            mem_util = self.get_gpu_utilization(file_path, ' utilization_memory')
+            mem_util.reverse()
+            metadata.append({"name": 'memUtilization', "key": mem_util})
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -185,6 +190,7 @@ class Timeline:
         for idx, event in self.timeline_df.iterrows():
             # Add "group", "type" fields.
             _group, _type = Timeline.match_event_group_and_type(event, group_rules)
+            _event = self.get_event_by_id(idx)
             _event = self.get_event_by_id(idx)
 
             self.timeline_df.at[idx, "group"] = _group
@@ -642,6 +648,12 @@ class Timeline:
     def get_end_timestamp(self) -> float:
         return self.end_ts
 
+    def get_gpu_utilization(self, file_path, metric):
+        gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
+        # df = pd.read_csv(gpu_file_path)
+        # return df[metric].tolist()
+        return []
+
     def get_occupancy(self) -> float:
         df = self.grp_df_dict["x-range"]
         kernel_df = df.loc[df['cat'] == 'kernel']
@@ -649,7 +661,7 @@ class Timeline:
         occupancy = 0
         for index in indexes:
             occupancy += float(self.get_event_args(index)["est. achieved occupancy %"])
-        return occupancy / len(indexes)
+        return occupancy#  / len(indexes)
 
     def get_cpu_utilization(self) -> float:
         df = self.grp_df_dict["x-range"]
@@ -739,7 +751,8 @@ class Timeline:
             "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),
             "zData": list(self.rules["grouping"].keys()),
-
+            # "gpuUtilization": self.metadata[-2]["key"],
+            # "memUtilization": self.metadata[-1]["key"]
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:
