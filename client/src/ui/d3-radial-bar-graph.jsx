@@ -125,15 +125,22 @@ export default function D3RadialBarGraph(props) {
 		// Add secondary encoding.
 		const this_duration = endTs - startTs;
 		const ensemble_duration = ensembleSummary["runtime_range"][1] - ensembleSummary["runtime_range"][0];
-		const perc = ((this_duration - ensembleSummary["runtime_range"][0]) / ensemble_duration) * 100;
-		const cScale = d3
-			.scaleSequential()
-			.interpolator(interpolateOranges)
-			.domain([0, 100]);
-		const runtime_color = cScale(perc);
-		const runtime_color_contrast = setContrast(runtime_color);
+
+		// If the difference between the max and min is 0, it means there is
+		// only 1 run in the ensemble.
+		if (ensemble_duration == 0){
+			withInnerCircle = false;
+		}
 
 		if (withInnerCircle) {
+			const perc = ((this_duration - ensembleSummary["runtime_range"][0]) / ensemble_duration) * 100;
+			const cScale = d3
+				.scaleSequential()
+				.interpolator(interpolateOranges)
+				.domain([0, 100]);
+			const runtime_color = cScale(perc);
+			const runtime_color_contrast = setContrast(runtime_color);
+
 			svg.append("circle")
 				.attr("cx", "50%")
 				.attr("cy", "50%")
@@ -159,7 +166,9 @@ export default function D3RadialBarGraph(props) {
 				.text(formatDuration(endTs, startTs, true));
 		}
 
-		withUtilization = false;
+		if (individualSummary["gpuUtilization"] == undefined || individualSummary["memUtilization"] == undefined) {
+			withUtilization = false;
+		}
 
 		if (withUtilization) {
 			// let xScale = d3
