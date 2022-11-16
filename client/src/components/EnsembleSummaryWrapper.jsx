@@ -103,20 +103,6 @@ export default function EnsembleSummaryWrapper() {
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
-				{/* <DropDown
-					heading={"Left encoding"}
-					onChange={onChange}
-					listTextfn={listTextfn}
-					label={"GPU utilization"}
-					data={metrics}
-				/>
-				<DropDown
-					heading={"Right encoding"}
-					onChange={onChange}
-					listTextFn={listTextfn}
-					label={"CPU utilization"}
-					data={metrics}
-				/> */}
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
@@ -149,6 +135,8 @@ export default function EnsembleSummaryWrapper() {
 									}
 									style={style}
 									individualSummary={individualSummary[exp]}
+									innerRadius={Math.min(style.width, style.height) / 5}
+									outerRadius={Math.min(style.width, style.height) / 2}
 									ensembleSummary={ensembleSummary}
 									withInnerCircle={false}
 									withUtilization={true}

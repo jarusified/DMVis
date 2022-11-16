@@ -34,7 +34,7 @@ export default function SingleSummaryWrapper() {
 		bottom: 10,
 		left: 40,
 		width: window.innerWidth / 3 - 50,
-		height: window.innerHeight / 3 - 50
+		height: window.innerHeight / 3 - 50,
 	};
 
 	const containerID = useRef("single-summary-view");
@@ -105,6 +105,8 @@ export default function SingleSummaryWrapper() {
 								selectedExperiment.split(".")[0]
 							}
 							style={style}
+							innerRadius={Math.min(style.width, style.height) / 3.5}
+							outerRadius={Math.min(style.width, style.height) / 2}
 							individualSummary={
 								individualSummary[selectedExperiment]
 							}

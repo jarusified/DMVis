@@ -10,10 +10,12 @@ export default function D3RadialBarGraph(props) {
 		containerName,
 		ensembleSummary,
 		individualSummary,
+		innerRadius,
+		outerRadius,
 		withInnerCircle,
 		withUtilization,
 		withTicks,
-		withLabels
+		withLabels,
 	} = props;
 
 	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
@@ -39,9 +41,6 @@ export default function D3RadialBarGraph(props) {
 			.on("click", (d) => {
 				setHover((hover) => !hover);
 			});
-
-		let innerRadius = Math.min(style.width, style.height) / 5;
-		let outerRadius = Math.min(style.width, style.height) / 2;
 
 		let x = d3
 			.scaleBand()
