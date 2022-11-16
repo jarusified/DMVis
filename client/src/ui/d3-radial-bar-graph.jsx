@@ -271,7 +271,9 @@ export default function D3RadialBarGraph(props) {
 				// .attr("fill", "#000")
 				.attr("stroke", "#fff")
 				// .attr("stroke-width", 1)
-				.text((d) => { return Math.floor((d/maxY)* 100)});
+				.text((d) => {
+					return Math.floor((d / maxY) * 100);
+				});
 
 			yAxis
 				.append("text")
@@ -280,6 +282,27 @@ export default function D3RadialBarGraph(props) {
 				})
 				.attr("dy", "10em")
 				.text("");
+		}
+
+		if (withPlayFeature) {
+			const windowArc = d3
+				.arc()
+				.innerRadius(innerRadius - 25)
+				.outerRadius(innerRadius - 20)
+				.startAngle(0)
+				.endAngle(30)
+				.endAngle(Math.PI / 2);
+
+			svg.append("path")
+				.style("fill", "#9B9B9B")
+				.style("stroke", "#9B9B9B")
+				.attr("d", windowArc);
+
+			svg.append("g")
+				.attr("class", "button left-button")
+				.attr("transform", `translate(${-10},${-10})`)
+				.append("path")
+				.attr("d", "M8 5v14l11-7z");
 		}
 	}, [props]);
 
