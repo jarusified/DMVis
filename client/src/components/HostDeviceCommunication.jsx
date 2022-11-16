@@ -50,6 +50,4 @@ export default function HostDeviceCommunication() {
 			)}
 		</Grid>
 	);
-
-	return <div id={containerID.current}></div>;
 }

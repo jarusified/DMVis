@@ -103,7 +103,7 @@ export default function EnsembleSummaryWrapper() {
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
-				<DropDown
+				{/* <DropDown
 					heading={"Left encoding"}
 					onChange={onChange}
 					listTextfn={listTextfn}
@@ -114,7 +114,7 @@ export default function EnsembleSummaryWrapper() {
 					onChange={onChange}
 					listTextFn={listTextfn}
 					data={metrics}
-				/>
+				/> */}
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {

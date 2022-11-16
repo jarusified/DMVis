@@ -133,7 +133,9 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
             metadata.append({"name": 'gpuUtilization', "key": self.get_gpu_utilization(file_path, ' utilization_gpu') })
-            metadata.append({"name": 'memUtilization', "key": self.get_gpu_utilization(file_path, ' utilization_memory')})
+            mem_util = self.get_gpu_utilization(file_path, ' utilization_memory')
+            mem_util.reverse()
+            metadata.append({"name": 'memUtilization', "key": mem_util})
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -648,8 +650,9 @@ class Timeline:
 
     def get_gpu_utilization(self, file_path, metric):
         gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
-        df = pd.read_csv(gpu_file_path)
-        return df[metric].tolist()
+        # df = pd.read_csv(gpu_file_path)
+        # return df[metric].tolist()
+        return []
 
     def get_occupancy(self) -> float:
         df = self.grp_df_dict["x-range"]
@@ -658,7 +661,7 @@ class Timeline:
         occupancy = 0
         for index in indexes:
             occupancy += float(self.get_event_args(index)["est. achieved occupancy %"])
-        return occupancy / len(indexes)
+        return occupancy#  / len(indexes)
 
     def get_cpu_utilization(self) -> float:
         df = self.grp_df_dict["x-range"]
@@ -748,8 +751,8 @@ class Timeline:
             "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),
             "zData": list(self.rules["grouping"].keys()),
-            "gpuUtilization": self.metadata[-2]["key"],
-            "memUtilization": self.metadata[-1]["key"]
+            # "gpuUtilization": self.metadata[-2]["key"],
+            # "memUtilization": self.metadata[-1]["key"]
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:

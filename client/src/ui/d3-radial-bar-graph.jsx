@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
-	const {
+	let {
 		style,
 		containerName,
 		ensembleSummary,
@@ -163,6 +163,8 @@ export default function D3RadialBarGraph(props) {
 				})
 				.text(formatDuration(endTs, startTs, true));
 		}
+
+		withUtilization = false;
 
 		if (withUtilization) {
 			const xScale = d3.scaleLinear().range([0, innerRadius/2]).domain([0, 100]);
