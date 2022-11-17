@@ -35,6 +35,14 @@ export default function D3RadialBarGraph(props) {
 	const playArcG = useRef(null);
 	const windowArc = useRef(null);
 
+	function play_pause_icon(appState) {
+		if (!appState) {
+			return "M8 5v14l11-7z"; // play icon
+		} else if (appState) {
+			return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
+		}
+	}
+
 	useEffect(() => {
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
@@ -300,8 +308,7 @@ export default function D3RadialBarGraph(props) {
 			windowArc.current = d3
 				.arc()
 				.innerRadius(innerRadius - 25)
-				.outerRadius(innerRadius - 20)
-				.startAngle(startAngle);
+				.outerRadius(innerRadius - 20);
 
 			playArcG.current = svg
 				.append("path")
@@ -322,13 +329,7 @@ export default function D3RadialBarGraph(props) {
 					dispatch(updateAppState());
 				})
 				.append("path")
-				.attr("d", () => {
-					if (appState == 0) {
-						return "M8 5v14l11-7z";
-					} else if (appState == 1) {
-						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
-					}
-				});
+				.attr("d", play_pause_icon(appState));
 		}
 	}, [props]);
 
@@ -338,21 +339,15 @@ export default function D3RadialBarGraph(props) {
 
 			d3.select("#play-button")
 				.append("path")
-				.attr("d", () => {
-					if (!appState) {
-						return "M8 5v14l11-7z"; // play icon
-					} else if (appState) {
-						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
-					}
-				});
+				.attr("d", play_pause_icon(appState));
 
 			if (appState) {
-				// d3.interval(() => {
+				d3.interval(() => {
 					playArcG.current
 						.transition()
-						.duration(300)
-						.attrTween("d", arcTween(0.2));
-				// }, 3000);
+						.duration(1800)
+						.attrTween("d", arcTween(0.10));
+				}, 2000);
 
 				function arcTween(speed) {
 					return function (d) {
@@ -372,7 +367,6 @@ export default function D3RadialBarGraph(props) {
 							d.startAngle = interpolate_start(t);
 							d.endAngle = interpolate_end(t);
 							
-							console.log(d);
 							return windowArc.current(d);
 						};
 					};
