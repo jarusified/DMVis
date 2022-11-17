@@ -355,7 +355,7 @@ export default function D3RadialBarGraph(props) {
 			return function (t) {
 				d.startAngle = interpolate_start(t);
 				d.endAngle = interpolate_end(t);
-				console.debug("Arc changed from : ", d.startAngle, " to ", d.endAngle);
+				// console.debug("Arc changed from : ", d.startAngle, " to ", d.endAngle);
 
 				return windowArc.current(d);
 			};
@@ -382,7 +382,10 @@ export default function D3RadialBarGraph(props) {
 				};
 				timer.current = d3.interval(transition_callback, TIMER_DUR);
 			} else {
-				// timer.current.stop();
+				if (timer.current != null) {
+					console.log(timer.current);
+					timer.current.stop();
+				}
 			}
 		}
 	}, [appState]);
