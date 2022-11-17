@@ -183,17 +183,6 @@ function TimelineWrapper() {
 			txRef.current.fit();
 		};
 
-		// Interaction: Autoplay mode.
-		document.getElementById("play-button").onclick = function () {
-			console.log("play");
-			setAutoPlay(true);
-		};
-
-		document.getElementById("pause-button").onclick = function () {
-			console.log("Pause");
-			setAutoPlay(false);
-		};
-
 		// Enable brushing only if the timeline is more than 100 seconds.
 		if (timelineEnd - timelineStart > 1e8) {
 			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
@@ -209,12 +198,6 @@ function TimelineWrapper() {
 			end: range.end.valueOf() + interval * speed
 		});
 	}
-
-	useEffect(() => {
-		if (autoPlay) {
-			setInterval(move, 500);
-		}
-	}, [autoPlay]);
 
 	useEffect(() => {
 		if (txRef.current != undefined) {
@@ -249,36 +232,6 @@ function TimelineWrapper() {
 							className={classes.button}
 						>
 							<FullscreenIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
-					<Tooltip title="Play" arrow>
-						<ToggleButton
-							id="play-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<PlayArrowIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
-					<Tooltip title="Pause" arrow>
-						<ToggleButton
-							id="pause-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<PauseIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
-					<Tooltip title="Stop" arrow>
-						<ToggleButton
-							id="stop-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<StopIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
 					<Typography
