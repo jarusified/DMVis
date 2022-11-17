@@ -347,31 +347,32 @@ export default function D3RadialBarGraph(props) {
 				});
 
 			if (appState) {
-				d3.interval(() => {
+				// d3.interval(() => {
 					playArcG.current
 						.transition()
 						.duration(300)
 						.attrTween("d", arcTween(0.2));
-				}, 3000);
+				// }, 3000);
 
 				function arcTween(speed) {
 					return function (d) {
-						d.startAngle = d.startAngle + speed * Math.PI;
-						d.endAngle = d.endAngle + 2 * speed * Math.PI;
+						const new_startAngle = d.startAngle + speed * Math.PI;
+						const new_endAngle = d.endAngle + speed * Math.PI;
 
-						console.log(d.startAngle, d.endAngle)
 						const interpolate_start = d3.interpolate(
-							0,
-							d.startAngle
+							d.startAngle,
+							new_startAngle
 						);
 						const interpolate_end = d3.interpolate(
-							0,
-							d.endAngle
+							d.endAngle,
+							new_endAngle
 						);
 
 						return function (t) {
 							d.startAngle = interpolate_start(t);
 							d.endAngle = interpolate_end(t);
+							
+							console.log(d);
 							return windowArc.current(d);
 						};
 					};
