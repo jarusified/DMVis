@@ -106,7 +106,6 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 };
 
 export const updateAppState = (appState) => async (dispatch) => {
-	console.log("here");
 	dispatch({
 		type: UPDATE_APP_STATE, 
 		payload: appState

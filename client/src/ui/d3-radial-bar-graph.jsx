@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useState } from "react";
 import { updateAppState } from "../actions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
@@ -28,6 +28,7 @@ export default function D3RadialBarGraph(props) {
 	const [hover, setHover] = useState(false);
 
 	const theme = useTheme();
+	const dispatch = useDispatch();
 	const appState = useSelector((store) => store.appState);
 
 	useEffect(() => {
@@ -305,22 +306,23 @@ export default function D3RadialBarGraph(props) {
 
 			svg.append("g")
 				.attr("class", "button play-button")
+				.attr("font-size", "18")
 				.attr("fill", theme.text.label)
 				.attr("transform", `translate(${-10},${-10})`)
+				.on("click", (d) => {
+					dispatch(updateAppState(!appState));
+				})
 				.append("path")
 				.attr("d", () => {
 					if (appState == 0) {
 						return "M8 5v14l11-7z";
 					} else if (appState == 1) {
-						return "M6 19h4V5H6v28zm8-28v28h4V5h-4z";
+						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
 					}
 				})
-				.on("click", (d) => {
-					console.log("here");	
-					updateAppState(!appState);
-				});
+				
 		}
-	}, [props]);
+	}, [props, appState]);
 
 	return <div id={containerName}></div>;
 }
