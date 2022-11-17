@@ -289,7 +289,7 @@ function TimelineWrapper() {
 						}}
 					>
 						Events: {"  "}
-						<span style={{ color: "#00adb5" }}>
+						<span style={{ color: theme.text.label }}>
 							{currentTimeline.events.length}
 						</span>
 					</Typography>

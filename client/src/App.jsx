@@ -32,6 +32,7 @@ const theme = createTheme({
 	text: {
 		fontSize: 14,
 		highlight: "#04ACB5",
+		label: "#00adb5",
 		white: "#000"
 	}
 });

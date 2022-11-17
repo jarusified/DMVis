@@ -129,7 +129,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Runtime:{" "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{formatDuration(
 											timelineEnd,
 											timelineStart
@@ -144,7 +144,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Shared mem utilization %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{sharedMemUtilization}
 									</span>
 								</Typography>
@@ -156,7 +156,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Cache mem utilization %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{blockUtilization}
 									</span>
 								</Typography>
@@ -168,7 +168,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Est. achieved occupancy %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{achievedOccupancy}
 									</span>
 								</Typography>
