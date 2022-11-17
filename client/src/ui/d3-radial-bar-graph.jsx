@@ -32,8 +32,10 @@ export default function D3RadialBarGraph(props) {
 	const dispatch = useDispatch();
 	const appState = useSelector((store) => store.appState);
 
+	// Play-pause feature
 	const playArcG = useRef(null);
 	const windowArc = useRef(null);
+	const timer = useRef(null);
 
 	function play_pause_icon(appState) {
 		if (!appState) {
@@ -303,8 +305,6 @@ export default function D3RadialBarGraph(props) {
 		}
 
 		if (withPlayFeature) {
-			let startAngle = 0;
-			let endAngle = 0.2 * 2 * Math.PI;
 			windowArc.current = d3
 				.arc()
 				.innerRadius(innerRadius - 25)
@@ -312,7 +312,7 @@ export default function D3RadialBarGraph(props) {
 
 			playArcG.current = svg
 				.append("path")
-				.datum({ startAngle: 0, endAngle: 0.127 * 2 * Math.PI })
+				.datum({ startAngle: 0, endAngle: 0.37 * 2 * Math.PI })
 				.style("fill", theme.text.label)
 				.attr("d", (d) => {
 					return windowArc.current(d);
@@ -333,6 +333,35 @@ export default function D3RadialBarGraph(props) {
 		}
 	}, [props]);
 
+	function arcTween(speed) {
+		const tau = 2 * Math.PI
+		return function (d) {
+			// Reset the startAngle and endAngle to original angles once the
+			// circle is complete.
+			if(d.startAngle > tau) {
+				d.startAngle = 0;
+			}
+			
+			if(d.endAngle > tau) {
+				d.endAngle = 0.127 * 2 * Math.PI;
+			}
+
+			const new_startAngle = d.startAngle + speed * Math.PI;
+			const new_endAngle = d.endAngle + speed * Math.PI;
+
+			const interpolate_start = d3.interpolate(d.startAngle, new_startAngle);
+			const interpolate_end = d3.interpolate(d.endAngle, new_endAngle);
+
+			return function (t) {
+				d.startAngle = interpolate_start(t);
+				d.endAngle = interpolate_end(t);
+				console.debug("Arc changed from : ", d.startAngle, " to ", d.endAngle);
+
+				return windowArc.current(d);
+			};
+		};
+	}
+
 	useEffect(() => {
 		if (withPlayFeature) {
 			d3.select("#play-button").selectAll("path").remove();
@@ -342,35 +371,18 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", play_pause_icon(appState));
 
 			if (appState) {
-				d3.interval(() => {
+				const SPEED = 0.15;
+				const TIMER_DUR = 2000;
+				const ANIMATION_DUR = 1800;
+				const transition_callback = () => {
 					playArcG.current
 						.transition()
-						.duration(1800)
-						.attrTween("d", arcTween(0.10));
-				}, 2000);
-
-				function arcTween(speed) {
-					return function (d) {
-						const new_startAngle = d.startAngle + speed * Math.PI;
-						const new_endAngle = d.endAngle + speed * Math.PI;
-
-						const interpolate_start = d3.interpolate(
-							d.startAngle,
-							new_startAngle
-						);
-						const interpolate_end = d3.interpolate(
-							d.endAngle,
-							new_endAngle
-						);
-
-						return function (t) {
-							d.startAngle = interpolate_start(t);
-							d.endAngle = interpolate_end(t);
-							
-							return windowArc.current(d);
-						};
-					};
-				}
+						.duration(ANIMATION_DUR)
+						.attrTween("d", arcTween(SPEED));
+				};
+				timer.current = d3.interval(transition_callback, TIMER_DUR);
+			} else {
+				// timer.current.stop();
 			}
 		}
 	}, [appState]);
