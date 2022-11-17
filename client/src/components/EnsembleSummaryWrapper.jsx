@@ -120,7 +120,7 @@ export default function EnsembleSummaryWrapper() {
 								display="block"
 								sx={{
 									fontSize: theme.text.fontSize,
-									color: theme.text.highlight,
+									color: theme.text.label,
 									cursor: "pointer"
 								}}
 							>

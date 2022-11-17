@@ -1,6 +1,9 @@
+import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useState } from "react";
+import { updateAppState } from "../actions";
+import { useSelector } from "react-redux";
 
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
@@ -23,6 +26,9 @@ export default function D3RadialBarGraph(props) {
 	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
 		individualSummary;
 	const [hover, setHover] = useState(false);
+
+	const theme = useTheme();
+	const appState = useSelector((store) => store.appState);
 
 	useEffect(() => {
 		const containerID = "#" + containerName;
@@ -294,15 +300,25 @@ export default function D3RadialBarGraph(props) {
 				.endAngle(Math.PI / 2);
 
 			svg.append("path")
-				.style("fill", "#9B9B9B")
-				.style("stroke", "#9B9B9B")
+				.style("fill", theme.text.label)
 				.attr("d", windowArc);
 
 			svg.append("g")
-				.attr("class", "button left-button")
+				.attr("class", "button play-button")
+				.attr("fill", theme.text.label)
 				.attr("transform", `translate(${-10},${-10})`)
 				.append("path")
-				.attr("d", "M8 5v14l11-7z");
+				.attr("d", () => {
+					if (appState == 0) {
+						return "M8 5v14l11-7z";
+					} else if (appState == 1) {
+						return "M6 19h4V5H6v28zm8-28v28h4V5h-4z";
+					}
+				})
+				.on("click", (d) => {
+					console.log("here");	
+					updateAppState(!appState);
+				});
 		}
 	}, [props]);
 
