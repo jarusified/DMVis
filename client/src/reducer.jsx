@@ -16,7 +16,7 @@ import {
 
 const initialState = {
 	achievedOccupancy: 0,
-	appState: 0, // 0 is pause, 1 is play
+	appState: false, // false is pause, true is play
 	blockUtilization: 0,
 	cct: {},
 	cctLoaded: false,
@@ -114,7 +114,7 @@ export default function Reducer(state = initialState, action) {
 		case UPDATE_APP_STATE:
 			return {
 				...state,
-				appState: action.payload
+				appState: !state.appState
 			}
 		case UPDATE_TIMELINE_SUMMARY:
 			return {

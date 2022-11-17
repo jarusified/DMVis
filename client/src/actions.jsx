@@ -105,10 +105,9 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 	});
 };
 
-export const updateAppState = (appState) => async (dispatch) => {
+export const updateAppState = () => async (dispatch) => {
 	dispatch({
 		type: UPDATE_APP_STATE, 
-		payload: appState
 	})
 }
 

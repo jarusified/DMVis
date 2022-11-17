@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
@@ -15,7 +14,6 @@ import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
-import DropDown from "../ui/drop-down";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {

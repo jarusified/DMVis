@@ -1,10 +1,11 @@
 import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
+import { svg } from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useState } from "react";
-import { updateAppState } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
+import { updateAppState } from "../actions";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
@@ -46,7 +47,6 @@ export default function D3RadialBarGraph(props) {
 					style.height
 				}`
 			)
-			.style("cursor", "pointer")
 			.style("font", "10px sans-serif")
 			.on("click", (d) => {
 				setHover((hover) => !hover);
@@ -305,12 +305,14 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", windowArc);
 
 			svg.append("g")
-				.attr("class", "button play-button")
+				.attr("id", "play-button")
+				.attr("class", "button")
 				.attr("font-size", "18")
+				.style("cursor", "pointer")
 				.attr("fill", theme.text.label)
 				.attr("transform", `translate(${-10},${-10})`)
 				.on("click", (d) => {
-					dispatch(updateAppState(!appState));
+					dispatch(updateAppState());
 				})
 				.append("path")
 				.attr("d", () => {
@@ -319,10 +321,25 @@ export default function D3RadialBarGraph(props) {
 					} else if (appState == 1) {
 						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
 					}
-				})
-				
+				});
 		}
-	}, [props, appState]);
+	}, [props]);
+
+	useEffect(() => {
+		if (withPlayFeature) {
+			d3.select("#play-button").selectAll("path").remove();
+
+			d3.select("#play-button")
+				.append("path")
+				.attr("d", () => {
+					if (!appState) {
+						return "M8 5v14l11-7z"; // play icon 
+					} else if (appState) {
+						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
+					}
+				});
+		}
+	}, [appState]);
 
 	return <div id={containerName}></div>;
 }
