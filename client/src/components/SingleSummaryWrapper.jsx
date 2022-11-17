@@ -33,7 +33,7 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3 - 50,
+		width: window.innerWidth / 3 - 10,
 		height: window.innerHeight / 3 - 50,
 	};
 
