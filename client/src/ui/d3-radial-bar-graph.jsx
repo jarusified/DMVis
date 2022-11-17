@@ -2,7 +2,7 @@ import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
 import { svg } from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { updateAppState } from "../actions";
@@ -31,6 +31,9 @@ export default function D3RadialBarGraph(props) {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const appState = useSelector((store) => store.appState);
+
+	const playArcG = useRef(null);
+	const windowArc = useRef(null);
 
 	useEffect(() => {
 		const containerID = "#" + containerName;
@@ -292,17 +295,21 @@ export default function D3RadialBarGraph(props) {
 		}
 
 		if (withPlayFeature) {
-			const windowArc = d3
+			let startAngle = 0;
+			let endAngle = 0.2 * 2 * Math.PI;
+			windowArc.current = d3
 				.arc()
 				.innerRadius(innerRadius - 25)
 				.outerRadius(innerRadius - 20)
-				.startAngle(0)
-				.endAngle(30)
-				.endAngle(Math.PI / 2);
+				.startAngle(startAngle);
 
-			svg.append("path")
+			playArcG.current = svg
+				.append("path")
+				.datum({ startAngle: 0, endAngle: 0.127 * 2 * Math.PI })
 				.style("fill", theme.text.label)
-				.attr("d", windowArc);
+				.attr("d", (d) => {
+					return windowArc.current(d);
+				});
 
 			svg.append("g")
 				.attr("id", "play-button")
@@ -333,11 +340,43 @@ export default function D3RadialBarGraph(props) {
 				.append("path")
 				.attr("d", () => {
 					if (!appState) {
-						return "M8 5v14l11-7z"; // play icon 
+						return "M8 5v14l11-7z"; // play icon
 					} else if (appState) {
 						return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
 					}
 				});
+
+			if (appState) {
+				d3.interval(() => {
+					playArcG.current
+						.transition()
+						.duration(300)
+						.attrTween("d", arcTween(0.2));
+				}, 3000);
+
+				function arcTween(speed) {
+					return function (d) {
+						d.startAngle = d.startAngle + speed * Math.PI;
+						d.endAngle = d.endAngle + 2 * speed * Math.PI;
+
+						console.log(d.startAngle, d.endAngle)
+						const interpolate_start = d3.interpolate(
+							0,
+							d.startAngle
+						);
+						const interpolate_end = d3.interpolate(
+							0,
+							d.endAngle
+						);
+
+						return function (t) {
+							d.startAngle = interpolate_start(t);
+							d.endAngle = interpolate_end(t);
+							return windowArc.current(d);
+						};
+					};
+				}
+			}
 		}
 	}, [appState]);
 
