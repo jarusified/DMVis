@@ -5,7 +5,7 @@ import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateAppState } from "../actions";
+import { updateAppState, updateWindow } from "../actions";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
@@ -31,7 +31,10 @@ export default function D3RadialBarGraph(props) {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 	const appState = useSelector((store) => store.appState);
-
+	const timelineEnd = useSelector((store) => store.timelineEnd);
+	const timelineStart = useSelector((store) => store.timelineStart);
+	const windowEnd = useSelector((store) => store.windowEnd);
+	const windowStart = useSelector((store) => store.windowStart);
 	// Play-pause feature
 	const TAU = 2 * Math.PI;
 	const ANIMATION_DUR = 2000;
@@ -46,6 +49,14 @@ export default function D3RadialBarGraph(props) {
 		} else if (appState) {
 			return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
 		}
+	}
+
+	function timestamp_to_tau(ts) {
+		return ((ts - timelineStart)/ (timelineEnd - timelineStart)) * TAU;
+	}
+
+	function tau_to_timestamp(angle) {
+		return (angle * (timelineEnd - timelineStart) / TAU) + timelineStart;
 	}
 
 	useEffect(() => {
@@ -70,7 +81,7 @@ export default function D3RadialBarGraph(props) {
 
 		let x = d3
 			.scaleBand()
-			.range([0, 2 * Math.PI])
+			.range([0, TAU])
 			.align(0)
 			.domain(xData);
 
@@ -311,14 +322,16 @@ export default function D3RadialBarGraph(props) {
 				.innerRadius(innerRadius - 25)
 				.outerRadius(innerRadius - 20);
 
+			const startAngle = timestamp_to_tau(windowStart);
+			const endAngle = timestamp_to_tau(windowEnd);
+			
 			playArcG.current = svg
 				.append("path")
-				.datum({ startAngle: 0, endAngle: 0.37 * 2 * Math.PI })
+				.datum({ startAngle: startAngle, endAngle: endAngle })
 				.style("fill", theme.text.label)
 				.attr("d", (d) => {
 					return windowArc.current(d);
 				});
-
 
 			const x_offset = -10;
 			const y_offset = -10;
@@ -342,15 +355,11 @@ export default function D3RadialBarGraph(props) {
 			// Reset the startAngle and endAngle to original angles once the
 			// circle is complete.
 			if (d.startAngle > TAU) {
-				d.startAngle = 0;
+				dispatch(updateAppState());
 			}
 
-			if (d.endAngle > TAU) {
-				d.endAngle = 0.127 * 2 * Math.PI;
-			}
-
-			const new_startAngle = d.startAngle + speed * Math.PI;
-			const new_endAngle = d.endAngle + speed * Math.PI;
+			const new_startAngle = d.startAngle + speed * TAU;
+			const new_endAngle = d.endAngle + speed * TAU;
 
 			const interpolate_start = d3.interpolate(
 				d.startAngle,
@@ -358,9 +367,18 @@ export default function D3RadialBarGraph(props) {
 			);
 			const interpolate_end = d3.interpolate(d.endAngle, new_endAngle);
 
+			const start_ts = tau_to_timestamp(new_startAngle);
+			const end_ts = tau_to_timestamp(new_endAngle);
+
+			dispatch(updateWindow(start_ts, end_ts));
+
+
 			return function (t) {
 				d.startAngle = interpolate_start(t);
 				d.endAngle = interpolate_end(t);
+
+				
+
 				// console.debug("Arc changed from : ", d.startAngle, " to ", d.endAngle);
 
 				return windowArc.current(d);
@@ -392,7 +410,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", play_pause_icon(appState));
 
 			if (appState) {
-				const SPEED = 0.15;
+				const SPEED = 0.10;
 				const transition_callback = () => {
 					playArcG.current
 						.transition()
@@ -409,25 +427,11 @@ export default function D3RadialBarGraph(props) {
 		}
 	}, [appState]);
 
-
 	// Effect to control the timeline -> slider behavior.
-	const timelineEnd = useSelector((store) => store.timelineEnd);
-	const timelineStart = useSelector((store) => store.timelineStart);
-	const windowEnd = useSelector((store) => store.windowEnd);
-	const windowStart = useSelector((store) => store.windowStart);
-
 	useEffect(() => {
 		if (withPlayFeature) {
-			const timeline_width = timelineEnd - timelineStart;
-			const window_width = windowEnd - windowStart;
-
-			const startAngle =
-				((windowStart - timelineStart) / timeline_width) * TAU;
-			const endAngle =
-				((windowEnd - timelineStart) / timeline_width) * TAU;
-
-			console.log(startAngle, endAngle);
-
+			const startAngle = timestamp_to_tau(windowStart);
+			const endAngle = timestamp_to_tau(windowEnd);
 			playArcG.current
 				.transition()
 				.duration(ANIMATION_DUR)
