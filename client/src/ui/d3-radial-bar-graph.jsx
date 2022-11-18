@@ -33,6 +33,9 @@ export default function D3RadialBarGraph(props) {
 	const appState = useSelector((store) => store.appState);
 
 	// Play-pause feature
+	const TAU = 2 * Math.PI;
+	const ANIMATION_DUR = 2000;
+
 	const playArcG = useRef(null);
 	const windowArc = useRef(null);
 	const timer = useRef(null);
@@ -288,9 +291,7 @@ export default function D3RadialBarGraph(props) {
 					return -y(d);
 				})
 				.attr("dy", "0.35em")
-				// .attr("fill", "#000")
 				.attr("stroke", "#fff")
-				// .attr("stroke-width", 1)
 				.text((d) => {
 					return Math.floor((d / maxY) * 100);
 				});
@@ -318,13 +319,16 @@ export default function D3RadialBarGraph(props) {
 					return windowArc.current(d);
 				});
 
+
+			const x_offset = -10;
+			const y_offset = -10;
 			svg.append("g")
 				.attr("id", "play-button")
 				.attr("class", "button")
 				.attr("font-size", "18")
 				.style("cursor", "pointer")
 				.attr("fill", theme.text.label)
-				.attr("transform", `translate(${-10},${-10})`)
+				.attr("transform", `translate(${x_offset},${y_offset})`)
 				.on("click", (d) => {
 					dispatch(updateAppState());
 				})
@@ -334,22 +338,24 @@ export default function D3RadialBarGraph(props) {
 	}, [props]);
 
 	function arcTween(speed) {
-		const tau = 2 * Math.PI
 		return function (d) {
 			// Reset the startAngle and endAngle to original angles once the
 			// circle is complete.
-			if(d.startAngle > tau) {
+			if (d.startAngle > TAU) {
 				d.startAngle = 0;
 			}
-			
-			if(d.endAngle > tau) {
+
+			if (d.endAngle > TAU) {
 				d.endAngle = 0.127 * 2 * Math.PI;
 			}
 
 			const new_startAngle = d.startAngle + speed * Math.PI;
 			const new_endAngle = d.endAngle + speed * Math.PI;
 
-			const interpolate_start = d3.interpolate(d.startAngle, new_startAngle);
+			const interpolate_start = d3.interpolate(
+				d.startAngle,
+				new_startAngle
+			);
 			const interpolate_end = d3.interpolate(d.endAngle, new_endAngle);
 
 			return function (t) {
@@ -362,6 +368,21 @@ export default function D3RadialBarGraph(props) {
 		};
 	}
 
+	function arcMoveTo(startAngle, endAngle) {
+		return function (d) {
+			const interpolate_start = d3.interpolate(d.startAngle, startAngle);
+			const interpolate_end = d3.interpolate(d.endAngle, endAngle);
+
+			return function (t) {
+				d.startAngle = interpolate_start(t);
+				d.endAngle = interpolate_end(t);
+
+				return windowArc.current(d);
+			}
+		}
+	}
+
+	// Effect to control the play-pause feature.
 	useEffect(() => {
 		if (withPlayFeature) {
 			d3.select("#play-button").selectAll("path").remove();
@@ -372,23 +393,47 @@ export default function D3RadialBarGraph(props) {
 
 			if (appState) {
 				const SPEED = 0.15;
-				const TIMER_DUR = 2000;
-				const ANIMATION_DUR = 1800;
 				const transition_callback = () => {
 					playArcG.current
 						.transition()
+						.ease(d3.easeLinear)
 						.duration(ANIMATION_DUR)
 						.attrTween("d", arcTween(SPEED));
 				};
-				timer.current = d3.interval(transition_callback, TIMER_DUR);
+				timer.current = d3.interval(transition_callback, ANIMATION_DUR);
 			} else {
 				if (timer.current != null) {
-					console.log(timer.current);
 					timer.current.stop();
 				}
 			}
 		}
 	}, [appState]);
+
+
+	// Effect to control the timeline -> slider behavior.
+	const timelineEnd = useSelector((store) => store.timelineEnd);
+	const timelineStart = useSelector((store) => store.timelineStart);
+	const windowEnd = useSelector((store) => store.windowEnd);
+	const windowStart = useSelector((store) => store.windowStart);
+
+	useEffect(() => {
+		if (withPlayFeature) {
+			const timeline_width = timelineEnd - timelineStart;
+			const window_width = windowEnd - windowStart;
+
+			const startAngle =
+				((windowStart - timelineStart) / timeline_width) * TAU;
+			const endAngle =
+				((windowEnd - timelineStart) / timeline_width) * TAU;
+
+			console.log(startAngle, endAngle);
+
+			playArcG.current
+				.transition()
+				.duration(ANIMATION_DUR)
+				.attrTween("d", arcMoveTo(startAngle, endAngle));
+		}
+	}, [windowEnd, windowStart]);
 
 	return <div id={containerName}></div>;
 }
