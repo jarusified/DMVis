@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import React, { useEffect, useRef, useState } from "react";
@@ -15,7 +14,6 @@ import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
-import DropDown from "../ui/drop-down";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -103,20 +101,6 @@ export default function EnsembleSummaryWrapper() {
 			<Grid item xs={12}>
 				<LinearScaleLegend range={runtimeRange} />
 				<CategoryLegend colormap={categoryColormap} />
-				{/* <DropDown
-					heading={"Left encoding"}
-					onChange={onChange}
-					listTextfn={listTextfn}
-					label={"GPU utilization"}
-					data={metrics}
-				/>
-				<DropDown
-					heading={"Right encoding"}
-					onChange={onChange}
-					listTextFn={listTextfn}
-					label={"CPU utilization"}
-					data={metrics}
-				/> */}
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
@@ -134,7 +118,7 @@ export default function EnsembleSummaryWrapper() {
 								display="block"
 								sx={{
 									fontSize: theme.text.fontSize,
-									color: theme.text.highlight,
+									color: theme.text.label,
 									cursor: "pointer"
 								}}
 							>
@@ -149,10 +133,14 @@ export default function EnsembleSummaryWrapper() {
 									}
 									style={style}
 									individualSummary={individualSummary[exp]}
+									innerRadius={Math.min(style.width, style.height) / 5}
+									outerRadius={Math.min(style.width, style.height) / 2}
 									ensembleSummary={ensembleSummary}
 									withInnerCircle={false}
 									withUtilization={true}
 									withTicks={false}
+									withYAxis={false}
+									withPlayFeature={false}
 								/>
 							</Card>
 						</Grid>

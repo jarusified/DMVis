@@ -147,7 +147,7 @@ export default function ToolBar(props) {
 					</Typography>
 					<Typography variant="subtitle1" noWrap component="div">
 						Found <strong>{experiments.length}</strong> profiles in{" "}
-						<span style={{ color: "#00adb5" }}>{dataDir}</span>
+						<span style={{ color: theme.text.label }}>{dataDir}</span>
 					</Typography>
 					{props.withDropdown &&
 					selectedExperiment != "" &&
@@ -174,7 +174,7 @@ export default function ToolBar(props) {
 							<FormHelperText>
 								<span
 									style={{
-										color: "#00adb5",
+										color: theme.text.label,
 										fontSize: theme.text.fontSize
 									}}
 								>

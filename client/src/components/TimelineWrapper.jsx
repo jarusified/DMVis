@@ -93,8 +93,6 @@ function TimelineWrapper() {
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
-			// zoomMin: 10,
-			// zoomMax: 100000,
 			moment: function (date) {
 				return moment(date);
 			},
@@ -183,17 +181,6 @@ function TimelineWrapper() {
 			txRef.current.fit();
 		};
 
-		// Interaction: Autoplay mode.
-		document.getElementById("play-button").onclick = function () {
-			console.log("play");
-			setAutoPlay(true);
-		};
-
-		document.getElementById("pause-button").onclick = function () {
-			console.log("Pause");
-			setAutoPlay(false);
-		};
-
 		// Enable brushing only if the timeline is more than 100 seconds.
 		if (timelineEnd - timelineStart > 1e8) {
 			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
@@ -209,12 +196,6 @@ function TimelineWrapper() {
 			end: range.end.valueOf() + interval * speed
 		});
 	}
-
-	useEffect(() => {
-		if (autoPlay) {
-			setInterval(move, 500);
-		}
-	}, [autoPlay]);
 
 	useEffect(() => {
 		if (txRef.current != undefined) {
@@ -239,7 +220,7 @@ function TimelineWrapper() {
 					Timeline
 				</Typography>
 			</Grid>
-			<Grid container>
+			<Grid container p={1}>
 				<Grid item xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton
@@ -251,36 +232,6 @@ function TimelineWrapper() {
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
-					<Tooltip title="Play" arrow>
-						<ToggleButton
-							id="play-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<PlayArrowIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
-					<Tooltip title="Pause" arrow>
-						<ToggleButton
-							id="pause-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<PauseIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
-					<Tooltip title="Stop" arrow>
-						<ToggleButton
-							id="stop-button"
-							size="small"
-							value="check"
-							className={classes.button}
-						>
-							<StopIcon className="icon" />
-						</ToggleButton>
-					</Tooltip>
 					<Typography
 						variant="caption"
 						style={{
@@ -289,7 +240,7 @@ function TimelineWrapper() {
 						}}
 					>
 						Events: {"  "}
-						<span style={{ color: "#00adb5" }}>
+						<span style={{ color: theme.text.label }}>
 							{currentTimeline.events.length}
 						</span>
 					</Typography>
@@ -300,11 +251,10 @@ function TimelineWrapper() {
 							fontSize: theme.text.fontSize
 						}}
 					>
-						Groups: {"4"}
 					</Typography>
 				</Grid>
 			</Grid>
-			<Grid container>
+			<Grid container p={1}>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>

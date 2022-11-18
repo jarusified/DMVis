@@ -16,10 +16,6 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1
 	},
-	paper: {
-		textAlign: "center",
-		color: theme.palette.text.secondary
-	},
 	content: {
 		flexGrow: 1,
 		height: "100vh",
@@ -50,11 +46,11 @@ export default function Dashboard() {
 
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Grid container>
+				<Grid container justifyContent="center">
 					<Grid item xs={4} p={1}>
 						<SingleSummaryWrapper />
 					</Grid>
-					<Grid item xs={7}>
+					<Grid item xs={8} p={1}>
 						<TimelineWrapper />
 					</Grid>
 					<Grid item xs={4} p={1}>

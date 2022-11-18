@@ -8,6 +8,7 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	UPDATE_APP_STATE,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_WINDOW
@@ -15,6 +16,7 @@ import {
 
 const initialState = {
 	achievedOccupancy: 0,
+	appState: false, // false is pause, true is play
 	blockUtilization: 0,
 	cct: {},
 	cctLoaded: false,
@@ -109,6 +111,11 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				topology: action.payload
 			};
+		case UPDATE_APP_STATE:
+			return {
+				...state,
+				appState: !state.appState
+			}
 		case UPDATE_TIMELINE_SUMMARY:
 			return {
 				...state,

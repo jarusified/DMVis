@@ -33,8 +33,8 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3 - 50,
-		height: window.innerHeight / 3 - 50
+		width: window.innerWidth / 3 - 10,
+		height: window.innerHeight / 3 - 50,
 	};
 
 	const containerID = useRef("single-summary-view");
@@ -105,6 +105,8 @@ export default function SingleSummaryWrapper() {
 								selectedExperiment.split(".")[0]
 							}
 							style={style}
+							innerRadius={Math.min(style.width, style.height) / 3.5}
+							outerRadius={Math.min(style.width, style.height) / 2}
 							individualSummary={
 								individualSummary[selectedExperiment]
 							}
@@ -112,6 +114,8 @@ export default function SingleSummaryWrapper() {
 							withInnerCircle={false}
 							withTicks={true}
 							withLabels={true}
+							withYAxis={true}
+							withPlayFeature={true}
 						/>
 						<Grid container>
 							<Grid item xs={6}>
@@ -125,7 +129,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Runtime:{" "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{formatDuration(
 											timelineEnd,
 											timelineStart
@@ -140,7 +144,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Shared mem utilization %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{sharedMemUtilization}
 									</span>
 								</Typography>
@@ -152,7 +156,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Cache mem utilization %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{blockUtilization}
 									</span>
 								</Typography>
@@ -164,7 +168,7 @@ export default function SingleSummaryWrapper() {
 									}}
 								>
 									Est. achieved occupancy %: {"  "}
-									<span style={{ color: "#00adb5" }}>
+									<span style={{ color: theme.text.label }}>
 										{achievedOccupancy}
 									</span>
 								</Typography>

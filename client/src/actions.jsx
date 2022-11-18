@@ -8,6 +8,7 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	UPDATE_APP_STATE,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_WINDOW
 } from "./helpers/types";
@@ -103,6 +104,12 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 		payload: ensembleSummary
 	});
 };
+
+export const updateAppState = () => async (dispatch) => {
+	dispatch({
+		type: UPDATE_APP_STATE, 
+	})
+}
 
 export const updateSelectedExperiment = (exp) => async (dispatch) => {
 	dispatch({
