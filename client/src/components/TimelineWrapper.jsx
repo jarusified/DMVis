@@ -182,9 +182,7 @@ function TimelineWrapper() {
 		};
 
 		// Enable brushing only if the timeline is more than 100 seconds.
-		if (timelineEnd - timelineStart > 1e8) {
-			dispatch(updateWindow(timelineStart, timelineStart + 1e7));
-		}
+		dispatch(updateWindow(timelineStart, timelineStart + 1e6));
 	}, [currentTimeline]);
 
 	function move() {
@@ -199,10 +197,9 @@ function TimelineWrapper() {
 
 	useEffect(() => {
 		if (txRef.current != undefined) {
-			txRef.current.setWindow(
-				micro_to_milli(windowStart),
-				micro_to_milli(windowEnd)
-			);
+			d3.timeout(() => {
+				txRef.current.setWindow(micro_to_milli(windowStart), micro_to_milli(windowEnd));
+			}, 500)
 		}
 	}, [windowStart, windowEnd]);
 
