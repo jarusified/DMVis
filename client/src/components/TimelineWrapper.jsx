@@ -93,8 +93,6 @@ function TimelineWrapper() {
 			},
 			max: Math.ceil(micro_to_milli(timelineEnd)),
 			min: Math.ceil(micro_to_milli(timelineStart)),
-			// zoomMin: 10,
-			// zoomMax: 100000,
 			moment: function (date) {
 				return moment(date);
 			},
@@ -222,7 +220,7 @@ function TimelineWrapper() {
 					Timeline
 				</Typography>
 			</Grid>
-			<Grid container>
+			<Grid container p={1}>
 				<Grid item xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton
@@ -253,11 +251,10 @@ function TimelineWrapper() {
 							fontSize: theme.text.fontSize
 						}}
 					>
-						Groups: {"4"}
 					</Typography>
 				</Grid>
 			</Grid>
-			<Grid container>
+			<Grid container p={1}>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>
