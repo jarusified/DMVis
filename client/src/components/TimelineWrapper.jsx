@@ -182,7 +182,11 @@ function TimelineWrapper() {
 		};
 
 		// Enable brushing only if the timeline is more than 100 seconds.
-		dispatch(updateWindow(timelineStart, timelineStart + 1e6));
+		const timelineWidth = timelineEnd - timelineStart;
+		const sectorCount = 12;
+		const sectorWidth = timelineWidth / sectorCount;
+
+		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
 	}, [currentTimeline]);
 
 	function move() {

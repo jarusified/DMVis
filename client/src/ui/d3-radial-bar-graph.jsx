@@ -377,10 +377,6 @@ export default function D3RadialBarGraph(props) {
 				d.startAngle = interpolate_start(t);
 				d.endAngle = interpolate_end(t);
 
-				
-
-				// console.debug("Arc changed from : ", d.startAngle, " to ", d.endAngle);
-
 				return windowArc.current(d);
 			};
 		};
@@ -410,7 +406,8 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", play_pause_icon(appState));
 
 			if (appState) {
-				const SPEED = 0.10;
+				const sectorCount = 12;
+				const SPEED = 1 / sectorCount;
 				const transition_callback = () => {
 					playArcG.current
 						.transition()
