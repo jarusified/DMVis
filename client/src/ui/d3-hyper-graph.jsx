@@ -71,30 +71,19 @@ export default function D3HyperGraph(props) {
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
 
+		function zoomed({ transform }) {
+			svg.attr("transform", transform);
+		}
+
+		const zoom = d3.zoom().scaleExtent([0.5, 10]).on("zoom", zoomed);
+
 		let svg = d3
 			.select(containerID)
 			.append("svg")
 			.attr("width", style.width)
 			.attr("height", style.height)
-			.attr(
-				"viewBox",
-				`${0} ${-style.top} ${style.width} ${style.height}`
-			);
-
-		function zoomed({ transform }) {
-			svg.attr("transform", transform);
-		}
-
-		svg.call(
-			d3
-				.zoom()
-				.extent([
-					[0, 0],
-					[style.width / 2, style.height / 2]
-				])
-				.scaleExtent([0.5, 8])
-				.on("zoom", zoomed)
-		);
+			.call(zoom)
+			.append("svg:g");
 
 		let links_g = svg.append("g").attr("id", "links_group");
 		let nodes_g = svg.append("g").attr("id", "nodes_group");
@@ -104,13 +93,6 @@ export default function D3HyperGraph(props) {
 			.scaleOrdinal()
 			.domain([0, 3])
 			.range(["#8dd3c7", "#D9241E", "#bebada", "#ffffb3"]);
-
-		let pie = d3
-			.pie()
-			.value((d) => d.value)
-			.sort(null);
-
-		let arc = d3.arc().innerRadius(0);
 
 		nodes.forEach((node) => {
 			node.x0 = node.x;
@@ -143,25 +125,30 @@ export default function D3HyperGraph(props) {
 				(d) =>
 					containerName + "-node-" + d.data.name.replace(/[|]/g, "")
 			)
-			.attr("cx", (d) => d.x)
-			.attr("cy", (d) => d.y)
+			.attr("cx", (d) => d.y)
+			.attr("cy", (d) => d.x)
 			.attr("class", "hyper_node")
 			.on("mouseover", (d, e) => {
 				console.log(e.data.name);
 			});
 
-		hg.append("text")
-			.attr("dx", 12)
-			.attr("dy", "0.35em")
-			.attr("x", (d) => d.x)
-			.attr("y", (d) => d.y)
-			.attr("class", "node-label")
-			.attr(
-				"id",
-				(d) =>
-					containerName + "-text-" + d.data.name.replace(/[|]/g, "")
-			)
-			.text((d) => d.id);
+		const withLabels = false;
+		if (withLabels) {
+			hg.append("text")
+				.attr("dx", 12)
+				.attr("dy", "0.35em")
+				.attr("x", (d) => d.y)
+				.attr("y", (d) => d.x)
+				.attr("class", "node-label")
+				.attr(
+					"id",
+					(d) =>
+						containerName +
+						"-text-" +
+						d.data.name.replace(/[|]/g, "")
+				)
+				.text((d) => d.id);
+		}
 
 		let vg = vertices_g.selectAll("g").data(nodes);
 
@@ -189,22 +176,26 @@ export default function D3HyperGraph(props) {
 				(d) =>
 					containerName + "-node-" + d.data.name.replace(/[|]/g, "")
 			)
-			.attr("cx", (d) => d.x)
-			.attr("cy", (d) => d.y)
+			.attr("cx", (d) => d.y)
+			.attr("cy", (d) => d.x)
 			.classed("vertex_node", true);
 
-		vg.append("text")
-			.attr("dx", 12)
-			.attr("dy", "0.35em")
-			.attr("x", (d) => d.x)
-			.attr("y", (d) => d.y)
-			.attr("class", "node-label")
-			.attr(
-				"id",
-				(d) =>
-					containerName + "-text-" + d.data.name.replace(/[|]/g, "")
-			)
-			.text((d) => d.data.name);
+		if (withLabels) {
+			vg.append("text")
+				.attr("dx", 12)
+				.attr("dy", "0.35em")
+				.attr("x", (d) => d.y)
+				.attr("y", (d) => d.x)	
+				.attr("class", "node-label")
+				.attr(
+					"id",
+					(d) =>
+						containerName +
+						"-text-" +
+						d.data.name.replace(/[|]/g, "")
+				)
+				.text((d) => d.data.name);
+		}
 
 		// Per-type markers, as they don't inherit styles.
 		const markerBoxWidth = 20;
@@ -214,7 +205,7 @@ export default function D3HyperGraph(props) {
 		const markerWidth = markerBoxWidth / 2;
 		const markerHeight = markerBoxHeight / 2;
 		const arrowPoints = [
-			[0, 0],
+			[-10, 0],
 			[0, 10],
 			[10, 5]
 		];
@@ -234,26 +225,26 @@ export default function D3HyperGraph(props) {
 
 		const link = d3
 			.linkVertical()
-			.x((d) => d.x)
-			.y((d) => d.y);
-			// ({
-			// source: (d) => linkSource(d),
-			// target: (d) => linkTarget(d)
+			.x((d) => d.y)
+			.y((d) => d.x);
+		// ({
+		// source: (d) => linkSource(d),
+		// target: (d) => linkTarget(d)
 		// });
 
 		// Source node position of the link must account for radius of the circle
 		const linkSource = (d) => {
 			return {
-				x: d.x,
-				y: d.y - markerHeight
+				x: d.y,
+				y: d.x - markerHeight
 			};
 		};
 
 		// Target node position of the link must account for radius + arrow width
 		const linkTarget = (d) => {
 			return {
-				x: d.x,
-				y: d.y + markerWidth
+				x: d.y,
+				y: d.x + markerWidth
 			};
 		};
 
@@ -264,10 +255,10 @@ export default function D3HyperGraph(props) {
 			.append("line")
 			.merge(lg)
 			.attr("stroke-width", 1)
-			.attr("x1", (d) => d.source.x)
-			.attr("y1", (d) => d.source.y)
-			.attr("x2", (d) => d.target.x)
-			.attr("y2", (d) => d.target.y)
+			.attr("x1", (d) => d.source.y)
+			.attr("y1", (d) => d.source.x)
+			.attr("x2", (d) => d.target.y)
+			.attr("y2", (d) => d.target.x)
 			.attr("class", "hyper_edge")
 			.attr("stroke", "gray")
 			.attr(
@@ -279,8 +270,7 @@ export default function D3HyperGraph(props) {
 					"-" +
 					d.target.data.name.replace(/[|]/g, "")
 			)
-			.attr("marker-end", "url(#arrow)")
-
+			.attr("marker-end", "url(#arrow)");
 
 		// draw convex hulls
 		let links_new = [];
