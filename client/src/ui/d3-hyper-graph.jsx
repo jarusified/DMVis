@@ -1,14 +1,14 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
-import { fetchWindow } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
+import { fetchWindow } from "../actions";
 import { COLORS } from "../helpers/utils";
 
 export default function D3HyperGraph(props) {
 	const dispatch = useDispatch();
 
-	const MIN_NODE_RADIUS = 5;
+	const MIN_NODE_RADIUS = 8;
 	const MAX_NODE_RADIUS = 30;
 
 	const window = useSelector((store) => store.window);
@@ -18,7 +18,7 @@ export default function D3HyperGraph(props) {
 
 	// Collapse the node and all it's children
 	// TODO: Make use of this to collapse large CCTs into nodes of higher
-	// significance only. 
+	// significance only.
 	function collapse(d) {
 		if (d.children) {
 			d._children = d.children;
@@ -29,16 +29,16 @@ export default function D3HyperGraph(props) {
 
 	// TODO: Use this to highlight the activated call paths.
 	function groupPath(vertices) {
-			// not draw convex hull if vertices.length <= 1
-			if (vertices.length >= 2) {
-				if (vertices.length == 2) {
-					let fake_point1 = vertices[0];
-					let fake_point2 = vertices[1];
-					vertices.push(fake_point1, fake_point2);
-				}
-				return "M" + d3.polygonHull(vertices).join("L") + "Z";
+		// not draw convex hull if vertices.length <= 1
+		if (vertices.length >= 2) {
+			if (vertices.length == 2) {
+				let fake_point1 = vertices[0];
+				let fake_point2 = vertices[1];
+				vertices.push(fake_point1, fake_point2);
 			}
+			return "M" + d3.polygonHull(vertices).join("L") + "Z";
 		}
+	}
 
 	useEffect(() => {
 		const { data, containerName, style } = props;
@@ -57,13 +57,13 @@ export default function D3HyperGraph(props) {
 		const _link_force = d3
 			.forceLink(links)
 			.id((d) => d.data.name)
-			.distance(0)
-			.strength(1);
+			.distance(10)
+			.strength(0.5);
 
 		const simulation = d3
 			.forceSimulation(nodes)
 			.force("link", _link_force)
-			.force("charge", d3.forceManyBody().strength(-300))
+			.force("charge", d3.forceManyBody().strength(-200))
 			.force("x", d3.forceX())
 			.force("y", d3.forceY())
 			.force(
@@ -77,7 +77,7 @@ export default function D3HyperGraph(props) {
 			cuda: "fg-3",
 			data_mov: "fg-4"
 		};
-		
+
 		// Clean up existing elements
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
@@ -155,20 +155,20 @@ export default function D3HyperGraph(props) {
 
 		const withLabels = false;
 		if (withLabels) {
-			hg.append("text")
-				.attr("dx", 12)
-				.attr("dy", "0.35em")
-				.attr("x", (d) => d.y)
-				.attr("y", (d) => d.x)
-				.attr("class", "node-label")
-				.attr(
-					"id",
-					(d) =>
-						containerName +
-						"-text-" +
-						d.data.name.replace(/[|]/g, "")
-				)
-				.text((d) => d.id);
+			// hg.append("text")
+			// 	.attr("dx", 12)
+			// 	.attr("dy", "0.35em")
+			// 	.attr("x", (d) => d.y)
+			// 	.attr("y", (d) => d.x)
+			// 	.attr("class", "node-label")
+			// 	.attr(
+			// 		"id",
+			// 		(d) =>
+			// 			containerName +
+			// 			"-text-" +
+			// 			d.data.name.replace(/[|]/g, "")
+			// 	)
+			// 	.text((d) => d.id);
 		}
 
 		let vg = vertices_g.selectAll("g").data(nodes);
@@ -207,7 +207,6 @@ export default function D3HyperGraph(props) {
 			.attr("fill", (d) => {
 				return COLORS[mapping[d.data.cat]];
 			})
-			// .attr("stroke", "#000")
 			.attr(
 				"id",
 				(d) =>
@@ -264,26 +263,22 @@ export default function D3HyperGraph(props) {
 			.linkVertical()
 			.x((d) => d.y)
 			.y((d) => d.x);
-		// ({
-		// source: (d) => linkSource(d),
-		// target: (d) => linkTarget(d)
-		// });
+		
+		// // Source node position of the link must account for radius of the circle
+		// const linkSource = (d) => {
+		// 	return {
+		// 		x: d.y,
+		// 		y: d.x - markerHeight
+		// 	};
+		// };
 
-		// Source node position of the link must account for radius of the circle
-		const linkSource = (d) => {
-			return {
-				x: d.y,
-				y: d.x - markerHeight
-			};
-		};
-
-		// Target node position of the link must account for radius + arrow width
-		const linkTarget = (d) => {
-			return {
-				x: d.y,
-				y: d.x + markerWidth
-			};
-		};
+		// // Target node position of the link must account for radius + arrow width
+		// const linkTarget = (d) => {
+		// 	return {
+		// 		x: d.y,
+		// 		y: d.x + markerWidth
+		// 	};
+		// };
 
 		let lg = links_g.selectAll("line").data(links);
 		lg.exit().remove();
@@ -291,13 +286,14 @@ export default function D3HyperGraph(props) {
 			.enter()
 			.append("line")
 			.merge(lg)
-			.attr("stroke-width", 1)
 			.attr("x1", (d) => d.source.y)
 			.attr("y1", (d) => d.source.x)
 			.attr("x2", (d) => d.target.y)
 			.attr("y2", (d) => d.target.x)
 			.attr("class", "hyper_edge")
-			.attr("stroke", "gray")
+			.attr("stroke", "#8E6A71")
+			.style('stroke-width', 2)
+			.style('fill', 'none')
 			.attr(
 				"id",
 				(d) =>
@@ -373,36 +369,55 @@ export default function D3HyperGraph(props) {
 				.domain([min_val, max_val])
 				.range([MIN_NODE_RADIUS, MAX_NODE_RADIUS]);
 
+			// Add radius encoding to map to amount of data movement on a
+			// particular function call.
 			d3.selectAll(".v-group")
 				.select("circle")
 				.transition()
 				.duration(2000)
 				.attr("r", (d) => {
 					if (d.data.name in mapper) {
-						console.debug(d.data.name, radiusScale(mapper[d.data.name]))
+						console.debug(
+							d.data.name,
+							radiusScale(mapper[d.data.name])
+						);
 						return radiusScale(mapper[d.data.name]);
-					}
-					else 
-						return MIN_NODE_RADIUS;
+					} else return MIN_NODE_RADIUS;
 				});
 
+			// Add pulsating effect to nodes in the timeline view.
 			d3.selectAll(".v-group")
+				.select("circle")
 				.classed("pulse", (d) => {
 					if (d.data.name in mapper) return true;
 					return false;
-				})
+				});
+
+			// Clear the previous text.
+			d3.selectAll(".v-group").selectAll("text").remove();
+
+			// Add text labels to nodes with more than a threshold of radius.
+			d3.selectAll(".v-group")
+				.append("text")
+				.attr("font-size", 14)
+				.attr("x", (d) => d.y)
+				.attr("y", (d) => d.x + 10)
+				.attr("class", "node-label")
+				.text((d) => {
+					if(d.data.name in mapper && radiusScale(mapper[d.data.name]) > 8) return d.data.name.slice(0, 15) + "...";
+					else return "";
+				});
 
 			console.debug("======================================");
 		}
 	}, [window]);
 
-
 	useEffect(() => {
-		if(appState) {
-			console.debug("[d3-hyper-graph] Fetching the window!")
-			dispatch(fetchWindow(windowStart, windowEnd)); 
+		if (appState) {
+			console.debug("[d3-hyper-graph] Fetching the window!");
+			dispatch(fetchWindow(windowStart, windowEnd));
 		}
-	}, [appState])
+	}, [appState]);
 
 	return <div id="cct-view"></div>;
 }
