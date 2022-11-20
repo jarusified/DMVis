@@ -37,6 +37,7 @@ const initialState = {
 	sharedMemUtilization: 0,
 	groups: [],
 	individualSummary: {},
+	metricTimeline: [],
 	profileMetadata: [],
 	selectedExperiment: "",
 	summary: {
