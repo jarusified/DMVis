@@ -75,19 +75,20 @@ export default function D3HyperGraph(props) {
 			svg.attr("transform", transform);
 		}
 
-		const zoom = d3.zoom().scaleExtent([0.5, 10]).on("zoom", zoomed);
+		const zoom = d3.zoom().scaleExtent([0.5, 1]).on("zoom", zoomed);
 
 		let svg = d3
 			.select(containerID)
 			.append("svg")
-			.attr("width", style.width)
+			.attr("width", style.width - 30)
+			.attr("preserveAspectRatio", "xMinYMin meet")
 			.attr("height", style.height)
 			.call(zoom)
 			.append("svg:g");
 
-		let links_g = svg.append("g").attr("id", "links_group");
-		let nodes_g = svg.append("g").attr("id", "nodes_group");
-		let vertices_g = svg.append("g").attr("id", "vertices_group");
+		let links_g = svg.append("g").attr("id", "links_group").attr("transform", "translate(30, 0)");
+		let nodes_g = svg.append("g").attr("id", "nodes_group").attr("transform", "translate(30, 0)");
+		let vertices_g = svg.append("g").attr("id", "vertices_group").attr("transform", "translate(30, 0)");
 
 		let colorScale = d3
 			.scaleOrdinal()
@@ -164,7 +165,8 @@ export default function D3HyperGraph(props) {
 					"-nodegroup-" +
 					d.data.name.replace(/[|]/g, "")
 			)
-			.attr("class", "v-group");
+			.attr("class", "v-group")
+			// .attr("transform", "translate(30, 0)")
 
 		vg.append("circle")
 			.attr("r", (d) => get_node_radius(d.data.name))
@@ -205,9 +207,9 @@ export default function D3HyperGraph(props) {
 		const markerWidth = markerBoxWidth / 2;
 		const markerHeight = markerBoxHeight / 2;
 		const arrowPoints = [
-			[-10, 0],
-			[0, 10],
-			[10, 5]
+			[-40, 0],
+			[0, 50],
+			[10, 50]
 		];
 
 		svg.append("defs")
