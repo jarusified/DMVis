@@ -8,6 +8,7 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	FETCH_WINDOW,
 	UPDATE_APP_STATE,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_TIMELINE_SUMMARY,
@@ -50,7 +51,8 @@ const initialState = {
 	timelineSummary: [],
 	topology: "",
 	windowStart: 0,
-	windowEnd: 0
+	windowEnd: 0,
+	window: {}
 };
 
 export default function Reducer(state = initialState, action) {
@@ -111,6 +113,12 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				topology: action.payload
 			};
+		case FETCH_WINDOW:
+			return {
+				...state,
+				window: action.payload
+			}
+		
 		case UPDATE_APP_STATE:
 			return {
 				...state,

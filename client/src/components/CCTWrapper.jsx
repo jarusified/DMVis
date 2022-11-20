@@ -38,11 +38,11 @@ export default function CCTWrapper() {
 		cat: "cuda",
 		children: [
 			{
-				name: "fill_col_format",
+				name: "fill_col_format(int, int, int)",
 				cat: "cpu_compute",
 				children: [
 					{
-						name: "sgemm_v2",
+						name: "sgemm_v2(int, int, int, float, float const*, float const*, float, float*)",
 						cat: "gpu_compute"
 					}
 				]

@@ -18,7 +18,7 @@ import { DataSet } from "vis-data";
 import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchTimeline, updateWindow } from "../actions";
+import { fetchTimeline, fetchWindow, updateWindow } from "../actions";
 import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -166,12 +166,17 @@ function TimelineWrapper() {
 					properties.end - properties.start >
 					summary.ts_width / 1e3
 				) {
-					dispatch(
-						updateWindow(
-							Date.parse(properties.start),
-							Date.parse(properties.end)
-						)
-					);
+					// Calculate the timestamps from vis-timeline. 
+					// Date.parse converts the "Tue Dec 03 54735 23:38:27
+					// GMT-0800 (Pacific Standard Time)" to "1665131672307000".
+					const start_ts = Date.parse(properties.start)
+					const end_ts = Date.parse(properties.end)
+
+					console.debug("[Timeline] Update the window: ", start_ts, " to",  end_ts);
+					dispatch(updateWindow(start_ts, end_ts));
+
+					console.log("[Timeline] Fetching data for window: ", start_ts, "-", end_ts);
+					dispatch(fetchWindow(start_ts, end_ts));
 				}
 			}
 		});
@@ -182,7 +187,16 @@ function TimelineWrapper() {
 		};
 
 		// Enable brushing only if the timeline is more than 100 seconds.
-		dispatch(updateWindow(timelineStart, timelineStart + 1e6));
+		const timelineWidth = timelineEnd - timelineStart;
+		const sectorCount = 12;
+		const sectorWidth = timelineWidth / sectorCount;
+
+		// Update the window in the global scope.
+		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
+
+		// Fetch the new results for the current window.
+		console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
+		dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
 	}, [currentTimeline]);
 
 	function move() {

@@ -15,7 +15,7 @@ export default function HostDeviceCommunication() {
 		bottom: 10,
 		left: 20,
 		width: window.innerWidth / 3 - 30,
-		height: window.innerHeight / 3 - 50
+		height: window.innerHeight / 3 - 20
 	};
 	const containerID = useRef("host-device-view");
 

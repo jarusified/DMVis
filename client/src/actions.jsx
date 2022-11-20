@@ -8,6 +8,7 @@ import {
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
+	FETCH_WINDOW,
 	UPDATE_APP_STATE,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_WINDOW
@@ -102,6 +103,14 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 	dispatch({
 		type: FETCH_ENSEMBLE_SUMMARY,
 		payload: ensembleSummary
+	});
+};
+
+export const fetchWindow = (window_start, window_end) => async (dispatch) => {
+	const window = await POSTWrapper("fetch_window", {window_start: window_start, window_end: window_end });
+	dispatch({
+		type: FETCH_WINDOW,
+		payload: window
 	});
 };
 

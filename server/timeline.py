@@ -568,6 +568,26 @@ class Timeline:
 
         return list(itertools.chain.from_iterable(combined_events_list))
 
+    @staticmethod
+    def slice_and_combine_events(
+        grp_df_dict: Dict[str, pd.DataFrame],
+        window_start: float,
+        window_end: float,
+        exclude_background: bool = False,
+    ): 
+        types = list(grp_df_dict.keys())
+
+        if "background" in grp_df_dict and exclude_background:
+            types.remove("background")
+
+        combined_events_list = []
+        for type in types:
+            _df = grp_df_dict[type]
+            _fdf = _df.loc[(_df['start'] <= window_end) & (_df["start"] >= window_start)]
+            combined_events_list.append(_fdf.to_dict("records"))
+
+        return list(itertools.chain.from_iterable(combined_events_list))
+
     def groups_for_vis_timeline(self) -> Dict:
         """
         Constructs the groups for the vis-timeline interface.
@@ -780,6 +800,15 @@ class Timeline:
             "groups": groups,
             "start_ts": window_end,
         }
+
+    def get_window(self, window_start, window_end) -> Dict:
+        """
+        Returns the events in a given windoow.
+        """
+        events = Timeline.slice_and_combine_events(
+            self.grp_df_dict, window_start=window_start, window_end=window_end
+        )
+        return events
 
     def get_timeline_summary(
         self,
