@@ -422,8 +422,14 @@ export default function D3RadialBarGraph(props) {
 				timer.current = d3.interval(transition_callback, ANIMATION_DUR);
 			} else {
 				if (timer.current != null) {
+					// Stop the timer.
 					timer.current.stop();
+
+					// Simulate a fit-button click.
 					d3.select('#fit-button').dispatch('click');
+
+					// Highlight all the sectors since we are viewing the entire run.
+					d3.selectAll(".sector").attr("opacity", 1);
 				}
 			}
 		}
@@ -457,6 +463,9 @@ export default function D3RadialBarGraph(props) {
 		let _id = currentSector - 1;
 
 		d3.selectAll("#sector-" + _id)
+			.transition()
+			.delay(function(d,i){ return 100*i; }) 
+			.duration(ANIMATION_DUR * 0.75)
 			.attr("opacity", 1);
 	}, [currentSector]);
 
