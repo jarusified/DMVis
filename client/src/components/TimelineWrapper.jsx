@@ -18,7 +18,7 @@ import { DataSet } from "vis-data";
 import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchTimeline, updateWindow } from "../actions";
+import { fetchTimeline, fetchWindow, updateWindow } from "../actions";
 import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -187,6 +187,7 @@ function TimelineWrapper() {
 		const sectorWidth = timelineWidth / sectorCount;
 
 		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
+		dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
 	}, [currentTimeline]);
 
 	function move() {

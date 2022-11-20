@@ -267,3 +267,20 @@ class HTTPServer:
 
             cct = load_json(file_path=cct_path)
             return jsonify(cct)
+
+        @app.route("/fetch_window", methods=["POST"])
+        @cross_origin()
+        def get_window_detailed():
+            """
+            Route to fetch the current timeline.
+            """
+            if self.timeline is not None:
+                request_context = request.json
+                window_start = request_context["window_start"]
+                window_end = request_context["window_end"]
+                timeline = self.timeline.get_window(window_start, window_end)
+                return jsonify(timeline)
+            else:
+                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
+                return jsonify({})
+            

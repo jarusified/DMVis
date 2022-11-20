@@ -88,7 +88,7 @@ export default function ApplicationTabWrapper() {
 						variant="fullWidth"
 						aria-label="Aggregated detailed statistics"
 					>
-						<Tab label="Calling Context Tree" {...a11yProps(2)} />
+						<Tab label="CCT" {...a11yProps(2)} />
 						<Tab label="Per-timeline" {...a11yProps(0)} />
 						<Tab label="Per-event" {...a11yProps(1)} />
 					</Tabs>

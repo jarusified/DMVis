@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { COLORS } from "../helpers/utils";
 
@@ -12,6 +13,8 @@ export default function D3HyperGraph(props) {
 			d.children = null;
 		}
 	}
+
+	const window = useSelector((store) => store.window);
 
 	useEffect(() => {
 		const { data, containerName, style } = props;
@@ -314,6 +317,11 @@ export default function D3HyperGraph(props) {
 
 		// invalidation.then(() => simulation.stop());
 	}, [props]);
+
+	// Effect to pulsate the CCT node based on the timeline window.
+	useEffect(() => {
+		console.log(window);
+	}, [window]);
 
 	return <div id="cct-view"></div>;
 }
