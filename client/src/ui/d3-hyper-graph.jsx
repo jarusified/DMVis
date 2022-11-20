@@ -1,12 +1,24 @@
 import * as d3 from "d3";
-import { max } from "moment";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { fetchWindow } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
 
 import { COLORS } from "../helpers/utils";
 
 export default function D3HyperGraph(props) {
+	const dispatch = useDispatch();
+
+	const MIN_NODE_RADIUS = 5;
+	const MAX_NODE_RADIUS = 30;
+
+	const window = useSelector((store) => store.window);
+	const appState = useSelector((store) => store.appState);
+	const windowStart = useSelector((store) => store.windowStart);
+	const windowEnd = useSelector((store) => store.windowEnd);
+
 	// Collapse the node and all it's children
+	// TODO: Make use of this to collapse large CCTs into nodes of higher
+	// significance only. 
 	function collapse(d) {
 		if (d.children) {
 			d._children = d.children;
@@ -15,12 +27,18 @@ export default function D3HyperGraph(props) {
 		}
 	}
 
-	const window = useSelector((store) => store.window);
-
-
-	function get_node_radius() {
-		return 8;
-	}
+	// TODO: Use this to highlight the activated call paths.
+	function groupPath(vertices) {
+			// not draw convex hull if vertices.length <= 1
+			if (vertices.length >= 2) {
+				if (vertices.length == 2) {
+					let fake_point1 = vertices[0];
+					let fake_point2 = vertices[1];
+					vertices.push(fake_point1, fake_point2);
+				}
+				return "M" + d3.polygonHull(vertices).join("L") + "Z";
+			}
+		}
 
 	useEffect(() => {
 		const { data, containerName, style } = props;
@@ -59,20 +77,7 @@ export default function D3HyperGraph(props) {
 			cuda: "fg-3",
 			data_mov: "fg-4"
 		};
-
-		function groupPath(vertices) {
-			// not draw convex hull if vertices.length <= 1
-			if (vertices.length >= 2) {
-				if (vertices.length == 2) {
-					let fake_point1 = vertices[0];
-					let fake_point2 = vertices[1];
-					vertices.push(fake_point1, fake_point2);
-				}
-				return "M" + d3.polygonHull(vertices).join("L") + "Z";
-			}
-		}
-
-
+		
 		// Clean up existing elements
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
@@ -183,7 +188,7 @@ export default function D3HyperGraph(props) {
 			.attr("class", "v-group");
 
 		vg.append("circle")
-			.attr("r", (d) => 4)
+			.attr("r", (d) => MIN_NODE_RADIUS)
 			.attr("fill", (d) => {
 				return COLORS[mapping[d.data.cat]];
 			})
@@ -333,43 +338,52 @@ export default function D3HyperGraph(props) {
 
 	// Effect to pulsate the CCT node based on the timeline window.
 	useEffect(() => {
-		console.log("======================================");
+		console.debug("======================================");
 		if (Object.keys(window).length > 0) {
 			let mapper = {};
 			for (let i = 0; i < window.length; i += 1) {
-
-				console.log(window[i].content);
+				console.debug(window[i].content, window[i].dur);
 				if (!(window[i].content in mapper)) {
 					mapper[window[i].content] = 0;
 				}
 				mapper[window[i].content] += window[i].dur;
 			}
 
-			const MAX_NODE_RADIUS = 30;
 			const max_val = Math.max(...Object.values(mapper));
 			const min_val = Math.min(...Object.values(mapper));
+
+			console.debug("Range: ", "[", min_val, ", ", max_val, "]");
 
 			const radiusScale = d3
 				.scaleLinear()
 				.domain([min_val, max_val])
-				.range([4, MAX_NODE_RADIUS]);
+				.range([MIN_NODE_RADIUS, MAX_NODE_RADIUS]);
 
-			// for(let name in mapper) {
-				d3.selectAll(".v-group")
-					.select("circle")
-					.transition()
-					.duration(2000)
-					.attr("r", (d) => {
-						if (d.data.name in mapper) {
-							console.log(d.data.name, mapper[d.data.name], radiusScale(mapper[d.data.name]));
-							return radiusScale(mapper[d.data.name]);
-						}
-						else 
-							return 4;
-					});
-			// }
+			d3.selectAll(".v-group")
+				.select("circle")
+				.transition()
+				.duration(2000)
+				.attr("r", (d) => {
+					if (d.data.name in mapper) {
+						console.debug(d.data.name, radiusScale(mapper[d.data.name]))
+						return radiusScale(mapper[d.data.name]);
+					}
+					else 
+						return MIN_NODE_RADIUS;
+				});
+
+			console.debug("======================================");
 		}
 	}, [window]);
+
+
+	useEffect(() => {
+		if(appState) {
+			console.debug("Fetching the window!")
+			dispatch(fetchWindow(windowStart, windowEnd)); 
+
+		}
+	}, [appState])
 
 	return <div id="cct-view"></div>;
 }

@@ -808,7 +808,6 @@ class Timeline:
         events = Timeline.slice_and_combine_events(
             self.grp_df_dict, window_start=window_start, window_end=window_end
         )
-        print(events, len(events))
         return events
 
     def get_timeline_summary(

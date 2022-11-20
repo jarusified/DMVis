@@ -5,7 +5,7 @@ import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateAppState, updateWindow } from "../actions";
+import { fetchWindow, updateAppState, updateWindow } from "../actions";
 import { COLORS, formatDuration, setContrast } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
@@ -370,6 +370,9 @@ export default function D3RadialBarGraph(props) {
 
 			// Send the update to the timeline component.
 			dispatch(updateWindow(start_ts, end_ts));
+
+			// Send the update to renew the window objects.
+			dispatch(fetchWindow(start_ts, end_ts));
 
 			return function (t) {
 				d.startAngle = interpolate_start(t);

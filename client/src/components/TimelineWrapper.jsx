@@ -166,12 +166,17 @@ function TimelineWrapper() {
 					properties.end - properties.start >
 					summary.ts_width / 1e3
 				) {
+					// Calculate the timestamps from vis-timeline. 
+					// Date.parse converts the "Tue Dec 03 54735 23:38:27
+					// GMT-0800 (Pacific Standard Time)" to "1665131672307000".
 					const start_ts = Date.parse(properties.start)
 					const end_ts = Date.parse(properties.end)
-					dispatch(updateWindow(start_ts, end_ts));
-					console.log("Fetching data for window: ", start_ts, "-", end_ts);
-					dispatch(fetchWindow(start_ts, end_ts));
 
+					console.debug("[Timeline] Update the window: ", start_ts, " to",  end_ts);
+					dispatch(updateWindow(start_ts, end_ts));
+
+					console.log("[Timeline] Fetching data for window: ", start_ts, "-", end_ts);
+					dispatch(fetchWindow(start_ts, end_ts));
 				}
 			}
 		});
