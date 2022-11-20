@@ -96,7 +96,7 @@ export default function D3RadialBarGraph(props) {
 			.outerRadius((d) => y(d[1]))
 			.startAngle((d) => x(d.data.ts))
 			.endAngle((d) => x(d.data.ts) + x.bandwidth())
-			.padAngle(0.03)
+			.padAngle(0.02)
 			.padRadius(innerRadius);
 
 		svgRef.current.append("g")
@@ -112,13 +112,6 @@ export default function D3RadialBarGraph(props) {
 			.join("path")
 			.attr("class", "sector")
 			.attr("id", (d, i) => "sector-" + i)
-			.attr("opacity", (d, i) => {
-				if (withPlayFeature) {
-					return 0.5;
-				} else {
-					return 1;
-				}
-			})
 			.attr("d", arc);
 
 		// Add labels
@@ -311,7 +304,7 @@ export default function D3RadialBarGraph(props) {
 					return -y(d);
 				})
 				.attr("dy", "0.35em")
-				.attr("stroke", "#fff")
+				.attr("fill", "#000")
 				.text((d) => {
 					return Math.floor((d / maxY) * 100);
 				});
@@ -326,9 +319,6 @@ export default function D3RadialBarGraph(props) {
 		}
 
 		if (withPlayFeature) {
-			// Set the current sector to be 0, so the first sector is highlighted.
-			setCurrentSector(1);
-
 			windowArc.current = d3
 				.arc()
 				.innerRadius(innerRadius - 25)
@@ -366,14 +356,14 @@ export default function D3RadialBarGraph(props) {
 		return function (d) {
 			// Reset the startAngle and endAngle to original angles once the
 			// circle is complete.
-			if (d.startAngle > TAU) {
-				dispatch(updateAppState());
+			if (d.endAngle >= TAU) {
+				return dispatch(updateAppState());
 			}
 
 			const new_startAngle = d.startAngle + speed * TAU;
 			const new_endAngle = d.endAngle + speed * TAU;
 
-			setCurrentSector(Math.ceil((new_startAngle / TAU) * 12));
+			setCurrentSector(Math.ceil((new_startAngle / TAU) * 12) + 1);
 
 			const interpolate_start = d3.interpolate(
 				d.startAngle,
@@ -433,6 +423,7 @@ export default function D3RadialBarGraph(props) {
 			} else {
 				if (timer.current != null) {
 					timer.current.stop();
+					d3.select('#fit-button').dispatch('click');
 				}
 			}
 		}
@@ -448,6 +439,12 @@ export default function D3RadialBarGraph(props) {
 				.transition()
 				.duration(ANIMATION_DUR)
 				.attrTween("d", arcMoveTo(startAngle, endAngle));
+
+			if (!appState) {
+				d3.selectAll(".sector")
+					.attr("opacity", 1);
+			}
+			
 		}
 	}, [windowEnd, windowStart]);
 
