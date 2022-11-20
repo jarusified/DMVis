@@ -166,12 +166,12 @@ function TimelineWrapper() {
 					properties.end - properties.start >
 					summary.ts_width / 1e3
 				) {
-					dispatch(
-						updateWindow(
-							Date.parse(properties.start),
-							Date.parse(properties.end)
-						)
-					);
+					const start_ts = Date.parse(properties.start)
+					const end_ts = Date.parse(properties.end)
+					dispatch(updateWindow(start_ts, end_ts));
+					console.log("Fetching data for window: ", start_ts, "-", end_ts);
+					dispatch(fetchWindow(start_ts, end_ts));
+
 				}
 			}
 		});
@@ -186,7 +186,11 @@ function TimelineWrapper() {
 		const sectorCount = 12;
 		const sectorWidth = timelineWidth / sectorCount;
 
+		// Update the window in the global scope.
 		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
+
+		// Fetch the new results for the current window.
+		console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
 		dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
 	}, [currentTimeline]);
 

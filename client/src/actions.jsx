@@ -107,7 +107,6 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 };
 
 export const fetchWindow = (window_start, window_end) => async (dispatch) => {
-	console.log(window_start, window_end);
 	const window = await POSTWrapper("fetch_window", {window_start: window_start, window_end: window_end });
 	dispatch({
 		type: FETCH_WINDOW,

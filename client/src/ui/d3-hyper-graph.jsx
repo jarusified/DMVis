@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { max } from "moment";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -15,6 +16,11 @@ export default function D3HyperGraph(props) {
 	}
 
 	const window = useSelector((store) => store.window);
+
+
+	function get_node_radius() {
+		return 8;
+	}
 
 	useEffect(() => {
 		const { data, containerName, style } = props;
@@ -66,9 +72,6 @@ export default function D3HyperGraph(props) {
 			}
 		}
 
-		function get_node_radius() {
-			return 8;
-		}
 
 		// Clean up existing elements
 		const containerID = "#" + containerName;
@@ -89,9 +92,18 @@ export default function D3HyperGraph(props) {
 			.call(zoom)
 			.append("svg:g");
 
-		let links_g = svg.append("g").attr("id", "links_group").attr("transform", "translate(30, 0)");
-		let nodes_g = svg.append("g").attr("id", "nodes_group").attr("transform", "translate(30, 0)");
-		let vertices_g = svg.append("g").attr("id", "vertices_group").attr("transform", "translate(30, 0)");
+		let links_g = svg
+			.append("g")
+			.attr("id", "links_group")
+			.attr("transform", "translate(30, 0)");
+		let nodes_g = svg
+			.append("g")
+			.attr("id", "nodes_group")
+			.attr("transform", "translate(30, 0)");
+		let vertices_g = svg
+			.append("g")
+			.attr("id", "vertices_group")
+			.attr("transform", "translate(30, 0)");
 
 		let colorScale = d3
 			.scaleOrdinal()
@@ -103,38 +115,38 @@ export default function D3HyperGraph(props) {
 			node.y0 = node.y;
 		});
 
-		let hg = nodes_g.selectAll("g").data(nodes);
-		hg.exit().remove();
-		hg = hg
-			.enter()
-			.append("g")
-			.merge(hg)
-			.attr(
-				"id",
-				(d) =>
-					containerName +
-					"-nodegroup-" +
-					d.data.name.replace(/[|]/g, "")
-			)
-			.attr("class", "he-group");
+		// let hg = nodes_g.selectAll("g").data(nodes);
+		// hg.exit().remove();
+		// hg = hg
+		// 	.enter()
+		// 	.append("g")
+		// 	.merge(hg)
+		// 	.attr(
+		// 		"id",
+		// 		(d) =>
+		// 			containerName +
+		// 			"-nodegroup-" +
+		// 			d.data.name.replace(/[|]/g, "")
+		// 	)
+		// 	.attr("class", "he-group");
 
-		hg.append("circle")
-			.attr("r", (d) => {
-				return get_node_radius(d.id);
-			})
-			.attr("fill", (d) => colorScale(d))
-			.attr("stroke", "#000")
-			.attr(
-				"id",
-				(d) =>
-					containerName + "-node-" + d.data.name.replace(/[|]/g, "")
-			)
-			.attr("cx", (d) => d.y)
-			.attr("cy", (d) => d.x)
-			.attr("class", "hyper_node")
-			.on("mouseover", (d, e) => {
-				console.log(e.data.name);
-			});
+		// hg.append("circle")
+		// 	.attr("r", (d) => {
+		// 		return get_node_radius(d.id);
+		// 	})
+		// 	.attr("fill", (d) => colorScale(d))
+		// 	.attr("stroke", "#000")
+		// 	.attr(
+		// 		"id",
+		// 		(d) =>
+		// 			"node-" + d.data.name.replace(/[|]/g, "")
+		// 	)
+		// 	.attr("cx", (d) => d.y)
+		// 	.attr("cy", (d) => d.x)
+		// 	.attr("class", "hyper_node")
+		// 	.on("mouseover", (d, e) => {
+		// 		console.log(e.data.name);
+		// 	});
 
 		const withLabels = false;
 		if (withLabels) {
@@ -168,14 +180,15 @@ export default function D3HyperGraph(props) {
 					"-nodegroup-" +
 					d.data.name.replace(/[|]/g, "")
 			)
-			.attr("class", "v-group")
-			// .attr("transform", "translate(30, 0)")
+			.attr("class", "v-group");
 
 		vg.append("circle")
-			.attr("r", (d) => get_node_radius(d.data.name))
+			.attr("r", (d) => 4)
 			.attr("fill", (d) => {
 				return COLORS[mapping[d.data.cat]];
 			})
+			.attr("stroke", "#000")
+			.attr("class", "vertex_node")
 			.attr(
 				"id",
 				(d) =>
@@ -190,7 +203,7 @@ export default function D3HyperGraph(props) {
 				.attr("dx", 12)
 				.attr("dy", "0.35em")
 				.attr("x", (d) => d.y)
-				.attr("y", (d) => d.x)	
+				.attr("y", (d) => d.x)
 				.attr("class", "node-label")
 				.attr(
 					"id",
@@ -320,7 +333,42 @@ export default function D3HyperGraph(props) {
 
 	// Effect to pulsate the CCT node based on the timeline window.
 	useEffect(() => {
-		console.log(window);
+		console.log("======================================");
+		if (Object.keys(window).length > 0) {
+			let mapper = {};
+			for (let i = 0; i < window.length; i += 1) {
+
+				console.log(window[i].content);
+				if (!(window[i].content in mapper)) {
+					mapper[window[i].content] = 0;
+				}
+				mapper[window[i].content] += window[i].dur;
+			}
+
+			const MAX_NODE_RADIUS = 30;
+			const max_val = Math.max(...Object.values(mapper));
+			const min_val = Math.min(...Object.values(mapper));
+
+			const radiusScale = d3
+				.scaleLinear()
+				.domain([min_val, max_val])
+				.range([4, MAX_NODE_RADIUS]);
+
+			// for(let name in mapper) {
+				d3.selectAll(".v-group")
+					.select("circle")
+					.transition()
+					.duration(2000)
+					.attr("r", (d) => {
+						if (d.data.name in mapper) {
+							console.log(d.data.name, mapper[d.data.name], radiusScale(mapper[d.data.name]));
+							return radiusScale(mapper[d.data.name]);
+						}
+						else 
+							return 4;
+					});
+			// }
+		}
 	}, [window]);
 
 	return <div id="cct-view"></div>;

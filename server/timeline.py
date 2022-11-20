@@ -583,7 +583,7 @@ class Timeline:
         combined_events_list = []
         for type in types:
             _df = grp_df_dict[type]
-            _fdf = _df.loc[_df['start'] <= window_end]
+            _fdf = _df.loc[(_df['start'] <= window_end) & (_df["start"] >= window_start)]
             combined_events_list.append(_fdf.to_dict("records"))
 
         return list(itertools.chain.from_iterable(combined_events_list))
@@ -808,7 +808,7 @@ class Timeline:
         events = Timeline.slice_and_combine_events(
             self.grp_df_dict, window_start=window_start, window_end=window_end
         )
-
+        print(events, len(events))
         return events
 
     def get_timeline_summary(
