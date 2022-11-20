@@ -295,7 +295,7 @@ export default function D3RadialBarGraph(props) {
 				.append("circle")
 				.attr("fill", "none")
 				.attr("stroke", "#F6F4F9")
-				.attr("stroke-width", 0.5)
+				.attr("stroke-width", 0.3)
 				.attr("r", y);
 
 			yTick
@@ -306,16 +306,10 @@ export default function D3RadialBarGraph(props) {
 				.attr("dy", "0.35em")
 				.attr("fill", "#000")
 				.text((d) => {
-					return Math.floor((d / maxY) * 100);
-				});
-
-			yAxis
-				.append("text")
-				.attr("y", function (d) {
-					return -y(0);
+					return Math.ceil((d / maxY) * 100);
 				})
-				.attr("dy", "10em")
-				.text("");
+				.attr("transform", `translate(${outerRadius * 1.5},${innerRadius})`)
+
 		}
 
 		if (withPlayFeature) {
