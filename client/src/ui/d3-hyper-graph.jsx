@@ -193,7 +193,6 @@ export default function D3HyperGraph(props) {
 				return COLORS[mapping[d.data.cat]];
 			})
 			.attr("stroke", "#000")
-			.attr("class", "vertex_node")
 			.attr(
 				"id",
 				(d) =>
@@ -202,6 +201,21 @@ export default function D3HyperGraph(props) {
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
 			.classed("vertex_node", true);
+
+		vg.append("circle")
+			.attr("r", (d) => MIN_NODE_RADIUS)
+			.attr("fill", (d) => {
+				return COLORS[mapping[d.data.cat]];
+			})
+			// .attr("stroke", "#000")
+			.attr(
+				"id",
+				(d) =>
+					containerName + "-node-" + d.data.name.replace(/[|]/g, "")
+			)
+			.attr("cx", (d) => d.y)
+			.attr("cy", (d) => d.x)
+			.classed("pulse", true);
 
 		if (withLabels) {
 			vg.append("text")
@@ -372,6 +386,12 @@ export default function D3HyperGraph(props) {
 						return MIN_NODE_RADIUS;
 				});
 
+			d3.selectAll(".v-group")
+				.classed("pulse", (d) => {
+					if (d.data.name in mapper) return true;
+					return false;
+				})
+
 			console.debug("======================================");
 		}
 	}, [window]);
@@ -379,9 +399,8 @@ export default function D3HyperGraph(props) {
 
 	useEffect(() => {
 		if(appState) {
-			console.debug("Fetching the window!")
+			console.debug("[d3-hyper-graph] Fetching the window!")
 			dispatch(fetchWindow(windowStart, windowEnd)); 
-
 		}
 	}, [appState])
 
