@@ -52,7 +52,7 @@ function drawLinearScale(id, props) {
 	d3.select("#" + id)
 		.append("text")
 		.attr("font-size", 12)
-		.attr("x", props.width / 2 - props.left)
+		.attr("x", props.width / 2 - props.left - props.right)
 		.attr("y", props.height - props.top - props.bottom)
 		.text(props.caption.toUpperCase());
 }
@@ -62,7 +62,7 @@ export default function LinearScaleLegend(props) {
 		bottom: 20,
 		captionLeft: props.range[0],
 		captionRight: props.range[1],
-		caption: "Runtime",
+		caption: props.caption,
 		height: 60,
 		interpolator: interpolateOranges,
 		left: 50,
@@ -71,7 +71,9 @@ export default function LinearScaleLegend(props) {
 		width: 400
 	};
 	useEffect(() => {
-		drawLinearScale("legend", runtimeProps);
+		if(props.range[0] != props.range[1]) {
+			drawLinearScale("legend", runtimeProps);
+		}
 	}, [props]);
 
 	return (
