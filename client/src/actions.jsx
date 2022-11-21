@@ -4,6 +4,7 @@ import {
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
+	FETCH_METRIC_TIMELINE,	
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
@@ -114,11 +115,19 @@ export const fetchWindow = (window_start, window_end) => async (dispatch) => {
 	});
 };
 
+export const fetchMetricTimeline = () => async (dispatch) => {
+	const metric_timeline = await POSTWrapper("fetch_metrics_timeline", {});
+	dispatch({
+		type: FETCH_METRIC_TIMELINE,
+		payload: metric_timeline
+	});
+};
+
 export const updateAppState = () => async (dispatch) => {
 	dispatch({
 		type: UPDATE_APP_STATE, 
-	})
-}
+	});
+};
 
 export const updateSelectedExperiment = (exp) => async (dispatch) => {
 	dispatch({

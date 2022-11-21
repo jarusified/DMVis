@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchTimeline, fetchWindow, updateWindow } from "../actions";
+import { fetchMetricTimeline, fetchTimeline, fetchWindow, updateWindow } from "../actions";
 import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +37,7 @@ function MetricTimelineWrapper() {
 			timelineStart != 0 &&
 			timelineEnd != 0
 		) {
-			// dispatch(fetchMetric(timelineStart, timelineStart));
+			dispatch(fetchMetricTimeline());
 		}
 	}, [selectedExperiment, timelineStart, timelineEnd]);
 
@@ -57,7 +57,7 @@ function MetricTimelineWrapper() {
 
 	
 	return (
-		<Paper>
+		<Paper sx={{maxHeight: 150, overflow: 'auto' }}>
             <Grid item xs={4} p={1}>
 				<Typography
 					variant="overline"
@@ -69,13 +69,15 @@ function MetricTimelineWrapper() {
 				>
 					Metric Timeline {"  "}
                     <span style={{ color: theme.text.label }}>
-                        ({metricTimeline.length} metrics)
+                        ({Object.keys(metricTimeline).length} metrics)
                     </span>
 				</Typography>
 			</Grid>
             <Grid container p={1}>
 				<Grid item>
-					<div id="metric-timeline-view" className={classes.timeline}></div>
+                    {Object.keys(metricTimeline).map((metric) => (
+					    <div id="metric-timeline-view" className={classes.timeline}>{metric}</div>
+                    ))}
 				</Grid>
 			</Grid>
 		</Paper>

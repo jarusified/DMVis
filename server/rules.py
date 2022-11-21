@@ -105,7 +105,7 @@ class Rules:
         return {
             "grouping": {
                 "DATA MOV": {
-                    "regex": ["Mem(\\w+)", "(\\w+)Free", "(\\w+)Malloc", "(\\w+)Alloc"],
+                    "regex": ["Mem(\\w+)"],
                     "event_type": "x-range",
                     "content": lambda e: e,  # str(e["memory bandwidth (GB/s)"]),
                 },
@@ -120,7 +120,6 @@ class Rules:
                     "regex": [
                         "random_(\\w+)",
                         "gemm",
-                        "fill_(\\w+)",
                         "void at::native",
                         "volta_dgemm",
                         "void computeBlockCounts",
