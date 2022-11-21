@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 
 import { makeStyles } from "@mui/styles";
 import * as d3 from "d3";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
 
@@ -30,6 +30,8 @@ function MetricTimelineWrapper() {
 	const windowStart = useSelector((store) => store.windowStart);
 	const summary = useSelector((store) => store.summary);
 
+	const [filteredMetrics, setFilteredMetrics] = useState([]);
+
 	const style = {
 		top: 0,
 		right: 10,
@@ -53,7 +55,9 @@ function MetricTimelineWrapper() {
 		d3.select("#metric-timeline-view").selectAll("*").remove();
 		let container = document.getElementById("metric-timeline-view");
 
-		
+		const filtered_metrics = Object.keys(metricTimeline).filter((d) => d != "timestamp");
+		setFilteredMetrics(filtered_metrics);
+
 		// Interaction: Fit the timeline to the screenWidth.
 		document.getElementById("fit-button").onclick = function () {
 
@@ -82,7 +86,7 @@ function MetricTimelineWrapper() {
 				</Typography>
 			</Grid>
             <Grid container p={1}>
-				{Object.keys(metricTimeline).map((metric) => (
+				{filteredMetrics.map((metric) => (
 					<Grid item key={metric}>
 							<D3LineGraph
 								containerName={metric + "timeline-view"}

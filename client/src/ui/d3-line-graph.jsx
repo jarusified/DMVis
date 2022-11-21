@@ -1,8 +1,6 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
 
-import { COLORS, formatTimestamp } from "../helpers/utils";
-
 function D3LineGraph(props) {
 	const { containerName, xData, yData, style, xProp} = props;
 
@@ -88,7 +86,6 @@ function D3LineGraph(props) {
 			.attr("x", - style.left / 2)
 			.attr("y", 20)
 			.text(xProp);
-
 	}, [props]);
 
 	return <div id={containerName}></div>
