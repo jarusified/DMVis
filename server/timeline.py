@@ -134,14 +134,14 @@ class Timeline:
             ]
 
             gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
-            df = pd.read_csv(gpu_file_path)
+            df = pd.read_csv(gpu_file_path, sep=", ")
 
             metrics = {}
             for column in df.columns:
                 metrics[column] = df[column].tolist()
 
-            metadata.append({"name": 'gpuUtilization', "key": metrics[' utilization_gpu'] })
-            metadata.append({"name": 'memUtilization', "key": metrics[' utilization_memory']})
+            metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
+            metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
 
         else:
             LOGGER.error("Invalid profile format!")

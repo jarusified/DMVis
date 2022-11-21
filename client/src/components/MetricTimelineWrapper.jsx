@@ -4,13 +4,12 @@ import Paper from "@mui/material/Paper";
 
 import { makeStyles } from "@mui/styles";
 import * as d3 from "d3";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Typography from "@mui/material/Typography";
-import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchMetricTimeline, fetchTimeline, fetchWindow, updateWindow } from "../actions";
-import { formatDuration, micro_to_milli } from "../helpers/utils";
+import { fetchMetricTimeline } from "../actions";
+import D3LineGraph from "../ui/d3-line-graph";
 
 const useStyles = makeStyles((theme) => ({
 	timeline: {
@@ -30,6 +29,15 @@ function MetricTimelineWrapper() {
 	const windowEnd = useSelector((store) => store.windowEnd);
 	const windowStart = useSelector((store) => store.windowStart);
 	const summary = useSelector((store) => store.summary);
+
+	const style = {
+		top: 0,
+		right: 10,
+		bottom: 0,
+		left: 100,
+		width: window.innerWidth * 0.66 - 30,
+		height: 50
+	};
 
 	useEffect(() => {
 		if (
@@ -57,7 +65,7 @@ function MetricTimelineWrapper() {
 
 	
 	return (
-		<Paper sx={{maxHeight: 150, overflow: 'auto' }}>
+		<Paper sx={{maxHeight: 160, overflow: 'auto' }}>
             <Grid item xs={4} p={1}>
 				<Typography
 					variant="overline"
@@ -74,11 +82,17 @@ function MetricTimelineWrapper() {
 				</Typography>
 			</Grid>
             <Grid container p={1}>
-				<Grid item>
-                    {Object.keys(metricTimeline).map((metric) => (
-					    <div id="metric-timeline-view" className={classes.timeline}>{metric}</div>
-                    ))}
-				</Grid>
+				{Object.keys(metricTimeline).map((metric) => (
+					<Grid item key={metric}>
+							<D3LineGraph
+								containerName={metric + "timeline-view"}
+								yData={metricTimeline[metric]}
+								xData={metricTimeline["timestamp"]}
+								style={style}
+								xProp={metric}
+							/>
+					</Grid>
+				))}
 			</Grid>
 		</Paper>
 	);
