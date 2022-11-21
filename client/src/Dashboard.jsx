@@ -10,6 +10,7 @@ import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
 import HardwareTabWrapper from "./components/HardwareTabWrapper";
 import SingleSummaryWrapper from "./components/SingleSummaryWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
+import MetricTimelineWrapper from "./components/MetricTimelineWrapper";
 import ToolBar from "./ui/ToolBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,6 +53,7 @@ export default function Dashboard() {
 					</Grid>
 					<Grid item xs={8} p={1}>
 						<TimelineWrapper />
+						<MetricTimelineWrapper />
 					</Grid>
 					<Grid item xs={4} p={1}>
 						<HardwareTabWrapper />

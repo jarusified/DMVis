@@ -109,7 +109,6 @@ export default function EnsembleSummaryWrapper() {
 							item
 							xs={4}
 							key={exp.split(".")[0]}
-							// className={classes.experimentSummary}
 						>
 							<Typography
 								mt={0}
@@ -136,7 +135,7 @@ export default function EnsembleSummaryWrapper() {
 									innerRadius={Math.min(style.width, style.height) / 5}
 									outerRadius={Math.min(style.width, style.height) / 2}
 									ensembleSummary={ensembleSummary}
-									withInnerCircle={false}
+									withInnerCircle={true}
 									withUtilization={true}
 									withTicks={false}
 									withYAxis={false}

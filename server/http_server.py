@@ -272,15 +272,26 @@ class HTTPServer:
         @cross_origin()
         def get_window_detailed():
             """
-            Route to fetch the current timeline.
+            Route to fetch the data within a given window (i.e., between
+            window_start and window_end).
             """
             if self.timeline is not None:
                 request_context = request.json
                 window_start = request_context["window_start"]
                 window_end = request_context["window_end"]
-                timeline = self.timeline.get_window(window_start, window_end)
-                return jsonify(timeline)
+                events = self.timeline.get_window(window_start, window_end)
+                return jsonify(events)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
             
+        @app.route("/fetch_metrics_timeline", methods=["POST"])
+        @cross_origin()
+        def get_metrics_timeline():
+            if self.timeline is not None:
+                request_context = request.json
+                metrics_timeline = self.timeline.get_metrics();
+                return jsonify(metrics_timeline)
+            else:
+                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
+                return jsonify({})

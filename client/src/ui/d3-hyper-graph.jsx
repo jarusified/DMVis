@@ -192,7 +192,6 @@ export default function D3HyperGraph(props) {
 			.attr("fill", (d) => {
 				return COLORS[mapping[d.data.cat]];
 			})
-			.attr("stroke", "#000")
 			.attr(
 				"id",
 				(d) =>
@@ -203,18 +202,13 @@ export default function D3HyperGraph(props) {
 			.classed("vertex_node", true);
 
 		vg.append("circle")
-			.attr("r", (d) => MIN_NODE_RADIUS)
+			.attr("r", (d) => 0)
 			.attr("fill", (d) => {
 				return COLORS[mapping[d.data.cat]];
 			})
-			.attr(
-				"id",
-				(d) =>
-					containerName + "-node-" + d.data.name.replace(/[|]/g, "")
-			)
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
-			.classed("pulse", true);
+			.classed("pulse", false);
 
 		if (withLabels) {
 			vg.append("text")
@@ -383,7 +377,8 @@ export default function D3HyperGraph(props) {
 						);
 						return radiusScale(mapper[d.data.name]);
 					} else return MIN_NODE_RADIUS;
-				});
+				})
+				.attr("stroke", "#000")
 
 			// Add pulsating effect to nodes in the timeline view.
 			d3.selectAll(".v-group")
@@ -397,16 +392,16 @@ export default function D3HyperGraph(props) {
 			d3.selectAll(".v-group").selectAll("text").remove();
 
 			// Add text labels to nodes with more than a threshold of radius.
-			d3.selectAll(".v-group")
-				.append("text")
-				.attr("font-size", 14)
-				.attr("x", (d) => d.y)
-				.attr("y", (d) => d.x + 10)
-				.attr("class", "node-label")
-				.text((d) => {
-					if(d.data.name in mapper && radiusScale(mapper[d.data.name]) > 8) return d.data.name.slice(0, 15) + "...";
-					else return "";
-				});
+			// d3.selectAll(".v-group")
+			// 	.append("text")
+			// 	.attr("font-size", 14)
+			// 	.attr("x", (d) => d.y)
+			// 	.attr("y", (d) => d.x + 10)
+			// 	.attr("class", "node-label")
+			// 	.text((d) => {
+			// 		if(d.data.name in mapper && radiusScale(mapper[d.data.name]) > 8) return d.data.name.slice(0, 15) + "...";
+			// 		else return "";
+			// 	});
 
 			console.debug("======================================");
 		}

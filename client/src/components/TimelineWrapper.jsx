@@ -1,10 +1,6 @@
 import { useTheme } from "@emotion/react";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import PauseIcon from "@mui/icons-material/Pause";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import StopIcon from "@mui/icons-material/Stop";
 import Grid from "@mui/material/Grid";
-import Item from "@mui/material/ListItem";
 import Paper from "@mui/material/Paper";
 import ToggleButton from "@mui/material/ToggleButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -219,7 +215,7 @@ function TimelineWrapper() {
 
 	return (
 		<Paper>
-			<Grid item xs={4} p={1}>
+			<Grid item xs={4}>
 				<Typography
 					variant="overline"
 					style={{
@@ -228,10 +224,13 @@ function TimelineWrapper() {
 						fontSize: theme.text.fontSize
 					}}
 				>
-					Timeline
+					Event Timeline {"  "}
+					<span style={{ color: theme.text.label }}>
+						({currentTimeline.events.length} events)
+					</span>
 				</Typography>
 			</Grid>
-			<Grid container p={1}>
+			<Grid container>
 				<Grid item xs={6}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton
@@ -243,26 +242,6 @@ function TimelineWrapper() {
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
-					<Typography
-						variant="caption"
-						style={{
-							margin: 20,
-							fontSize: theme.text.fontSize
-						}}
-					>
-						Events: {"  "}
-						<span style={{ color: theme.text.label }}>
-							{currentTimeline.events.length}
-						</span>
-					</Typography>
-					<Typography
-						variant="caption"
-						style={{
-							margin: 20,
-							fontSize: theme.text.fontSize
-						}}
-					>
-					</Typography>
 				</Grid>
 			</Grid>
 			<Grid container p={1}>

@@ -36,7 +36,7 @@ class Timeline:
         """
         self.profile_format = profile_format
         # Derive the rules based on profile_format and read json from file_path.
-        self.rules, self.timeline, self.metadata = self.init(file_path, profile_format)
+        self.rules, self.timeline, self.metadata, self.metrics = self.init(file_path, profile_format)
 
         self.calculate_mappers()
 
@@ -132,10 +132,16 @@ class Timeline:
                 {"name": _k, "key": _v}
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
-            metadata.append({"name": 'gpuUtilization', "key": self.get_gpu_utilization(file_path, ' utilization_gpu') })
-            mem_util = self.get_gpu_utilization(file_path, ' utilization_memory')
-            mem_util.reverse()
-            metadata.append({"name": 'memUtilization', "key": mem_util})
+
+            gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
+            df = pd.read_csv(gpu_file_path, sep=", ")
+
+            metrics = {}
+            for column in df.columns:
+                metrics[column] = df[column].tolist()
+
+            metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
+            metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -147,7 +153,7 @@ class Timeline:
         # NOTE: Some of the metadata events are ignored because they dont have a Begin or End phase.
         timeline = [e for e in timeline if e["ph"] in ALLOWED_EVENT_PH]
 
-        return rules, timeline, metadata
+        return rules, timeline, metadata, metrics
 
     def calculate_mappers(self):
         self.grp_to_idx = {grp: idx for idx, grp in enumerate(self.rules["ordering"])}
@@ -668,11 +674,11 @@ class Timeline:
     def get_end_timestamp(self) -> float:
         return self.end_ts
 
-    def get_gpu_utilization(self, file_path, metric):
-        gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
-        # df = pd.read_csv(gpu_file_path)
-        # return df[metric].tolist()
-        return []
+    def get_metrics(self):
+        """
+        
+        """
+        return self.metrics
 
     def get_occupancy(self) -> float:
         df = self.grp_df_dict["x-range"]
@@ -771,8 +777,8 @@ class Timeline:
             "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),
             "zData": list(self.rules["grouping"].keys()),
-            # "gpuUtilization": self.metadata[-2]["key"],
-            # "memUtilization": self.metadata[-1]["key"]
+            "gpuUtilization": self.metadata[-2]["key"],
+            "memUtilization": self.metadata[-1]["key"]
         }
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:
