@@ -57,7 +57,9 @@ function D3LineGraph(props) {
 			.attr("class", "line")
 			.datum(datum)
 			.attr("d", curve)
-			.attr("fill", "#83CDD2");
+			.attr("stroke", "#83CDD2")
+			.attr("stroke-width", 4)
+			.attr("fill", "#d2d2d2")
 
 		svg.append("g")
 			.attr("class", "x axis")
