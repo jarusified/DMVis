@@ -100,7 +100,7 @@ export default function EnsembleSummaryWrapper() {
 	return (
 		<Grid container justifyContent="center">
 			<Grid item xs={12}>
-				<LinearScaleLegend range={runtimeRange} caption="Ensemble Runtime" interpolation={interpolateOranges} />
+				<LinearScaleLegend range={runtimeRange} caption="Ensemble Runtime" interpolator={interpolateOranges} />
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
