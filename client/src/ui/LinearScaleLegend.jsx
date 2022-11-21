@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect } from "react";
 
 function drawLinearScale(id, props) {
@@ -64,7 +63,7 @@ export default function LinearScaleLegend(props) {
 		captionRight: props.range[1],
 		caption: props.caption,
 		height: 60,
-		interpolator: interpolateOranges,
+		interpolator: props.interpolator,
 		left: 50,
 		right: 50,
 		top: 25,

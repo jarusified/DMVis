@@ -7,12 +7,14 @@ import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import useEmblaCarousel from "embla-carousel-react";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { interpolateRdYlGn } from "d3-scale-chromatic";
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 import TopologyWrapper from "./TopologyWrapper";
+import LinearScaleLegend from "../ui/LinearScaleLegend";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -35,11 +37,12 @@ export default function DetailedTabWrapper() {
 	const handleChange = (event, newTabIndex) => {
 		setTabIndex(newTabIndex);
 	};
+	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 
 	return (
 		<Paper>
 			<Grid container>
-				<Grid item xs={6}>
+				<Grid item xs={4}>
 					<Typography
 						variant="overline"
 						style={{
@@ -50,6 +53,9 @@ export default function DetailedTabWrapper() {
 					>
 						Hardware
 					</Typography>
+				</Grid>
+				<Grid item xs={4}>
+					<LinearScaleLegend range={[0, 100]} caption="Est. utilization (%)" interpolator={interpolateRdYlGn} />
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>

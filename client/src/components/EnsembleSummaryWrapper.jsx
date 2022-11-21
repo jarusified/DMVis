@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { interpolateOranges } from "d3-scale-chromatic";
 
 import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
@@ -99,7 +100,7 @@ export default function EnsembleSummaryWrapper() {
 	return (
 		<Grid container justifyContent="center">
 			<Grid item xs={12}>
-				<LinearScaleLegend range={runtimeRange} />
+				<LinearScaleLegend range={runtimeRange} caption="Ensemble Runtime" interpolation={interpolateOranges} />
 				<CategoryLegend colormap={categoryColormap} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (

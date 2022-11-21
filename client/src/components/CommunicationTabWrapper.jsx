@@ -10,6 +10,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import useEmblaCarousel from "embla-carousel-react";
 
 import HostDeviceCommunication from "./HostDeviceCommunication";
+import DeviceDeviceCommunication from "./DeviceDeviceCommunication";
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 
