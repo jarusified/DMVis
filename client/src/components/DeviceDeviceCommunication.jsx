@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import D3ChordDiagram from "../ui/d3-chord-diagram";
 import D3Matrix from "../ui/d3-matrix";
 
-export default function HostDeviceCommunication() {
+export default function DeviceDeviceCommunication() {
 	const style = {
 		top: 10,
 		right: 40,

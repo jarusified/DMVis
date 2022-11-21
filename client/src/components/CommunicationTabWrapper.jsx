@@ -73,7 +73,9 @@ export default function CommunicationTabWrapper() {
 						value={tabIndex}
 						index={1}
 						dir={theme.direction}
-					></TabPanel>
+					>
+						<DeviceDeviceCommunication />
+					</TabPanel>
 				</div>
 			</Box>
 		</Paper>
