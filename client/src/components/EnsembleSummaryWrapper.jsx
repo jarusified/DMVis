@@ -106,7 +106,7 @@ export default function EnsembleSummaryWrapper() {
 
 	return (
 		<Grid container justifyContent="center">
-			<Grid item xs={12}>
+			<Grid item xs={6} p={1}>
 				<ToggleButtonGroup
 					color="primary"
 					value={alignment}
@@ -114,13 +114,18 @@ export default function EnsembleSummaryWrapper() {
 					aria-label="Platform"
 				>
 					<ToggleButton value="default">Default</ToggleButton>
-					<ToggleButton value="comparison-1">
-						Compare (|)
+					<ToggleButton value="sort">
+						Sort (by runtime)
 					</ToggleButton>
-					<ToggleButton value="comparison-2">
-						Compare (||)
+					<ToggleButton value="sort">
+						Sort (by data movement)
+					</ToggleButton>
+					<ToggleButton value="comparison">
+						Compare
 					</ToggleButton>
 				</ToggleButtonGroup>
+			</Grid>
+			<Grid item xs={6}>
 				<LinearScaleLegend
 					containerID={"ensemble-tab-legend"}
 					range={runtimeRange}
