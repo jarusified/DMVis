@@ -64,7 +64,7 @@ function MetricTimelineWrapper() {
 
 	
 	return (
-		<Paper sx={{maxHeight: 220, overflow: 'auto' }}>
+		<Paper sx={{maxHeight: 250, overflow: 'auto' }}>
             <Grid item xs={4} p={1}>
 				<Typography
 					variant="overline"
