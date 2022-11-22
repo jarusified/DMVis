@@ -209,7 +209,7 @@ class Timeline:
             else:
                 _content = ""
 
-            self.timeline_df.at[idx, "content"] = _event["name"]
+            self.timeline_df.at[idx, "content"] =  ""
 
     def construct_point_df(
         self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
@@ -614,6 +614,7 @@ class Timeline:
                 "id": grp_idx,
                 "content": group,
                 "value": grp_idx,
+                "title": "<span style='color: red'>" + group + "</span>"
             }
 
             if group == "runtime":
@@ -630,7 +631,8 @@ class Timeline:
         ret.append({
             "id": 4,
             "content": "",
-            "value": 4
+            "value": 4,
+            "title": "<span style='color: red'>" + group + "</span>"
         })
 
         return ret
@@ -675,9 +677,6 @@ class Timeline:
         return self.end_ts
 
     def get_metrics(self):
-        """
-        
-        """
         return self.metrics
 
     def get_occupancy(self) -> float:
@@ -687,7 +686,7 @@ class Timeline:
         occupancy = 0
         for index in indexes:
             occupancy += float(self.get_event_args(index)["est. achieved occupancy %"])
-        return occupancy#  / len(indexes)
+        return occupancy /len(indexes)
 
     def get_cpu_utilization(self) -> float:
         df = self.grp_df_dict["x-range"]
@@ -841,7 +840,7 @@ class Timeline:
             group = self.idx_to_grp[grp_idx]
             result.append(
                 {
-                    "event": group.upper(),
+                    "event": group.lower(),
                     "dur": grp_durations[grp_idx],
                     "group": group,
                     "class_name": self.grp_to_cls[group],

@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { interpolateReds } from "d3-scale-chromatic";
 import { useEffect } from "react";
 
 function D3Matrix(props) {
@@ -10,21 +11,19 @@ function D3Matrix(props) {
 			const containerID = "#" + containerName;
 			d3.select(containerID).selectAll("*").remove();
 
-			console.log(matrixData);
-
 			const data = [];
 			for (let i = 0; i < matrixData.length; i += 1) {
 				for (let j = 0; j < matrixData[i].length; j += 1) {
 					data.push({
 						source: i,
-						targee: j,
+						target: j,
 						value: matrixData[i][j]
 					});
 				}
 			}
 
-			const width = style.width;
-			const height = style.height;
+			const width = style.width - style.left - style.right;
+			const height = style.height - style.top - style.bottom;
 
 			let svg = d3
 				.select(containerID)
@@ -34,14 +33,13 @@ function D3Matrix(props) {
 				.append("g")
 				.attr(
 					"transform",
-					"translate(" + 2 * style.left + "," + -style.bottom + ")"
+					"translate(" + 2 * style.left + "," + 2 * style.left + ")"
 				);
 
-			const gpuCount = 2;
-			const cpuCount = 12;
-
-			let x = d3.scaleLinear().domain([0, gpuCount]).range([style.left, style.right + width]);
-			let y = d3.scaleLinear().domain([0, cpuCount]).range([height + style.top, style.bottom]);
+			const cScale = d3
+				.scaleSequential()
+				.interpolator(interpolateReds)
+				.domain([0, 100]);
 
 			let margin = { left: 36, right: 0, top: 36, bottom: 0 };
 
@@ -52,7 +50,7 @@ function D3Matrix(props) {
 				.style("opacity", 0);
 
 			let xScale = d3.scaleBand().range([0, width]).padding(0.05),
-			    yScale = d3.scaleBand().range([height, 0]).padding(0.05)
+				yScale = d3.scaleBand().range([height, 0]).padding(0.05);
 
 			let hashNode = (x, y) => x + " -> " + y;
 
@@ -69,9 +67,12 @@ function D3Matrix(props) {
 			let grids = new Map();
 			for (let src of nodes) {
 				for (let tgt of nodes) {
-					grids.set(hashNode(src, tgt), { x: tgt, y: src, value: 0 });
+					if (src != undefined && tgt != undefined) {
+						grids.set(hashNode(src, tgt), { x: tgt, y: src, value: 0 });
+					}
 				}
 			}
+
 			data.forEach((elem) => {
 				grids.get(hashNode(elem.source, elem.target)).value =
 					elem.value;
@@ -82,7 +83,6 @@ function D3Matrix(props) {
 			xScale.domain(nodes);
 			yScale.domain(nodes);
 
-			console.log(nodes);
 			svg.selectAll("g")
 				.data(nodes)
 				.enter()
@@ -109,9 +109,9 @@ function D3Matrix(props) {
 				.attr("y", (d) => yScale(d[1].y) - xScale.bandwidth() / 2)
 				.attr("width", xScale.bandwidth())
 				.attr("height", yScale.bandwidth())
-				.attr("stroke", "gray")
+				.attr("stroke", "black")
 				.attr("stroke-width", 0.5)
-				.attr("fill", (d) => (d[1].value === 0 ? "#ffffff" : "#5bb5e6"))
+				.attr("fill", (d) => cScale(d[1].value))
 				.on("mouseover", function (event, d) {
 					svg.selectAll("rect").attr("stroke-width", (g) =>
 						g[1].x === d[1].x || g[1].y === d[1].y ? 2 : 0.5
@@ -127,7 +127,7 @@ function D3Matrix(props) {
 					tooltip.transition().duration(600).style("opacity", 0);
 				});
 		}
-	}, [matrixData]);
+	}, [props, matrixData]);
 
 	return <div id={containerName}></div>;
 }

@@ -14,7 +14,7 @@ import DeviceDeviceCommunication from "./DeviceDeviceCommunication";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
-import { interpolateRdBu } from "d3-scale-chromatic";
+import { interpolateReds } from "d3-scale-chromatic";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -53,7 +53,7 @@ export default function CommunicationTabWrapper() {
 					<LinearScaleLegend 
 						containerID="comm-tab-legend"
 						range={[0, 756]} 
-						caption="Data moved (mb)" interpolator={interpolateRdBu} />
+						caption="Data moved (mb)" interpolator={interpolateReds} />
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>
