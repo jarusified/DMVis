@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 
 function drawLinearScale(id, props) {
 	const data = Array.from(Array(100).keys());
@@ -36,27 +37,29 @@ function drawLinearScale(id, props) {
 
 	d3.select("#" + id)
 		.append("text")
-		.attr("font-size", 14)
-		.attr("x", 0)
-		.attr("y", props.height - props.bottom)
+		.attr("font-size", props.fontSize)
+		.attr("x", props.left)
+		.attr("y", props.height - props.bottom - props.top)
 		.text(props.captionLeft);
 
 	d3.select("#" + id)
 		.append("text")
-		.attr("font-size", 14)
-		.attr("x", xScale(100) + 10)
-		.attr("y", props.height - props.bottom)
+		.attr("font-size", props.fontSize)
+		.attr("x", xScale(90))
+		.attr("y", props.height - props.bottom - props.top)
 		.text(props.captionRight);
 
 	d3.select("#" + id)
 		.append("text")
-		.attr("font-size", 12)
+		.attr("font-size", props.fontSize)
 		.attr("x", props.width / 2 - props.left - props.right)
 		.attr("y", props.height - props.top - props.bottom)
 		.text(props.caption.toUpperCase());
 }
 
 export default function LinearScaleLegend(props) {
+	const theme = useTheme();
+
 	const runtimeProps = {
 		bottom: 20,
 		captionLeft: props.range[0],
@@ -67,7 +70,8 @@ export default function LinearScaleLegend(props) {
 		left: 50,
 		right: 50,
 		top: 25,
-		width: 400
+		width: 400,
+		fontSize: theme.text.fontSize
 	};
 	useEffect(() => {
 		if(props.range[0] != props.range[1]) {

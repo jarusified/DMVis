@@ -30,7 +30,7 @@ const theme = createTheme({
 		backgroundHighlight: "#f8f8f8"
 	},
 	text: {
-		fontSize: 14,
+		fontSize: 12,
 		highlight: "#04ACB5",
 		label: "#007CBE",
 		white: "#000"
