@@ -150,10 +150,6 @@ function TimelineWrapper() {
 		});
 
 		txRef.current.on("rangechanged", (properties) => {
-			// TODO: This below code updates the summaryTimeline with the ranges provided by the upper timeline.
-			// But this forces the control too much and cause very glitchy motion to restrict the ranges.
-			// For now, this is commented out.
-			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/21
 			if (properties.byUser == true) {
 				if (
 					properties.end - properties.start >
@@ -194,17 +190,20 @@ function TimelineWrapper() {
 		const sectorCount = 12;
 		const sectorWidth = timelineWidth / sectorCount;
 
-		// Update the window in the global scope.
-		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
+		if (timelineWidth != 0) {
+			console.log(sectorCount, sectorWidth, timelineStart);
+			// Update the window in the global scope.
+			dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
 
-		// Fetch the new results for the current window.
-		console.log(
-			"Fetching data for window: ",
-			timelineStart,
-			"-",
-			timelineStart + sectorWidth
-		);
-		dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
+			// Fetch the new results for the current window.
+			console.log(
+				"Fetching data for window: ",
+				timelineStart,
+				"-",
+				timelineStart + sectorWidth
+			);
+			dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
+		}
 	}, [currentTimeline]);
 
 	function move() {
@@ -255,9 +254,13 @@ function TimelineWrapper() {
 							value="check"
 							className={classes.button}
 						>
-							<Typography variant="bold" align="center" style={{ color: theme.text.label }}>
+							<Typography
+								variant="bold"
+								align="center"
+								style={{ color: theme.text.label }}
+							>
 								Fit
-							</Typography> 
+							</Typography>
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>

@@ -68,6 +68,7 @@ function D3LineGraph(props) {
 			.call(xAxis)
 			.selectAll("text")
 			.style("text-anchor", "end")
+			.style("fill", "#4d4d4d")
 			.attr("dy", 3)
 			.attr("dx", -3)
 			.attr("transform", "rotate(90)");
@@ -80,7 +81,7 @@ function D3LineGraph(props) {
 			.attr("y", 1)
 			.attr("dy", "0.71em")
 			.style("text-anchor", "end")
-			.text("time");
+			.style("fill", "#4d4d4d")
 
 		// Define the div for the tooltip
 		const tooltip = d3
@@ -97,6 +98,7 @@ function D3LineGraph(props) {
 			.attr("y", style.height / 2)
 			.text(xProp.slice(0, 18).toUpperCase())
 			.style("cursor", "pointer")
+			.style("fill", "#4d4d4d")
 			.on("mouseover", function (e) {
 				tooltip.transition().duration(200).style("opacity", 0.9);
 				tooltip.html(xProp.toUpperCase())

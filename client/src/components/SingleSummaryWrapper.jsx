@@ -128,7 +128,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Runtime (s): {" "}
+									RUNTIME (s): {" "}
 									<span style={{ color: theme.text.label }}>
 										{formatDuration(
 											timelineEnd,
@@ -144,7 +144,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Data Movement (mb):  {"  "}
+									DATA MOVEMENT (mb):  {"  "}
 									<span style={{ color: theme.text.label }}>
 										{768}
 									</span>
@@ -156,7 +156,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Cache mem utilization (%): {"  "}
+									MEMORY UTILIZATION (%): {"  "}
 									<span style={{ color: theme.text.label }}>
 										{blockUtilization}
 									</span>
@@ -168,7 +168,7 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									Est. GPU occupancy (%): {"  "}
+									EST. GPU OCCUPANCY (%): {"  "}
 									<span style={{ color: theme.text.label }}>
 										{achievedOccupancy}
 									</span>
