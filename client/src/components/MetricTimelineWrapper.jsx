@@ -39,7 +39,7 @@ function MetricTimelineWrapper() {
 		left: 100,
 		width: window.innerWidth * 0.66 - 30,
 		height: 50,
-		fontSize: theme.text.fontSize
+		fontSize: theme.text.fontSizeSmall
 	};
 
 	useEffect(() => {

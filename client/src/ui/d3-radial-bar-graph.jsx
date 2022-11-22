@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
-import { svg } from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -342,6 +341,7 @@ export default function D3RadialBarGraph(props) {
 				})
 				.attr("dy", "0.35em")
 				.attr("fill", "#000")
+				.style("font-size", style.fontSize)
 				.text((d) => {
 					return Math.ceil((d / maxY) * 100);
 				})

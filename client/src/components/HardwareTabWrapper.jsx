@@ -55,7 +55,10 @@ export default function DetailedTabWrapper() {
 					</Typography>
 				</Grid>
 				<Grid item xs={4}>
-					<LinearScaleLegend range={[0, 100]} caption="Est. utilization (%)" interpolator={interpolateRdYlGn} />
+					<LinearScaleLegend
+						containerID={"hardware-tab-legend"}
+						range={[0, 100]} 
+						caption="Est. utilization (%)" interpolator={interpolateRdYlGn} />
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>

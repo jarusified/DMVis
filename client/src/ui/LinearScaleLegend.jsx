@@ -75,13 +75,13 @@ export default function LinearScaleLegend(props) {
 	};
 	useEffect(() => {
 		if(props.range[0] != props.range[1]) {
-			drawLinearScale("legend", runtimeProps);
+			drawLinearScale(props.containerID, runtimeProps);
 		}
 	}, [props]);
 
 	return (
 		<svg
-			id="legend"
+			id={props.containerID}
 			width={runtimeProps.width}
 			height={runtimeProps.height}
 		></svg>

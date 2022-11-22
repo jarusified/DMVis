@@ -31,6 +31,7 @@ const theme = createTheme({
 	},
 	text: {
 		fontSize: 12,
+		fontSizeSmall: 10,
 		highlight: "#04ACB5",
 		label: "#007CBE",
 		white: "#000"
