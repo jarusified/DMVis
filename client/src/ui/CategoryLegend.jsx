@@ -39,10 +39,10 @@ export default function CategoryLegend(props) {
 
 	const categoryProps = {
 		bottom: 20,
-		height: 100,
+		height: 85,
 		left: 50,
 		right: 50,
-		top: 25,
+		top: 0,
 		width: 200,
 		categories: props.colormap,
 		fontSize: theme.text.fontSize

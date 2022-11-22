@@ -2,13 +2,15 @@ import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import { interpolateOranges } from "d3-scale-chromatic";
 import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { interpolateOranges } from "d3-scale-chromatic";
 
 import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
 		}
-	},
+	}
 }));
 
 export default function EnsembleSummaryWrapper() {
@@ -51,6 +53,11 @@ export default function EnsembleSummaryWrapper() {
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
+	const [alignment, setAlignment] = useState("default");
+
+	const handleChange = (event, newAlignment) => {
+		setAlignment(newAlignment);
+	};
 
 	const style = {
 		top: 30,
@@ -100,20 +107,33 @@ export default function EnsembleSummaryWrapper() {
 	return (
 		<Grid container justifyContent="center">
 			<Grid item xs={12}>
-				<LinearScaleLegend 
+				<ToggleButtonGroup
+					color="primary"
+					value={alignment}
+					onChange={handleChange}
+					aria-label="Platform"
+				>
+					<ToggleButton value="default">Default</ToggleButton>
+					<ToggleButton value="comparison-1">
+						Compare (|)
+					</ToggleButton>
+					<ToggleButton value="comparison-2">
+						Compare (||)
+					</ToggleButton>
+				</ToggleButtonGroup>
+				<LinearScaleLegend
 					containerID={"ensemble-tab-legend"}
-					range={runtimeRange} 
-					caption="Ensemble Runtime" interpolator={interpolateOranges} />
+					range={runtimeRange}
+					caption="Ensemble Runtime"
+					interpolator={interpolateOranges}
+				/>
 				<CategoryLegend colormap={categoryColormap} />
+				
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
 					return (
-						<Grid
-							item
-							xs={4}
-							key={exp.split(".")[0]}
-						>
+						<Grid item xs={4} key={exp.split(".")[0]}>
 							<Typography
 								mt={0}
 								align="center"
@@ -127,7 +147,10 @@ export default function EnsembleSummaryWrapper() {
 							>
 								{exp}
 							</Typography>{" "}
-							<Card className={classes.card} onClick={() => onClick(exp)}>
+							<Card
+								className={classes.card}
+								onClick={() => onClick(exp)}
+							>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
@@ -136,8 +159,12 @@ export default function EnsembleSummaryWrapper() {
 									}
 									style={style}
 									individualSummary={individualSummary[exp]}
-									innerRadius={Math.min(style.width, style.height) / 5}
-									outerRadius={Math.min(style.width, style.height) / 2}
+									innerRadius={
+										Math.min(style.width, style.height) / 5
+									}
+									outerRadius={
+										Math.min(style.width, style.height) / 2
+									}
 									ensembleSummary={ensembleSummary}
 									withInnerCircle={true}
 									withUtilization={true}
