@@ -101,7 +101,7 @@ function TimelineWrapper() {
 			tooltip: {
 				followMouse: true,
 				template: function (item, element, data) {
-					return item.content + " : " + item.dur;
+					return item.title + " : " + item.dur;
 				}
 			}
 		};
@@ -255,7 +255,7 @@ function TimelineWrapper() {
 							value="check"
 							className={classes.button}
 						>
-							<Typography variant="overline" align="center">
+							<Typography variant="bold" align="center" style={{ color: theme.text.label }}>
 								Fit
 							</Typography> 
 							<FullscreenIcon className="icon" />
