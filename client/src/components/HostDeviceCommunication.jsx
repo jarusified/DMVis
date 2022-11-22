@@ -9,10 +9,10 @@ import D3Matrix from "../ui/d3-matrix";
 
 export default function HostDeviceCommunication() {
 	const style = {
-		top: 10,
-		right: 40,
-		bottom: 10,
-		left: 20,
+		left: 36, 
+		right: 0, 
+		top: 36, 
+		bottom: 0,
 		width: window.innerWidth / 3 - 30,
 		height: window.innerHeight / 3 - 20
 	};
@@ -51,7 +51,7 @@ export default function HostDeviceCommunication() {
 						<D3Matrix
 							containerName={containerID.current}
 							style={style}
-							data={matrixData}
+							matrixData={matrixData}
 						/>
 					)}
 				</Card>
