@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 
 function drawCategories(id, props) {
 	let legend = d3
@@ -26,6 +27,7 @@ function drawCategories(id, props) {
 		.append("text")
 		.attr("x", 24)
 		.attr("y", 9)
+		.attr("font-size", props.fontSize)
 		.attr("dy", "0.35em")
 		.text(function (d) {
 			return d.key;
@@ -33,6 +35,8 @@ function drawCategories(id, props) {
 }
 
 export default function CategoryLegend(props) {
+	const theme = useTheme()
+
 	const categoryProps = {
 		bottom: 20,
 		height: 100,
@@ -40,7 +44,8 @@ export default function CategoryLegend(props) {
 		right: 50,
 		top: 25,
 		width: 200,
-		categories: props.colormap
+		categories: props.colormap,
+		fontSize: theme.text.fontSize
 	};
 	useEffect(() => {
 		drawCategories("catLegend", categoryProps);

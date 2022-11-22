@@ -101,7 +101,7 @@ function TimelineWrapper() {
 			tooltip: {
 				followMouse: true,
 				template: function (item, element, data) {
-					return item.content + " : " + item.dur;
+					return item.title + " : " + item.dur;
 				}
 			}
 		};
@@ -117,10 +117,8 @@ function TimelineWrapper() {
 			switch (properties.what) {
 				case "group-label": {
 					let group = _groups.get(properties.group);
-					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
 					_options.stack = !_options.stack;
 					// _options.stackSubgroups = !_options.stackSubgroups;
-					// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/28
 					_options.cluster = !_options.cluster;
 
 					txRef.current.setOptions(_options);
@@ -129,7 +127,6 @@ function TimelineWrapper() {
 						group.content == "runtime" &&
 						group.showNested == false
 					) {
-						// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/29
 						// const filteredItems = _events.get({
 						// 	filter: (item) => {
 						// 		return item.group == "snprof";
@@ -153,25 +150,31 @@ function TimelineWrapper() {
 		});
 
 		txRef.current.on("rangechanged", (properties) => {
-			// TODO: This below code updates the summaryTimeline with the ranges provided by the upper timeline.
-			// But this forces the control too much and cause very glitchy motion to restrict the ranges.
-			// For now, this is commented out.
-			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/21
 			if (properties.byUser == true) {
 				if (
 					properties.end - properties.start >
 					summary.ts_width / 1e3
 				) {
-					// Calculate the timestamps from vis-timeline. 
+					// Calculate the timestamps from vis-timeline.
 					// Date.parse converts the "Tue Dec 03 54735 23:38:27
 					// GMT-0800 (Pacific Standard Time)" to "1665131672307000".
-					const start_ts = Date.parse(properties.start)
-					const end_ts = Date.parse(properties.end)
+					const start_ts = Date.parse(properties.start);
+					const end_ts = Date.parse(properties.end);
 
-					console.debug("[Timeline] Update the window: ", start_ts, " to",  end_ts);
+					console.debug(
+						"[Timeline] Update the window: ",
+						start_ts,
+						" to",
+						end_ts
+					);
 					dispatch(updateWindow(start_ts, end_ts));
 
-					console.log("[Timeline] Fetching data for window: ", start_ts, "-", end_ts);
+					console.log(
+						"[Timeline] Fetching data for window: ",
+						start_ts,
+						"-",
+						end_ts
+					);
 					dispatch(fetchWindow(start_ts, end_ts));
 				}
 			}
@@ -187,12 +190,20 @@ function TimelineWrapper() {
 		const sectorCount = 12;
 		const sectorWidth = timelineWidth / sectorCount;
 
-		// Update the window in the global scope.
-		dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
+		if (timelineWidth != 0) {
+			console.log(sectorCount, sectorWidth, timelineStart);
+			// Update the window in the global scope.
+			dispatch(updateWindow(timelineStart, timelineStart + sectorWidth));
 
-		// Fetch the new results for the current window.
-		console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
-		dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
+			// Fetch the new results for the current window.
+			console.log(
+				"Fetching data for window: ",
+				timelineStart,
+				"-",
+				timelineStart + sectorWidth
+			);
+			dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
+		}
 	}, [currentTimeline]);
 
 	function move() {
@@ -208,30 +219,34 @@ function TimelineWrapper() {
 	useEffect(() => {
 		if (txRef.current != undefined) {
 			d3.timeout(() => {
-				txRef.current.setWindow(micro_to_milli(windowStart), micro_to_milli(windowEnd));
-			}, 500)
+				txRef.current.setWindow(
+					micro_to_milli(windowStart),
+					micro_to_milli(windowEnd)
+				);
+			}, 500);
 		}
 	}, [windowStart, windowEnd]);
 
 	return (
 		<Paper>
-			<Grid item xs={4}>
-				<Typography
-					variant="overline"
-					style={{
-						margin: 10,
-						fontWeight: "bold",
-						fontSize: theme.text.fontSize
-					}}
-				>
-					Event Timeline {"  "}
-					<span style={{ color: theme.text.label }}>
-						({currentTimeline.events.length} events)
-					</span>
-				</Typography>
-			</Grid>
-			<Grid container>
-				<Grid item xs={6}>
+			<Grid container p={1}>
+				<Grid item xs={4}>
+					<Typography
+						variant="overline"
+						style={{
+							margin: 10,
+							fontWeight: "bold",
+							fontSize: theme.text.fontSize
+						}}
+					>
+						Event Timeline {"  "}
+						<span style={{ color: theme.text.label }}>
+							({currentTimeline.events.length} events)
+						</span>
+					</Typography>
+				</Grid>
+				<Grid item xs={4}></Grid>
+				<Grid item xs={4}>
 					<Tooltip title="Fit" arrow>
 						<ToggleButton
 							id="fit-button"
@@ -239,12 +254,17 @@ function TimelineWrapper() {
 							value="check"
 							className={classes.button}
 						>
+							<Typography
+								variant="bold"
+								align="center"
+								style={{ color: theme.text.label }}
+							>
+								Fit
+							</Typography>
 							<FullscreenIcon className="icon" />
 						</ToggleButton>
 					</Tooltip>
 				</Grid>
-			</Grid>
-			<Grid container p={1}>
 				<Grid item>
 					<div id="timeline-view" className={classes.timeline}></div>
 				</Grid>

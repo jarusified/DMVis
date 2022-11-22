@@ -35,10 +35,11 @@ function MetricTimelineWrapper() {
 	const style = {
 		top: 0,
 		right: 10,
-		bottom: 0,
+		bottom: 10,
 		left: 100,
 		width: window.innerWidth * 0.66 - 30,
-		height: 50
+		height: 50,
+		fontSize: theme.text.fontSizeSmall
 	};
 
 	useEffect(() => {
@@ -58,18 +59,13 @@ function MetricTimelineWrapper() {
 		const filtered_metrics = Object.keys(metricTimeline).filter((d) => d != "timestamp");
 		setFilteredMetrics(filtered_metrics);
 
-		// Interaction: Fit the timeline to the screenWidth.
-		document.getElementById("fit-button").onclick = function () {
-
-		};
-
 		// console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
 		// dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
 	}, [metricTimeline]);
 
 	
 	return (
-		<Paper sx={{maxHeight: 160, overflow: 'auto' }}>
+		<Paper sx={{maxHeight: 250, overflow: 'auto' }}>
             <Grid item xs={4} p={1}>
 				<Typography
 					variant="overline"

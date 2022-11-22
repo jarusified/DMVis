@@ -10,8 +10,11 @@ import makeStyles from "@mui/styles/makeStyles";
 import useEmblaCarousel from "embla-carousel-react";
 
 import HostDeviceCommunication from "./HostDeviceCommunication";
+import DeviceDeviceCommunication from "./DeviceDeviceCommunication";
+import LinearScaleLegend from "../ui/LinearScaleLegend";
 
 import { TabPanel, a11yProps } from "../ui/tab-panel";
+import { interpolateReds } from "d3-scale-chromatic";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -34,7 +37,7 @@ export default function CommunicationTabWrapper() {
 	return (
 		<Paper>
 			<Grid container>
-				<Grid item xs={6}>
+				<Grid item xs={4}>
 					<Typography
 						variant="overline"
 						style={{
@@ -45,6 +48,12 @@ export default function CommunicationTabWrapper() {
 					>
 						Communication
 					</Typography>
+				</Grid>
+				<Grid item xs={4}>
+					<LinearScaleLegend 
+						containerID="comm-tab-legend"
+						range={[0, 756]} 
+						caption="Data moved (mb)" interpolator={interpolateReds} />
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>
@@ -73,7 +82,9 @@ export default function CommunicationTabWrapper() {
 						value={tabIndex}
 						index={1}
 						dir={theme.direction}
-					></TabPanel>
+					>
+						<DeviceDeviceCommunication />
+					</TabPanel>
 				</div>
 			</Box>
 		</Paper>

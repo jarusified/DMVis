@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
-import { svg } from "d3";
 import { interpolateOranges } from "d3-scale-chromatic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -62,7 +61,6 @@ export default function D3RadialBarGraph(props) {
 		return (angle * (timelineEnd - timelineStart)) / TAU + timelineStart;
 	}
 
-
 	useEffect(() => {
 		const containerID = "#" + containerName;
 		d3.select(containerID).selectAll("*").remove();
@@ -99,7 +97,8 @@ export default function D3RadialBarGraph(props) {
 			.padAngle(0.02)
 			.padRadius(innerRadius);
 
-		svgRef.current.append("g")
+		svgRef.current
+			.append("g")
 			.selectAll("g")
 			.data(d3.stack().keys(zData)(yData))
 			.join("g")
@@ -184,7 +183,8 @@ export default function D3RadialBarGraph(props) {
 			const runtime_color = cScale(perc);
 			const runtime_color_contrast = setContrast(runtime_color);
 
-			svgRef.current.append("circle")
+			svgRef.current
+				.append("circle")
 				.attr("cx", "50%")
 				.attr("cy", "50%")
 				.attr("r", 40)
@@ -199,7 +199,8 @@ export default function D3RadialBarGraph(props) {
 					);
 				});
 
-			svgRef.current.append("text")
+			svgRef.current
+				.append("text")
 				.attr("class", "hidden-text")
 				.attr("fill", runtime_color_contrast)
 				.attr("font-size", 12)
@@ -247,7 +248,8 @@ export default function D3RadialBarGraph(props) {
 			// 	.padAngle(0.01)
 			// 	.padRadius(innerRadius)
 
-			svgRef.current.append("path")
+			svgRef.current
+				.append("path")
 				.attr("class", "line")
 				.datum(individualSummary["gpuUtilization"])
 				.attr("d", curve)
@@ -265,7 +267,8 @@ export default function D3RadialBarGraph(props) {
 				.range([-innerRadius, innerRadius])
 				.domain([0, individualSummary["memUtilization"].length]);
 
-			svgRef.current.append("path")
+			svgRef.current
+				.append("path")
 				.attr("class", "line")
 				.datum(individualSummary["memUtilization"])
 				.attr(
@@ -283,7 +286,40 @@ export default function D3RadialBarGraph(props) {
 
 		// Add y-axis ticks.
 		if (withYAxis) {
-			let yAxis = svgRef.current.append("g").attr("text-anchor", "middle");
+			let yAxis = svgRef.current
+				.append("g")
+				.attr("text-anchor", "middle");
+
+			const markerWidth = 10;
+			const markerHeight = 10;
+
+			const arrowPoints = [[0, 0], [0, markerWidth], [markerWidth, markerHeight / 2]];
+			yAxis
+				.append("defs")
+				.append("marker")
+				.attr("id", "legend-arrow")
+				.attr("viewBox", [0, 0, markerWidth, markerHeight])
+				.attr("refX", markerWidth / 2)
+				.attr("refY", markerHeight / 2)
+				.attr("markerWidth", markerWidth)
+				.attr("markerHeight", markerHeight)
+				.attr("orient", "auto-start-reverse")
+				.append("path")
+				.attr("d", d3.line()(arrowPoints))
+				.attr("stroke", "black");
+
+			yAxis.append("path")
+				.attr(
+					"d",
+					d3.line()([
+						[60, 80],
+						[170, 80],
+						[200, -10]
+					])
+				)
+				.attr("stroke", "black")
+				.attr("marker-end", "url(#legend-arrow)")
+				.attr("fill", "none");
 
 			let yTick = yAxis
 				.selectAll("g")
@@ -295,7 +331,7 @@ export default function D3RadialBarGraph(props) {
 				.append("circle")
 				.attr("fill", "none")
 				.attr("stroke", "#F6F4F9")
-				.attr("stroke-width", 0.3)
+				.attr("stroke-width", 0.75)
 				.attr("r", y);
 
 			yTick
@@ -305,11 +341,14 @@ export default function D3RadialBarGraph(props) {
 				})
 				.attr("dy", "0.35em")
 				.attr("fill", "#000")
+				.style("font-size", style.fontSize)
 				.text((d) => {
 					return Math.ceil((d / maxY) * 100);
 				})
-				.attr("transform", `translate(${outerRadius * 1.5},${innerRadius})`)
-
+				.attr(
+					"transform",
+					`translate(${outerRadius * 1.5},${innerRadius})`
+				);
 		}
 
 		if (withPlayFeature) {
@@ -320,7 +359,7 @@ export default function D3RadialBarGraph(props) {
 
 			const startAngle = timestamp_to_tau(windowStart);
 			const endAngle = timestamp_to_tau(windowEnd);
-			
+
 			playArcG.current = svgRef.current
 				.append("path")
 				.datum({ startAngle: startAngle, endAngle: endAngle })
@@ -331,7 +370,8 @@ export default function D3RadialBarGraph(props) {
 
 			const x_offset = -10;
 			const y_offset = -10;
-			svgRef.current.append("g")
+			svgRef.current
+				.append("g")
 				.attr("id", "play-button")
 				.attr("class", "button")
 				.attr("font-size", "18")
@@ -423,7 +463,7 @@ export default function D3RadialBarGraph(props) {
 					timer.current.stop();
 
 					// Simulate a fit-button click.
-					d3.select('#fit-button').dispatch('click');
+					d3.select("#fit-button").dispatch("click");
 
 					// Highlight all the sectors since we are viewing the entire run.
 					d3.selectAll(".sector").attr("opacity", 1);
@@ -437,31 +477,29 @@ export default function D3RadialBarGraph(props) {
 		if (withPlayFeature) {
 			const startAngle = timestamp_to_tau(windowStart);
 			const endAngle = timestamp_to_tau(windowEnd);
-			
+
 			playArcG.current
 				.transition()
 				.duration(ANIMATION_DUR)
 				.attrTween("d", arcMoveTo(startAngle, endAngle));
 
 			if (!appState) {
-				d3.selectAll(".sector")
-					.attr("opacity", 1);
+				d3.selectAll(".sector").attr("opacity", 1);
 			}
-			
 		}
 	}, [windowEnd, windowStart]);
 
-
 	// Effect to highlight the current sector.
 	useEffect(() => {
-		d3.selectAll(".sector")
-			.attr("opacity", 0.5);
+		d3.selectAll(".sector").attr("opacity", 0.5);
 
 		let _id = currentSector - 1;
 
 		d3.selectAll("#sector-" + _id)
 			.transition()
-			.delay(function(d,i){ return 100*i; }) 
+			.delay(function (d, i) {
+				return 100 * i;
+			})
 			.duration(ANIMATION_DUR * 0.75)
 			.attr("opacity", 1);
 	}, [currentSector]);

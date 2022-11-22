@@ -7,12 +7,12 @@ import Card from "@mui/material/Card";
 import D3ChordDiagram from "../ui/d3-chord-diagram";
 import D3Matrix from "../ui/d3-matrix";
 
-export default function HostDeviceCommunication() {
+export default function DeviceDeviceCommunication() {
 	const style = {
-		left: 36, 
-		right: 0, 
-		top: 36, 
-		bottom: 0,
+		top: 10,
+		right: 40,
+		bottom: 10,
+		left: 20,
 		width: window.innerWidth / 3 - 30,
 		height: window.innerHeight / 3 - 20
 	};
@@ -51,7 +51,7 @@ export default function HostDeviceCommunication() {
 						<D3Matrix
 							containerName={containerID.current}
 							style={style}
-							matrixData={matrixData}
+							data={matrixData}
 						/>
 					)}
 				</Card>
