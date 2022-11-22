@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import { useEffect } from "react";
 
 function D3LineGraph(props) {
-	const { containerName, xData, yData, style, xProp} = props;
+	const { containerName, xData, yData, style, xProp } = props;
 
 	useEffect(() => {
 		// Clean up existing elements
@@ -14,7 +14,7 @@ function D3LineGraph(props) {
 
 		let datum = xData.map((x, i) => {
 			return [x, yData[i]];
-		})
+		});
 
 		let svg = d3
 			.select(containerID)
@@ -27,7 +27,8 @@ function D3LineGraph(props) {
 				"translate(" + 2 * style.left + "," + -style.bottom + ")"
 			);
 
-		let x = d3.scaleLinear()
+		let x = d3
+			.scaleLinear()
 			.domain([d3.min(xData), d3.max(xData)])
 			.range([0, width]);
 
@@ -59,7 +60,7 @@ function D3LineGraph(props) {
 			.attr("d", curve)
 			.attr("stroke", "#83CDD2")
 			.attr("stroke-width", 4)
-			.attr("fill", "#d2d2d2")
+			.attr("fill", "#d2d2d2");
 
 		svg.append("g")
 			.attr("class", "x axis")
@@ -69,7 +70,7 @@ function D3LineGraph(props) {
 			.style("text-anchor", "end")
 			.attr("dy", 3)
 			.attr("dx", -3)
-			.attr("transform", "rotate(90)")
+			.attr("transform", "rotate(90)");
 
 		svg.append("g")
 			.attr("class", "y axis")
@@ -81,16 +82,32 @@ function D3LineGraph(props) {
 			.style("text-anchor", "end")
 			.text("time");
 
+		// Define the div for the tooltip
+		const tooltip = d3
+			.select(containerID)
+			.append("div")
+			.attr("class", "tooltip")
+			.style("opacity", 0);
+
 		svg.append("text")
 			.attr("class", "x label")
 			.attr("text-anchor", "end")
-			.attr("font-size", 12)
-			.attr("x", - style.left / 2)
-			.attr("y", 20)
-			.text(xProp);
+			.attr("font-size", style.fontSize)
+			.attr("x", -style.left / 2)
+			.attr("y", style.height / 2)
+			.text(xProp.slice(0, 18).toUpperCase())
+			.style("cursor", "pointer")
+			.on("mouseover", function (e) {
+				tooltip.transition().duration(200).style("opacity", 0.9);
+				tooltip.html(xProp.toUpperCase())
+					.style("left", e.pageX + "px")
+					.style("top", e.pageY - 28 + "px");
+			})
+			.on("mouseout", function (d) {
+				tooltip.transition().duration(500).style("opacity", 0);
+			});
 	}, [props]);
 
-	return <div id={containerName}></div>
-
+	return <div id={containerName}></div>;
 }
 export default D3LineGraph;

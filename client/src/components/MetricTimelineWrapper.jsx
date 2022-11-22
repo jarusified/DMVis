@@ -38,7 +38,8 @@ function MetricTimelineWrapper() {
 		bottom: 10,
 		left: 100,
 		width: window.innerWidth * 0.66 - 30,
-		height: 50
+		height: 50,
+		fontSize: theme.text.fontSize
 	};
 
 	useEffect(() => {
@@ -88,7 +89,7 @@ function MetricTimelineWrapper() {
 								yData={metricTimeline[metric]}
 								xData={metricTimeline["timestamp"]}
 								style={style}
-								xProp={metric.slice(0, 20) + "..."}
+								xProp={metric}
 							/>
 					</Grid>
 				))}
