@@ -36,10 +36,15 @@ function D3Matrix(props) {
 					"translate(" + 2 * style.left + "," + 2 * style.left + ")"
 				);
 
+			const values = []
+			for(let d of data) {
+				values.push(d.value);
+			}
+
 			const cScale = d3
 				.scaleSequential()
 				.interpolator(interpolateReds)
-				.domain([0, 100]);
+				.domain([d3.min(values), d3.max(values)]);
 
 			let margin = { left: 36, right: 0, top: 36, bottom: 0 };
 
