@@ -14,11 +14,13 @@ function D3Matrix(props) {
 			const data = [];
 			for (let i = 0; i < matrixData.length; i += 1) {
 				for (let j = 0; j < matrixData[i].length; j += 1) {
-					data.push({
-						source: i,
-						target: j,
-						value: matrixData[i][j]
-					});
+					if (matrixData[i][j] != undefined) {
+						data.push({
+							source: i,
+							target: j,
+							value: matrixData[i][j]
+						});
+					}
 				}
 			}
 
@@ -36,15 +38,15 @@ function D3Matrix(props) {
 					"translate(" + 2 * style.left + "," + 2 * style.left + ")"
 				);
 
-			const values = []
-			for(let d of data) {
+			const values = [];
+			for (let d of data) {
 				values.push(d.value);
 			}
 
 			const cScale = d3
 				.scaleSequential()
 				.interpolator(interpolateReds)
-				.domain([d3.min(values), d3.max(values)]);
+				.domain(d3.extent(data, d => d.value));
 
 			let margin = { left: 36, right: 0, top: 36, bottom: 0 };
 
@@ -54,8 +56,8 @@ function D3Matrix(props) {
 				.attr("class", "tooltip")
 				.style("opacity", 0);
 
-			let xScale = d3.scaleBand().range([0, width]).padding(0.05),
-				yScale = d3.scaleBand().range([height, 0]).padding(0.05);
+			let xScale = d3.scaleBand().range([0, width]).domain([0, matrixData.length - 1]).padding(0.05),
+				yScale = d3.scaleBand().range([height, 0]).domain([0, matrixData[0].length - 1]).padding(0.05);
 
 			let hashNode = (x, y) => x + " -> " + y;
 
@@ -73,20 +75,26 @@ function D3Matrix(props) {
 			for (let src of nodes) {
 				for (let tgt of nodes) {
 					if (src != undefined && tgt != undefined) {
-						grids.set(hashNode(src, tgt), { x: tgt, y: src, value: 0 });
+						if (matrixData[src][tgt] != undefined) {
+							grids.set(hashNode(src, tgt), {
+								x: tgt,
+								y: src,
+								value: 0
+							});
+						}
 					}
 				}
 			}
 
 			data.forEach((elem) => {
-				grids.get(hashNode(elem.source, elem.target)).value =
-					elem.value;
-				grids.get(hashNode(elem.target, elem.source)).value =
-					elem.value;
-			});
+				const from_hash = hashNode(elem.source, elem.target);
+				const to_hash = hashNode(elem.target, elem.source);
 
-			xScale.domain(nodes);
-			yScale.domain(nodes);
+				if (grids.has(from_hash)) 
+					grids.get(hashNode(elem.source, elem.target)).value = elem.value;
+				if (grids.has(to_hash))
+					grids.get(hashNode(elem.target, elem.source)).value = elem.value;
+			});
 
 			svg.selectAll("g")
 				.data(nodes)
@@ -106,11 +114,16 @@ function D3Matrix(props) {
 				.attr("y", margin.top / 2)
 				.text((d) => d);
 
+			// console.log(grids);
+
 			svg.selectAll("rect")
 				.data(grids)
 				.enter()
 				.append("rect")
-				.attr("x", (d) => xScale(d[1].x) - xScale.bandwidth() / 2)
+				.attr("x", (d) => { 
+					// console.log(xScale(0), d[1], d[1].x, xScale(d[1].x)); 
+					return xScale(d[1].x) - xScale.bandwidth() / 2;
+				})
 				.attr("y", (d) => yScale(d[1].y) - xScale.bandwidth() / 2)
 				.attr("width", xScale.bandwidth())
 				.attr("height", yScale.bandwidth())
@@ -132,7 +145,7 @@ function D3Matrix(props) {
 					tooltip.transition().duration(600).style("opacity", 0);
 				});
 		}
-	}, [props, matrixData]);
+	}, [props]);
 
 	return <div id={containerName}></div>;
 }
