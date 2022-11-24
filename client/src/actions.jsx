@@ -11,6 +11,7 @@ import {
 	FETCH_TOPOLOGY,
 	FETCH_WINDOW,
 	UPDATE_APP_STATE,
+	UPDATE_INDIVIDUAL_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_WINDOW
 } from "./helpers/types";
@@ -142,6 +143,13 @@ export const updateWindow = (windowStart, windowEnd) => async (dispatch) => {
 		payload: [windowStart, windowEnd]
 	});
 };
+
+export const updateIndividualSummary = (sorted) => async (dispatch) => {
+	dispatch({
+		type: UPDATE_INDIVIDUAL_SUMMARY,
+		payload: sorted
+	})
+}
 
 export const fetchTopology = () => async (dispatch) => {
 	const request_context = {

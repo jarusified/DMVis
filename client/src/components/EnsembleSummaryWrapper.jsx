@@ -12,7 +12,7 @@ import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
+import { fetchEnsembleSummary, updateSelectedExperiment, updateIndividualSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
@@ -54,10 +54,38 @@ export default function EnsembleSummaryWrapper() {
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
-	const [alignment, setAlignment] = useState("default");
+	const [toggle, setToggle] = useState("");
 
-	const handleChange = (event, newAlignment) => {
-		setAlignment(newAlignment);
+	const TOGGLE_MODES = ["timestamp", "sort-runtime", "sort-dmv", "compare"];
+	const handleChange = (event, newToggle) => {
+
+		if(!TOGGLE_MODES.includes(newToggle)) {
+			console.assert("Undefined toggle mode!");
+		}
+
+		switch(newToggle) {
+			case 'timestamp': {
+				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.startTs-b.startTs));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'sort-runtime': {
+				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.dur-b.dur));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'sort-dmv': {
+				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.dmv-b.dmv));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'compare': {
+
+			}
+		}
+
+		setToggle(newToggle);
+
 	};
 
 	const style = {
@@ -108,16 +136,19 @@ export default function EnsembleSummaryWrapper() {
 			<Grid item xs={6} p={1}>
 				{Object.keys(individualSummary).length > 0 ? (
 					<ToggleButtonGroup
-					color="primary"
-					value={alignment}
-					onChange={handleChange}
-					aria-label="Platform"
-				>
-					<ToggleButton value="default">Default</ToggleButton>
-					<ToggleButton value="sort">
+						color="primary"
+						value={toggle}
+						exclusive
+						onChange={handleChange}
+						aria-label="Platform"
+					>
+					<ToggleButton value="timestamp">
+						Timestamp
+					</ToggleButton>
+					<ToggleButton value="sort-runtime">
 						Sort (by runtime)
 					</ToggleButton>
-					<ToggleButton value="sort">
+					<ToggleButton value="sort-dmv">
 						Sort (by data movement)
 					</ToggleButton>
 					<ToggleButton value="comparison">

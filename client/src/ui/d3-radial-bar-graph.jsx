@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchWindow, updateAppState, updateWindow } from "../actions";
-import { COLORS, formatDuration, setContrast } from "../helpers/utils";
+import { COLORS, formatDuration, setContrast, formatMemory } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	let {
@@ -23,7 +23,7 @@ export default function D3RadialBarGraph(props) {
 		withPlayFeature
 	} = props;
 
-	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
+	const { xData, yData, zData, maxY, classNames, startTs, endTs, dmv } =
 		individualSummary;
 	const [hover, setHover] = useState(false);
 	const [currentSector, setCurrentSector] = useState(-1);
@@ -208,6 +208,16 @@ export default function D3RadialBarGraph(props) {
 					return "translate(" + -10 + "," + 0 + ")";
 				})
 				.text(formatDuration(endTs, startTs, true));
+
+			svgRef.current
+				.append("text")
+				.attr("class", "hidden-text")
+				.attr("fill", runtime_color_contrast)
+				.attr("font-size", 12)
+				.attr("transform", () => {
+					return "translate(" + -20 + "," + 15 + ")";
+				})
+				.text(formatMemory(dmv));
 		}
 
 		if (

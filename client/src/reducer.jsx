@@ -11,6 +11,7 @@ import {
 	FETCH_TOPOLOGY,
 	FETCH_WINDOW,
 	UPDATE_APP_STATE,
+	UPDATE_INDIVIDUAL_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
 	UPDATE_TIMELINE_SUMMARY,
 	UPDATE_WINDOW
@@ -147,6 +148,11 @@ export default function Reducer(state = initialState, action) {
 				windowStart: action.payload[0],
 				windowEnd: action.payload[1]
 			};
+		case UPDATE_INDIVIDUAL_SUMMARY:
+			return {
+				...state,
+				individualSummary: action.payload
+			}
 		default:
 			return state;
 	}

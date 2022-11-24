@@ -5,8 +5,8 @@ import json
 import numpy as np
 import pandas as pd
 import re
-import os
 from typing import Dict, List, Tuple
+import random
 
 from server.logger import get_logger
 from server.rules import Rules
@@ -770,6 +770,8 @@ class Timeline:
             "maxY": max_ts,
             "startTs": self.start_ts,
             "endTs": self.end_ts,
+            "dur": self.end_ts - self.start_ts,
+            "dmv": random.randint(1, 805306368), # TODO (suraj): Remove this hardcoding.
             "ts_width": ts_width,
             "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),

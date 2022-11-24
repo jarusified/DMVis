@@ -76,6 +76,10 @@ export function formatTimestamp(millis, precision = 0) {
 	return (millis / 1e6).toFixed(precision) + "s";
 }
 
+export function formatMemory(kb) {
+	return (kb / (1024 * 1024)).toFixed(1) + "MB";
+}
+
 export const barBisect = (scale, pos) => {
 	let [ticksLeft, ticksRight] = scale.range();
 	let ticksStep = scale.step();
