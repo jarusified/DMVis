@@ -290,7 +290,7 @@ class HTTPServer:
         def get_metrics_timeline():
             if self.timeline is not None:
                 request_context = request.json
-                metrics_timeline = self.timeline.get_metrics();
+                metrics_timeline = self.timeline.get_metrics()
                 return jsonify(metrics_timeline)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")

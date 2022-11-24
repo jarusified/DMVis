@@ -1,5 +1,6 @@
 import os
 from typing import List, Dict
+from glob import glob
 
 from server.logger import get_logger
 from server.timeline import Timeline
@@ -13,20 +14,25 @@ class Datasets:
         Dataset class for collecting the profiles from the input `data_dir`.
         """
         self.data_dir = data_dir
-        self.experiments = [
-            exp for exp in os.listdir(data_dir) if exp.split(".")[1] == "json" and exp.split(".")[0] != "cct"
-        ]
+        self.ensemble = set(filename.split(".")[0].split("/")[-1] for filename in glob(f"{data_dir}/*.json"))
 
-        self.file_paths = {
-            exp: os.path.join(os.path.abspath(data_dir), exp)
-            for exp in self.experiments
+        print(self.ensemble)
+
+        self.traces = {
+            exp: os.path.join(data_dir, exp) + ".json" for exp in self.ensemble
         }
+        print(self.traces)
+
+        self.metrics = {
+            exp: os.path.join(data_dir, exp) + ".csv" for exp in self.ensemble
+        }
+
         self.profiles = {
-            exp: Timeline(self.file_paths[exp], profile_format)
-            for exp in self.experiments
+            exp: Timeline(self.metrics[exp], self.traces[exp], profile_format)
+            for exp in self.ensemble
         }
 
-        LOGGER.info(f"{len(self.experiments)} JIT profiles loaded! ")
+        LOGGER.info(f"{len(self.ensemble)} JIT profiles loaded! ")
         LOGGER.info(f"=====================================")
         for name, profile in self.profiles.items():
             LOGGER.info(f"{name} contains {profile.get_event_count()} events. ")
@@ -62,7 +68,7 @@ class Datasets:
         :returns: List of experiments
         """
         event_counts_dict = {
-            exp: self.profiles[exp].get_event_count() for exp in self.experiments
+            exp: self.profiles[exp].get_event_count() for exp in self.ensemble
         }
         sorted_experiments = sorted(
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
@@ -77,7 +83,7 @@ class Datasets:
          :returns: List of experiments
         """
         event_counts_dict = {
-            exp: self.profiles[exp].get_start_timestamp() for exp in self.experiments
+            exp: self.profiles[exp].get_start_timestamp() for exp in self.ensemble
         }
         sorted_experiments = sorted(
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
@@ -92,6 +98,6 @@ class Datasets:
          :returns: List[min, max]
         """
         dur_dict = {
-            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.experiments
+            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.ensemble
         }
         return [min(dur_dict.values()), max(dur_dict.values())]
