@@ -56,8 +56,8 @@ function D3Matrix(props) {
 				.attr("class", "tooltip")
 				.style("opacity", 0);
 
-			let xScale = d3.scaleBand().range([0, width]).domain([0, matrixData.length - 1]).padding(0.05),
-				yScale = d3.scaleBand().range([height, 0]).domain([0, matrixData[0].length - 1]).padding(0.05);
+			let xScale = d3.scaleLinear().range([0, width]).domain([0, 2]);
+			let yScale = d3.scaleLinear().range([height, 0]).domain([0, 8]);
 
 			let hashNode = (x, y) => x + " -> " + y;
 
@@ -114,19 +114,20 @@ function D3Matrix(props) {
 				.attr("y", margin.top / 2)
 				.text((d) => d);
 
-			// console.log(grids);
+			console.log(grids);
 
 			svg.selectAll("rect")
 				.data(grids)
 				.enter()
 				.append("rect")
 				.attr("x", (d) => { 
-					// console.log(xScale(0), d[1], d[1].x, xScale(d[1].x)); 
-					return xScale(d[1].x) - xScale.bandwidth() / 2;
+					console.log(xScale(2), d[1], d[1].x, xScale(d[1].x)); 
+					return xScale(d[1].x) // - xScale.bandwidth() / 2;
 				})
-				.attr("y", (d) => yScale(d[1].y) - xScale.bandwidth() / 2)
-				.attr("width", xScale.bandwidth())
-				.attr("height", yScale.bandwidth())
+				.attr("y", (d) => yScale(d[1].y) //- xScale.bandwidth() / 2
+				)
+				.attr("width", 20)
+				.attr("height", 20)
 				.attr("stroke", "black")
 				.attr("stroke-width", 0.5)
 				.attr("fill", (d) => cScale(d[1].value))

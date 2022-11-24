@@ -17,6 +17,7 @@ import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
+import LineGraphLegend from "../ui/LineGraphLegend";
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -133,7 +134,7 @@ export default function EnsembleSummaryWrapper() {
 					interpolator={interpolateOranges}
 				/>
 				<CategoryLegend colormap={categoryColormap} />
-				
+				<LineGraphLegend />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
