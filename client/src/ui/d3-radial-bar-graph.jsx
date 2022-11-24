@@ -253,7 +253,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("class", "line")
 				.datum(individualSummary["gpuUtilization"])
 				.attr("d", curve)
-				.attr("fill", "#69BF71")
+				.attr("fill", theme.palette.gpuUtilization)
 				.attr("transform", () => {
 					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});
@@ -278,7 +278,7 @@ export default function D3RadialBarGraph(props) {
 						.x((d) => xScale2(d))
 						.y((d, i) => yScale2(i))
 				)
-				.attr("fill", "#F86045")
+				.attr("fill", theme.palette.cpuUtilization)
 				.attr("transform", () => {
 					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});

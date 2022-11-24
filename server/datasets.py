@@ -16,13 +16,9 @@ class Datasets:
         self.data_dir = data_dir
         self.ensemble = set(filename.split(".")[0].split("/")[-1] for filename in glob(f"{data_dir}/*.json"))
 
-        print(self.ensemble)
-
         self.traces = {
             exp: os.path.join(data_dir, exp) + ".json" for exp in self.ensemble
         }
-        print(self.traces)
-
         self.metrics = {
             exp: os.path.join(data_dir, exp) + ".csv" for exp in self.ensemble
         }
