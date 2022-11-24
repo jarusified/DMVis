@@ -51,7 +51,9 @@ export default function CategoryLegend(props) {
 		fontSize: theme.text.fontSize
 	};
 	useEffect(() => {
-		drawLineGraphs("lineLegend", lineLegendProps);
+		if (props.range[0] != props.range[1]) {
+			drawLineGraphs("lineLegend", lineLegendProps);
+		}
 	}, [props]);
 
 	return (

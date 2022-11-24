@@ -103,12 +103,11 @@ export default function EnsembleSummaryWrapper() {
 		}
 	}, [individualSummary]);
 
-	const metrics = ["GPU utilization", "CPU utilization"];
-
 	return (
 		<Grid container justifyContent="center">
 			<Grid item xs={6} p={1}>
-				<ToggleButtonGroup
+				{Object.keys(individualSummary).length > 0 ? (
+					<ToggleButtonGroup
 					color="primary"
 					value={alignment}
 					onChange={handleChange}
@@ -125,6 +124,7 @@ export default function EnsembleSummaryWrapper() {
 						Compare
 					</ToggleButton>
 				</ToggleButtonGroup>
+				) : (<></>)}
 			</Grid>
 			<Grid item xs={6}>
 				<LinearScaleLegend
@@ -134,7 +134,7 @@ export default function EnsembleSummaryWrapper() {
 					interpolator={interpolateOranges}
 				/>
 				<CategoryLegend colormap={categoryColormap} />
-				<LineGraphLegend />
+				<LineGraphLegend range={runtimeRange} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
