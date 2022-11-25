@@ -247,12 +247,7 @@ class HTTPServer:
         def serve_topology():
             import base64
 
-            if "-" in self.experiment:
-                exp = self.experiment.split('-')[1]
-            else:
-                exp = "default"
-
-            file_path = os.path.join(self.data_dir, f"topology-{exp}.svg")
+            file_path = os.path.join(self.data_dir, f"{self.experiment}.svg")
             if not os.path.exists(file_path):
                 file_path = os.path.join(self.static_dir, "topology-default.svg")
 
