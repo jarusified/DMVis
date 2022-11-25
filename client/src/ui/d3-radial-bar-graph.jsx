@@ -47,9 +47,9 @@ export default function D3RadialBarGraph(props) {
 
 	function play_pause_icon(appState) {
 		if (!appState) {
-			return "M8 5v14l11-7z"; // play icon
+			return "M5 -10v35l23-18z"; // play icon
 		} else if (appState) {
-			return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
+			return "M6 24h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
 		}
 	}
 
@@ -107,7 +107,7 @@ export default function D3RadialBarGraph(props) {
 				return COLORS[class_name];
 			})
 			.selectAll("path")
-			.data((d) => d)
+			.data((d) => {console.log(d); return d; })
 			.join("path")
 			.attr("class", "sector")
 			.attr("id", (d, i) => "sector-" + i)

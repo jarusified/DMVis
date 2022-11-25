@@ -80,7 +80,8 @@ export default function EnsembleSummaryWrapper() {
 				break;
 			}
 			case 'compare': {
-
+				dispatch(updateIndividualSummary(ensembleSummary["rel_binning"]));
+				break;
 			}
 		}
 
@@ -151,7 +152,7 @@ export default function EnsembleSummaryWrapper() {
 					<ToggleButton value="sort-dmv">
 						Sort (by data movement)
 					</ToggleButton>
-					<ToggleButton value="comparison">
+					<ToggleButton value="compare">
 						Compare
 					</ToggleButton>
 				</ToggleButtonGroup>
@@ -203,7 +204,7 @@ export default function EnsembleSummaryWrapper() {
 										Math.min(style.width, style.height) / 2
 									}
 									ensembleSummary={ensembleSummary}
-									withInnerCircle={true}
+									withInnerCircle={false}
 									withUtilization={true}
 									withTicks={false}
 									withYAxis={false}

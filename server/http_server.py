@@ -174,7 +174,8 @@ class HTTPServer:
                 ind_info[exp] = timeline.get_summary(sample_count=12)
 
             ensemble_info = {
-                "runtime_range": self.profiles.max_min_runtime()
+                "runtime_range": self.profiles.max_min_runtime(),
+                "rel_binning": self.profiles.get_summary(sample_count=12)
             }
             return {
                 'individual': ind_info,

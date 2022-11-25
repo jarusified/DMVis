@@ -626,12 +626,12 @@ class Timeline:
 
             ret.append(_obj)
 
-        ret.append({
-            "id": 4,
-            "content": "",
-            "value": 4,
-            "title": "<span style='color: red'>" + group + "</span>"
-        })
+        # ret.append({
+        #     "id": 4,
+        #     "content": "",
+        #     "value": 4,
+        #     "title": "<span style='color: red'>" + group + "</span>"
+        # })
 
         return ret
 
@@ -768,13 +768,13 @@ class Timeline:
         return {
             "classNames": self.grp_to_cls,
             "maxY": max_ts,
-            "startTs": self.start_ts,
             "endTs": self.end_ts,
             "dur": self.end_ts - self.start_ts,
             "dmv": random.randint(1, 805306368), # TODO (suraj): Remove this hardcoding.
+            "startTs": self.start_ts,
             "ts_width": ts_width,
-            "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),
+            "yData": list(events_in_sample.values()),
             "zData": list(self.rules["grouping"].keys()),
             "gpuUtilization": self.metadata[-2]["key"],
             "memUtilization": self.metadata[-1]["key"]
@@ -796,6 +796,7 @@ class Timeline:
             self.grp_df_dict,
             sub_grp_df_dict=self.sub_grp_df_dict,
             grp_to_idx=self.grp_to_idx,
+            exclude_background=True
         )
         groups = self.groups_for_vis_timeline()
 
@@ -804,6 +805,8 @@ class Timeline:
             "events": events,
             "groups": groups,
             "start_ts": window_end,
+            "class_names": self.grp_to_cls,
+            "grouping": self.rules["grouping"]
         }
 
     def get_window(self, window_start, window_end) -> Dict:
