@@ -131,7 +131,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("transform", (d) => {
 				return (
 					"rotate(" +
-					(((x(d) + x.bandwidth() / 2) * 180) / Math.PI - 90) +
+					(((x(d)) * 180) / Math.PI - 90) +
 					")translate(" +
 					innerRadius +
 					",0)"
@@ -142,7 +142,6 @@ export default function D3RadialBarGraph(props) {
 
 		label
 			.append("text")
-			.attr("class", "hidden-text")
 			.attr("opacity", () => {
 				if (withLabels) {
 					return 1;
@@ -201,7 +200,6 @@ export default function D3RadialBarGraph(props) {
 
 			svgRef.current
 				.append("text")
-				.attr("class", "hidden-text")
 				.attr("fill", runtime_color_contrast)
 				.attr("font-size", 12)
 				.attr("transform", () => {
@@ -211,7 +209,6 @@ export default function D3RadialBarGraph(props) {
 
 			svgRef.current
 				.append("text")
-				.attr("class", "hidden-text")
 				.attr("fill", runtime_color_contrast)
 				.attr("font-size", 12)
 				.attr("transform", () => {
