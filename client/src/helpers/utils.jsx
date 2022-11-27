@@ -52,11 +52,12 @@ export function formatDuration(millis, start_ts, with_metric = true) {
 	let duration = millis - start_ts;
 	let ts = "";
 	let metric = "";
-	if (duration < 1e3) {
-		ts = duration;
-		metric = "\u03BC";
-	} else if (duration < 1e6 && duration > 1e3) {
-		ts = (duration / 1e3).toFixed(1);
+	// if (duration < 1e3) {
+	// 	ts = duration;
+	// 	metric = "\u03BC";
+	// } else 
+	if (duration < 1e6 && duration > 1e0) {
+		ts = (duration / 1e6).toFixed(1);
 		metric = "ms";
 	} else {
 		ts = (duration / 1e6).toFixed(1);
@@ -74,6 +75,10 @@ export function formatTimestamp(millis, precision = 0) {
 		return (millis / 1e3).toFixed(precision) + "ms";
 	}
 	return (millis / 1e6).toFixed(precision) + "s";
+}
+
+export function formatMemory(kb) {
+	return (kb / (1024 * 1024)).toFixed(1) + "MB";
 }
 
 export const barBisect = (scale, pos) => {

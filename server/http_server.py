@@ -158,8 +158,8 @@ class HTTPServer:
                 timeline_path = os.path.join(
                     self.out_dir, "nova_timeline_detailed.json"
                 )
-                with open(timeline_path, "w") as outfile:
-                    json.dump(timeline, outfile)
+                # with open(timeline_path, "w") as outfile:
+                #     json.dump(timeline, outfile)
                 return jsonify(timeline)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
@@ -174,7 +174,8 @@ class HTTPServer:
                 ind_info[exp] = timeline.get_summary(sample_count=12)
 
             ensemble_info = {
-                "runtime_range": self.profiles.max_min_runtime()
+                "runtime_range": self.profiles.max_min_runtime(),
+                "rel_binning": self.profiles.get_summary(sample_count=12)
             }
             return {
                 'individual': ind_info,
@@ -247,12 +248,7 @@ class HTTPServer:
         def serve_topology():
             import base64
 
-            if "-" in self.experiment:
-                exp = self.experiment.split('-')[1]
-            else:
-                exp = "default"
-
-            file_path = os.path.join(self.data_dir, f"topology-{exp}.svg")
+            file_path = os.path.join(self.data_dir, f"{self.experiment}.svg")
             if not os.path.exists(file_path):
                 file_path = os.path.join(self.static_dir, "topology-default.svg")
 
@@ -290,7 +286,7 @@ class HTTPServer:
         def get_metrics_timeline():
             if self.timeline is not None:
                 request_context = request.json
-                metrics_timeline = self.timeline.get_metrics();
+                metrics_timeline = self.timeline.get_metrics()
                 return jsonify(metrics_timeline)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")

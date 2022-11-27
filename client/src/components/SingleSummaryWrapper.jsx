@@ -114,7 +114,7 @@ export default function SingleSummaryWrapper() {
 							withInnerCircle={false}
 							withTicks={true}
 							withLabels={true}
-							withYAxis={true}
+							withYAxis={false}
 							withPlayFeature={true}
 						/>
 						<Grid container>
@@ -150,7 +150,7 @@ export default function SingleSummaryWrapper() {
 									</span>
 								</Typography>
 								<Typography> </Typography>
-								<Typography
+								{/* <Typography
 									variant="caption"
 									style={{
 										fontSize: theme.text.fontSize
@@ -160,7 +160,7 @@ export default function SingleSummaryWrapper() {
 									<span style={{ color: theme.text.label }}>
 										{blockUtilization}
 									</span>
-								</Typography>
+								</Typography> */}
 								<Typography> </Typography>
 								<Typography
 									variant="caption"

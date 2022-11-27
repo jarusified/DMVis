@@ -1,5 +1,9 @@
 import os
+import math
+import random
+import numpy as np
 from typing import List, Dict
+from glob import glob
 
 from server.logger import get_logger
 from server.timeline import Timeline
@@ -13,24 +17,31 @@ class Datasets:
         Dataset class for collecting the profiles from the input `data_dir`.
         """
         self.data_dir = data_dir
-        self.experiments = [
-            exp for exp in os.listdir(data_dir) if exp.split(".")[1] == "json" and exp.split(".")[0] != "cct"
-        ]
+        self.ensemble = set(filename.split(".")[0].split("/")[-1] for filename in glob(f"{data_dir}/*.json"))
 
-        self.file_paths = {
-            exp: os.path.join(os.path.abspath(data_dir), exp)
-            for exp in self.experiments
+        self.traces = {
+            exp: os.path.join(data_dir, exp) + ".json" for exp in self.ensemble
         }
+        self.metrics = {
+            exp: os.path.join(data_dir, exp) + ".csv" for exp in self.ensemble
+        }
+
+        self.topologies = {
+            exp: os.path.join(data_dir, exp) + ".svg" for exp in self.ensemble
+        }
+
         self.profiles = {
-            exp: Timeline(self.file_paths[exp], profile_format)
-            for exp in self.experiments
+            exp: Timeline(self.metrics[exp], self.traces[exp], profile_format)
+            for exp in self.ensemble
         }
 
-        LOGGER.info(f"{len(self.experiments)} JIT profiles loaded! ")
+        LOGGER.info(f"{len(self.ensemble)} JIT profiles loaded! ")
         LOGGER.info(f"=====================================")
         for name, profile in self.profiles.items():
             LOGGER.info(f"{name} contains {profile.get_event_count()} events. ")
         LOGGER.info(f"=====================================")
+
+        self.get_summary()
 
     def get_all_profiles(self) -> Dict[str, Timeline]:
         """
@@ -62,7 +73,7 @@ class Datasets:
         :returns: List of experiments
         """
         event_counts_dict = {
-            exp: self.profiles[exp].get_event_count() for exp in self.experiments
+            exp: self.profiles[exp].get_event_count() for exp in self.ensemble
         }
         sorted_experiments = sorted(
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
@@ -77,7 +88,7 @@ class Datasets:
          :returns: List of experiments
         """
         event_counts_dict = {
-            exp: self.profiles[exp].get_start_timestamp() for exp in self.experiments
+            exp: self.profiles[exp].get_start_timestamp() for exp in self.ensemble
         }
         sorted_experiments = sorted(
             event_counts_dict.items(), key=lambda item: item[1], reverse=True
@@ -92,6 +103,81 @@ class Datasets:
          :returns: List[min, max]
         """
         dur_dict = {
-            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.experiments
+            exp: self.profiles[exp].get_end_timestamp() - self.profiles[exp].get_start_timestamp() for exp in self.ensemble
         }
         return [min(dur_dict.values()), max(dur_dict.values())]
+
+
+    def get_summary(self, sample_count=50) -> Dict:
+
+        # Find the most expensive run.
+        max_profile = None
+        max_ts = 0
+        for name in self.profiles:
+            profile = self.profiles[name]
+            ts = profile.end_ts - profile.start_ts
+            if max_ts < ts:
+                max_ts = ts
+                max_profile = name
+
+        # Set the sample vector.
+        ts_width = math.ceil(max_ts / sample_count)
+
+        max_profile_start_ts = 0
+        max_profile_end_ts = max_ts
+        ts_samples = [
+            math.ceil(sample)
+            for sample in np.arange(max_profile_start_ts, max_profile_end_ts, ts_width)
+        ]
+
+        ret = {}
+        for name in self.profiles:
+            profile = self.profiles[name]
+            timeline = self.profiles[name].get_timeline()
+
+            events_in_sample = {
+                _s: {grp["content"]: 0 for grp in timeline["groups"]} for _s in ts_samples
+            }
+
+            for event in timeline["events"]:
+                group = profile.idx_to_grp[event["group"]]
+
+                event_ts = event["end"] - event["start"]
+
+                ts = np.array([0, event_ts])
+                dig = np.digitize(ts, ts_samples)
+
+                if dig[0] == dig[1]:
+                    events_in_sample[ts_samples[dig[0] - 1]][group] += (
+                        event["end"] - event["start"]
+                    )
+                else:
+                    _l = 0
+                    _h = event["end"] - event["start"]
+                    for i in range(dig[0], dig[1]):
+                        events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
+                        _l = ts_samples[i]
+
+                    if i <= len(ts_samples) - 1:
+                        events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
+
+            max_ts = 0
+
+            for [sample, val] in events_in_sample.items():
+                max_ts = max(sum(val.values()), max_ts)
+                val["ts"] = sample
+            
+            ret[name] = {
+                "classNames": timeline["class_names"],
+                "dmv": random.randint(1, 805306368),
+                "startTs": timeline["start_ts"],
+                "endTs": timeline["end_ts"],
+                "dur": timeline["end_ts"] - timeline["start_ts"],
+                "xData": list(ts_samples),
+                "yData": list(events_in_sample.values()),
+                "zData": list(timeline["grouping"]),
+                "maxY": max_ts,
+                "ts_width": ts_width,
+            }
+
+        return ret

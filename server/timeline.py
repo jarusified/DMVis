@@ -2,12 +2,11 @@ import copy
 import itertools
 import math
 import json
-from operator import sub
 import numpy as np
 import pandas as pd
 import re
-import os
 from typing import Dict, List, Tuple
+import random
 
 from server.logger import get_logger
 from server.rules import Rules
@@ -30,13 +29,13 @@ pd.options.display.float_format = "{:.3f}".format
 
 
 class Timeline:
-    def __init__(self, file_path: str, profile_format: str):
+    def __init__(self, metric_file_path: str, trace_file_path: str, profile_format: str):
         """
         Initializes a Timeline object.
         """
         self.profile_format = profile_format
         # Derive the rules based on profile_format and read json from file_path.
-        self.rules, self.timeline, self.metadata, self.metrics = self.init(file_path, profile_format)
+        self.rules, self.timeline, self.metadata, self.metrics = self.init(metric_file_path, trace_file_path, profile_format)
 
         self.calculate_mappers()
 
@@ -77,7 +76,7 @@ class Timeline:
         self.event_durations = self.construct_event_duration_dict()
 
     ################### Pre-processing functions ###################
-    def init(self, file_path: str, format: str) -> None:
+    def init(self, metric_file_path: str, trace_file_path: str, format: str) -> None:
         """
         1. Reads the JSON object.
         2. Validate JSON (TODO).
@@ -88,9 +87,9 @@ class Timeline:
         :params: file_path : Path of the Chrome trace JSON
         :params: format : supports two formats, JIT & SNPROF.
         """
-        LOGGER.debug(f"Loading {file_path} as a timeline.")
-        # Read the timeline JSON.
-        profile = load_json(file_path=file_path)
+        LOGGER.debug(f"Loading {trace_file_path} as a timeline.")
+        # Read the trace from the timeline JSON.
+        profile = load_json(file_path=trace_file_path)
 
         # Derive the rules, timeline and metadata based on the format.
         if format == "JIT":
@@ -99,7 +98,7 @@ class Timeline:
             # NOTE: Current structure in JIT Profiler dumps the data into json["data"]["traceEvents"].
             if "data" not in profile.keys():
                 LOGGER.error(
-                    f"Are you sure the timeline format for {file_path} is {format}? Looks like it's not ;("
+                    f"Are you sure the timeline format for {trace_file_path} is {format}? Looks like it's not ;("
                 )
                 exit(1)
 
@@ -133,8 +132,7 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
 
-            gpu_file_path = os.path.join("/".join(file_path.split("/")[:-1]), "gpu_utilization.csv")
-            df = pd.read_csv(gpu_file_path, sep=", ")
+            df = pd.read_csv(metric_file_path, sep=", ")
 
             metrics = {}
             for column in df.columns:
@@ -628,12 +626,12 @@ class Timeline:
 
             ret.append(_obj)
 
-        ret.append({
-            "id": 4,
-            "content": "",
-            "value": 4,
-            "title": "<span style='color: red'>" + group + "</span>"
-        })
+        # ret.append({
+        #     "id": 4,
+        #     "content": "",
+        #     "value": 4,
+        #     "title": "<span style='color: red'>" + group + "</span>"
+        # })
 
         return ret
 
@@ -770,11 +768,13 @@ class Timeline:
         return {
             "classNames": self.grp_to_cls,
             "maxY": max_ts,
-            "startTs": self.start_ts,
             "endTs": self.end_ts,
+            "dur": self.end_ts - self.start_ts,
+            "dmv": random.randint(1, 805306368), # TODO (suraj): Remove this hardcoding.
+            "startTs": self.start_ts,
             "ts_width": ts_width,
-            "yData": list(events_in_sample.values()),
             "xData": list(ts_samples),
+            "yData": list(events_in_sample.values()),
             "zData": list(self.rules["grouping"].keys()),
             "gpuUtilization": self.metadata[-2]["key"],
             "memUtilization": self.metadata[-1]["key"]
@@ -796,14 +796,17 @@ class Timeline:
             self.grp_df_dict,
             sub_grp_df_dict=self.sub_grp_df_dict,
             grp_to_idx=self.grp_to_idx,
+            exclude_background=True
         )
         groups = self.groups_for_vis_timeline()
 
         return {
-            "end_ts": window_start,
+            "end_ts": window_end,
             "events": events,
             "groups": groups,
-            "start_ts": window_end,
+            "start_ts": window_start,
+            "class_names": self.grp_to_cls,
+            "grouping": list(self.rules["grouping"].keys())
         }
 
     def get_window(self, window_start, window_end) -> Dict:

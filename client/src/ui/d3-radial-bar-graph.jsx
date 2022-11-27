@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchWindow, updateAppState, updateWindow } from "../actions";
-import { COLORS, formatDuration, setContrast } from "../helpers/utils";
+import { COLORS, formatDuration, setContrast, formatMemory } from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	let {
@@ -23,7 +23,7 @@ export default function D3RadialBarGraph(props) {
 		withPlayFeature
 	} = props;
 
-	const { xData, yData, zData, maxY, classNames, startTs, endTs } =
+	const { xData, yData, zData, maxY, classNames, startTs, endTs, dmv } =
 		individualSummary;
 	const [hover, setHover] = useState(false);
 	const [currentSector, setCurrentSector] = useState(-1);
@@ -47,9 +47,9 @@ export default function D3RadialBarGraph(props) {
 
 	function play_pause_icon(appState) {
 		if (!appState) {
-			return "M8 5v14l11-7z"; // play icon
+			return "M5 -10v35l23-18z"; // play icon
 		} else if (appState) {
-			return "M6 19h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
+			return "M6 24h4V5H6v14zm8-14v14h4V5h-4z"; // pause icon
 		}
 	}
 
@@ -97,10 +97,12 @@ export default function D3RadialBarGraph(props) {
 			.padAngle(0.02)
 			.padRadius(innerRadius);
 
+		const stackedData = d3.stack().keys(zData)(yData);
+
 		svgRef.current
 			.append("g")
 			.selectAll("g")
-			.data(d3.stack().keys(zData)(yData))
+			.data(stackedData)
 			.join("g")
 			.attr("fill", (d) => {
 				const class_name = classNames[d.key];
@@ -131,7 +133,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("transform", (d) => {
 				return (
 					"rotate(" +
-					(((x(d) + x.bandwidth() / 2) * 180) / Math.PI - 90) +
+					(((x(d)) * 180) / Math.PI - 90) +
 					")translate(" +
 					innerRadius +
 					",0)"
@@ -142,7 +144,6 @@ export default function D3RadialBarGraph(props) {
 
 		label
 			.append("text")
-			.attr("class", "hidden-text")
 			.attr("opacity", () => {
 				if (withLabels) {
 					return 1;
@@ -201,13 +202,21 @@ export default function D3RadialBarGraph(props) {
 
 			svgRef.current
 				.append("text")
-				.attr("class", "hidden-text")
 				.attr("fill", runtime_color_contrast)
 				.attr("font-size", 12)
 				.attr("transform", () => {
 					return "translate(" + -10 + "," + 0 + ")";
 				})
 				.text(formatDuration(endTs, startTs, true));
+
+			svgRef.current
+				.append("text")
+				.attr("fill", runtime_color_contrast)
+				.attr("font-size", 12)
+				.attr("transform", () => {
+					return "translate(" + -20 + "," + 15 + ")";
+				})
+				.text(formatMemory(dmv));
 		}
 
 		if (
@@ -253,7 +262,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("class", "line")
 				.datum(individualSummary["gpuUtilization"])
 				.attr("d", curve)
-				.attr("fill", "#69BF71")
+				.attr("fill", theme.palette.gpuUtilization)
 				.attr("transform", () => {
 					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});
@@ -278,7 +287,7 @@ export default function D3RadialBarGraph(props) {
 						.x((d) => xScale2(d))
 						.y((d, i) => yScale2(i))
 				)
-				.attr("fill", "#F86045")
+				.attr("fill", theme.palette.cpuUtilization)
 				.attr("transform", () => {
 					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
 				});

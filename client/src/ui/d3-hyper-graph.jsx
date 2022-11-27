@@ -208,7 +208,7 @@ export default function D3HyperGraph(props) {
 			})
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
-			.classed("pulse", false);
+			.classed("pulse", true);
 
 		if (withLabels) {
 			vg.append("text")

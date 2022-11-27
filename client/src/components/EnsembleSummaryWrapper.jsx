@@ -1,20 +1,41 @@
 import { Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import { interpolateOranges } from "d3-scale-chromatic";
 import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { interpolateOranges } from "d3-scale-chromatic";
 
-import { fetchEnsembleSummary, updateSelectedExperiment } from "../actions";
+import { fetchEnsembleSummary, updateSelectedExperiment, updateIndividualSummary } from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
+import LineGraphLegend from "../ui/LineGraphLegend";
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButtonGroup-grouped': {
+    margin: theme.spacing(0.5),
+    border: 0,
+    '&.Mui-disabled': {
+      border: 0,
+    },
+    '&:not(:first-of-type)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-of-type': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -36,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		"&:hover": {
 			boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
 		}
-	},
+	}
 }));
 
 export default function EnsembleSummaryWrapper() {
@@ -51,6 +72,42 @@ export default function EnsembleSummaryWrapper() {
 
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
+	const [toggle, setToggle] = useState("");
+	const [compareMode, setCompareMode] = useState(false);
+	const tempIndividualSummary = useRef(undefined);
+
+	const TOGGLE_MODES = ["timestamp", "sort-runtime", "sort-dmv", "compare"];
+	const handleChange = (event, newToggle) => {
+
+		if(!TOGGLE_MODES.includes(newToggle)) {
+			console.assert("Undefined toggle mode!");
+		}
+
+		switch(newToggle) {
+			case 'timestamp': {	
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.startTs-b.startTs));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'sort-runtime': {
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dur-b.dur));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'sort-dmv': {
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dmv-b.dmv));
+				dispatch(updateIndividualSummary(sorted));
+				break;
+			}
+			case 'compare': {
+				dispatch(updateIndividualSummary(ensembleSummary["rel_binning"]));
+				break;
+			}
+		}
+
+		setToggle(newToggle);
+
+	};
 
 	const style = {
 		top: 30,
@@ -62,9 +119,7 @@ export default function EnsembleSummaryWrapper() {
 	};
 
 	useEffect(() => {
-		const barWidth = 50;
-		const sampleCount = Math.floor(window.innerWidth / 3 / barWidth);
-		dispatch(fetchEnsembleSummary(sampleCount));
+		dispatch(fetchEnsembleSummary());
 	}, []);
 
 	function onClick(exp) {
@@ -84,6 +139,9 @@ export default function EnsembleSummaryWrapper() {
 	useEffect(() => {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
+			if(tempIndividualSummary.current == undefined) {
+				tempIndividualSummary.current = individualSummary;
+			}
 			const exp = Object.keys(individualSummary)[0];
 			const class_names = individualSummary[exp]["classNames"];
 
@@ -95,25 +153,47 @@ export default function EnsembleSummaryWrapper() {
 		}
 	}, [individualSummary]);
 
-	const metrics = ["GPU utilization", "CPU utilization"];
-
 	return (
 		<Grid container justifyContent="center">
-			<Grid item xs={12}>
-				<LinearScaleLegend 
+			<Grid item xs={6} p={1}>
+				{Object.keys(individualSummary).length > 0 ? (
+					<StyledToggleButtonGroup
+						color="primary"
+						value={toggle}
+						exclusive
+						onChange={handleChange}
+						aria-label="Platform"
+					>
+					<ToggleButton value="timestamp">
+						Timestamp
+					</ToggleButton>
+					<ToggleButton value="sort-runtime">
+						Sort (by runtime)
+					</ToggleButton>
+					<ToggleButton value="sort-dmv">
+						Sort (by data movement)
+					</ToggleButton>
+					<ToggleButton value="compare">
+						Compare
+						<ArrowDropDownIcon />
+					</ToggleButton>
+				</StyledToggleButtonGroup>
+				) : (<></>)}
+			</Grid>
+			<Grid item xs={6}>
+				<LinearScaleLegend
 					containerID={"ensemble-tab-legend"}
-					range={runtimeRange} 
-					caption="Ensemble Runtime" interpolator={interpolateOranges} />
+					range={runtimeRange}
+					caption="Ensemble Runtime"
+					interpolator={interpolateOranges}
+				/>
 				<CategoryLegend colormap={categoryColormap} />
+				<LineGraphLegend range={runtimeRange} />
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
 					return (
-						<Grid
-							item
-							xs={4}
-							key={exp.split(".")[0]}
-						>
+						<Grid item xs={4} key={exp.split(".")[0]}>
 							<Typography
 								mt={0}
 								align="center"
@@ -127,7 +207,10 @@ export default function EnsembleSummaryWrapper() {
 							>
 								{exp}
 							</Typography>{" "}
-							<Card className={classes.card} onClick={() => onClick(exp)}>
+							<Card
+								className={classes.card}
+								onClick={() => onClick(exp)}
+							>
 								<D3RadialBarGraph
 									containerName={
 										containerID.current +
@@ -136,8 +219,12 @@ export default function EnsembleSummaryWrapper() {
 									}
 									style={style}
 									individualSummary={individualSummary[exp]}
-									innerRadius={Math.min(style.width, style.height) / 5}
-									outerRadius={Math.min(style.width, style.height) / 2}
+									innerRadius={
+										Math.min(style.width, style.height) / 5
+									}
+									outerRadius={
+										Math.min(style.width, style.height) / 2
+									}
 									ensembleSummary={ensembleSummary}
 									withInnerCircle={true}
 									withUtilization={true}
