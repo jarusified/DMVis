@@ -801,10 +801,10 @@ class Timeline:
         groups = self.groups_for_vis_timeline()
 
         return {
-            "end_ts": window_start,
+            "end_ts": window_end,
             "events": events,
             "groups": groups,
-            "start_ts": window_end,
+            "start_ts": window_start,
             "class_names": self.grp_to_cls,
             "grouping": self.rules["grouping"]
         }

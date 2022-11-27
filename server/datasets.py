@@ -161,14 +161,23 @@ class Datasets:
                     if i <= len(ts_samples) - 1:
                         events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
 
-                ret[name] = {
-                    "classNames": timeline["class_names"],
-                    "dmv": random.randint(1, 805306368),
-                    "dur": timeline["end_ts"] - timeline["start_ts"],
-                    "xData": list(ts_samples),
-                    "yData": list(events_in_sample.values()),
-                    "zData": list(timeline["grouping"]),
-                    "maxY": max_ts,
-                }
+            max_ts = 0
+
+            for [sample, val] in events_in_sample.items():
+                max_ts = max(sum(val.values()), max_ts)
+                val["ts"] = sample
+            
+            ret[name] = {
+                "classNames": timeline["class_names"],
+                "dmv": random.randint(1, 805306368),
+                "startTs": timeline["start_ts"],
+                "endTs": timeline["end_ts"],
+                "dur": timeline["end_ts"] - timeline["start_ts"],
+                "xData": list(ts_samples),
+                "yData": list(events_in_sample.values()),
+                "zData": list(timeline["grouping"]),
+                "maxY": max_ts,
+                "ts_width": ts_width,
+            }
 
         return ret

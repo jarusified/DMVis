@@ -204,7 +204,7 @@ export default function EnsembleSummaryWrapper() {
 										Math.min(style.width, style.height) / 2
 									}
 									ensembleSummary={ensembleSummary}
-									withInnerCircle={false}
+									withInnerCircle={true}
 									withUtilization={true}
 									withTicks={false}
 									withYAxis={false}

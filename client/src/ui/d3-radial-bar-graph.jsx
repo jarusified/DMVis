@@ -97,17 +97,19 @@ export default function D3RadialBarGraph(props) {
 			.padAngle(0.02)
 			.padRadius(innerRadius);
 
+		const stackedData = d3.stack().keys(zData)(yData);
+
 		svgRef.current
 			.append("g")
 			.selectAll("g")
-			.data(d3.stack().keys(zData)(yData))
+			.data(stackedData)
 			.join("g")
 			.attr("fill", (d) => {
 				const class_name = classNames[d.key];
 				return COLORS[class_name];
 			})
 			.selectAll("path")
-			.data((d) => {console.log(d); return d; })
+			.data((d) => d)
 			.join("path")
 			.attr("class", "sector")
 			.attr("id", (d, i) => "sector-" + i)
