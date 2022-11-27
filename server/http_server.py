@@ -155,11 +155,12 @@ class HTTPServer:
                 window_start = request_context["window_start"]
                 window_end = request_context["window_end"]
                 timeline = self.timeline.get_timeline(window_start, window_end)
+                print(timeline)
                 timeline_path = os.path.join(
                     self.out_dir, "nova_timeline_detailed.json"
                 )
-                with open(timeline_path, "w") as outfile:
-                    json.dump(timeline, outfile)
+                # with open(timeline_path, "w") as outfile:
+                #     json.dump(timeline, outfile)
                 return jsonify(timeline)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")

@@ -806,7 +806,7 @@ class Timeline:
             "groups": groups,
             "start_ts": window_start,
             "class_names": self.grp_to_cls,
-            "grouping": self.rules["grouping"]
+            "grouping": list(self.rules["grouping"].keys())
         }
 
     def get_window(self, window_start, window_end) -> Dict:
