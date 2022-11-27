@@ -1,9 +1,11 @@
 import { Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import { interpolateOranges } from "d3-scale-chromatic";
@@ -18,6 +20,22 @@ import CategoryLegend from "../ui/CategoryLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
 import LineGraphLegend from "../ui/LineGraphLegend";
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButtonGroup-grouped': {
+    margin: theme.spacing(0.5),
+    border: 0,
+    '&.Mui-disabled': {
+      border: 0,
+    },
+    '&:not(:first-of-type)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-of-type': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));
 
 const useStyles = makeStyles((theme) => ({
 	svg: {
@@ -55,6 +73,8 @@ export default function EnsembleSummaryWrapper() {
 	const [runtimeRange, setRuntimeRange] = useState([0, 0]);
 	const [categoryColormap, setCategoryColormap] = useState([]);
 	const [toggle, setToggle] = useState("");
+	const [compareMode, setCompareMode] = useState(false);
+	const tempIndividualSummary = useRef(undefined);
 
 	const TOGGLE_MODES = ["timestamp", "sort-runtime", "sort-dmv", "compare"];
 	const handleChange = (event, newToggle) => {
@@ -64,18 +84,18 @@ export default function EnsembleSummaryWrapper() {
 		}
 
 		switch(newToggle) {
-			case 'timestamp': {
-				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.startTs-b.startTs));
+			case 'timestamp': {	
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.startTs-b.startTs));
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
 			case 'sort-runtime': {
-				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.dur-b.dur));
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dur-b.dur));
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
 			case 'sort-dmv': {
-				const sorted = Object.fromEntries(Object.entries(individualSummary).sort(([,a],[,b]) => a.dmv-b.dmv));
+				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dmv-b.dmv));
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
@@ -99,9 +119,7 @@ export default function EnsembleSummaryWrapper() {
 	};
 
 	useEffect(() => {
-		const barWidth = 50;
-		const sampleCount = Math.floor(window.innerWidth / 3 / barWidth);
-		dispatch(fetchEnsembleSummary(sampleCount));
+		dispatch(fetchEnsembleSummary());
 	}, []);
 
 	function onClick(exp) {
@@ -121,6 +139,9 @@ export default function EnsembleSummaryWrapper() {
 	useEffect(() => {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
+			if(tempIndividualSummary.current == undefined) {
+				tempIndividualSummary.current = individualSummary;
+			}
 			const exp = Object.keys(individualSummary)[0];
 			const class_names = individualSummary[exp]["classNames"];
 
@@ -136,7 +157,7 @@ export default function EnsembleSummaryWrapper() {
 		<Grid container justifyContent="center">
 			<Grid item xs={6} p={1}>
 				{Object.keys(individualSummary).length > 0 ? (
-					<ToggleButtonGroup
+					<StyledToggleButtonGroup
 						color="primary"
 						value={toggle}
 						exclusive
@@ -154,8 +175,9 @@ export default function EnsembleSummaryWrapper() {
 					</ToggleButton>
 					<ToggleButton value="compare">
 						Compare
+						<ArrowDropDownIcon />
 					</ToggleButton>
-				</ToggleButtonGroup>
+				</StyledToggleButtonGroup>
 				) : (<></>)}
 			</Grid>
 			<Grid item xs={6}>

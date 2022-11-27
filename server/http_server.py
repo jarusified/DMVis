@@ -155,7 +155,6 @@ class HTTPServer:
                 window_start = request_context["window_start"]
                 window_end = request_context["window_end"]
                 timeline = self.timeline.get_timeline(window_start, window_end)
-                print(timeline)
                 timeline_path = os.path.join(
                     self.out_dir, "nova_timeline_detailed.json"
                 )
