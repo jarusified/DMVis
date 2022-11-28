@@ -345,12 +345,12 @@ export default function D3HyperGraph(props) {
 		console.debug("======================================");
 		if (Object.keys(window).length > 0) {
 			let mapper = {};
-			for (let i = 0; i < window.length; i += 1) {
+			for (let i = 0; i < window.length; i += 1) { 
 				console.debug(window[i].content, window[i].dur);
-				if (!(window[i].content in mapper)) {
-					mapper[window[i].content] = 0;
+				if (!(window[i].name in mapper)) {
+					mapper[window[i].name] = 0;
 				}
-				mapper[window[i].content] += window[i].dur;
+				mapper[window[i].name] += window[i].dur;
 			}
 
 			const max_val = Math.max(...Object.values(mapper));
