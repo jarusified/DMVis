@@ -1,9 +1,11 @@
 import * as d3 from "d3";
 import { interpolateReds } from "d3-scale-chromatic";
 import { useEffect } from "react";
+import { useTheme } from "@mui/material/styles";
 
 function D3Matrix(props) {
 	const { containerName, matrixData, style } = props;
+	const theme = useTheme()
 
 	useEffect(() => {
 		if (matrixData != undefined) {
@@ -23,41 +25,6 @@ function D3Matrix(props) {
 					}
 				}
 			}
-
-			const width = style.width - style.left - style.right;
-			const height = style.height - style.top - style.bottom;
-
-			let svg = d3
-				.select(containerID)
-				.append("svg")
-				.attr("width", style.width)
-				.attr("height", style.height)
-				.append("g")
-				.attr(
-					"transform",
-					"translate(" + 2 * style.left + "," + 2 * style.left + ")"
-				);
-
-			const values = [];
-			for (let d of data) {
-				values.push(d.value);
-			}
-
-			const cScale = d3
-				.scaleSequential()
-				.interpolator(interpolateReds)
-				.domain(d3.extent(data, d => d.value));
-
-			let margin = { left: 36, right: 0, top: 36, bottom: 0 };
-
-			let tooltip = d3
-				.select(containerID)
-				.append("div")
-				.attr("class", "tooltip")
-				.style("opacity", 0);
-
-			let xScale = d3.scaleLinear().range([0, width]).domain([0, 2]);
-			let yScale = d3.scaleLinear().range([height, 0]).domain([0, 8]);
 
 			let hashNode = (x, y) => x + " -> " + y;
 
@@ -90,44 +57,122 @@ function D3Matrix(props) {
 				const from_hash = hashNode(elem.source, elem.target);
 				const to_hash = hashNode(elem.target, elem.source);
 
-				if (grids.has(from_hash)) 
-					grids.get(hashNode(elem.source, elem.target)).value = elem.value;
+				if (grids.has(from_hash))
+					grids.get(hashNode(elem.source, elem.target)).value =
+						elem.value;
 				if (grids.has(to_hash))
-					grids.get(hashNode(elem.target, elem.source)).value = elem.value;
+					grids.get(hashNode(elem.target, elem.source)).value =
+						elem.value;
 			});
 
+			const width = style.width - style.left - style.right;
+			const height = style.height - style.top - style.bottom;
+
+			const rectWidth = 20;
+			const rectHeight = 20;
+
+			function reset() {
+				svg.transition()
+					.duration(750)
+					.call(zoom.transform, d3.zoomIdentity);
+			}
+
+			// prevent scrolling then apply the default filter
+			function filter(event) {
+				event.preventDefault();
+				return (
+					(!event.ctrlKey || event.type === "wheel") && !event.button
+				);
+			}
+
+			function zoomed({ transform }) {
+				svg.attr("transform", transform);
+				// gX.call(xScale.scale(transform.rescaleX(xScale)));
+				// gY.call(yScale.scale(transform.rescaleY(yScale)));
+			}
+
+			const zoom = d3
+				.zoom()
+				.scaleExtent([1, 40])
+				.translateExtent([
+					[-100, -100],
+					[width + 90, height + 100]
+				])
+				.filter(filter)
+				.on("zoom", zoomed);
+
+			let svg = d3
+				.select(containerID)
+				.append("svg")
+				.attr("x", 0.5)
+				.attr("y", 0.5)
+				.attr("width", style.width - 1)
+				.attr("height", style.height - 1)
+				.append("g")
+				.attr("viewBox", [0, 0, width, height])
+				.call(zoom);
+
+
+			let margin = { left: 130, right: 150, top: 100, bottom: 0 };
+
+			let xScale = d3
+				.scaleLinear()
+				.range([style.left + margin.left, width - style.left - style.right - margin.left - margin.right])
+				.domain([0, 3]);
+			
+			let yScale = d3
+				.scaleLinear()
+				.range([style.top, height - style.top - style.bottom])
+				.domain([0, nodes.length]);
+
+			const values = [];
+			for (let d of data) {
+				values.push(d.value);
+			}
+
+			const cScale = d3
+				.scaleSequential()
+				.interpolator(interpolateReds)
+				.domain(d3.extent(data, (d) => d.value));
+
+			let tooltip = d3
+				.select(containerID)
+				.append("div")
+				.attr("class", "tooltip")
+				.style("opacity", 0);
+			
 			svg.selectAll("g")
 				.data(nodes)
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
-				.attr("x", margin.left / 2)
-				.attr("y", (d) => yScale(d) + 4)
-				.text((d) => d);
+				.attr("x", xScale(0))
+				.attr("y", (d) => yScale(d) + 15)
+				.attr("font-size", theme.text.fontSize)
+				.text((d) => { return "CPU-" + d });
 
 			svg.selectAll("g")
-				.data(nodes)
+				.data([0, 3])
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
-				.attr("x", (d) => xScale(d))
-				.attr("y", margin.top / 2)
-				.text((d) => d);
+				.attr("font-size", theme.text.fontSize)
+				.attr("x", (d) => { return xScale(d) + margin.left + rectWidth / 2})
+				.attr("y", 250)
+				.text((d) => { return "GPU-" + d })
+				// .attr("transform", "rotate(-90)");
 
-			console.log(grids);
 
 			svg.selectAll("rect")
 				.data(grids)
 				.enter()
 				.append("rect")
-				.attr("x", (d) => { 
-					console.log(xScale(2), d[1], d[1].x, xScale(d[1].x)); 
-					return xScale(d[1].x) // - xScale.bandwidth() / 2;
+				.attr("x", (d) => {
+					return xScale(d[1].x) + margin.left;
 				})
-				.attr("y", (d) => yScale(d[1].y) //- xScale.bandwidth() / 2
-				)
-				.attr("width", 20)
-				.attr("height", 20)
+				.attr("y", (d) => yScale(d[1].y))
+				.attr("width", rectWidth)
+				.attr("height", rectHeight)
 				.attr("stroke", "black")
 				.attr("stroke-width", 0.5)
 				.attr("fill", (d) => cScale(d[1].value))
