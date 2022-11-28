@@ -108,11 +108,12 @@ class Datasets:
         return [min(dur_dict.values()), max(dur_dict.values())]
 
 
-    def get_summary(self, sample_count=50) -> Dict:
+    def get_summary(self, sample_count=12) -> Dict:
 
         # Find the most expensive run.
         max_profile = None
         max_ts = 0
+    
         for name in self.profiles:
             profile = self.profiles[name]
             ts = profile.end_ts - profile.start_ts
@@ -142,9 +143,7 @@ class Datasets:
             for event in timeline["events"]:
                 group = profile.idx_to_grp[event["group"]]
 
-                event_ts = event["end"] - event["start"]
-
-                ts = np.array([0, event_ts])
+                ts = np.array([event["start"] - profile.start_ts, event["end"] - profile.start_ts])
                 dig = np.digitize(ts, ts_samples)
 
                 if dig[0] == dig[1]:
@@ -155,10 +154,10 @@ class Datasets:
                     _l = 0
                     _h = event["end"] - event["start"]
                     for i in range(dig[0], dig[1]):
-                        events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
+                        events_in_sample[ts_samples[i]][group] += ts_samples[i] - _l
                         _l = ts_samples[i]
 
-                    if i <= len(ts_samples) - 1:
+                    if i < len(ts_samples) - 1:
                         events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
 
             max_ts = 0
