@@ -60,9 +60,9 @@ function D3Matrix(props) {
 				if (grids.has(from_hash))
 					grids.get(hashNode(elem.source, elem.target)).value =
 						elem.value;
-				if (grids.has(to_hash))
-					grids.get(hashNode(elem.target, elem.source)).value =
-						elem.value;
+				// if (grids.has(to_hash))
+				// 	grids.get(hashNode(elem.target, elem.source)).value =
+				// 		elem.value;
 			});
 
 			const width = style.width - style.left - style.right;
@@ -113,6 +113,7 @@ function D3Matrix(props) {
 				.call(zoom);
 
 
+			// TODO: Remove this!!! 
 			let margin = { left: 130, right: 150, top: 100, bottom: 0 };
 
 			let xScale = d3
@@ -133,7 +134,7 @@ function D3Matrix(props) {
 			const cScale = d3
 				.scaleSequential()
 				.interpolator(interpolateReds)
-				.domain(d3.extent(data, (d) => d.value));
+				.domain([0, d3.sum(data, (d) => d.value)]);
 
 			let tooltip = d3
 				.select(containerID)
@@ -146,20 +147,20 @@ function D3Matrix(props) {
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
-				.attr("x", xScale(0))
+				.attr("x", xScale(6))
 				.attr("y", (d) => yScale(d) + 15)
 				.attr("font-size", theme.text.fontSize)
-				.text((d) => { return "CPU-" + d });
+				.text((d) => { return "PU-" + d });
 
 			svg.selectAll("g")
-				.data([0, 3])
+				.data([0, 1])
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
 				.attr("font-size", theme.text.fontSize)
-				.attr("x", (d) => { return xScale(d) + margin.left + rectWidth / 2})
+				.attr("x", (d) => { return xScale(d * 2) + margin.left + rectWidth / 2 - 10})
 				.attr("y", 250)
-				.text((d) => { return "GPU-" + d })
+				.text((d) => { return "D - " + d })
 				// .attr("transform", "rotate(-90)");
 
 
