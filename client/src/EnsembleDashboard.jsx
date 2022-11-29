@@ -1,11 +1,11 @@
 import { CssBaseline, Grid } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
 import ToolBar from "./ui/ToolBar";
 import DraggableDialog from "./ui/folder-input-dialog";
-import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,12 +28,11 @@ export default function EnsembleDashboard() {
 			<CssBaseline />
 			<ToolBar withDropdown={false} />
 			{isLoaded ? (
-
 				<main className={classes.content}>
 					<div className={classes.appBarSpacer} />
 					<EnsembleSummaryWrapper />
 				</main>
-			): (
+			) : (
 				<DraggableDialog />
 			)}
 		</Grid>

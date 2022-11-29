@@ -257,7 +257,7 @@ export default function D3HyperGraph(props) {
 			.linkVertical()
 			.x((d) => d.y)
 			.y((d) => d.x);
-		
+
 		// // Source node position of the link must account for radius of the circle
 		// const linkSource = (d) => {
 		// 	return {
@@ -286,8 +286,8 @@ export default function D3HyperGraph(props) {
 			.attr("y2", (d) => d.target.x)
 			.attr("class", "hyper_edge")
 			.attr("stroke", "#8E6A71")
-			.style('stroke-width', 2)
-			.style('fill', 'none')
+			.style("stroke-width", 2)
+			.style("fill", "none")
 			.attr(
 				"id",
 				(d) =>
@@ -345,7 +345,7 @@ export default function D3HyperGraph(props) {
 		console.debug("======================================");
 		if (Object.keys(window).length > 0) {
 			let mapper = {};
-			for (let i = 0; i < window.length; i += 1) { 
+			for (let i = 0; i < window.length; i += 1) {
 				console.debug(window[i].content, window[i].dur);
 				if (!(window[i].name in mapper)) {
 					mapper[window[i].name] = 0;
@@ -378,7 +378,7 @@ export default function D3HyperGraph(props) {
 						return radiusScale(mapper[d.data.name]);
 					} else return MIN_NODE_RADIUS;
 				})
-				.attr("stroke", "#000")
+				.attr("stroke", "#000");
 
 			// Add pulsating effect to nodes in the timeline view.
 			d3.selectAll(".v-group")

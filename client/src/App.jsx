@@ -30,7 +30,6 @@ const theme = createTheme({
 		backgroundHighlight: "#f8f8f8",
 		gpuUtilization: "#69BF71",
 		cpuUtilization: "#F86045"
-
 	},
 	text: {
 		fontSize: 12,

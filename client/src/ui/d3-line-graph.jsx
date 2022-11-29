@@ -60,8 +60,8 @@ function D3LineGraph(props) {
 			.attr("fill", "none")
 			.attr("stroke", "#83CDD2")
 			.attr("stroke-width", 10)
-			.attr("d", curve)
-			
+			.attr("d", curve);
+
 		svg.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
@@ -81,7 +81,7 @@ function D3LineGraph(props) {
 			.attr("y", 1)
 			.attr("dy", "0.71em")
 			.style("text-anchor", "end")
-			.style("fill", "#4d4d4d")
+			.style("fill", "#4d4d4d");
 
 		// Define the div for the tooltip
 		const tooltip = d3
@@ -101,7 +101,8 @@ function D3LineGraph(props) {
 			.style("fill", "#4d4d4d")
 			.on("mouseover", function (e) {
 				tooltip.transition().duration(200).style("opacity", 0.9);
-				tooltip.html(xProp.toUpperCase())
+				tooltip
+					.html(xProp.toUpperCase())
 					.style("left", e.pageX + "px")
 					.style("top", e.pageY - 28 + "px");
 			})

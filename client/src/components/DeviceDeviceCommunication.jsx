@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // import { fetchHostDeviceComm } from "../actions";
 import D3ChordDiagram from "../ui/d3-chord-diagram";
@@ -24,8 +24,8 @@ export default function DeviceDeviceCommunication() {
 
 	// create a matrix
 	const matrixData = [
-		[0,  0, 8916, 2868],
-		[ 1951, 0, 2060, 6171]
+		[0, 0, 8916, 2868],
+		[1951, 0, 2060, 6171]
 	];
 
 	// useEffect(() => {

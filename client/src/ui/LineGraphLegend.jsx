@@ -1,6 +1,6 @@
+import { useTheme } from "@mui/material/styles";
 import * as d3 from "d3";
 import { useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
 
 function drawLineGraphs(id, props) {
 	let legend = d3
@@ -20,7 +20,7 @@ function drawLineGraphs(id, props) {
 	legend
 		.append("line")
 		.style("stroke", (d) => d[1])
-        .style("stroke-width" , 10)
+		.style("stroke-width", 10)
 		.attr("x1", 0)
 		.attr("y1", 10)
 		.attr("x2", 20)
@@ -47,7 +47,10 @@ export default function CategoryLegend(props) {
 		right: 50,
 		top: 0,
 		width: 200,
-		categories: [["GPU Utilization", theme.palette.gpuUtilization], ["CPU Utilization", theme.palette.cpuUtilization]],
+		categories: [
+			["GPU Utilization", theme.palette.gpuUtilization],
+			["CPU Utilization", theme.palette.cpuUtilization]
+		],
 		fontSize: theme.text.fontSize
 	};
 	useEffect(() => {

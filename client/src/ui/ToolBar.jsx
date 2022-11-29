@@ -118,7 +118,7 @@ export default function ToolBar(props) {
 	};
 
 	useEffect(() => {
-		if(isLoaded)	dispatch(fetchExperiments());
+		if (isLoaded) dispatch(fetchExperiments());
 	}, [isLoaded]);
 
 	// useEffect(() => {
@@ -148,16 +148,19 @@ export default function ToolBar(props) {
 					</Typography>
 					{isLoaded ? (
 						<Typography variant="subtitle1" noWrap component="div">
-							Found <strong>{experiments.length}</strong> profiles in{" "}
-							<span style={{ color: theme.text.label }}>{dataDir}</span>
+							Found <strong>{experiments.length}</strong> profiles
+							in{" "}
+							<span style={{ color: theme.text.label }}>
+								{dataDir}
+							</span>
 						</Typography>
 					) : (
 						<></>
 					)}
 
 					{props.withDropdown &&
-						selectedExperiment != "" &&
-						experiments.length > 0 ? (
+					selectedExperiment != "" &&
+					experiments.length > 0 ? (
 						<FormControl
 							className={classes.formControl}
 							size="small"

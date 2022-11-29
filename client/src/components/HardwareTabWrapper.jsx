@@ -6,15 +6,15 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
+import { interpolateRdYlGn } from "d3-scale-chromatic";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { interpolateRdYlGn } from "d3-scale-chromatic";
 
 import { UPDATE_TIMELINE_SUMMARY } from "../helpers/types";
+import LinearScaleLegend from "../ui/LinearScaleLegend";
 import { TabPanel, a11yProps } from "../ui/tab-panel";
 import TopologyWrapper from "./TopologyWrapper";
-import LinearScaleLegend from "../ui/LinearScaleLegend";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -57,8 +57,10 @@ export default function DetailedTabWrapper() {
 				<Grid item xs={4}>
 					<LinearScaleLegend
 						containerID={"hardware-tab-legend"}
-						range={[0, 100]} 
-						caption="Est. utilization (%)" interpolator={interpolateRdYlGn} />
+						range={[0, 100]}
+						caption="Est. utilization (%)"
+						interpolator={interpolateRdYlGn}
+					/>
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>

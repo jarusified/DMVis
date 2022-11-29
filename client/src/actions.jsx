@@ -47,12 +47,14 @@ async function GETWrapper(url_path) {
 }
 
 export const loadExample = (example) => async (dispatch) => {
-	const isLoaded = await POSTWrapper("load_example", {"example": example});
+	const isLoaded = await POSTWrapper("load_example", {
+		example: example
+	});
 	dispatch({
 		type: LOAD_DATA_DIR,
 		payload: isLoaded
-	})
-}
+	});
+};
 
 export const fetchExperiments = () => async (dispatch) => {
 	const data = await GETWrapper("fetch_experiments");
@@ -118,7 +120,10 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 };
 
 export const fetchWindow = (window_start, window_end) => async (dispatch) => {
-	const window = await POSTWrapper("fetch_window", {window_start: window_start, window_end: window_end });
+	const window = await POSTWrapper("fetch_window", {
+		window_start: window_start,
+		window_end: window_end
+	});
 	dispatch({
 		type: FETCH_WINDOW,
 		payload: window
@@ -135,7 +140,7 @@ export const fetchMetricTimeline = () => async (dispatch) => {
 
 export const updateAppState = () => async (dispatch) => {
 	dispatch({
-		type: UPDATE_APP_STATE,
+		type: UPDATE_APP_STATE
 	});
 };
 
@@ -157,8 +162,8 @@ export const updateIndividualSummary = (sorted) => async (dispatch) => {
 	dispatch({
 		type: UPDATE_INDIVIDUAL_SUMMARY,
 		payload: sorted
-	})
-}
+	});
+};
 
 export const fetchTopology = () => async (dispatch) => {
 	const request_context = {

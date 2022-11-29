@@ -80,9 +80,7 @@ export default function DropDown(props) {
 			>
 				{data.map((value) => (
 					<MenuItem key={value.event} value={value.event}>
-						<ListItemText
-							primary={value}
-						/>
+						<ListItemText primary={value} />
 					</MenuItem>
 				))}
 			</Select>

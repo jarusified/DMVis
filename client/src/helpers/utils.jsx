@@ -55,8 +55,8 @@ export function formatDuration(millis, start_ts, with_metric = true) {
 	// if (duration < 1e3) {
 	// 	ts = duration;
 	// 	metric = "\u03BC";
-	// } else 
-	if (duration < 1e6 && duration > 1e0) {
+	// } else
+	if (duration < 1e6 && duration > 1) {
 		ts = (duration / 1e6).toFixed(1);
 		metric = "ms";
 	} else {

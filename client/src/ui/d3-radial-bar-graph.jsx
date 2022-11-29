@@ -5,7 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchWindow, updateAppState, updateWindow } from "../actions";
-import { COLORS, formatDuration, setContrast, formatMemory } from "../helpers/utils";
+import {
+	COLORS,
+	formatDuration,
+	formatMemory,
+	setContrast
+} from "../helpers/utils";
 
 export default function D3RadialBarGraph(props) {
 	let {
@@ -133,7 +138,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("transform", (d) => {
 				return (
 					"rotate(" +
-					(((x(d)) * 180) / Math.PI - 90) +
+					((x(d) * 180) / Math.PI - 90) +
 					")translate(" +
 					innerRadius +
 					",0)"
@@ -302,7 +307,11 @@ export default function D3RadialBarGraph(props) {
 			const markerWidth = 10;
 			const markerHeight = 10;
 
-			const arrowPoints = [[0, 0], [0, markerWidth], [markerWidth, markerHeight / 2]];
+			const arrowPoints = [
+				[0, 0],
+				[0, markerWidth],
+				[markerWidth, markerHeight / 2]
+			];
 			yAxis
 				.append("defs")
 				.append("marker")
@@ -317,7 +326,8 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", d3.line()(arrowPoints))
 				.attr("stroke", "black");
 
-			yAxis.append("path")
+			yAxis
+				.append("path")
 				.attr(
 					"d",
 					d3.line()([

@@ -89,7 +89,7 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				metricTimeline: action.payload
-			}
+			};
 		case FETCH_TIMELINE:
 			return {
 				...state,
@@ -127,17 +127,17 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				window: action.payload
-			}
+			};
 		case LOAD_DATA_DIR:
 			return {
 				...state,
 				isLoaded: action.payload
-			}
+			};
 		case UPDATE_APP_STATE:
 			return {
 				...state,
 				appState: !state.appState
-			}
+			};
 		case UPDATE_TIMELINE_SUMMARY:
 			return {
 				...state,
@@ -158,7 +158,7 @@ export default function Reducer(state = initialState, action) {
 			return {
 				...state,
 				individualSummary: action.payload
-			}
+			};
 		default:
 			return state;
 	}
