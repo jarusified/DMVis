@@ -1,6 +1,6 @@
 import { useTheme } from "@emotion/react";
 import * as d3 from "d3";
-import { interpolateOranges } from "d3-scale-chromatic";
+import { interpolateBlues } from "d3-scale-chromatic";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -179,7 +179,7 @@ export default function D3RadialBarGraph(props) {
 				100;
 			const cScale = d3
 				.scaleSequential()
-				.interpolator(interpolateOranges)
+				.interpolator(interpolateBlues)
 				.domain([0, 100]);
 			const runtime_color = cScale(perc);
 			const runtime_color_contrast = setContrast(runtime_color);
