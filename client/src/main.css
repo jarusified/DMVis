@@ -134,3 +134,7 @@ path {
 	border-radius: 8px;
 	pointer-events: none;
 }
+
+.MuiBackdrop-root {
+	background: transparent !important;
+}
