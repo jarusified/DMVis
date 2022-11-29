@@ -10,6 +10,7 @@ import {
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	FETCH_WINDOW,
+	LOAD_DATA_DIR,
 	UPDATE_APP_STATE,
 	UPDATE_INDIVIDUAL_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
@@ -36,12 +37,13 @@ const initialState = {
 	events: [],
 	eventSummary: [],
 	experiments: [],
-	sharedMemUtilization: 0,
 	groups: [],
 	individualSummary: {},
-	metricTimeline: [],	
+	isLoaded: false,
+	metricTimeline: [],
 	profileMetadata: [],
 	selectedExperiment: "",
+	sharedMemUtilization: 0,
 	summary: {
 		data: [],
 		groups: 0,
@@ -126,7 +128,11 @@ export default function Reducer(state = initialState, action) {
 				...state,
 				window: action.payload
 			}
-		
+		case LOAD_DATA_DIR:
+			return {
+				...state,
+				isLoaded: action.payload
+			}
 		case UPDATE_APP_STATE:
 			return {
 				...state,

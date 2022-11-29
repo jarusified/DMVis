@@ -4,12 +4,13 @@ import {
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
-	FETCH_METRIC_TIMELINE,	
+	FETCH_METRIC_TIMELINE,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	FETCH_WINDOW,
+	LOAD_DATA_DIR,
 	UPDATE_APP_STATE,
 	UPDATE_INDIVIDUAL_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
@@ -43,6 +44,14 @@ async function GETWrapper(url_path) {
 	const response = await fetch(`${SERVER_URL}/${url_path}`, request_context);
 	const data = await response.json();
 	return data;
+}
+
+export const loadExample = (example) => async (dispatch) => {
+	const isLoaded = await POSTWrapper("load_example", {"example": example});
+	dispatch({
+		type: LOAD_DATA_DIR,
+		payload: isLoaded
+	})
 }
 
 export const fetchExperiments = () => async (dispatch) => {
@@ -126,7 +135,7 @@ export const fetchMetricTimeline = () => async (dispatch) => {
 
 export const updateAppState = () => async (dispatch) => {
 	dispatch({
-		type: UPDATE_APP_STATE, 
+		type: UPDATE_APP_STATE,
 	});
 };
 

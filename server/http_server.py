@@ -31,7 +31,18 @@ class HTTPServer:
 
     def __init__(self, args):
         LOGGER.info(f"{type(self).__name__} mode enabled.")
-        self.data_dir = os.path.abspath(args.args["data_dir"])
+
+        self.examples = {
+            "sgemm-kernel-opt": "./example_data/sgemm-kernel-opt"
+        }
+        self.handle_routes()
+
+
+    def load(self, data_dir: str, profile_format: str = "KINETO"):
+        """
+        Load the data directory.
+        """
+        self.data_dir = os.path.abspath(data_dir)
 
         self.project_dir = pathlib.Path(__file__).parent.parent.resolve()
         self.static_dir = os.path.join(self.project_dir, "static")
@@ -44,9 +55,12 @@ class HTTPServer:
 
         self.experiments = os.listdir(self.data_dir)
         self.experiment = ""
-        self.profile_format = args.args["format"]
-        LOGGER.info(f"PROFILE FORMAT: {self.profile_format}")
-        self.handle_routes()
+        self.profiles = Datasets(
+            data_dir=self.data_dir, profile_format=profile_format
+        )
+        self.timeline = None
+
+        return True
 
     @staticmethod
     def _check_data_dir_exists(data_dir: str):
@@ -63,17 +77,6 @@ class HTTPServer:
             message = f"It looks like {data_dir} is an invalid directory."
             LOGGER.error(message)
             exit(1)
-
-    def load(self) -> None:
-        """
-        External method to allow `http_server.py` to load the Datasets.
-
-        :return: None
-        """
-        self.profiles = Datasets(
-            data_dir=self.data_dir, profile_format=self.profile_format
-        )
-        self.timeline = None
 
     def start(self, host: str, port: int) -> None:
         """
@@ -116,6 +119,18 @@ class HTTPServer:
             Route to send the `index.html` file.
             """
             return app.send_static_file("index.html")
+
+
+        @app.route("/load_example", methods=["POST"])
+        @cross_origin()
+        def load_example():
+            """
+            Route to load examples.
+            """
+            request_context = request.json
+            example = request_context["example"]
+            status = self.load(data_dir=self.examples[example], profile_format="KINETO")
+            return jsonify(status=status)
 
         @app.route("/fetch_experiments", methods=["GET"])
         @cross_origin()
@@ -280,7 +295,7 @@ class HTTPServer:
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
-            
+
         @app.route("/fetch_metrics_timeline", methods=["POST"])
         @cross_origin()
         def get_metrics_timeline():

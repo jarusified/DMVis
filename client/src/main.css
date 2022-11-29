@@ -13,7 +13,6 @@ a {
 }
 
 path {
-	/* fill: none; */
 	stroke: gray;
 	stroke-width: 0.8px;
 }
@@ -85,7 +84,7 @@ path {
 	stroke: none;
 }
 
-@-webkit-keyframes pulse {       
+@-webkit-keyframes pulse {
 	0% {-webkit-transform: scale(1.0); opacity: 1;}
 	50% {-webkit-transform: scale(1.0); opacity: 0.6;}
 	100% {-webkit-transform: scale(1.0); opacity: 1;}

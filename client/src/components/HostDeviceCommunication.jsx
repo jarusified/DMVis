@@ -9,9 +9,9 @@ import D3Matrix from "../ui/d3-matrix";
 
 export default function HostDeviceCommunication() {
 	const style = {
-		left: 36, 
-		right: 0, 
-		top: 36, 
+		left: 36,
+		right: 0,
+		top: 36,
 		bottom: 0,
 		width: window.innerWidth / 3 - 30,
 		height: window.innerHeight / 3 - 20

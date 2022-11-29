@@ -38,13 +38,13 @@ class ArgParser:
         """
         parser = argparse.ArgumentParser(prefix_chars="--")
         parser.add_argument(
-            "--data_dir", help="Performance directory path", type=str, required=True
+            "--data_dir", help="Performance directory path", type=str, required=False
         )
         parser.add_argument(
             "--format",
             help="Timeline trace format: allowed = ['JIT', 'SNPROF', 'KINETO'].",
             type=str,
-            required=True,
+            required=False,
         )
         return parser
 
@@ -60,16 +60,16 @@ class ArgParser:
 
         _has_data_dir = self.args["data_dir"] is not None
 
-        if not _has_data_dir:
-            LOGGER.error(f"Option --data_dir not provided.")
-            self.parser.print_help()
-            exit(1)
+        # if not _has_data_dir:
+        #     LOGGER.error(f"Option --data_dir not provided.")
+        #     self.parser.print_help()
+        #     exit(1)
 
-        _has_format = self.args["format"]
+        # _has_format = self.args["format"]
 
-        if _has_format not in ALLOWED_FORMATS:
-            LOGGER.error(f"Invalid timeline format provided.")
-            self.parser.print_help()
-            exit(1)
+        # if _has_format not in ALLOWED_FORMATS:
+        #     LOGGER.error(f"Invalid timeline format provided.")
+        #     self.parser.print_help()
+        #     exit(1)
 
         return

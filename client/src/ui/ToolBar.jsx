@@ -103,6 +103,7 @@ export default function ToolBar(props) {
 	const theme = useTheme();
 	const classes = useStyles();
 	const dispatch = useDispatch();
+	const isLoaded = useSelector((store) => store.isLoaded);
 	const experiments = useSelector((store) => store.experiments);
 	const selectedExperiment = useSelector((store) => store.selectedExperiment);
 	const dataDir = useSelector((store) => store.dataDir);
@@ -117,8 +118,8 @@ export default function ToolBar(props) {
 	};
 
 	useEffect(() => {
-		dispatch(fetchExperiments());
-	}, []);
+		if(isLoaded)	dispatch(fetchExperiments());
+	}, [isLoaded]);
 
 	// useEffect(() => {
 	// 	if (selectedExperiment !== "") {
@@ -145,13 +146,18 @@ export default function ToolBar(props) {
 					<Typography variant="h5" noWrap component="div">
 						Data Movement VISualized!
 					</Typography>
-					<Typography variant="subtitle1" noWrap component="div">
-						Found <strong>{experiments.length}</strong> profiles in{" "}
-						<span style={{ color: theme.text.label }}>{dataDir}</span>
-					</Typography>
+					{isLoaded ? (
+						<Typography variant="subtitle1" noWrap component="div">
+							Found <strong>{experiments.length}</strong> profiles in{" "}
+							<span style={{ color: theme.text.label }}>{dataDir}</span>
+						</Typography>
+					) : (
+						<></>
+					)}
+
 					{props.withDropdown &&
-					selectedExperiment != "" &&
-					experiments.length > 0 ? (
+						selectedExperiment != "" &&
+						experiments.length > 0 ? (
 						<FormControl
 							className={classes.formControl}
 							size="small"

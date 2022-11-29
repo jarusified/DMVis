@@ -4,6 +4,8 @@ import React from "react";
 
 import EnsembleSummaryWrapper from "./components/EnsembleSummaryWrapper";
 import ToolBar from "./ui/ToolBar";
+import DraggableDialog from "./ui/folder-input-dialog";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -19,16 +21,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnsembleDashboard() {
 	const classes = useStyles();
+	const isLoaded = useSelector((store) => store.isLoaded);
 
 	return (
 		<Grid className={classes.root}>
 			<CssBaseline />
 			<ToolBar withDropdown={false} />
+			{isLoaded ? (
 
-			<main className={classes.content}>
-				<div className={classes.appBarSpacer} />
-				<EnsembleSummaryWrapper />
-			</main>
+				<main className={classes.content}>
+					<div className={classes.appBarSpacer} />
+					<EnsembleSummaryWrapper />
+				</main>
+			): (
+				<DraggableDialog />
+			)}
 		</Grid>
 	);
 }
