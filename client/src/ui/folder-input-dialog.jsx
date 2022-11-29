@@ -104,7 +104,6 @@ export default function CustomizedDialogs() {
 	};
 
 	return (
-		<div>
 			<BootstrapDialog
 				onClose={handleClose}
 				aria-labelledby="customized-dialog-title"
@@ -114,10 +113,19 @@ export default function CustomizedDialogs() {
 					id="customized-dialog-title"
 					onClose={handleClose}
 				>
-					Select an Example Profile.
+					Welcome to Data Movement Visualized!
 				</BootstrapDialogTitle>
 				<DialogContent dividers>
-					<Typography gutterBottom></Typography>
+					<Typography gutterBottom>
+					A large number of applications have started exploiting the <b>heterogeneous execution models involving CPUs and GPUs</b>. To leverage such heterogeneous executions, application developers need to allocate resources, divide the compute between CPU and GPU effectively, and ensure minimal data movement costs.
+					<p></p>
+					<b>Data movement</b> across devices is a key limiting factor in heterogeneous architectures where the host (i.e., CPU) orchestrates the computation by distributing the computation workload to the devices, while the devices (i.e., CPU or GPU) execute parallel operations.
+					<p></p>
+					To achieve good <b>scalability</b> and <b>performance</b>, one must minimize unnecessary data movement operations and the volume of data transferred between devices.  This tool is designed to enable developers visualize and analyze track data movement in CUDA-enabled applications. For collecting the data, please refer https://github.com/jarusified/DataMovProfiler.
+					<p></p>
+					To begin using the tool, please select one of the below examples,
+
+					</Typography>
 					<List>
 						{Object.entries(examples).map((example, idx) => (
 							<ListItem
@@ -148,6 +156,5 @@ export default function CustomizedDialogs() {
 					</Button>
 				</DialogActions>
 			</BootstrapDialog>
-		</div>
 	);
 }
