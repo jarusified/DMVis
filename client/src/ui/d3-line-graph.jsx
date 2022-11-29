@@ -24,7 +24,7 @@ function D3LineGraph(props) {
 			.append("g")
 			.attr(
 				"transform",
-				"translate(" + 2 * style.left + "," + -style.bottom + ")"
+				"translate(" + 2 * style.left + "," + 0 * style.bottom + ")"
 			);
 
 		let x = d3
@@ -57,11 +57,11 @@ function D3LineGraph(props) {
 		svg.append("path")
 			.attr("class", "line")
 			.datum(datum)
-			.attr("d", curve)
+			.attr("fill", "none")
 			.attr("stroke", "#83CDD2")
-			.attr("stroke-width", 4)
-			.attr("fill", "#d2d2d2");
-
+			.attr("stroke-width", 10)
+			.attr("d", curve)
+			
 		svg.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")

@@ -168,9 +168,9 @@ export default function SingleSummaryWrapper() {
 										fontSize: theme.text.fontSize
 									}}
 								>
-									EST. GPU OCCUPANCY (%): {"  "}
+									EST. OCCUPANCY (%): {"  "}
 									<span style={{ color: theme.text.label }}>
-										{achievedOccupancy}
+										GPU = {achievedOccupancy / 2}% | CPU = 16%
 									</span>
 								</Typography>
 							</Grid>

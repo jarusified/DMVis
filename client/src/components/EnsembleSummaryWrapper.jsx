@@ -8,7 +8,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import { interpolateOranges } from "d3-scale-chromatic";
+import { interpolateBlues } from "d3-scale-chromatic";
 import React, { useEffect, useRef, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -165,7 +165,7 @@ export default function EnsembleSummaryWrapper() {
 						aria-label="Platform"
 					>
 					<ToggleButton value="timestamp">
-						Timestamp
+						Sort (by timestamp)
 					</ToggleButton>
 					<ToggleButton value="sort-runtime">
 						Sort (by runtime)
@@ -185,7 +185,7 @@ export default function EnsembleSummaryWrapper() {
 					containerID={"ensemble-tab-legend"}
 					range={runtimeRange}
 					caption="Ensemble Runtime"
-					interpolator={interpolateOranges}
+					interpolator={interpolateBlues}
 				/>
 				<CategoryLegend colormap={categoryColormap} />
 				<LineGraphLegend range={runtimeRange} />
