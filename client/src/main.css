@@ -13,16 +13,14 @@ a {
 }
 
 path {
-	/* fill: none; */
 	stroke: gray;
 	stroke-width: 0.8px;
 }
 
 /* alternating column backgrounds */
-.vis-time-axis{
+.vis-time-axis {
 	background: #fff;
 	font-size: 9px;
-
 }
 
 .vis-item.vis-background.marker {
@@ -54,7 +52,7 @@ path {
 }
 
 .fg-2 {
-	background-color: #13B0B9;
+	background-color: #13b0b9;
 	border-color: #16494c;
 	color: white;
 	box-shadow: 0 0 1px #8dd3c7;
@@ -67,9 +65,9 @@ path {
 }
 
 .fg-4 {
-	background-color: #E43F3A;
+	background-color: #e43f3a;
 	border-color: #ef9f9c;
-	box-shadow: 0 0 1px #E43F3A;
+	box-shadow: 0 0 1px #e43f3a;
 	color: white;
 }
 
@@ -85,35 +83,44 @@ path {
 	stroke: none;
 }
 
-@-webkit-keyframes pulse {       
-	0% {-webkit-transform: scale(1.0); opacity: 1;}
-	50% {-webkit-transform: scale(1.0); opacity: 0.6;}
-	100% {-webkit-transform: scale(1.0); opacity: 1;}
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-transform: scale(1);
+		opacity: 1;
+	}
+	50% {
+		-webkit-transform: scale(1);
+		opacity: 0.6;
+	}
+	100% {
+		-webkit-transform: scale(1);
+		opacity: 1;
+	}
 }
 
 .pulse {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0%;
-  left: 0%;
-  border-radius: 50%;
-  box-shadow: 10px 0 15px #287ec6;
-  animation: glow-grow 2s ease-out infinite;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0%;
+	left: 0%;
+	border-radius: 50%;
+	box-shadow: 10px 0 15px #287ec6;
+	animation: glow-grow 2s ease-out infinite;
 }
 
 @keyframes glow-grow {
-  0% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
+	0% {
+		opacity: 0;
+		transform: scale(1);
+	}
+	80% {
+		opacity: 1;
+	}
+	100% {
+		transform: scale(1);
+		opacity: 0;
+	}
 }
 
 .tooltip {
@@ -126,4 +133,8 @@ path {
 	border: 0px;
 	border-radius: 8px;
 	pointer-events: none;
+}
+
+.MuiBackdrop-root {
+	background: transparent !important;
 }

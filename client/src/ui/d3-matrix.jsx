@@ -1,11 +1,11 @@
+import { useTheme } from "@mui/material/styles";
 import * as d3 from "d3";
 import { interpolateReds } from "d3-scale-chromatic";
 import { useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
 
 function D3Matrix(props) {
 	const { containerName, matrixData, style } = props;
-	const theme = useTheme()
+	const theme = useTheme();
 
 	useEffect(() => {
 		if (matrixData != undefined) {
@@ -112,15 +112,21 @@ function D3Matrix(props) {
 				.attr("viewBox", [0, 0, width, height])
 				.call(zoom);
 
-
-			// TODO: Remove this!!! 
+			// TODO: Remove this!!!
 			let margin = { left: 130, right: 150, top: 100, bottom: 0 };
 
 			let xScale = d3
 				.scaleLinear()
-				.range([style.left + margin.left, width - style.left - style.right - margin.left - margin.right])
+				.range([
+					style.left + margin.left,
+					width -
+						style.left -
+						style.right -
+						margin.left -
+						margin.right
+				])
 				.domain([0, 3]);
-			
+
 			let yScale = d3
 				.scaleLinear()
 				.range([style.top, height - style.top - style.bottom])
@@ -141,7 +147,7 @@ function D3Matrix(props) {
 				.append("div")
 				.attr("class", "tooltip")
 				.style("opacity", 0);
-			
+
 			svg.selectAll("g")
 				.data(nodes)
 				.enter()
@@ -150,7 +156,9 @@ function D3Matrix(props) {
 				.attr("x", xScale(6))
 				.attr("y", (d) => yScale(d) + 15)
 				.attr("font-size", theme.text.fontSize)
-				.text((d) => { return "PU-" + d });
+				.text((d) => {
+					return "PU-" + d;
+				});
 
 			svg.selectAll("g")
 				.data([0, 1])
@@ -158,11 +166,14 @@ function D3Matrix(props) {
 				.append("text")
 				.attr("text-anchor", "middle")
 				.attr("font-size", theme.text.fontSize)
-				.attr("x", (d) => { return xScale(d * 2) + margin.left + rectWidth / 2 - 10})
+				.attr("x", (d) => {
+					return xScale(d * 2) + margin.left + rectWidth / 2 - 10;
+				})
 				.attr("y", 250)
-				.text((d) => { return "D - " + d })
-				// .attr("transform", "rotate(-90)");
-
+				.text((d) => {
+					return "D - " + d;
+				});
+			// .attr("transform", "rotate(-90)");
 
 			svg.selectAll("rect")
 				.data(grids)

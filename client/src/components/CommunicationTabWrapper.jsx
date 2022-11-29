@@ -1,4 +1,3 @@
-import React from "react";
 import { Paper, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -7,14 +6,14 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import useEmblaCarousel from "embla-carousel-react";
-
-import HostDeviceCommunication from "./HostDeviceCommunication";
-import DeviceDeviceCommunication from "./DeviceDeviceCommunication";
-import LinearScaleLegend from "../ui/LinearScaleLegend";
-
-import { TabPanel, a11yProps } from "../ui/tab-panel";
 import { interpolateReds } from "d3-scale-chromatic";
+import useEmblaCarousel from "embla-carousel-react";
+import React from "react";
+
+import LinearScaleLegend from "../ui/LinearScaleLegend";
+import { TabPanel, a11yProps } from "../ui/tab-panel";
+import DeviceDeviceCommunication from "./DeviceDeviceCommunication";
+import HostDeviceCommunication from "./HostDeviceCommunication";
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -50,10 +49,12 @@ export default function CommunicationTabWrapper() {
 					</Typography>
 				</Grid>
 				<Grid item xs={4}>
-					<LinearScaleLegend 
+					<LinearScaleLegend
 						containerID="comm-tab-legend"
-						range={[0, 756]} 
-						caption="Data moved (mb)" interpolator={interpolateReds} />
+						range={[0, 756]}
+						caption="Data moved (mb)"
+						interpolator={interpolateReds}
+					/>
 				</Grid>
 			</Grid>
 			<Box sx={{ bgcolor: "background.paper" }}>
@@ -71,18 +72,10 @@ export default function CommunicationTabWrapper() {
 					</Tabs>
 				</AppBar>
 				<div ref={emblaRef}>
-					<TabPanel
-						value={tabIndex}
-						index={0}
-						dir={theme.direction}
-					>
+					<TabPanel value={tabIndex} index={0} dir={theme.direction}>
 						<HostDeviceCommunication />
 					</TabPanel>
-					<TabPanel
-						value={tabIndex}
-						index={1}
-						dir={theme.direction}
-					>
+					<TabPanel value={tabIndex} index={1} dir={theme.direction}>
 						<DeviceDeviceCommunication />
 					</TabPanel>
 				</div>

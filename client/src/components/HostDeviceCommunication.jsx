@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 // import { fetchHostDeviceComm } from "../actions";
 import D3ChordDiagram from "../ui/d3-chord-diagram";
@@ -9,9 +9,9 @@ import D3Matrix from "../ui/d3-matrix";
 
 export default function HostDeviceCommunication() {
 	const style = {
-		left: 36, 
-		right: 0, 
-		top: 36, 
+		left: 36,
+		right: 0,
+		top: 36,
 		bottom: 0,
 		width: window.innerWidth / 3 - 30,
 		height: window.innerHeight / 3 - 20
@@ -52,7 +52,6 @@ export default function HostDeviceCommunication() {
 		[0, 0],
 		[0, 0]
 	];
-
 
 	// useEffect(() => {
 	// 	if (selectedExperiment !== "") {

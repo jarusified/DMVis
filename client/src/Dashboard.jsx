@@ -8,9 +8,9 @@ import { fetchMetadata } from "./actions";
 import ApplicationTabWrapper from "./components/ApplicationTabWrapper";
 import CommunicationTabWrapper from "./components/CommunicationTabWrapper";
 import HardwareTabWrapper from "./components/HardwareTabWrapper";
+import MetricTimelineWrapper from "./components/MetricTimelineWrapper";
 import SingleSummaryWrapper from "./components/SingleSummaryWrapper";
 import TimelineWrapper from "./components/TimelineWrapper";
-import MetricTimelineWrapper from "./components/MetricTimelineWrapper";
 import ToolBar from "./ui/ToolBar";
 
 const useStyles = makeStyles((theme) => ({

@@ -1,6 +1,6 @@
+import { useTheme } from "@mui/material/styles";
 import * as d3 from "d3";
 import { useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
 
 function drawCategories(id, props) {
 	let legend = d3
@@ -35,7 +35,7 @@ function drawCategories(id, props) {
 }
 
 export default function CategoryLegend(props) {
-	const theme = useTheme()
+	const theme = useTheme();
 
 	const categoryProps = {
 		bottom: 20,

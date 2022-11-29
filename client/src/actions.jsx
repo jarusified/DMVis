@@ -4,12 +4,13 @@ import {
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
-	FETCH_METRIC_TIMELINE,	
+	FETCH_METRIC_TIMELINE,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
 	FETCH_TOPOLOGY,
 	FETCH_WINDOW,
+	LOAD_DATA_DIR,
 	UPDATE_APP_STATE,
 	UPDATE_INDIVIDUAL_SUMMARY,
 	UPDATE_SELECTED_EXPERIMENT,
@@ -44,6 +45,16 @@ async function GETWrapper(url_path) {
 	const data = await response.json();
 	return data;
 }
+
+export const loadExample = (example) => async (dispatch) => {
+	const isLoaded = await POSTWrapper("load_example", {
+		example: example
+	});
+	dispatch({
+		type: LOAD_DATA_DIR,
+		payload: isLoaded
+	});
+};
 
 export const fetchExperiments = () => async (dispatch) => {
 	const data = await GETWrapper("fetch_experiments");
@@ -109,7 +120,10 @@ export const fetchEnsembleSummary = () => async (dispatch) => {
 };
 
 export const fetchWindow = (window_start, window_end) => async (dispatch) => {
-	const window = await POSTWrapper("fetch_window", {window_start: window_start, window_end: window_end });
+	const window = await POSTWrapper("fetch_window", {
+		window_start: window_start,
+		window_end: window_end
+	});
 	dispatch({
 		type: FETCH_WINDOW,
 		payload: window
@@ -126,7 +140,7 @@ export const fetchMetricTimeline = () => async (dispatch) => {
 
 export const updateAppState = () => async (dispatch) => {
 	dispatch({
-		type: UPDATE_APP_STATE, 
+		type: UPDATE_APP_STATE
 	});
 };
 
@@ -148,8 +162,8 @@ export const updateIndividualSummary = (sorted) => async (dispatch) => {
 	dispatch({
 		type: UPDATE_INDIVIDUAL_SUMMARY,
 		payload: sorted
-	})
-}
+	});
+};
 
 export const fetchTopology = () => async (dispatch) => {
 	const request_context = {

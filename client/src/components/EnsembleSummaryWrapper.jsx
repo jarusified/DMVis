@@ -1,11 +1,11 @@
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
 import Card from "@mui/material/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
 import { interpolateBlues } from "d3-scale-chromatic";
@@ -14,27 +14,31 @@ import "react-medium-image-zoom/dist/styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { fetchEnsembleSummary, updateSelectedExperiment, updateIndividualSummary } from "../actions";
+import {
+	fetchEnsembleSummary,
+	updateIndividualSummary,
+	updateSelectedExperiment
+} from "../actions";
 import { COLORS, formatTimestamp } from "../helpers/utils";
 import CategoryLegend from "../ui/CategoryLegend";
+import LineGraphLegend from "../ui/LineGraphLegend";
 import LinearScaleLegend from "../ui/LinearScaleLegend";
 import D3RadialBarGraph from "../ui/d3-radial-bar-graph";
-import LineGraphLegend from "../ui/LineGraphLegend";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  '& .MuiToggleButtonGroup-grouped': {
-    margin: theme.spacing(0.5),
-    border: 0,
-    '&.Mui-disabled': {
-      border: 0,
-    },
-    '&:not(:first-of-type)': {
-      borderRadius: theme.shape.borderRadius,
-    },
-    '&:first-of-type': {
-      borderRadius: theme.shape.borderRadius,
-    },
-  },
+	"& .MuiToggleButtonGroup-grouped": {
+		margin: theme.spacing(0.5),
+		border: 0,
+		"&.Mui-disabled": {
+			border: 0
+		},
+		"&:not(:first-of-type)": {
+			borderRadius: theme.shape.borderRadius
+		},
+		"&:first-of-type": {
+			borderRadius: theme.shape.borderRadius
+		}
+	}
 }));
 
 const useStyles = makeStyles((theme) => ({
@@ -78,35 +82,47 @@ export default function EnsembleSummaryWrapper() {
 
 	const TOGGLE_MODES = ["timestamp", "sort-runtime", "sort-dmv", "compare"];
 	const handleChange = (event, newToggle) => {
-
-		if(!TOGGLE_MODES.includes(newToggle)) {
+		if (!TOGGLE_MODES.includes(newToggle)) {
 			console.assert("Undefined toggle mode!");
 		}
 
-		switch(newToggle) {
-			case 'timestamp': {	
-				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.startTs-b.startTs));
+		switch (newToggle) {
+			case "timestamp": {
+				const sorted = Object.fromEntries(
+					Object.entries(tempIndividualSummary.current).sort(
+						([, a], [, b]) => a.startTs - b.startTs
+					)
+				);
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
-			case 'sort-runtime': {
-				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dur-b.dur));
+			case "sort-runtime": {
+				const sorted = Object.fromEntries(
+					Object.entries(tempIndividualSummary.current).sort(
+						([, a], [, b]) => a.dur - b.dur
+					)
+				);
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
-			case 'sort-dmv': {
-				const sorted = Object.fromEntries(Object.entries(tempIndividualSummary.current).sort(([,a],[,b]) => a.dmv-b.dmv));
+			case "sort-dmv": {
+				const sorted = Object.fromEntries(
+					Object.entries(tempIndividualSummary.current).sort(
+						([, a], [, b]) => a.dmv - b.dmv
+					)
+				);
 				dispatch(updateIndividualSummary(sorted));
 				break;
 			}
-			case 'compare': {
-				dispatch(updateIndividualSummary(ensembleSummary["rel_binning"]));
+			case "compare": {
+				dispatch(
+					updateIndividualSummary(ensembleSummary["rel_binning"])
+				);
 				break;
 			}
 		}
 
 		setToggle(newToggle);
-
 	};
 
 	const style = {
@@ -139,7 +155,7 @@ export default function EnsembleSummaryWrapper() {
 	useEffect(() => {
 		// TODO: Make this more reliable to not depend on individual summaries.
 		if (Object.keys(individualSummary).length > 0) {
-			if(tempIndividualSummary.current == undefined) {
+			if (tempIndividualSummary.current == undefined) {
 				tempIndividualSummary.current = individualSummary;
 			}
 			const exp = Object.keys(individualSummary)[0];
@@ -164,21 +180,23 @@ export default function EnsembleSummaryWrapper() {
 						onChange={handleChange}
 						aria-label="Platform"
 					>
-					<ToggleButton value="timestamp">
-						Sort (by timestamp)
-					</ToggleButton>
-					<ToggleButton value="sort-runtime">
-						Sort (by runtime)
-					</ToggleButton>
-					<ToggleButton value="sort-dmv">
-						Sort (by data movement)
-					</ToggleButton>
-					<ToggleButton value="compare">
-						Compare
-						<ArrowDropDownIcon />
-					</ToggleButton>
-				</StyledToggleButtonGroup>
-				) : (<></>)}
+						<ToggleButton value="timestamp">
+							Sort (by timestamp)
+						</ToggleButton>
+						<ToggleButton value="sort-runtime">
+							Sort (by runtime)
+						</ToggleButton>
+						<ToggleButton value="sort-dmv">
+							Sort (by data movement)
+						</ToggleButton>
+						<ToggleButton value="compare">
+							Compare
+							<ArrowDropDownIcon />
+						</ToggleButton>
+					</StyledToggleButtonGroup>
+				) : (
+					<></>
+				)}
 			</Grid>
 			<Grid item xs={6}>
 				<LinearScaleLegend

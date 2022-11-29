@@ -1,6 +1,6 @@
+import { useTheme } from "@mui/material/styles";
 import * as d3 from "d3";
 import { useEffect } from "react";
-import { useTheme } from "@mui/material/styles";
 
 function drawLinearScale(id, props) {
 	const data = Array.from(Array(100).keys());
@@ -74,7 +74,7 @@ export default function LinearScaleLegend(props) {
 		fontSize: theme.text.fontSize
 	};
 	useEffect(() => {
-		if(props.range[0] != props.range[1]) {
+		if (props.range[0] != props.range[1]) {
 			drawLinearScale(props.containerID, runtimeProps);
 		}
 	}, [props]);
