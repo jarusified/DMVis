@@ -12,7 +12,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { styled, withStyles } from "@mui/styles";
+import { makeStyles, styled, withStyles } from "@mui/styles";
 import { select } from "d3";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -32,32 +32,43 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 const ListItem = withStyles({
 	root: {
 		"&$selected": {
-			backgroundColor: "red",
-			color: "white",
+			backgroundColor: "blue",
+			color: "black",
 			"& .MuiListItemIcon-root": {
-				color: "white"
+				color: "black"
 			},
 			borderRadius: "2px"
 		},
 		"&$selected:hover": {
 			backgroundColor: "purple",
-			color: "white",
+			color: "black",
 			"& .MuiListItemIcon-root": {
-				color: "white"
+				color: "black"
 			},
 			borderRadius: "2px"
 		},
 		"&:hover": {
 			backgroundColor: "#04ACB5",
-			color: "white",
+			color: "black",
 			"& .MuiListItemIcon-root": {
-				color: "white"
+				color: "black"
 			},
 			borderRadius: "2px"
 		}
 	},
 	selected: {}
 })(MuiListItem);
+
+const useStyles = makeStyles((theme) => ({
+	button: {
+		backgroundColor: "#04ACB5", 
+		color: "white",
+		'&:hover': {
+			backgroundColor: '#fff',
+			color: '#04ACB5',
+		}
+	},
+}));
 
 function BootstrapDialogTitle(props) {
 	const { children, onClose, ...other } = props;
@@ -84,6 +95,8 @@ function BootstrapDialogTitle(props) {
 
 export default function CustomizedDialogs() {
 	const dispatch = useDispatch();
+	const classes = useStyles();
+
 	const [open, setOpen] = useState(true);
 	const [selectedExample, setSelectedExample] = useState("");
 
@@ -150,7 +163,7 @@ export default function CustomizedDialogs() {
 				<DialogActions>
 					<Button
 						onClick={handleClose}
-						sx={{ background: "#04ACB5", color: "white" }}
+						className={classes.button}
 					>
 						Load
 					</Button>
