@@ -1,12 +1,14 @@
 import * as d3 from "d3";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTheme } from "@mui/material/styles";
 
 import { fetchWindow } from "../actions";
 import { COLORS } from "../helpers/utils";
 
 export default function D3HyperGraph(props) {
 	const dispatch = useDispatch();
+	const theme = useTheme();
 
 	const MIN_NODE_RADIUS = 8;
 	const MAX_NODE_RADIUS = 30;
@@ -120,57 +122,6 @@ export default function D3HyperGraph(props) {
 			node.y0 = node.y;
 		});
 
-		// let hg = nodes_g.selectAll("g").data(nodes);
-		// hg.exit().remove();
-		// hg = hg
-		// 	.enter()
-		// 	.append("g")
-		// 	.merge(hg)
-		// 	.attr(
-		// 		"id",
-		// 		(d) =>
-		// 			containerName +
-		// 			"-nodegroup-" +
-		// 			d.data.name.replace(/[|]/g, "")
-		// 	)
-		// 	.attr("class", "he-group");
-
-		// hg.append("circle")
-		// 	.attr("r", (d) => {
-		// 		return get_node_radius(d.id);
-		// 	})
-		// 	.attr("fill", (d) => colorScale(d))
-		// 	.attr("stroke", "#000")
-		// 	.attr(
-		// 		"id",
-		// 		(d) =>
-		// 			"node-" + d.data.name.replace(/[|]/g, "")
-		// 	)
-		// 	.attr("cx", (d) => d.y)
-		// 	.attr("cy", (d) => d.x)
-		// 	.attr("class", "hyper_node")
-		// 	.on("mouseover", (d, e) => {
-		// 		console.log(e.data.name);
-		// 	});
-
-		const withLabels = false;
-		if (withLabels) {
-			// hg.append("text")
-			// 	.attr("dx", 12)
-			// 	.attr("dy", "0.35em")
-			// 	.attr("x", (d) => d.y)
-			// 	.attr("y", (d) => d.x)
-			// 	.attr("class", "node-label")
-			// 	.attr(
-			// 		"id",
-			// 		(d) =>
-			// 			containerName +
-			// 			"-text-" +
-			// 			d.data.name.replace(/[|]/g, "")
-			// 	)
-			// 	.text((d) => d.id);
-		}
-
 		let vg = vertices_g.selectAll("g").data(nodes);
 
 		vg.exit().remove();
@@ -210,23 +161,6 @@ export default function D3HyperGraph(props) {
 			.attr("cy", (d) => d.x)
 			.classed("pulse", true);
 
-		if (withLabels) {
-			vg.append("text")
-				.attr("dx", 12)
-				.attr("dy", "0.35em")
-				.attr("x", (d) => d.y)
-				.attr("y", (d) => d.x)
-				.attr("class", "node-label")
-				.attr(
-					"id",
-					(d) =>
-						containerName +
-						"-text-" +
-						d.data.name.replace(/[|]/g, "")
-				)
-				.text((d) => d.data.name);
-		}
-
 		// Per-type markers, as they don't inherit styles.
 		const markerBoxWidth = 20;
 		const markerBoxHeight = 20;
@@ -258,22 +192,6 @@ export default function D3HyperGraph(props) {
 			.x((d) => d.y)
 			.y((d) => d.x);
 
-		// // Source node position of the link must account for radius of the circle
-		// const linkSource = (d) => {
-		// 	return {
-		// 		x: d.y,
-		// 		y: d.x - markerHeight
-		// 	};
-		// };
-
-		// // Target node position of the link must account for radius + arrow width
-		// const linkTarget = (d) => {
-		// 	return {
-		// 		x: d.y,
-		// 		y: d.x + markerWidth
-		// 	};
-		// };
-
 		let lg = links_g.selectAll("line").data(links);
 		lg.exit().remove();
 		lg = lg
@@ -299,50 +217,10 @@ export default function D3HyperGraph(props) {
 			)
 			.attr("marker-end", "url(#arrow)");
 
-		// draw convex hulls
-		let links_new = [];
-		links.forEach((l) => {
-			links_new.push(l);
-		});
-		nodes.forEach((node) => {
-			links_new.push({ source: node, target: node });
-		});
-
-		// let groups = d3.rollup(links_new,
-		//     d => d.source.id)
-		// d => d.map(node => [node.target.x, node.target.y]));
-
-		// console.log(groups);
-
-		svg.select("g#hull-group").remove();
-
-		let hulls = svg
-			.select("g")
-			.insert("g", ":first-child")
-			.attr("id", "hull-group");
-
-		// hulls.selectAll("path").data(groups)
-		//     .enter().append("path")
-		//     .attr("fill", d => nodes_dict[d.key].color)
-		//     .attr("stroke", d => nodes_dict[d.key].color)
-		//     .attr("d", d => groupPath(d.value))
-		//     .attr("id", d => svg_id+"-hull-"+d.key.replace(/[|]/g,""))
-		//     .attr("class", "convex_hull")
-
-		const linkArc = (d) =>
-			`M${d.source.x},${d.source.y}A0,0 0 0,1 ${d.target.x},${d.target.y}`;
-
-		// simulation.on("tick", () => {
-		// 	links_g.attr("d", linkArc);
-		// 	nodes_g.attr("transform", d => `translate(${d.x},${d.y})`);
-		// });
-
-		// invalidation.then(() => simulation.stop());
 	}, [props]);
 
 	// Effect to pulsate the CCT node based on the timeline window.
 	useEffect(() => {
-		console.debug("======================================");
 		if (Object.keys(window).length > 0) {
 			let mapper = {};
 			for (let i = 0; i < window.length; i += 1) {
@@ -392,18 +270,17 @@ export default function D3HyperGraph(props) {
 			d3.selectAll(".v-group").selectAll("text").remove();
 
 			// Add text labels to nodes with more than a threshold of radius.
-			// d3.selectAll(".v-group")
-			// 	.append("text")
-			// 	.attr("font-size", 14)
-			// 	.attr("x", (d) => d.y)
-			// 	.attr("y", (d) => d.x + 10)
-			// 	.attr("class", "node-label")
-			// 	.text((d) => {
-			// 		if(d.data.name in mapper && radiusScale(mapper[d.data.name]) > 8) return d.data.name.slice(0, 15) + "...";
-			// 		else return "";
-			// 	});
-
-			console.debug("======================================");
+			d3.selectAll(".v-group")
+				.append("text")
+				.attr("font-size", theme.text.fontSize)
+				.attr("x", (d) => d.y0 + 10)
+				.attr("y", (d) => d.x0 + 15)
+				.attr("class", "node-label")
+				.text((d) => {
+					console.log(d);
+					if(d.data.name in mapper) return d.data.name.slice(0, 15) + "...";
+					else return "";
+				});
 		}
 	}, [window]);
 
