@@ -17,7 +17,7 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 
 	let y = d3
 		.scaleLinear()
-		.domain([d3.min(yData), d3.max(yData)])
+		.domain([0, d3.max(yData)])
 		.range([height, 0])
 		.nice(5);
 
@@ -38,6 +38,7 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 	let svg = d3
 		.select(containerID)
 		.append("svg")
+		.attr("class", "bar-graph")
 		.attr("width", style.width)
 		.attr("height", style.height)
 		.append("g")
@@ -52,10 +53,8 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 		.style("opacity", 0)
 		.attr("class", "tooltip")
 		.style("background-color", "white")
-		.style("border", "solid")
-		.style("border-width", "2px")
-		.style("border-radius", "5px")
-		.style("padding", "5px");
+		.style("padding", "5px")
+		.style("margin", "5px")
 
 	svg.selectAll("bars")
 		.data(data)
@@ -78,19 +77,20 @@ function D3BarGraph(containerName, style, data, xProp, yProp) {
 			return COLORS[d.class_name];
 		})
 		.on("mouseover", (e, d) => {
-			tooltip.style("opacity", 1);
-			d3.select(this).style("stroke", "black").style("opacity", 1);
+			tooltip.transition().duration(500).style("opacity", 1);
+			d3.select(this).transition().duration(500).style("opacity", 1);
 		})
 		.on("mousemove", (e, d) => {
 			let value = d[xProp] + " - " + formatTimestamp(d[yProp], 2);
 			tooltip
+				.style("width", value.length * 10)
 				.html(value)
-				.style("left", d3.pointer(e)[0] + 70 + "px")
-				.style("top", d3.pointer(e)[1] + "px");
+				.style("left", e.pageX + "px")
+				.style("top", e.pageY + "px");
 		})
 		.on("mouseout", (d) => {
-			tooltip.style("opacity", 0);
-			d3.select(this).style("stroke", "none").style("opacity", 0.8);
+			tooltip.transition().duration(500).style("opacity", 0);
+			d3.select(this).transition().duration(500).style("opacity", 0.8);
 		});
 
 	svg.append("g")
