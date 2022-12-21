@@ -52,9 +52,9 @@ setup(
     description="NOVA-VIS",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.sambanovasystems.com/surajk/JIT-performance-logs",
+    url="https://github.com/jarusified/avonsiv",
     author="Suraj Kesavan",
-    author_email="suraj.kesavan@sambanovasystems.com",
+    author_email="jarus3001@gmail.com",
     classifiers=[
         "Development Status :: 3 - Alpha",
         # Indicate who your project is intended for
@@ -80,8 +80,8 @@ setup(
         ],
     },
     project_urls={
-        "Bug Reports": "https://github.sambanovasystems.com/surajk/JIT-performance-logs/issues",
-        "Source": "https://github.sambanovasystems.com/surajk/JIT-performance-logs",
+        "Bug Reports": "https://github.com/jarusified/avonsiv/issues",
+        "Source": "https://github.com/jarusified/avonsiv/",
     },
     install_requires=deps,
 )

@@ -23,7 +23,6 @@ class Rules:
     def validate(self) -> bool:
         """
         TODO: Add validation and tests for the `self.rules`.
-        https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/22
         """
         pass
 
@@ -101,7 +100,7 @@ class Rules:
             "ordering": ["FE", "SN", "SAL", "BUF", "RT"],
         }
 
-    def kineto(self) -> Dict:
+    def dmv(self) -> Dict:
         return {
             "grouping": {
                 "DATA MOV": {
@@ -125,6 +124,7 @@ class Rules:
                         "void computeBlockCounts",
                         "void compactK",
                         "void mfem::CuKernel1D",
+                        "(\\w+)cuda_for_all(\\w+)"
                     ],
                     "event_type": "x-range",
                     "content": lambda e: "",

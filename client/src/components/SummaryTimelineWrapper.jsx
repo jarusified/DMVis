@@ -91,7 +91,6 @@ function SummaryTimelineWrapper() {
 				.style("padding", "5px");
 
 			// Brush interaction
-			// https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/30
 			brushRef.current = d3
 				.brushX()
 				.extent([

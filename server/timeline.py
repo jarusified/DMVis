@@ -24,7 +24,6 @@ ALLOWED_EVENT_PH = ["B", "E", "X"]
 
 # Pandas automatically converts to scientific notation when creating new dataframes.
 # To avoid this, we set the pandas options to format to float gloablly.
-# https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/25
 pd.options.display.float_format = "{:.3f}".format
 
 
@@ -39,18 +38,13 @@ class Timeline:
 
         self.calculate_mappers()
 
-        if len(self.timeline) == 0:
-            LOGGER.error(f"No events found in {file_path}!")
-            exit(1)
-
-        # Access the properties from the JSON.
+        # Set the start and end timestamp.
         self.start_ts = self.timeline[0]["ts"]
         self.end_ts = self.timeline[-1]["ts"]
 
         # Convert the timeline to a pandas.DataFrame
         # NOTE: We skip args at the moment because of its dtype=JSON, which requires further refactor to convert to a valid column in timeline_df.
         # TODO: Add `args` to the final timeline_df.
-        # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/23
         self.timeline_df = self.to_df(self.timeline, skip_keys=["args"])
         LOGGER.debug(
             f"Constructed the timeline dataframe with {self.timeline_df.shape[0]} events"
@@ -84,12 +78,16 @@ class Timeline:
         4. Assign the "traceEvents" to the self.timeline
         5. Adds metadata, if available.
 
-        :params: file_path : Path of the Chrome trace JSON
-        :params: format : supports two formats, JIT & SNPROF.
+        :params: file_path : Path of the Chrome trace JSON.
+        :params: format : supports two formats, JIT.
         """
         LOGGER.debug(f"Loading {trace_file_path} as a timeline.")
         # Read the trace from the timeline JSON.
         profile = load_json(file_path=trace_file_path)
+
+        timeline = []
+        metrics = {}
+        metadata = {}
 
         # Derive the rules, timeline and metadata based on the format.
         if format == "JIT":
@@ -108,19 +106,10 @@ class Timeline:
 
             timeline = profile["data"]["traceEvents"]
             metadata = Timeline.jit_metadata(profile)
+            metrics = {} # No metrics were collected for the JIT format. 
 
-        elif format == "SNPROF":
-            rules = Rules().snprof()
-
-            if "traceEvents" not in profile.keys():
-                LOGGER.error(f"Missing field: `traceEvents`")
-                exit(1)
-
-            timeline = profile["traceEvents"]
-            metadata = {}
-
-        elif format == "KINETO":
-            rules = Rules().kineto()
+        elif format == "DMV":
+            rules = Rules().dmv()
 
             if "traceEvents" not in profile.keys():
                 LOGGER.error(f"Missing field: `traceEvents`")
@@ -132,6 +121,7 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
 
+            print(metric_file_path)
             df = pd.read_csv(metric_file_path, sep=", ")
 
             metrics = {}
@@ -150,6 +140,10 @@ class Timeline:
         # Filter out events that are not part of ALLOWED_EVENT_PH
         # NOTE: Some of the metadata events are ignored because they dont have a Begin or End phase.
         timeline = [e for e in timeline if e["ph"] in ALLOWED_EVENT_PH]
+
+        assert(len(self.timeline) != 0)
+        assert(len(self.metrics.keys()) != 0)
+        assert(len(self.metadata.keys()) != 0)
 
         return rules, timeline, metadata, metrics
 
@@ -179,7 +173,6 @@ class Timeline:
 
         # NOTE: We lose a bit of precision here because we round to the nearest integer.
         # TODO: Remove this once we make sure the timestamps are double.
-        # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/25
         _df["ts"] = _df["ts"].apply(lambda d: int(d))
         return _df
 
@@ -187,7 +180,6 @@ class Timeline:
         """
         Add the vis fields to each row in timeline_df based on the type of event.
         # TODO: Consider employing builder pattern to add/remove fields on the dataframe.
-        # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/24
         """
         group_rules = self.rules["grouping"]
 
@@ -207,7 +199,7 @@ class Timeline:
             else:
                 _content = ""
 
-            self.timeline_df.at[idx, "content"] =  ""
+            self.timeline_df.at[idx, "content"] =  event["name"]
 
     def construct_point_df(
         self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
@@ -341,7 +333,6 @@ class Timeline:
                     # NOTE: There is an assumption here that only `End` events might have `traceEvents`.
                     # This was mainly because we collect `snprof` events and attach to `runtime` context.
                     # TODO: Make this more generalizable to consume `traceEvents` even from the `Begin` events.
-                    # https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/26
                     rt_start_time = _start_df["ts"].tolist()[idx]
                     rt_end_time = _end_df["ts"].tolist()[idx]
 
@@ -556,7 +547,6 @@ class Timeline:
     ) -> List[Dict]:
         """
         Combines all the events across the different event type dataframes.
-        https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/27
         """
         types = list(grp_df_dict.keys())
 
@@ -597,7 +587,6 @@ class Timeline:
         Constructs the groups for the vis-timeline interface.
         Groups to vis-timeline format (For further information, refer https://github.com/visjs/vis-timeline).
         TODO: Restructure this piece of code to assign ids to sub_grps.
-        https://github.sambanovasystems.com/surajk/NOVA-VIS/issues/26
         """
         ret = []
 
