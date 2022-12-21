@@ -191,7 +191,6 @@ export default function EnsembleSummaryWrapper() {
 						</ToggleButton>
 						<ToggleButton value="compare">
 							Compare
-							<ArrowDropDownIcon />
 						</ToggleButton>
 					</StyledToggleButtonGroup>
 				) : (
