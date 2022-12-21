@@ -43,13 +43,13 @@ def list_files_update(directory, whitelist_files=[], whitelist_folders=[]):
 
     return paths
 
-data_files = list_files_update("example_data", whitelist_folders=DATA_FOLDERS)
+data_files = list_files_update("data", whitelist_folders=DATA_FOLDERS)
 
 
 setup(
-    name="nova_vis",
+    name="DMVis",
     version="0.0.1",
-    description="NOVA-VIS",
+    description="DMVis - Visual analytic interface for DMTracker.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/jarusified/avonsiv",
@@ -67,16 +67,16 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3 :: Only",
     ],
-    keywords="nova, visualization, performance, jit, torch_rdu",
+    keywords="Data Movement Visualization, Performance Analysis",
     packages=find_packages(),
     python_requires=">=3.7, <4",
     include_package_data=True,
     package_data={
-        "example_data": data_files,
+        "data": data_files,
     },
     entry_points={
         "console_scripts": [
-            "nova_vis = server.nova:main",
+            "dmvis = server.dmv:main",
         ],
     },
     project_urls={
