@@ -194,6 +194,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("cx", "50%")
 				.attr("cy", "50%")
 				.attr("r", 40)
+				.style("stroke", "#000")
 				.style("fill", cScale(perc))
 				.attr("transform", () => {
 					return (

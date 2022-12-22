@@ -31,6 +31,7 @@ class HTTPServer:
     """
 
     def __init__(self, args):
+        self.args = args
         LOGGER.info(f"{type(self).__name__} mode enabled.")
 
         self.examples = {
@@ -42,6 +43,8 @@ class HTTPServer:
         }
         
         self.handle_routes()
+        if args['data_dir']:
+            self.is_args_data_dir = True
 
 
     def load(self, data_dir: str, profile_format: str = "DMV"):
@@ -144,8 +147,12 @@ class HTTPServer:
             Route to load examples.
             """
             request_context = request.json
-            example = request_context["example"]
-            status = self.load(data_dir=self.examples[example], profile_format="DMV")
+
+            if(self.is_args_data_dir):
+                status = self.load(data_dir=self.args["data_dir"], profile_format="DMV")
+            else:
+                example = request_context["example"]
+                status = self.load(data_dir=self.examples[example], profile_format="DMV")
             if DEV_MODE: self._dump_http_responses(status, "load_example.json")
             return jsonify(status=status)
 

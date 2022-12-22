@@ -30,7 +30,7 @@ def main():
 
     args = ArgParser(sys.argv)
 
-    wip = HTTPServer(args)
+    wip = HTTPServer(args.args)
     wip.start(host=APP_HOST, port=APP_PORT)
 
 

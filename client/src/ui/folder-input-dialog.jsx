@@ -13,7 +13,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { makeStyles, styled, withStyles } from "@mui/styles";
-import { select } from "d3";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -100,7 +99,11 @@ export default function CustomizedDialogs() {
 	const [open, setOpen] = useState(true);
 	const [selectedExample, setSelectedExample] = useState("");
 
-	const examples = { "sgemm-kernel-opt": "SGEMM Kernel Optimization" };
+	const examples = { "sgemm-kernel-opt": "SGEMM Kernel Optimization", 
+						"sgemm-uvm-opt": "SGEMM UVM",
+						"comb-post-send-1024_1024_1024": "Comb post-send 1024_1024_1024",
+						"comb-post-send-wait-all-scale-up": "Comb post-send wait-all scale-up"
+					};
 
 	const handleClickOpen = () => {
 		setOpen(true);
