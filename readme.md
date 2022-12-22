@@ -1,4 +1,7 @@
-# NOVA Performance Visualization
+# DMVis - Data Movement Visualized
+
+DMVis is the accompanying visualization tool to visualize the performance data
+tracked by `DMTracker`.
 
 ## Installation
 
@@ -9,8 +12,16 @@ pip install .
 ## Usage
 
 ```
-nova_vis --data_dir={RAW_PERF_DATA_PATH}
+dmvis --data_dir={RAW_PERF_DATA_PATH}
 ```
+
+Some raw performance logs can be found in the `data` folder. To generate the
+data
+
+```
+dmvis --data_dir=./data/ex-1
+```
+
 
 ## For developement
 
@@ -47,8 +58,3 @@ pip install pre-commit
 pre-commit install
 ```
 
-For testing, use `tox`
-```
-pip install tox
-tox .
-```
