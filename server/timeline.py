@@ -121,7 +121,6 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
 
-            print(metric_file_path)
             df = pd.read_csv(metric_file_path, sep=", ")
 
             metrics = {}
@@ -141,9 +140,9 @@ class Timeline:
         # NOTE: Some of the metadata events are ignored because they dont have a Begin or End phase.
         timeline = [e for e in timeline if e["ph"] in ALLOWED_EVENT_PH]
 
-        assert(len(self.timeline) != 0)
-        assert(len(self.metrics.keys()) != 0)
-        assert(len(self.metadata.keys()) != 0)
+        # assert(len(timeline) != 0)
+        # assert(len(metrics.keys()) != 0)
+        # assert(len(metadata) != 0)
 
         return rules, timeline, metadata, metrics
 

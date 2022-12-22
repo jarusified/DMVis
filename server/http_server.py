@@ -15,6 +15,7 @@ FOLDER_PATH = os.path.abspath(os.path.dirname(__file__))
 STATIC_FOLDER_PATH = os.path.join(FOLDER_PATH, "static")
 DEFAULT_SORT_EXPERIMENTS = "START_TIMESTAMP"
 LOGGER = get_logger(__name__)
+DEV_MODE = True
 
 # Create a Flask server.
 app = Flask(__name__, static_url_path="/static")
@@ -33,12 +34,17 @@ class HTTPServer:
         LOGGER.info(f"{type(self).__name__} mode enabled.")
 
         self.examples = {
-            "sgemm-kernel-opt": "./example_data/sgemm-kernel-opt"
+            "sgemm-kernel-opt": "./paper-data/sgemm-kernel-opt",
+            "sgemm-uvm-opt": "./paper-data/gemm-uvm",
+            "comb-post-send-1_1_1": "./paper-data/comb-post-send-1_1_1",
+            "comb-post-send-1024_1024_1024": "./paper-data/comb-post-send-1024_1024_1024",
+            "comb-post-send-wait-all-scale-up": "./paper-data/comb-post-send-wait-all-scale-up"
         }
+        
         self.handle_routes()
 
 
-    def load(self, data_dir: str, profile_format: str = "KINETO"):
+    def load(self, data_dir: str, profile_format: str = "DMV"):
         """
         Load the data directory.
         """
@@ -46,9 +52,11 @@ class HTTPServer:
 
         self.project_dir = pathlib.Path(__file__).parent.parent.resolve()
         self.static_dir = os.path.join(self.project_dir, "static")
-        self.out_dir = os.path.join(self.project_dir, ".nova")
-        create_dir_after_check(self.out_dir)
-        LOGGER.info(f"Client data files will be dumped at {self.out_dir}")
+        self.dot_dmv_dir = os.path.join(self.project_dir, ".dmv")
+
+        if(DEV_MODE): 
+            create_dir_after_check(self.dot_dmv_dir)
+            LOGGER.info(f"dev files will be dumped at {self.dot_dmv_dir}")
 
         # Check if the directory exists.
         HTTPServer._check_data_dir_exists(self.data_dir)
@@ -61,6 +69,14 @@ class HTTPServer:
         self.timeline = None
 
         return True
+
+    def _dump_http_responses(self, json_data, file_name):
+
+        _path = os.path.join(self.dot_dmv_dir, file_name)
+        with open(_path, "w") as outfile:
+            json.dump(json_data, outfile)
+
+        LOGGER.info(f"Dumped http respnse to {file_name}")
 
     @staticmethod
     def _check_data_dir_exists(data_dir: str):
@@ -129,7 +145,8 @@ class HTTPServer:
             """
             request_context = request.json
             example = request_context["example"]
-            status = self.load(data_dir=self.examples[example], profile_format="KINETO")
+            status = self.load(data_dir=self.examples[example], profile_format="DMV")
+            if DEV_MODE: self._dump_http_responses(status, "load_example.json")
             return jsonify(status=status)
 
         @app.route("/fetch_experiments", methods=["GET"])
@@ -142,6 +159,7 @@ class HTTPServer:
                 sorted_experiments = self.profiles.sort_by_event_count()
             elif DEFAULT_SORT_EXPERIMENTS == "START_TIMESTAMP":
                 sorted_experiments = self.profiles.sort_by_date()
+            if DEV_MODE: self._dump_http_responses(sorted_experiments, "fetch_experiments.json")
             return jsonify(experiments=sorted_experiments, dataDir=self.data_dir)
 
         @app.route("/set_experiment", methods=["POST"])
@@ -157,6 +175,8 @@ class HTTPServer:
             self.experiment = request_context["experiment"]
             self.timeline = self.profiles.get_profile(self.experiment)
             metadata = self.timeline.get_metadata(self.experiment)
+            if DEV_MODE: self._dump_http_responses(metadata, "set_experiment.json")
+
             return jsonify(metadata)
 
         @app.route("/fetch_timeline", methods=["POST"])
@@ -170,11 +190,8 @@ class HTTPServer:
                 window_start = request_context["window_start"]
                 window_end = request_context["window_end"]
                 timeline = self.timeline.get_timeline(window_start, window_end)
-                timeline_path = os.path.join(
-                    self.out_dir, "nova_timeline_detailed.json"
-                )
-                # with open(timeline_path, "w") as outfile:
-                #     json.dump(timeline, outfile)
+                if DEV_MODE: self._dump_http_responses(timeline, "fetch_timeline.json")
+
                 return jsonify(timeline)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
@@ -192,10 +209,12 @@ class HTTPServer:
                 "runtime_range": self.profiles.max_min_runtime(),
                 "rel_binning": self.profiles.get_summary(sample_count=12)
             }
-            return {
+            payload = {
                 'individual': ind_info,
                 'ensemble': ensemble_info
             }
+            if DEV_MODE: self._dump_http_responses(payload, "fetch_ensemble_summary.json")
+            return jsonify(payload)
 
 
         @app.route("/fetch_summary", methods=["POST"])
@@ -208,9 +227,8 @@ class HTTPServer:
                 request_context = request.json
                 sample_count = request_context["sample_count"]
                 summary = self.timeline.get_summary(sample_count=sample_count)
-                summary_path = os.path.join(self.out_dir, "nova_timeline_summary.json")
-                with open(summary_path, "w") as outfile:
-                    json.dump(summary, outfile)
+
+                if DEV_MODE: self._dump_http_responses(summary, "fetch_summary.json")
                 return jsonify(summary)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
@@ -226,11 +244,8 @@ class HTTPServer:
                 timeline_summary = self.timeline.get_timeline_summary(
                     ["range", "x-range"]
                 )
-                timeline_summary_path = os.path.join(
-                    self.out_dir, "nova_timeline_summary.json"
-                )
-                with open(timeline_summary_path, "w") as outfile:
-                    json.dump(timeline_summary, outfile)
+                if DEV_MODE: self._dump_http_responses(timeline_summary, "fetch_timeline_summary.json")
+
                 return jsonify(timeline_summary)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
@@ -248,11 +263,7 @@ class HTTPServer:
                 event_summary = self.timeline.get_event_summary(
                     event_groups, ["range", "x-range"]
                 )
-                event_summary_path = os.path.join(
-                    self.out_dir, "nova_event_summary.json"
-                )
-                with open(event_summary_path, "w") as outfile:
-                    json.dump(event_summary, outfile)
+                if DEV_MODE: self._dump_http_responses(event_summary, "fetch_event_summary.json")
                 return jsonify(event_summary)
             else:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")

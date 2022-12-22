@@ -24,3 +24,4 @@ venv/*
 *-figures/*
 old-*
 *.zip
+*.dmv
