@@ -215,6 +215,8 @@ export default function D3RadialBarGraph(props) {
 				})
 				.text(formatDuration(endTs, startTs, true));
 
+
+			const total_bytes = dmv["total_bytes_DtoH"] + dmv["total_bytes_HtoD"]
 			svgRef.current
 				.append("text")
 				.attr("fill", runtime_color_contrast)
@@ -222,7 +224,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("transform", () => {
 					return "translate(" + -20 + "," + 15 + ")";
 				})
-				.text(formatMemory(dmv));
+				.text(formatMemory(total_bytes));
 		}
 
 		if (

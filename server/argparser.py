@@ -19,7 +19,7 @@ class ArgParser:
 
         # Verify if only valid things are passed.
         self._verify_parser()
-        LOGGER.info(f"Command args verified!")
+        LOGGER.debug(f"Command args verified!")
 
     def __str__(self):
         items = ("%s = %r" % (k, v) for k, v in self.__dict__.items())

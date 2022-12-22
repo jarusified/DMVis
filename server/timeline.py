@@ -171,8 +171,7 @@ class Timeline:
         _df = pd.DataFrame({key: [e[key] for e in timeline] for key in f_keys})
 
         # NOTE: We lose a bit of precision here because we round to the nearest integer.
-        # TODO: Remove this once we make sure the timestamps are double.
-        _df["ts"] = _df["ts"].apply(lambda d: int(d))
+        # _df["ts"] = _df["ts"].apply(lambda d: int(d))
         return _df
 
     def add_vis_fields(self) -> None:
@@ -758,7 +757,7 @@ class Timeline:
             "maxY": max_ts,
             "endTs": self.end_ts,
             "dur": self.end_ts - self.start_ts,
-            "dmv": random.randint(1, 805306368), # TODO (suraj): Remove this hardcoding.
+            "dmv": self.get_dmv(),
             "startTs": self.start_ts,
             "ts_width": ts_width,
             "xData": list(ts_samples),
@@ -767,6 +766,33 @@ class Timeline:
             "gpuUtilization": self.metadata[-2]["key"],
             "memUtilization": self.metadata[-1]["key"]
         }
+
+    def get_dmv(self):
+        ret = {
+            "total_bytes_DtoH": 0,
+            "total_bytes_HtoD": 0,
+            "avg_mem_bandwidth": 0,
+        }
+        
+        mem_bandwidth = 0
+        mem_count = 0;
+        for event in self.timeline:
+        
+            if 'args' in event.keys() and 'bytes' in event['args'].keys():
+                if (re.search("HtoD", event['name']) != None): 
+                    ret["total_bytes_HtoD"] += event["args"]["bytes"]
+                elif (re.search('DtoH', event['name'])):
+                    ret["total_bytes_DtoH"] += event["args"]["bytes"]
+
+            if 'args' in event.keys() and 'memory bandwidth (GB/s)' in event['args'].keys():
+                mem_bandwidth += event["args"]["memory bandwidth (GB/s)"]
+                mem_count += 1
+        
+        if mem_count != 0:
+            ret["avg_mem_bandwidth"] = mem_bandwidth / mem_count;
+
+        LOGGER.info(f"Total bytes moved (in bytes): {ret['total_bytes_DtoH'] + ret['total_bytes_HtoD']}")
+        return ret
 
     def get_timeline(self, window_start=None, window_end=None) -> Dict:
         """

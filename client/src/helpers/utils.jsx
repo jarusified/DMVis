@@ -78,7 +78,7 @@ export function formatTimestamp(millis, precision = 0) {
 }
 
 export function formatMemory(kb) {
-	return (kb / (1024 * 1024)).toFixed(1) + "MB";
+	return (kb / (1024 * 1024 * 1024)).toFixed(2) + "GB";
 }
 
 export const barBisect = (scale, pos) => {
