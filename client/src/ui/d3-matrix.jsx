@@ -130,7 +130,7 @@ function D3Matrix(props) {
 			let yScale = d3
 				.scaleLinear()
 				.range([style.top, height - style.top - style.bottom])
-				.domain([0, nodes.length]);
+				.domain([0, 3]);
 
 			const values = [];
 			for (let d of data) {
@@ -157,11 +157,11 @@ function D3Matrix(props) {
 				.attr("y", (d) => yScale(d) + 15)
 				.attr("font-size", theme.text.fontSize)
 				.text((d) => {
-					return "PU-" + d;
+					return "GPU-" + d;
 				});
 
 			svg.selectAll("g")
-				.data([0, 1])
+				.data([0, 1, 2, 3])
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
@@ -171,6 +171,7 @@ function D3Matrix(props) {
 				})
 				.attr("y", 250)
 				.text((d) => {
+					return "";
 					return "D - " + d;
 				});
 			// .attr("transform", "rotate(-90)");

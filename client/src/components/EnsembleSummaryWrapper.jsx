@@ -99,7 +99,7 @@ export default function EnsembleSummaryWrapper() {
 			case "sort-runtime": {
 				const sorted = Object.fromEntries(
 					Object.entries(tempIndividualSummary.current).sort(
-						([, a], [, b]) => a.dur - b.dur
+						([, a], [, b]) => b.dur - a.dur
 					)
 				);
 				dispatch(updateIndividualSummary(sorted));
@@ -129,7 +129,7 @@ export default function EnsembleSummaryWrapper() {
 		top: 30,
 		right: 20,
 		bottom: 10,
-		left: 40,
+		left: 0,
 		width: window.innerWidth / 3,
 		height: window.innerHeight / 3
 	};
@@ -149,6 +149,8 @@ export default function EnsembleSummaryWrapper() {
 				formatTimestamp(ensembleSummary["runtime_range"][0], 0),
 				formatTimestamp(ensembleSummary["runtime_range"][1], 0)
 			]);
+
+			console.log(ensembleSummary);
 		}
 	}, [ensembleSummary]);
 
@@ -210,7 +212,7 @@ export default function EnsembleSummaryWrapper() {
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
 					return (
-						<Grid item xs={4} key={exp.split(".")[0]}>
+						<Grid item xs={3} key={exp.split(".")[0]}>
 							<Typography
 								mt={0}
 								align="center"
@@ -237,14 +239,14 @@ export default function EnsembleSummaryWrapper() {
 									style={style}
 									individualSummary={individualSummary[exp]}
 									innerRadius={
-										Math.min(style.width, style.height) / 5
+										Math.min(style.width, style.height) / 4.5
 									}
 									outerRadius={
 										Math.min(style.width, style.height) / 2
 									}
 									ensembleSummary={ensembleSummary}
 									withInnerCircle={true}
-									withUtilization={true}
+									withUtilization={false}
 									withTicks={false}
 									withYAxis={false}
 									withPlayFeature={false}

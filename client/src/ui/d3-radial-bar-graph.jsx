@@ -77,7 +77,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${-style.width / 2} ${-style.height / 2} ${style.width} ${
+				`${-style.width / 3} ${-style.height / 2} ${style.width} ${
 					style.height
 				}`
 			)
@@ -245,13 +245,15 @@ export default function D3RadialBarGraph(props) {
 			// 	.range([-innerRadius, innerRadius])
 			// 	.domain([0, individualSummary["gpuUtilization"].length]);
 
+			let height = 2 * innerRadius;
+
 			const xScale = d3
 				.scaleLinear()
-				.range([0, innerRadius / 2])
+				.range([0, height / 2])
 				.domain([0, 100]);
 			const yScale = d3
 				.scaleLinear()
-				.range([-innerRadius, innerRadius])
+				.range([-height, height])
 				.domain([0, individualSummary["gpuUtilization"].length]);
 
 			const curve = d3
@@ -272,16 +274,16 @@ export default function D3RadialBarGraph(props) {
 				.attr("d", curve)
 				.attr("fill", theme.palette.gpuUtilization)
 				.attr("transform", () => {
-					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
+					return "translate(" + -1.5 * outerRadius + "," + 0 + ")";
 				});
 
 			const xScale2 = d3
 				.scaleLinear()
-				.range([0, -innerRadius / 2])
+				.range([0, -height / 2])
 				.domain([0, 100]);
 			const yScale2 = d3
 				.scaleLinear()
-				.range([-innerRadius, innerRadius])
+				.range([-height, height])
 				.domain([0, individualSummary["memUtilization"].length]);
 
 			svgRef.current
@@ -297,7 +299,7 @@ export default function D3RadialBarGraph(props) {
 				)
 				.attr("fill", theme.palette.cpuUtilization)
 				.attr("transform", () => {
-					return "translate(" + -1.5 * outerRadius + "," + 100 + ")";
+					return "translate(" + -1.5 * outerRadius + "," + 0 + ")";
 				});
 		}
 

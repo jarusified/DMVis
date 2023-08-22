@@ -33,8 +33,8 @@ export default function SingleSummaryWrapper() {
 		right: 20,
 		bottom: 10,
 		left: 40,
-		width: window.innerWidth / 3 - 10,
-		height: window.innerHeight / 3 - 50
+		width: window.innerWidth / 3,
+		height: window.innerHeight / 3
 	};
 
 	const containerID = useRef("single-summary-view");
@@ -106,7 +106,7 @@ export default function SingleSummaryWrapper() {
 							}
 							style={style}
 							innerRadius={
-								Math.min(style.width, style.height) / 3.5
+								Math.min(style.width, style.height) / 4.5
 							}
 							outerRadius={
 								Math.min(style.width, style.height) / 2

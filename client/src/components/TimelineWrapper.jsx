@@ -94,7 +94,7 @@ function TimelineWrapper() {
 			},
 			orientation: "top",
 			preferZoom: true,
-			showMajorLabels: false,
+			showMajorLabels: true,
 			showMinorLabels: true,
 			stack: false,
 			stackSubgroups: false,

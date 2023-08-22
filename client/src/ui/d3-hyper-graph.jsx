@@ -59,13 +59,13 @@ export default function D3HyperGraph(props) {
 		const _link_force = d3
 			.forceLink(links)
 			.id((d) => d.data.name)
-			.distance(10)
-			.strength(0.5);
+			.distance(100)
+			.strength(2);
 
 		const simulation = d3
 			.forceSimulation(nodes)
 			.force("link", _link_force)
-			.force("charge", d3.forceManyBody().strength(-200))
+			.force("charge", d3.forceManyBody().strength(200))
 			.force("x", d3.forceX())
 			.force("y", d3.forceY())
 			.force(
@@ -203,9 +203,9 @@ export default function D3HyperGraph(props) {
 			.attr("x2", (d) => d.target.y)
 			.attr("y2", (d) => d.target.x)
 			.attr("class", "hyper_edge")
-			.attr("stroke", "#8E6A71")
-			.style("stroke-width", 2)
-			.style("fill", "none")
+			.attr("stroke", "#7e7e7e")
+			.style("opacity", 1)
+			.style("stroke-width", 1.5)
 			.attr(
 				"id",
 				(d) =>
@@ -272,14 +272,14 @@ export default function D3HyperGraph(props) {
 			// Add text labels to nodes with more than a threshold of radius.
 			d3.selectAll(".v-group")
 				.append("text")
-				.attr("font-size", theme.text.fontSize)
+				.attr("font-size", theme.text.fontSize + 5)
 				.attr("x", (d) => d.y0 + 10)
-				.attr("y", (d) => d.x0 + 15)
+				.attr("y", (d) => d.x0 + 10)
 				.attr("class", "node-label")
 				.text((d) => {
-					console.log(d);
-					if(d.data.name in mapper) return d.data.name.slice(0, 15) + "...";
-					else return "";
+					// if(d.data.name in mapper) 
+					return d.data.name.slice(0, 20) + "...";
+					// else return "";
 				});
 		}
 	}, [window]);

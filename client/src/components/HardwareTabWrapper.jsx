@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useTheme } from "@mui/material/styles";
 import makeStyles from "@mui/styles/makeStyles";
-import { interpolateRdYlGn } from "d3-scale-chromatic";
+import { interpolateYlOrRd } from "d3-scale-chromatic";
 import useEmblaCarousel from "embla-carousel-react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,7 +59,7 @@ export default function DetailedTabWrapper() {
 						containerID={"hardware-tab-legend"}
 						range={[0, 100]}
 						caption="Est. utilization (%)"
-						interpolator={interpolateRdYlGn}
+						interpolator={interpolateYlOrRd}
 					/>
 				</Grid>
 			</Grid>
