@@ -42,7 +42,7 @@ const theme = createTheme({
 
 function App() {
 	useEffect(() => {
-		document.title = "DMV is all you care";
+		document.title = "DMVis";
 	}, []);
 	return (
 		<Provider store={store}>

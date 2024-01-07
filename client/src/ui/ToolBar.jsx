@@ -144,7 +144,7 @@ export default function ToolBar(props) {
 						<MenuIcon />
 					</IconButton> */}
 					<Typography variant="h5" noWrap component="div">
-						Data Movement VISualized!
+						DMVis
 					</Typography>
 					{isLoaded ? (
 						<Typography variant="subtitle1" noWrap component="div">
