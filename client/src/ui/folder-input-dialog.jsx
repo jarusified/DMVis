@@ -28,6 +28,30 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	}
 }));
 
+
+const FolderInput = ({ onChange }) => {
+  const fileInput = React.useRef(null);
+
+  const handleButtonClick = () => {
+    fileInput.current.click();
+  };
+
+  return (
+    <div>
+      <input
+        style={{ display: 'none' }}
+        ref={fileInput}
+        type="file"
+        directory="" webkitdirectory=""
+        onChange={onChange}
+      />
+      <Button onClick={handleButtonClick} variant="contained" color="primary">
+        Select a new profile folder
+      </Button>
+    </div>
+  );
+};
+
 const ListItem = withStyles({
 	root: {
 		"&$selected": {
@@ -60,7 +84,7 @@ const ListItem = withStyles({
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		backgroundColor: "#04ACB5", 
+		backgroundColor: "#04ACB5",
 		color: "white",
 		'&:hover': {
 			backgroundColor: '#fff',
@@ -73,7 +97,7 @@ function BootstrapDialogTitle(props) {
 	const { children, onClose, ...other } = props;
 
 	return (
-		<DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+		<DialogTitle sx={{ m: 0, p: 1 }} {...other}>
 			{children}
 			{onClose ? (
 				<IconButton
@@ -99,8 +123,10 @@ export default function CustomizedDialogs() {
 	const [open, setOpen] = useState(true);
 	const [selectedExample, setSelectedExample] = useState("");
 
-	const examples = { "sgemm-kernel-opt": "SGEMM Kernel Optimization", 
-						"sgemm-uvm-opt": "SGEMM UVM",
+	const examples = { "sgemm-kernel-opt": "SGEMM with kernel optimizations",
+					   "sgemm-uvm-opt": "SGEMM with UVM strategies",
+					   "gpt2-transformer": "GPT-2 Transformer case study",
+					   "bert-transformer-2": "BERT Transformer",
 						"comb-post-send-1024_1024_1024": "Comb post-send 1024_1024_1024",
 						"comb-post-send-wait-all-scale-up": "Comb post-send wait-all scale-up"
 					};
@@ -133,14 +159,11 @@ export default function CustomizedDialogs() {
 				</BootstrapDialogTitle>
 				<DialogContent dividers>
 					<Typography gutterBottom>
-					A large number of applications have started exploiting the <b>heterogeneous execution models involving CPUs and GPUs</b>. To leverage such heterogeneous executions, application developers need to allocate resources, divide the compute between CPU and GPU effectively, and ensure minimal data movement costs.
+					In the realm of distributed computation on devices like CPUs and GPUs, efficient <b>data movement</b> between host and devices is key.
+					DMVis, is designed for developers working with CUDA-enabled applications to visualize and analyze data movement.
 					<br /><br />
-					<b>Data movement</b> across devices is a key limiting factor in heterogeneous architectures where the host (i.e., CPU) orchestrates the computation by distributing the computation workload to the devices, while the devices (i.e., CPU or GPU) execute parallel operations.
-					<br /><br />
-					To achieve good <b>scalability</b> and <b>performance</b>, one must minimize unnecessary data movement operations and the volume of data transferred between devices.  This tool is designed to enable developers visualize and analyze track data movement in CUDA-enabled applications. For collecting the data, please refer https://github.com/jarusified/DataMovProfiler.
-					<br /><br />
-					To begin using the tool, please select one of the below examples,
-
+					Start by profiling your application using <a style={{margin: "0px"}} href="https://github.com/jarusified/DataMovProfiler">DMTracker</a>. Then, simply select the data folder using "Select a New Profile Folder."
+					Dive into previous profiles to understand your application's data movement patterns.
 					</Typography>
 					<List>
 						{Object.entries(examples).map((example, idx) => (
@@ -164,11 +187,12 @@ export default function CustomizedDialogs() {
 					</List>
 				</DialogContent>
 				<DialogActions>
+					<FolderInput onChange={handleClose} />
 					<Button
 						onClick={handleClose}
 						className={classes.button}
 					>
-						Load
+						Load folder
 					</Button>
 				</DialogActions>
 			</BootstrapDialog>
