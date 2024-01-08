@@ -381,8 +381,49 @@ export default function D3RadialBarGraph(props) {
 				.innerRadius(innerRadius - 25)
 				.outerRadius(innerRadius - 20);
 
+			const data = [{ group: 'CPU', value: [5, 10, 10, 9, 18] }, { group: 'GPU', value: [10, 2, 3, 4, 3] },];
+
+			const width = 30;
+			const height = 10;
+
 			const startAngle = timestamp_to_tau(windowStart);
 			const endAngle = timestamp_to_tau(windowEnd);
+
+			const g = svgRef.current.append('g')
+				.attr('transform', `translate(${30},${30})`);
+
+			const y = d3.scaleLinear()
+				.rangeRound([height, 0])
+				.domain([0, d3.max(data, d => d3.max(d.value))]);
+
+			const x = d3.scaleLinear()
+				.rangeRound([0, width])
+				.domain([0, data[0].value.length - 1]); // Change domain to extent of data indices
+
+			const line = d3.area()
+				.x((d, i) => x(i))
+				.y0(height) // start of the area
+				.y1(d => y(d)); // end of the area
+
+			const invertLine = d3.area()
+				.x((d, i) => x(i))
+				.y0(0) // start of the area
+				.y1(d => y(d)); // end of the area
+
+			g.append('path')
+				.datum(data[0].value)
+				.attr('fill', '#E7694F')
+				.attr('stroke-width', 1.5)
+				.attr('d', line)
+				.attr('transform', `translate(0,${height}) scale(1,-1)`); // Add transform to flip the line
+
+			// Draw GPU line
+			g.append('path')
+				.datum(data[1].value)
+				.attr('fill', '#7EBC79')
+				.attr('stroke-width', 1.5)
+				.attr('d', invertLine)
+				.attr('transform', `translate(0,${0	}) scale(1,-1)`); // Add transform to flip the line
 
 			playArcG.current = svgRef.current
 				.append("path")
@@ -400,7 +441,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("class", "button")
 				.attr("font-size", "18")
 				.style("cursor", "pointer")
-				.attr("fill", theme.text.label)
+				.attr("fill", theme.text.black)
 				.attr("transform", `translate(${x_offset},${y_offset})`)
 				.on("click", () => {
 					dispatch(updateAppState());
