@@ -36,7 +36,8 @@ const theme = createTheme({
 		fontSizeSmall: 10,
 		highlight: "#04ACB5",
 		label: "#007CBE",
-		white: "#000"
+		black: "#000",
+		white: "#fff"
 	}
 });
 
