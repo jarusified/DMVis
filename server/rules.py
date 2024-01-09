@@ -29,7 +29,7 @@ class Rules:
     def jit(self) -> Dict:
         return {
             "grouping": {
-                "runtime": {
+                "Data Mov": {
                     "regex": [
                         "runtime",
                         "FE_(\\w+)",
@@ -47,12 +47,12 @@ class Rules:
                     },
                     "content": lambda e: "",
                 },
-                "compile": {
+                "GPU compute": {
                     "regex": ["compile"],
                     "event_type": "range",
                     "content": lambda e: "",
                 },
-                "tracing": {
+                "CPU compute": {
                     "regex": ["tracing"],
                     "event_type": "range",
                     "content": lambda e: "",
@@ -63,7 +63,7 @@ class Rules:
                     "content": lambda e: "",
                 },
             },
-            "ordering": ["tracing", "compile", "runtime", "snprof", "Epoch"],
+            "ordering": ["CPU compute", "GPU compute", "Data Mov", "snprof", "Epoch"],
         }
 
     def snprof(self) -> Dict:
@@ -104,7 +104,7 @@ class Rules:
         return {
             "grouping": {
                 "DATA MOV": {
-                    "regex": ["Mem(\\w+)"],
+                    "regex": ["Memcpy", "Instrumentation", "Resource", "CudaPrefetchAsync", "cudaMemAdvise"],
                     "event_type": "x-range",
                     "content": lambda e: e,  # str(e["memory bandwidth (GB/s)"]),
                 },
@@ -118,20 +118,21 @@ class Rules:
                 "GPU_COMPUTE": {
                     "regex": [
                         "random_(\\w+)",
-                        "gemm",
+                        "_Z8sgemm_v0fPKfS0_fPfi",
+                        "(\\w+)sgemm(\\w+)"
                         "void at::native",
                         "volta_dgemm",
                         "void computeBlockCounts",
                         "void compactK",
                         "void mfem::CuKernel1D",
-                        "(\\w+)cuda_for_all(\\w+)"
+                        "(\\w+)cuda_for_all(\\w+)",
                     ],
                     "event_type": "x-range",
                     "content": lambda e: "",
                 },
                 "CPU_COMPUTE": {
                     "regex": [
-                        "fill_(\\w+)"
+                        "fill(\\w+)"
                     ],
                     "event_type": "x-range",
                     "content": lambda e: "",

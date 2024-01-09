@@ -90,7 +90,7 @@ class Timeline:
         metadata = {}
 
         # Derive the rules, timeline and metadata based on the format.
-        if format == "JIT":
+        if self.profile_format == "JIT":
             rules = Rules().jit()
 
             # NOTE: Current structure in JIT Profiler dumps the data into json["data"]["traceEvents"].
@@ -108,7 +108,7 @@ class Timeline:
             metadata = Timeline.jit_metadata(profile)
             metrics = {} # No metrics were collected for the JIT format. 
 
-        elif format == "DMV":
+        elif self.profile_format == "DMV":
             rules = Rules().dmv()
 
             if "traceEvents" not in profile.keys():
@@ -121,14 +121,18 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
 
+            print(metric_file_path)
+
             df = pd.read_csv(metric_file_path, sep=", ")
 
             metrics = {}
             for column in df.columns:
                 metrics[column] = df[column].tolist()
 
-            metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
-            metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
+            print(metrics)
+
+            # metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
+            # metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -197,7 +201,7 @@ class Timeline:
             else:
                 _content = ""
 
-            self.timeline_df.at[idx, "content"] =  event["name"]
+            self.timeline_df.at[idx, "content"] = event["name"]
 
     def construct_point_df(
         self, df: pd.DataFrame, column: str = "ph", override: Dict = {}
@@ -702,7 +706,7 @@ class Timeline:
                 "timelineStart": self.start_ts,
                 "timelineEnd": self.end_ts,
                 "selectedExperiment": exp,
-                "achievedOccupancy": self.get_occupancy(),
+                # "achievedOccupancy": self.get_occupancy(),
                 "cpuUtilization": self.get_cpu_utilization(),
                 "sharedMemUtilization": self.get_shared_mem_utilization()
             },
@@ -773,11 +777,12 @@ class Timeline:
             "total_bytes_HtoD": 0,
             "avg_mem_bandwidth": 0,
         }
+
+        if(self.profile_format == "JIT"): return ret
         
         mem_bandwidth = 0
         mem_count = 0;
         for event in self.timeline:
-        
             if 'args' in event.keys() and 'bytes' in event['args'].keys():
                 if (re.search("HtoD", event['name']) != None): 
                     ret["total_bytes_HtoD"] += event["args"]["bytes"]

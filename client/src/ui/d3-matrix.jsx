@@ -130,7 +130,7 @@ function D3Matrix(props) {
 			let yScale = d3
 				.scaleLinear()
 				.range([style.top, height - style.top - style.bottom])
-				.domain([0, 3]);
+				.domain([0, nodes.length]);
 
 			const values = [];
 			for (let d of data) {

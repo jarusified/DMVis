@@ -400,7 +400,7 @@ export default function D3RadialBarGraph(props) {
 				.attr("class", "button")
 				.attr("font-size", "18")
 				.style("cursor", "pointer")
-				.attr("fill", theme.text.label)
+				.attr("fill", "#000")
 				.attr("transform", `translate(${x_offset},${y_offset})`)
 				.on("click", () => {
 					dispatch(updateAppState());

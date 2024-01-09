@@ -45,6 +45,8 @@ class HTTPServer:
         self.handle_routes()
         if args['data_dir']:
             self.is_args_data_dir = True
+        else:
+            self.is_args_data_dir = False
 
 
     def load(self, data_dir: str, profile_format: str = "DMV"):
@@ -281,9 +283,12 @@ class HTTPServer:
         def serve_topology():
             import base64
 
-            file_path = os.path.join(self.data_dir, f"{self.experiment}.svg")
+            file_path = os.path.join(self.data_dir, f"topology.svg")
             if not os.path.exists(file_path):
-                file_path = os.path.join(self.static_dir, "topology-default.svg")
+                file_path = os.path.join(self.data_dir, "topology-default.svg")
+
+            print(file_path)
+
 
             with open(file_path, "rb") as image_file:
                 ret = base64.b64encode(image_file.read())

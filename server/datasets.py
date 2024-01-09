@@ -121,7 +121,6 @@ class Datasets:
                 max_ts = ts
                 max_profile = name
 
-        # Set the sample vector.
         ts_width = math.ceil(max_ts / sample_count)
 
         max_profile_start_ts = 0
@@ -147,14 +146,12 @@ class Datasets:
                 dig = np.digitize(ts, ts_samples)
 
                 if dig[0] == dig[1]:
-                    events_in_sample[ts_samples[dig[0] - 1]][group] += (
-                        event["end"] - event["start"]
-                    )
+                    events_in_sample[ts_samples[dig[0] - 1]][group] += event["end"] - event["start"]
                 else:
-                    _l = 0
-                    _h = event["end"] - event["start"]
+                    _l = event["start"] - profile.start_ts
+                    _h = event["end"] - profile.start_ts
                     for i in range(dig[0], dig[1]):
-                        events_in_sample[ts_samples[i]][group] += ts_samples[i] - _l
+                        events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
                         _l = ts_samples[i]
 
                     if i < len(ts_samples) - 1:

@@ -33,6 +33,164 @@ export default function CCTWrapper() {
 	// 	}
 	// }, [selectedExperiment]);
 
+	// const treeData = {
+	// 	name: "train_gpt2_model",
+	// 	cat: "cpu_compute",
+	// 	children: [
+	// 		{
+	// 			name: "TrainingSpec::initialize()",
+	// 			cat: "data_mov",
+	// 			children: [
+	// 				{
+	// 					name: "load_tf_weights_in_gpt2",
+	// 					cat: "data_mov",
+	// 				},
+	// 				{
+	// 					name: "prepare_datasets()",
+	// 					cat: "data_mov"
+	// 				},
+	// 				{
+	// 					name: "TrainingSpec::construct_model()",
+	// 					cat: "cpu_compute",
+	// 					children: [
+	// 						{
+	// 							name: "TrainingSpec::trace_op()",
+	// 							cat: "cpu_compute"
+	// 						}
+	// 					]
+	// 				}
+	// 			]
+	// 		}, {
+	// 			name: "GPT2TrainConfig::initialize()",
+	// 			cat: "cpu_compute",
+	// 			children: [
+	// 				{
+	// 					name: "Attention::init()",
+	// 					cat: "cpu_compute",
+	// 					children: [{
+	// 						name: "Attention::prune_heads",
+	// 						cat: "cpu_compute",
+	// 					}, {
+	// 						name: "Attention::forward",
+	// 						cat: "gpu_compute",
+	// 						children: [
+	// 						// {
+	// 						// 	name: "Attention::split_heads",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "torch::cat",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Attention::merge_heads",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Attention::c_proj",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Attention::resid_dropout",
+	// 						// 	cat: "gpu_compute"
+	// 						// }
+	// 						]
+	// 					}
+	// 					]
+	// 				}, {
+	// 					name: "MLP::init()",
+	// 					cat: "cpu_compute",
+	// 					children: [{
+	// 						name: "MLP::forward",
+	// 						cat: "gpu_compute",
+	// 						children: [
+	// 						// {
+	// 						// 	name: "MLP::c_fc",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "MLP::act",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "MLP::c_proj",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "MLP::dropout",
+	// 						// 	cat: "gpu_compute"
+	// 						// }
+	// 						]
+	// 					}
+	// 					]
+	// 				}, {
+	// 					name: "Block::init()",
+	// 					cat: "cpu_compute",
+	// 					children: [{
+	// 						name: "Attention::init()",
+	// 						cat: "gpu_compute",
+	// 						children: [
+	// 						// {
+	// 						// 	name: "Block::ln_2",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Block::mlp",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Block::crossattention",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Block::ln_cross_attn",
+	// 						// 	cat: "gpu_compute"
+	// 						// }
+	// 						]
+	// 					}
+	// 					]
+	// 				}, {
+	// 					name: "Model::init()",
+	// 					cat: "cpu_compute",
+	// 					children: [{
+	// 						name: "torch::nn::Embedding",
+	// 						cat: "gpu_compute",
+	// 						children: [
+	// 						// {
+	// 						// 	name: "torch::nn::Dropout",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "torch::nn::LayerNorm",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Model::parallelize",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Model::get_device_map",
+	// 						// 	cat: "gpu_compute"
+	// 						// }, {
+	// 						// 	name: "Model::forward",
+	// 						// 	cat: "gpu_compute"
+	// 						// }
+	// 						]
+	// 					}
+	// 					]
+	// 				}, 
+	// 				{
+	// 					name: "LMHead::get_node_embeddings()",
+	// 					cat: "data_mov",
+	// 					children: [
+	// 						{
+	// 							name: "LMHead::forward()",
+	// 							cat: "gpu_compute",
+	// 							children: [
+	// 								// {
+	// 								// 	name: "LMHead::backprop()",
+	// 								// 	cat: "gpu_compute"
+	// 								// },
+	// 								// {
+	// 								// 	name: "torch::aten::einsum()",
+	// 								// 	cat: "gpu_compute"
+	// 								// }
+	// 							]
+	// 						}
+	// 					]
+	// 				}
+	// 			]
+	// 		}
+	// 	]
+	// };
+
 	const treeData = {
 		name: "cudaGetDeviceProperties",
 		cat: "cuda",
