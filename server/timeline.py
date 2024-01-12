@@ -775,7 +775,7 @@ class Timeline:
         }
         
         mem_bandwidth = 0
-        mem_count = 0;
+        mem_count = 0
         for event in self.timeline:
         
             if 'args' in event.keys() and 'bytes' in event['args'].keys():
@@ -789,7 +789,7 @@ class Timeline:
                 mem_count += 1
         
         if mem_count != 0:
-            ret["avg_mem_bandwidth"] = mem_bandwidth / mem_count;
+            ret["avg_mem_bandwidth"] = mem_bandwidth / mem_count
 
         LOGGER.info(f"Total bytes moved (in bytes): {ret['total_bytes_DtoH'] + ret['total_bytes_HtoD']}")
         return ret
@@ -820,7 +820,8 @@ class Timeline:
             "groups": groups,
             "start_ts": window_start,
             "class_names": self.grp_to_cls,
-            "grouping": list(self.rules["grouping"].keys())
+            "grouping": list(self.rules["grouping"].keys()),
+            "dmv": self.get_dmv()
         }
 
     def get_window(self, window_start, window_end) -> Dict:
