@@ -5,6 +5,7 @@ import {
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
 	FETCH_METRIC_TIMELINE,
+	FETCH_METRIC_TIMELINE_WINDOW,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
 	FETCH_TIMELINE_SUMMARY,
@@ -135,6 +136,17 @@ export const fetchMetricTimeline = () => async (dispatch) => {
 	dispatch({
 		type: FETCH_METRIC_TIMELINE,
 		payload: metric_timeline
+	});
+};
+
+export const fetchMetricTimelineByWindow = (window_start, window_end) => async (dispatch) => {
+	const window = await POSTWrapper("fetch_metrics_timeline_window", {
+		window_start: window_start,
+		window_end: window_end
+	});
+	dispatch({
+		type: FETCH_METRIC_TIMELINE_WINDOW,
+		payload: window
 	});
 };
 

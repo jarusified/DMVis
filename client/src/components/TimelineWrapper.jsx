@@ -14,7 +14,7 @@ import { DataSet } from "vis-data";
 import { Timeline } from "vis-timeline";
 import "vis-timeline/dist/vis-timeline-graph2d.css";
 
-import { fetchTimeline, fetchWindow, updateWindow } from "../actions";
+import { fetchMetricTimelineByWindow, fetchTimeline, fetchWindow, updateWindow } from "../actions";
 import { formatDuration, micro_to_milli } from "../helpers/utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -176,6 +176,7 @@ function TimelineWrapper() {
 						end_ts
 					);
 					dispatch(fetchWindow(start_ts, end_ts));
+					dispatch(fetchMetricTimelineByWindow(start_ts, end_ts));
 				}
 			}
 		});

@@ -34,7 +34,7 @@ class Timeline:
         """
         self.profile_format = profile_format
         # Derive the rules based on profile_format and read json from file_path.
-        self.rules, self.timeline, self.metadata, self.metrics = self.init(metric_file_path, trace_file_path, profile_format)
+        self.rules, self.timeline, self.metadata, self.metrics_df = self.init(metric_file_path, trace_file_path, profile_format)
 
         self.calculate_mappers()
 
@@ -86,7 +86,6 @@ class Timeline:
         profile = load_json(file_path=trace_file_path)
 
         timeline = []
-        metrics = {}
         metadata = {}
 
         # Derive the rules, timeline and metadata based on the format.
@@ -106,7 +105,7 @@ class Timeline:
 
             timeline = profile["data"]["traceEvents"]
             metadata = Timeline.jit_metadata(profile)
-            metrics = {} # No metrics were collected for the JIT format. 
+            metrics_df = pd.DataFrame() # No metrics were collected for the JIT format. 
 
         elif format == "DMV":
             rules = Rules().dmv()
@@ -121,14 +120,10 @@ class Timeline:
                 for _k, _v in profile["deviceProperties"][0].items()
             ]
 
-            df = pd.read_csv(metric_file_path, sep=", ")
+            metrics_df = pd.read_csv(metric_file_path, sep=", ")
 
-            metrics = {}
-            for column in df.columns:
-                metrics[column] = df[column].tolist()
-
-            metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
-            metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
+            # metadata.append({"name": 'gpuUtilization', "key": metrics['utilization_gpu'] })
+            # metadata.append({"name": 'memUtilization', "key": metrics['utilization_memory']})
 
         else:
             LOGGER.error("Invalid profile format!")
@@ -141,10 +136,9 @@ class Timeline:
         timeline = [e for e in timeline if e["ph"] in ALLOWED_EVENT_PH]
 
         # assert(len(timeline) != 0)
-        # assert(len(metrics.keys()) != 0)
         # assert(len(metadata) != 0)
 
-        return rules, timeline, metadata, metrics
+        return rules, timeline, metadata, metrics_df
 
     def calculate_mappers(self):
         self.grp_to_idx = {grp: idx for idx, grp in enumerate(self.rules["ordering"])}
@@ -662,7 +656,19 @@ class Timeline:
         return self.end_ts
 
     def get_metrics(self):
-        return self.metrics
+        return Timeline._metric_df_to_dict(self.metrics_df)
+
+    def _metric_df_to_dict(df):
+        metrics = {}
+
+        for column in df.columns:
+            metrics[column] = df[column].tolist()
+
+        return metrics
+
+    def get_metrics_by_window(self, window_start, window_end):
+        df = self.metrics_df.loc[(self.metrics_df["timestamp"] / 1000 >= window_start) & (self.metrics_df["timestamp"] / 1000 <= window_end)]
+        return Timeline._metric_df_to_dict(df)
 
     def get_occupancy(self) -> float:
         df = self.grp_df_dict["x-range"]

@@ -7,7 +7,7 @@ import * as d3 from "d3";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchMetricTimeline } from "../actions";
+import { fetchMetricTimelineByWindow } from "../actions";
 import D3LineGraph from "../ui/d3-line-graph";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ function MetricTimelineWrapper() {
 			timelineStart != 0 &&
 			timelineEnd != 0
 		) {
-			dispatch(fetchMetricTimeline());
+			dispatch(fetchMetricTimelineByWindow(windowStart, windowEnd));
 		}
 	}, [selectedExperiment, timelineStart, timelineEnd]);
 
@@ -59,13 +59,16 @@ function MetricTimelineWrapper() {
 			const filtered_metrics = Object.keys(metricTimeline).filter(
 				(d) => d != "timestamp"
 			);
-
 			setFilteredMetrics(filtered_metrics);
-
-			// console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
-			// dispatch(fetchWindow(timelineStart, timelineStart + sectorWidth));
 		}
 	}, [metricTimeline]);
+
+	useEffect(() => {
+		if (windowStart != 0 && windowEnd != 0) {
+			console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
+			dispatch(fetchMetricTimelineByWindow(windowStart, windowEnd));
+		}
+	}, [windowStart])
 
 	return (
 		<Paper sx={{ maxHeight: 250, overflow: "auto" }}>
