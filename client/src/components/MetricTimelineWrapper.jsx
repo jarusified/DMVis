@@ -65,7 +65,7 @@ function MetricTimelineWrapper() {
 
 	useEffect(() => {
 		if (windowStart != 0 && windowEnd != 0) {
-			console.log("Fetching data for window: ", timelineStart, "-", timelineStart + sectorWidth);
+			console.log("Fetching data for window: ", windowStart, "-", windowEnd);
 			dispatch(fetchMetricTimelineByWindow(windowStart, windowEnd));
 		}
 	}, [windowStart])

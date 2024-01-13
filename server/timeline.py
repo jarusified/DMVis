@@ -655,9 +655,6 @@ class Timeline:
     def get_end_timestamp(self) -> float:
         return self.end_ts
 
-    def get_metrics(self):
-        return Timeline._metric_df_to_dict(self.metrics_df)
-
     def _metric_df_to_dict(df):
         metrics = {}
 

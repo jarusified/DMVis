@@ -314,17 +314,6 @@ class HTTPServer:
                 LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
                 return jsonify({})
 
-        @app.route("/fetch_metrics_timeline", methods=["POST"])
-        @cross_origin()
-        def get_metrics_timeline():
-            if self.timeline is not None:
-                request_context = request.json
-                metrics_timeline = self.timeline.get_metrics()
-                return jsonify(metrics_timeline)
-            else:
-                LOGGER.info("Returned empty JSON. `self.timeline` not defined. Error!")
-                return jsonify({})
-        
         @app.route("/fetch_metrics_timeline_window", methods=["POST"])
         @cross_origin()
         def get_metrics_timeline_window():

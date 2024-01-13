@@ -4,7 +4,6 @@ import {
 	FETCH_EVENT_SUMMARY,
 	FETCH_EXPERIMENTS,
 	FETCH_METADATA,
-	FETCH_METRIC_TIMELINE,
 	FETCH_METRIC_TIMELINE_WINDOW,
 	FETCH_SUMMARY,
 	FETCH_TIMELINE,
@@ -86,12 +85,6 @@ export default function Reducer(state = initialState, action) {
 					action.payload.general.sharedMemUtilization,
 				blockUtilization: action.payload.general.blockUtilization
 			};
-		case FETCH_METRIC_TIMELINE:
-			return {
-				...state,
-				metricTimeline: action.payload
-			};
-
 		case FETCH_METRIC_TIMELINE_WINDOW:
 			return {
 				...state,
