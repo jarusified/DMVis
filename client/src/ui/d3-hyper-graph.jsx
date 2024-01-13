@@ -45,7 +45,7 @@ export default function D3HyperGraph(props) {
 	useEffect(() => {
 		const { data, containerName, style } = props;
 
-		const treemap = d3.tree().size([style.height, style.width]);
+		const treemap = d3.tree().size([style.height - 40, style.width - 100]);
 		const root = d3.hierarchy(data);
 
 		// Assigns the x and y position for the nodes
@@ -59,18 +59,18 @@ export default function D3HyperGraph(props) {
 		const _link_force = d3
 			.forceLink(links)
 			.id((d) => d.data.name)
-			.distance(100)
-			.strength(2);
+			.distance(10)
+			.strength(10);
 
 		const simulation = d3
 			.forceSimulation(nodes)
 			.force("link", _link_force)
-			.force("charge", d3.forceManyBody().strength(200))
+			.force("charge", d3.forceManyBody().strength(100))
 			.force("x", d3.forceX())
 			.force("y", d3.forceY())
 			.force(
 				"collide",
-				d3.forceCollide((d) => 65)
+				d3.forceCollide((d) => 50)
 			);
 
 		const mapping = {
@@ -93,7 +93,7 @@ export default function D3HyperGraph(props) {
 		let svg = d3
 			.select(containerID)
 			.append("svg")
-			.attr("width", style.width - 30)
+			.attr("width", style.width - 50)
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.attr("height", style.height)
 			.call(zoom)
@@ -150,7 +150,19 @@ export default function D3HyperGraph(props) {
 			)
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
-			.classed("vertex_node", true);
+			.classed("vertex_node", true)
+			
+		// create a tooltip
+		var tooltip = svg.append("div")
+			.style("position", "absolute")
+			.style("visibility", "hidden")
+			.text("I'm a circle!");
+
+		// d3.select("")
+		// 	.on("mouseover", function () { return tooltip.style("visibility", "visible"); })
+		// 	.on("mousemove", function () { return tooltip.style("top", (event.pageY - 800) + "px").style("left", (event.pageX - 800) + "px"); })
+		// 	.on("mouseout", function () { return tooltip.style("visibility", "hidden"); });
+
 
 		vg.append("circle")
 			.attr("r", (d) => 0)
@@ -159,7 +171,7 @@ export default function D3HyperGraph(props) {
 			})
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
-			.classed("pulse", true);
+			.classed("pulse", true)
 
 		// Per-type markers, as they don't inherit styles.
 		const markerBoxWidth = 20;
@@ -241,12 +253,40 @@ export default function D3HyperGraph(props) {
 				.domain([min_val, max_val])
 				.range([MIN_NODE_RADIUS, MAX_NODE_RADIUS]);
 
+			// Add pulsating effect to nodes in the timeline view.
+			// d3.selectAll(".v-group")
+			// 	.select("circle")
+			// 	.classed("pulse", (d) => {
+			// 		if (d.data.name in mapper) return true;
+			// 		return false;
+			// 	});
+
+			// Clear the previous text.
+			d3.selectAll(".v-group").selectAll("text").remove();
+
+			// // Add text labels to nodes with more than a threshold of radius.
+			let tooltip = d3.selectAll(".v-group")
+				.append("text")
+				.attr("font-size", theme.text.fontSize)
+				.attr("x", (d) => d.y0 + 10)
+				.attr("y", (d) => d.x0 + 10)
+				.attr("class", "node-label")
+				.attr("visibility", "hidden")	
+				.text((d) => {
+					// if(d.data.name in mapper) 
+					return d.data.name.slice(0, 10) + "...";
+					// else return "";
+				});
+
 			// Add radius encoding to map to amount of data movement on a
 			// particular function call.
 			d3.selectAll(".v-group")
 				.select("circle")
+				.on("mouseover", (d) => {console.log(d); return tooltip.style("visibility", "visible");})
+				.on("mousemove", (d) => {return tooltip.style("top", (event.pageY-800)+"px").style("left",(event.pageX-800)+"px");})
+				.on("mouseout", (d) => { return tooltip.style("visibility", "hidden");})
 				.transition()
-				.duration(2000)
+				.duration(1000)
 				.attr("r", (d) => {
 					if (d.data.name in mapper) {
 						console.debug(
@@ -256,31 +296,8 @@ export default function D3HyperGraph(props) {
 						return radiusScale(mapper[d.data.name]);
 					} else return MIN_NODE_RADIUS;
 				})
-				.attr("stroke", "#000");
-
-			// Add pulsating effect to nodes in the timeline view.
-			d3.selectAll(".v-group")
-				.select("circle")
-				.classed("pulse", (d) => {
-					if (d.data.name in mapper) return true;
-					return false;
-				});
-
-			// Clear the previous text.
-			d3.selectAll(".v-group").selectAll("text").remove();
-
-			// Add text labels to nodes with more than a threshold of radius.
-			d3.selectAll(".v-group")
-				.append("text")
-				.attr("font-size", theme.text.fontSize + 5)
-				.attr("x", (d) => d.y0 + 10)
-				.attr("y", (d) => d.x0 + 10)
-				.attr("class", "node-label")
-				.text((d) => {
-					// if(d.data.name in mapper) 
-					return d.data.name.slice(0, 20) + "...";
-					// else return "";
-				});
+				.attr("stroke", "#000")
+				
 		}
 	}, [window]);
 

@@ -38,16 +38,6 @@ export default function CCTWrapper() {
 		cat: "cuda",
 		children: [
 			{
-				name: "fill_col_format(int, int, int)",
-				cat: "cpu_compute",
-				children: [
-					{
-						name: "sgemm_v2(int, int, int, float, float const*, float const*, float, float*)",
-						cat: "gpu_compute"
-					}
-				]
-			},
-			{
 				name: "cudaMemcpy",
 				cat: "cuda",
 				children: [
@@ -76,12 +66,13 @@ export default function CCTWrapper() {
 								cat: "cuda",
 								children: [
 									{
-										name: "cudaFree",
-										cat: "cuda",
+										name: "sgemm_v2",
+										cat: "gpu_compute",
 										children: [
 											{
-												name: "cudaFreeHost",
-												cat: "cuda"
+												name: "cudaFree",
+												cat: "cuda",
+												
 											}
 										]
 									}
@@ -89,6 +80,22 @@ export default function CCTWrapper() {
 							}
 						]
 					}
+				]
+			},
+			{
+				name: "cudaHostAlloc",
+				cat: "cuda",
+				children: [
+					{
+						name: "fill_sparse_matrix_csr_format",
+						cat: "cpu_compute",
+						children: [
+							{
+								name: "cudaFreeHost",
+								cat: "cuda"
+							}
+						]
+					},
 				]
 			}
 		]

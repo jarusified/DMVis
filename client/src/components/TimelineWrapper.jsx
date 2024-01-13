@@ -258,7 +258,7 @@ function TimelineWrapper() {
 							<Typography
 								variant="bold"
 								align="center"
-								style={{ color: theme.text.label }}
+								style={{ color: theme.text.black }}
 							>
 								Fit
 							</Typography>

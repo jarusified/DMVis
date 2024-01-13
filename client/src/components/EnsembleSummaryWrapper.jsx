@@ -149,8 +149,6 @@ export default function EnsembleSummaryWrapper() {
 				formatTimestamp(ensembleSummary["runtime_range"][0], 0),
 				formatTimestamp(ensembleSummary["runtime_range"][1], 0)
 			]);
-
-			console.log(ensembleSummary);
 		}
 	}, [ensembleSummary]);
 

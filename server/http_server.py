@@ -283,7 +283,7 @@ class HTTPServer:
 
             file_path = os.path.join(self.data_dir, f"{self.experiment}.svg")
             if not os.path.exists(file_path):
-                file_path = os.path.join(self.static_dir, "topology-default.svg")
+                file_path = os.path.join(self.data_dir, "topology-default.svg")
 
             with open(file_path, "rb") as image_file:
                 ret = base64.b64encode(image_file.read())
