@@ -134,7 +134,7 @@ class Datasets:
         ret = {}
         for name in self.profiles:
             profile = self.profiles[name]
-            timeline = self.profiles[name].get_timeline()
+            timeline = profile.get_timeline()
 
             events_in_sample = {
                 _s: {grp["content"]: 0 for grp in timeline["groups"]} for _s in ts_samples
@@ -151,14 +151,14 @@ class Datasets:
                         event["end"] - event["start"]
                     )
                 else:
-                    _l = 0
-                    _h = event["end"] - event["start"]
+                    _l = event["start"] - profile.start_ts
+                    _h = event["end"] - profile.start_ts
                     for i in range(dig[0], dig[1]):
-                        events_in_sample[ts_samples[i]][group] += ts_samples[i] - _l
+                        events_in_sample[ts_samples[i - 1]][group] += ts_samples[i] - _l
                         _l = ts_samples[i]
 
-                    if i < len(ts_samples) - 1:
-                        events_in_sample[ts_samples[i]][group] += _h - ts_samples[i]
+                    if i <= len(ts_samples) - 1:
+                        events_in_sample[ts_samples[i]][group] += _h - _l
 
             max_ts = 0
 
