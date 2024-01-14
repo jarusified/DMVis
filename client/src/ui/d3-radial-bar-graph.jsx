@@ -77,8 +77,7 @@ export default function D3RadialBarGraph(props) {
 			.attr("height", style.height)
 			.attr(
 				"viewBox",
-				`${-style.width / 3} ${-style.height / 2} ${style.width} ${
-					style.height
+				`${-style.width / 3} ${-style.height / 2} ${style.width} ${style.height
 				}`
 			)
 			.style("font", "10px sans-serif")
@@ -376,21 +375,25 @@ export default function D3RadialBarGraph(props) {
 		}
 
 		if (withPlayFeature) {
+
 			windowArc.current = d3
 				.arc()
-				.innerRadius(innerRadius - 25)
-				.outerRadius(innerRadius - 20);
-
-			const data = [{ group: 'CPU', value: [5, 10, 10, 9, 18] }, { group: 'GPU', value: [10, 2, 3, 4, 3] },];
-
-			const width = 30;
-			const height = 10;
+				.innerRadius((d, i) => { console.log(d, i); return innerRadius - 25 + d3.mean(d["CPU"]) }) 
+				.outerRadius((d, i) => innerRadius - 20 - d3.mean(d["GPU"]));
 
 			const startAngle = timestamp_to_tau(windowStart);
 			const endAngle = timestamp_to_tau(windowEnd);
 
-			const g = svgRef.current.append('g')
-				.attr('transform', `translate(${30},${30})`);
+			const data = [{ group: 'CPU', value: [5, 10, 10, 9, 18] }, { group: 'GPU', value: [10, 2, 3, 4, 3] },];
+			const new_data = [{ 'CPU': 5, 'GPU': 10 }, { 'CPU': 10, 'GPU': 2 }, { 'CPU': 10, 'GPU': 3 }, { 'CPU': 9, 'GPU': 4 }, { 'CPU': 18, 'GPU': 3 }];
+			const new_data_2 = { 'CPU': [5, 10, 10, 9, 18], 'GPU': [10, 2, 3, 4, 3], 'startAngle': startAngle, 'endAngle': endAngle };
+
+			const width = 30;
+			const height = 10;
+
+			
+			// const g = svgRef.current.append('g')
+			// 	.attr('transform', `translate(${0},${0}) rotate(45)`);
 
 			const y = d3.scaleLinear()
 				.rangeRound([height, 0])
@@ -410,28 +413,30 @@ export default function D3RadialBarGraph(props) {
 				.y0(0) // start of the area
 				.y1(d => y(d)); // end of the area
 
-			g.append('path')
-				.datum(data[0].value)
-				.attr('fill', '#E7694F')
-				.attr('stroke-width', 1.5)
-				.attr('d', line)
-				.attr('transform', `translate(0,${height}) scale(1,-1)`); // Add transform to flip the line
+			// Draw CPU line
+			playArcG.current = svgRef.current
+				.append('path')
+				.datum(new_data_2)
+				.style('fill', '#E7694F')
+				// .attr('stroke-width', 1.5)
+				.attr('d', windowArc.current)
+				// .attr('transform', `translate(${-30},${-30}) scale(1,-1) rotate(340)`); // Add transform to flip the line
 
 			// Draw GPU line
-			g.append('path')
-				.datum(data[1].value)
-				.attr('fill', '#7EBC79')
-				.attr('stroke-width', 1.5)
-				.attr('d', invertLine)
-				.attr('transform', `translate(0,${0	}) scale(1,-1)`); // Add transform to flip the line
+			// g.append('path')
+			// 	.datum(data[1].value)
+			// 	.attr('fill', '#7EBC79')
+			// 	.attr('stroke-width', 1.5)
+			// 	.attr('d', invertLine)
+			// 	.attr('transform', `translate(${-30},${-30}) scale(1,-1) rotate(${10})`); // Add transform to flip the line
 
-			playArcG.current = svgRef.current
-				.append("path")
-				.datum({ startAngle: startAngle, endAngle: endAngle })
-				.style("fill", theme.text.label)
-				.attr("d", (d) => {
-					return windowArc.current(d);
-				});
+			// playArcG.current = svgRef.current
+			// 	.append("path")
+			// 	.datum({ startAngle: startAngle, endAngle: endAngle })
+			// 	.style("fill", theme.text.label)
+			// 	.attr("d", (d) => {
+			// 		return windowArc.current(d);
+			// 	});
 
 			const x_offset = -10;
 			const y_offset = -10;
