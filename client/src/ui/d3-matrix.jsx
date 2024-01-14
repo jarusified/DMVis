@@ -68,8 +68,8 @@ function D3Matrix(props) {
 			const width = style.width - style.left - style.right;
 			const height = style.height - style.top - style.bottom;
 
-			const rectWidth = 20;
-			const rectHeight = 20;
+			const rectWidth = Math.min(width / 4, height / 4);
+			const rectHeight = Math.min(width / 4, height / 4);
 
 			function reset() {
 				svg.transition()
@@ -106,30 +106,25 @@ function D3Matrix(props) {
 				.append("svg")
 				.attr("x", 0.5)
 				.attr("y", 0.5)
-				.attr("width", style.width - 1)
-				.attr("height", style.height - 1)
+				.attr("width", style.width)
+				.attr("height", style.height)
 				.append("g")
-				.attr("viewBox", [0, 0, width, height])
 				.call(zoom);
 
 			// TODO: Remove this!!!
-			let margin = { left: 130, right: 150, top: 100, bottom: 0 };
+			let margin = { left: 200, right: 150, top: 100, bottom: 0 };
 
 			let xScale = d3
 				.scaleLinear()
 				.range([
-					style.left + margin.left,
-					width -
-						style.left -
-						style.right -
-						margin.left -
-						margin.right
+					style.left,
+					height - style.left - style.right
 				])
 				.domain([0, 3]);
 
 			let yScale = d3
 				.scaleLinear()
-				.range([style.top, height - style.top - style.bottom])
+				.range([style.top, height - style.bottom - style.top])
 				.domain([0, 3]);
 
 			const values = [];
@@ -153,26 +148,25 @@ function D3Matrix(props) {
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
-				.attr("x", xScale(6))
-				.attr("y", (d) => yScale(d) + 15)
+				.attr("x", (d) => xScale(3))
+				.attr("y", (d) => yScale(d) + rectHeight / 2)
 				.attr("font-size", theme.text.fontSize)
 				.text((d) => {
 					return "GPU-" + d;
 				});
 
 			svg.selectAll("g")
-				.data([0, 1, 2, 3])
+				.data([0, 1])
 				.enter()
 				.append("text")
 				.attr("text-anchor", "middle")
 				.attr("font-size", theme.text.fontSize)
-				.attr("x", (d) => {
-					return xScale(d * 2) + margin.left + rectWidth / 2 - 10;
+				.attr("x", (d, i) => {
+					return xScale(i) + rectWidth / 2 + width / 2 ;
 				})
-				.attr("y", 250)
+				.attr("y", style.top - 10)
 				.text((d) => {
-					return "";
-					return "D - " + d;
+					return "CPU-" + d;
 				});
 			// .attr("transform", "rotate(-90)");
 
@@ -181,7 +175,7 @@ function D3Matrix(props) {
 				.enter()
 				.append("rect")
 				.attr("x", (d) => {
-					return xScale(d[1].x) + margin.left;
+					return xScale(d[1].x) + width / 2;
 				})
 				.attr("y", (d) => yScale(d[1].y))
 				.attr("width", rectWidth)

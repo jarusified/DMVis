@@ -13,8 +13,8 @@ export default function HostDeviceCommunication() {
 		right: 0,
 		top: 36,
 		bottom: 0,
-		width: window.innerWidth / 3 - 30,
-		height: window.innerHeight / 3 - 20
+		width: window.innerWidth / 4,
+		height: window.innerHeight / 4
 	};
 	const containerID = useRef("host-device-view");
 
@@ -43,14 +43,6 @@ export default function HostDeviceCommunication() {
 		[378, 0],
 		[0, 0],
 		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0],
-		[0, 0]
 	];
 
 	// useEffect(() => {
