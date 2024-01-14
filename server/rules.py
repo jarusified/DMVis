@@ -104,7 +104,7 @@ class Rules:
         return {
             "grouping": {
                 "DATA MOV": {
-                    "regex": ["Mem(\\w+)"],
+                    "regex": ["(\\w+) HtoD", "(\\w+) DtoH", "(\\w+) DtoD"],
                     "event_type": "x-range",
                     "content": lambda e: e,  # str(e["memory bandwidth (GB/s)"]),
                 },
