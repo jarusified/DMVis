@@ -383,8 +383,8 @@ export default function D3RadialBarGraph(props) {
 
 			const data = [{ group: 'CPU', value: [5, 10, 10, 9, 18] }, { group: 'GPU', value: [10, 2, 3, 4, 3] },];
 
-			const width = 30;
-			const height = 10;
+			const width = 200;
+			const height = 30;
 
 			const startAngle = timestamp_to_tau(windowStart);
 			const endAngle = timestamp_to_tau(windowEnd);
@@ -415,7 +415,7 @@ export default function D3RadialBarGraph(props) {
 				.attr('fill', '#E7694F')
 				.attr('stroke-width', 1.5)
 				.attr('d', line)
-				.attr('transform', `translate(0,${height}) scale(1,-1)`); // Add transform to flip the line
+				.attr('transform', `translate(${width - height},${-style.height}) scale(-1,1) rotate(90)`); // Add transform to flip the line
 
 			// Draw GPU line
 			g.append('path')
@@ -423,7 +423,7 @@ export default function D3RadialBarGraph(props) {
 				.attr('fill', '#7EBC79')
 				.attr('stroke-width', 1.5)
 				.attr('d', invertLine)
-				.attr('transform', `translate(0,${0	}) scale(1,-1)`); // Add transform to flip the line
+				.attr('transform', `translate(${width},${-style.height}) scale(-1,1) rotate(90)`); // Add transform to flip the line
 
 			playArcG.current = svgRef.current
 				.append("path")
