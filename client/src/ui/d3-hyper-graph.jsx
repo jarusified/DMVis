@@ -254,12 +254,12 @@ export default function D3HyperGraph(props) {
 				.range([MIN_NODE_RADIUS, MAX_NODE_RADIUS]);
 
 			// Add pulsating effect to nodes in the timeline view.
-			// d3.selectAll(".v-group")
-			// 	.select("circle")
-			// 	.classed("pulse", (d) => {
-			// 		if (d.data.name in mapper) return true;
-			// 		return false;
-			// 	});
+			d3.selectAll(".v-group")
+				.select("circle")
+				.classed("pulse", (d) => {
+					if (d.data.name in mapper) return true;
+					return false;
+				});
 
 			// Clear the previous text.
 			d3.selectAll(".v-group").selectAll("text").remove();
