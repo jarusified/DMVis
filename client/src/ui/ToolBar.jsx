@@ -151,7 +151,7 @@ export default function ToolBar(props) {
 							Found <strong>{experiments.length}</strong> profiles
 							in{" "}
 							<span style={{ color: theme.text.label }}>
-								{dataDir}
+								./{dataDir.split("/").slice(5, 9).join("/")}
 							</span>
 						</Typography>
 					) : (
