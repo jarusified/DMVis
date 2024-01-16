@@ -187,7 +187,7 @@ export default function EnsembleSummaryWrapper() {
 							Sort (by runtime)
 						</ToggleButton>
 						<ToggleButton value="sort-dmv">
-							Sort (by data movement)
+							Sort (by explicit data movement)
 						</ToggleButton>
 						<ToggleButton value="compare">
 							Compare
@@ -205,7 +205,7 @@ export default function EnsembleSummaryWrapper() {
 					interpolator={interpolateBlues}
 				/>
 				<CategoryLegend colormap={categoryColormap} />
-				<LineGraphLegend range={runtimeRange} />
+				{/* <LineGraphLegend range={runtimeRange} /> */}
 			</Grid>
 			{Object.keys(individualSummary).length > 0 ? (
 				Object.keys(individualSummary).map((exp) => {
