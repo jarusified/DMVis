@@ -65,7 +65,6 @@ export default function CommunicationTabWrapper() {
 						onChange={handleChange}
 						indicatorColor="#000"
 						variant="fullWidth"
-						aria-label="Aggregated detailed statistics"
 					>
 						<Tab label="host-device" {...a11yProps(0)} />
 						<Tab label="device-device" {...a11yProps(1)} />

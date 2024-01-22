@@ -9,6 +9,8 @@ function D3Matrix(props) {
 
 	useEffect(() => {
 		if (matrixData != undefined) {
+			d3.select(containerName).selectAll("*").remove();
+
 			// Clean up existing elements
 			const containerID = "#" + containerName;
 			d3.select(containerID).selectAll("*").remove();
@@ -17,7 +19,7 @@ function D3Matrix(props) {
 			for (let i = 0; i < matrixData.length; i += 1) {
 				for (let j = 0; j < matrixData[i].length; j += 1) {
 					if (matrixData[i][j] != undefined) {
-						data.push({
+							data.push({
 							source: i,
 							target: j,
 							value: matrixData[i][j]
@@ -104,6 +106,7 @@ function D3Matrix(props) {
 			let svg = d3
 				.select(containerID)
 				.append("svg")
+				.attr("id", containerName + "-svg")
 				.attr("x", 0.5)
 				.attr("y", 0.5)
 				.attr("width", style.width)
@@ -132,10 +135,11 @@ function D3Matrix(props) {
 				values.push(d.value);
 			}
 
+
 			const cScale = d3
 				.scaleSequential()
 				.interpolator(interpolateReds)
-				.domain([0, d3.sum(data, (d) => d.value)]);
+				.domain([0, 756]);
 
 			let tooltip = d3
 				.select(containerID)
@@ -162,7 +166,7 @@ function D3Matrix(props) {
 				.attr("text-anchor", "middle")
 				.attr("font-size", theme.text.fontSize)
 				.attr("x", (d, i) => {
-					return xScale(i) + rectWidth / 2 + width / 2 ;
+					return xScale(4 + i) + rectWidth / 4;
 				})
 				.attr("y", style.top - 10)
 				.text((d) => {
@@ -175,7 +179,7 @@ function D3Matrix(props) {
 				.enter()
 				.append("rect")
 				.attr("x", (d) => {
-					return xScale(d[1].x) + width / 2;
+					return xScale(d[1].x - 1) + width / 2;
 				})
 				.attr("y", (d) => yScale(d[1].y))
 				.attr("width", rectWidth)
@@ -198,7 +202,7 @@ function D3Matrix(props) {
 					tooltip.transition().duration(600).style("opacity", 0);
 				});
 		}
-	}, [props]);
+	}, [matrixData]);
 
 	return <div id={containerName}></div>;
 }

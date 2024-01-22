@@ -18,6 +18,7 @@ export default function D3HyperGraph(props) {
 	const windowStart = useSelector((store) => store.windowStart);
 	const windowEnd = useSelector((store) => store.windowEnd);
 
+
 	// Collapse the node and all it's children
 	// TODO: Make use of this to collapse large CCTs into nodes of higher
 	// significance only.
@@ -151,7 +152,7 @@ export default function D3HyperGraph(props) {
 			.attr("cx", (d) => d.y)
 			.attr("cy", (d) => d.x)
 			.classed("vertex_node", true)
-			
+
 		// create a tooltip
 		var tooltip = svg.append("div")
 			.style("position", "absolute")
@@ -254,12 +255,20 @@ export default function D3HyperGraph(props) {
 				.range([MIN_NODE_RADIUS, MAX_NODE_RADIUS]);
 
 			// Add pulsating effect to nodes in the timeline view.
-			d3.selectAll(".v-group")
-				.select("circle")
-				.classed("pulse", (d) => {
-					if (d.data.name in mapper) return true;
-					return false;
-				});
+			// if (!appState) {
+			// 	d3.selectAll(".v-group")
+			// 		.select("circle")
+			// 		.classed("pulse", (d) => {
+			// 			if (d.data.name in mapper) return true;
+			// 			return false;
+			// 		});
+			// } else {
+			// 	d3.selectAll(".v-group")
+			// 		.select("circle").classed("pulse", (d) => {
+			// 			return false;
+			// 		});
+			// }
+
 
 			// Clear the previous text.
 			d3.selectAll(".v-group").selectAll("text").remove();
@@ -271,7 +280,7 @@ export default function D3HyperGraph(props) {
 				.attr("x", (d) => d.y0 + 10)
 				.attr("y", (d) => d.x0 + 10)
 				.attr("class", "node-label")
-				.attr("visibility", "hidden")	
+				.attr("visibility", "hidden")
 				.text((d) => {
 					// if(d.data.name in mapper) 
 					return d.data.name.slice(0, 10) + "...";
@@ -282,9 +291,9 @@ export default function D3HyperGraph(props) {
 			// particular function call.
 			d3.selectAll(".v-group")
 				.select("circle")
-				.on("mouseover", (d) => {console.log(d); return tooltip.style("visibility", "visible");})
-				.on("mousemove", (d) => {return tooltip.style("top", (event.pageY-800)+"px").style("left",(event.pageX-800)+"px");})
-				.on("mouseout", (d) => { return tooltip.style("visibility", "hidden");})
+				.on("mouseover", (d) => { return tooltip.style("visibility", "visible"); })
+				.on("mousemove", (d) => { return tooltip.style("top", (event.pageY - 800) + "px").style("left", (event.pageX - 800) + "px"); })
+				.on("mouseout", (d) => { return tooltip.style("visibility", "hidden"); })
 				.transition()
 				.duration(1000)
 				.attr("r", (d) => {
@@ -297,7 +306,7 @@ export default function D3HyperGraph(props) {
 					} else return MIN_NODE_RADIUS;
 				})
 				.attr("stroke", "#000")
-				
+
 		}
 	}, [window]);
 

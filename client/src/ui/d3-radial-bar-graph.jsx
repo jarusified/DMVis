@@ -410,20 +410,20 @@ export default function D3RadialBarGraph(props) {
 				.y0(0) // start of the area
 				.y1(d => y(d)); // end of the area
 
-			g.append('path')
-				.datum(data[0].value)
-				.attr('fill', '#E7694F')
-				.attr('stroke-width', 1.5)
-				.attr('d', line)
-				.attr('transform', `translate(${width - height},${-style.height/2}) scale(-1,1) rotate(90)`); // Add transform to flip the line
+			// g.append('path')
+			// 	.datum(data[0].value)
+			// 	.attr('fill', '#E7694F')
+			// 	.attr('stroke-width', 1.5)
+			// 	.attr('d', line)
+			// 	.attr('transform', `translate(${width - height},${-style.height/2}) scale(-1,1) rotate(90)`); // Add transform to flip the line
 
-			// Draw GPU line
-			g.append('path')
-				.datum(data[1].value)
-				.attr('fill', '#7EBC79')
-				.attr('stroke-width', 1.5)
-				.attr('d', invertLine)
-				.attr('transform', `translate(${width},${-style.height/2}) scale(-1,1) rotate(90)`); // Add transform to flip the line
+			// // Draw GPU line
+			// g.append('path')
+			// 	.datum(data[1].value)
+			// 	.attr('fill', '#7EBC79')
+			// 	.attr('stroke-width', 1.5)
+			// 	.attr('d', invertLine)
+			// 	.attr('transform', `translate(${width},${-style.height/2}) scale(-1,1) rotate(90)`); // Add transform to flip the line
 
 			playArcG.current = svgRef.current
 				.append("path")

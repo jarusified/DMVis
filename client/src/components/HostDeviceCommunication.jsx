@@ -9,12 +9,12 @@ import D3Matrix from "../ui/d3-matrix";
 
 export default function HostDeviceCommunication() {
 	const style = {
-		left: 36,
+		left: 30,
 		right: 0,
 		top: 36,
 		bottom: 0,
-		width: window.innerWidth / 4,
-		height: window.innerHeight / 4
+		width: window.innerWidth / 2.8,
+		height: window.innerHeight / 3.5
 	};
 	const containerID = useRef("host-device-view");
 
